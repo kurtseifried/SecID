@@ -569,7 +569,44 @@ The body contains human/AI-readable context:
 - Hyphens allowed for multi-word: `owasp-top10`
 - No slashes in namespace (that's the separator)
 
-### 8.2 Canonical Form
+### 8.2 Percent Encoding
+
+SecID must support a wide variety of upstream identifiers and names - including those with spaces, special characters, and Unicode. Files must work across all operating systems (Windows, macOS, Linux). The approach: percent-encode special characters for safe storage and transport, then render human-friendly for display.
+
+**Unicode support:** SecID names and filenames support full Unicode. Non-ASCII characters are percent-encoded as UTF-8 bytes (e.g., `é` → `%C3%A9`). This ensures cross-platform filesystem compatibility while preserving international characters.
+
+Names use percent encoding (URL encoding) for special characters:
+
+| Character | Encoded | Notes |
+|-----------|---------|-------|
+| `%` | `%25` | Escape character itself |
+| Space | `%20` | |
+| `&` | `%26` | |
+| `(` | `%28` | |
+| `)` | `%29` | |
+| `:` | `%3A` | SecID scheme separator; invalid in Windows filenames |
+| `/` | `%2F` | SecID path separator; macOS/Linux path separator |
+| `?` | `%3F` | SecID qualifier prefix |
+| `#` | `%23` | SecID subpath prefix |
+| `@` | `%40` | SecID version prefix |
+| `\` | `%5C` | Windows path separator |
+| `*` | `%2A` | Invalid in Windows filenames |
+| `"` | `%22` | Invalid in Windows filenames |
+| `<` | `%3C` | Invalid in Windows filenames |
+| `>` | `%3E` | Invalid in Windows filenames |
+| `\|` | `%7C` | Invalid in Windows filenames |
+
+**Examples:**
+```
+A&A-01                    → A%26A-01
+INP-01 (Draft)            → INP-01%20%28Draft%29
+```
+
+Reserved characters (`/`, `?`, `#`, `@`) must always be encoded in names since they have structural meaning in SecID syntax. Tools should render identifiers human-friendly for display while storing the encoded form.
+
+**Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/cve/CVE-2024-1234` becomes `secid%3Aadvisory%2Fcve%2FCVE-2024-1234` as a filename.
+
+### 8.3 Canonical Form
 
 All SecIDs should normalize to:
 ```

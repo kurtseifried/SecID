@@ -43,16 +43,44 @@ SecID isn't just a spec - it's a stack of capabilities built on that spec:
 
 Each layer builds on the one below. We're starting from the bottom.
 
-## Phased Approach: Identifiers First
+## Phased Approach: Two Parallel Tracks
 
-**Identifiers are just identifiers.** We're deliberately building in phases:
+**Identifiers are just identifiers.** We're building in two parallel tracks:
+
+### Track 1: Content & Data
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| **Phase 1** | Specification + Registry | **Current** |
-| **Phase 2** | Relationship Layer | Planned - design informed by usage |
-| **Phase 3** | Overlay Layer | Planned - design informed by usage |
-| **Phase 4** | Applications | Future |
+| **1.1** | Specification | **Current** |
+| **1.2** | Registry (namespaces, seed data) | **Current** |
+| **1.3** | Relationship Layer | Planned - design informed by usage |
+| **1.4** | Overlay Layer | Planned - design informed by usage |
+| **1.5** | Applications (knowledge graph UI, cross-database search) | Future |
+
+### Track 2: Technical Components
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| **2.1** | Parser libraries (Python, JavaScript, Go, etc.) | Planned |
+| **2.2** | Validators (schema, format, duplicate detection) | Planned |
+| **2.3** | CLI tools (parse, validate, resolve) | Planned |
+| **2.4** | API (REST/GraphQL for registry and resolution) | Planned |
+| **2.5** | Resolution service (SecID → URL/resource) | Future |
+
+### How the Tracks Interact
+
+```
+Content Track:     Spec ──→ Registry ──→ Relationships ──→ Overlays ──→ Applications
+                     │         │              │               │              │
+                     ▼         ▼              ▼               ▼              ▼
+Technical Track:  Parsers ──→ Validators ──→ CLI ─────────→ API ─────────→ Resolution
+```
+
+The tracks reinforce each other:
+- Parsers enable people to use SecIDs in their tools
+- Validators ensure registry quality
+- API makes the registry programmatically accessible
+- Applications consume both content and technical components
 
 ### Why Defer the Data Layers?
 

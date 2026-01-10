@@ -1,0 +1,19 @@
+# AI Assistant directories and files
+.claude/
+.gemini/
+.codex/
+.cursor/
+.copilot/
+.continue/
+.codeium/
+.tabnine/
+.aider*
+.bolt/
+.windsurf/
+
+# AI config files
+.clauderc
+.cursorrules
+.cursorignore
+
+# Note: CLAUDE.md, AGENTS.md, and GEMINI.md are intentionally not blocked

@@ -4,6 +4,8 @@ A federated identifier system for security knowledge, modeled after [Package URL
 
 ## What Is SecID?
 
+SecID is **explicitly scoped to identifiers only** - just like [Package URL (PURL)](https://github.com/package-url/purl-spec) for packages. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
+
 SecID provides stable, canonical identifiers for security-relevant concepts:
 
 ```
@@ -16,10 +18,13 @@ secid:advisory/cve/CVE-2024-1234           # CVE record
 secid:weakness/cwe/CWE-79                  # CWE weakness
 secid:ttp/attack/T1059.003                 # ATT&CK technique
 secid:control/nist-csf/PR.AC-1@2.0         # NIST CSF control
+secid:control/csa-aicm/A%26A-01@1.0        # CSA AICM control (A&A-01)
 secid:regulation/eu/gdpr#art-32            # GDPR Article 32
 secid:entity/mitre/cve                     # CVE program
 secid:reference/whitehouse/eo-14110        # Reference document
 ```
+
+Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Tools render these human-friendly for display.
 
 ## Types
 
@@ -53,6 +58,27 @@ secid/
 │   └── ...              # Other types follow same pattern
 └── seed/                # Seed data for bulk import
 ```
+
+## File Format
+
+SecID is AI-first, meaning files need to be easily parsed by AI agents while remaining human-readable. We use markdown with YAML frontmatter (Obsidian-compatible):
+
+```markdown
+---
+title: CVE Namespace
+type: advisory
+namespace: cve
+---
+
+# Content here...
+```
+
+Why this format:
+- **Embedded metadata** - Structured data lives with the content, not in a separate file or database
+- **AI-parseable** - YAML frontmatter is trivially extracted; markdown is universally understood by LLMs
+- **Human-readable** - Works in any text editor, renders nicely on GitHub
+- **Tool support** - Compatible with Obsidian, static site generators, and countless other tools
+- **No better alternative** - This is the most common, simplest format for structured documents; we haven't found anything easier or more widely supported
 
 ## Glossary
 
@@ -147,7 +173,7 @@ Resolution URLs are defined in each namespace's registry file.
 
 ## License
 
-TBD
+[CC0 1.0 Universal](LICENSE) - Public Domain Dedication
 
 ---
 
