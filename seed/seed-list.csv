@@ -1,0 +1,140 @@
+org_short,org_full,thing_short,thing_full,url,type
+MITRE,The MITRE Corporation,CVE,Common Vulnerabilities and Exposures,https://www.cve.org,database
+MITRE,The MITRE Corporation,CWE,Common Weakness Enumeration,https://cwe.mitre.org,taxonomy
+MITRE,The MITRE Corporation,ATT&CK,Adversarial Tactics Techniques and Common Knowledge,https://attack.mitre.org,framework
+MITRE,The MITRE Corporation,ATLAS,Adversarial Threat Landscape for AI Systems,https://atlas.mitre.org,framework
+MITRE,The MITRE Corporation,CAPEC,Common Attack Pattern Enumeration and Classification,https://capec.mitre.org,taxonomy
+MITRE,The MITRE Corporation,D3FEND,A Knowledge Graph of Cybersecurity Countermeasures,https://d3fend.mitre.org,framework
+MITRE,The MITRE Corporation,EMB3D,Embedded Device Threat Model,https://emb3d.mitre.org,framework
+MITRE,The MITRE Corporation,CWSS,Common Weakness Scoring System,https://cwe.mitre.org/cwss,scoring
+MITRE,The MITRE Corporation,CWRAF,Common Weakness Risk Analysis Framework,https://cwe.mitre.org/cwraf,framework
+MITRE,The MITRE Corporation,CVE Foundation,CVE Foundation,https://www.cve.org/Foundation,organization
+NIST,National Institute of Standards and Technology,NVD,National Vulnerability Database,https://nvd.nist.gov,database
+NIST,National Institute of Standards and Technology,NIST CSF,NIST Cybersecurity Framework,https://www.nist.gov/cyberframework,framework
+NIST,National Institute of Standards and Technology,SP 800,Special Publications 800 Series,https://csrc.nist.gov/publications/sp,standard
+NIST,National Institute of Standards and Technology,FIPS,Federal Information Processing Standards,https://csrc.nist.gov/publications/fips,standard
+NIST,National Institute of Standards and Technology,CPE,Common Platform Enumeration,https://nvd.nist.gov/products/cpe,taxonomy
+NIST,National Institute of Standards and Technology,NIST AI RMF,AI Risk Management Framework,https://www.nist.gov/itl/ai-risk-management-framework,framework
+NIST,National Institute of Standards and Technology,NICE,National Initiative for Cybersecurity Education,https://www.nist.gov/itl/applied-cybersecurity/nice,framework
+NIST,National Institute of Standards and Technology,OSCAL,Open Security Controls Assessment Language,https://pages.nist.gov/OSCAL,standard
+NIST,National Institute of Standards and Technology,NCP,National Checklist Program,https://nvd.nist.gov/ncp,database
+NIST,National Institute of Standards and Technology,SCAP,Security Content Automation Protocol,https://csrc.nist.gov/projects/security-content-automation-protocol,standard
+NIST,National Institute of Standards and Technology,SWID,Software Identification Tags,https://csrc.nist.gov/projects/Software-Identification-SWID,standard
+FIRST,Forum of Incident Response and Security Teams,CVSS,Common Vulnerability Scoring System,https://www.first.org/cvss,scoring
+FIRST,Forum of Incident Response and Security Teams,EPSS,Exploit Prediction Scoring System,https://www.first.org/epss,scoring
+FIRST,Forum of Incident Response and Security Teams,TLP,Traffic Light Protocol,https://www.first.org/tlp,standard
+FIRST,Forum of Incident Response and Security Teams,PSIRT SIG,PSIRT Services Framework,https://www.first.org/standards/frameworks/psirts,framework
+FIRST,Forum of Incident Response and Security Teams,CSIRT SIG,CSIRT Services Framework,https://www.first.org/standards/frameworks/csirts,framework
+FIRST,Forum of Incident Response and Security Teams,VRDX SIG,Vulnerability Reporting and Data eXchange,https://www.first.org/global/sigs/vrdx,standard
+OWASP,Open Web Application Security Project,OWASP Top 10,OWASP Top 10 Web Application Security Risks,https://owasp.org/Top10,taxonomy
+OWASP,Open Web Application Security Project,OWASP LLM Top 10,OWASP Top 10 for Large Language Model Applications,https://owasp.org/www-project-top-10-for-large-language-model-applications,taxonomy
+OWASP,Open Web Application Security Project,OWASP API Top 10,OWASP API Security Top 10,https://owasp.org/API-Security,taxonomy
+OWASP,Open Web Application Security Project,OWASP Mobile Top 10,OWASP Mobile Top 10,https://owasp.org/www-project-mobile-top-10,taxonomy
+OWASP,Open Web Application Security Project,ASVS,Application Security Verification Standard,https://owasp.org/www-project-application-security-verification-standard,standard
+OWASP,Open Web Application Security Project,MASVS,Mobile Application Security Verification Standard,https://mas.owasp.org/MASVS,standard
+OWASP,Open Web Application Security Project,SAMM,Software Assurance Maturity Model,https://owaspsamm.org,framework
+OWASP,Open Web Application Security Project,OWASP Testing Guide,OWASP Web Security Testing Guide,https://owasp.org/www-project-web-security-testing-guide,guide
+OWASP,Open Web Application Security Project,OWASP Cheat Sheets,OWASP Cheat Sheet Series,https://cheatsheetseries.owasp.org,guide
+OWASP,Open Web Application Security Project,OWASP MASTG,Mobile Application Security Testing Guide,https://mas.owasp.org/MASTG,guide
+OWASP,Open Web Application Security Project,OWASP Dependency-Check,OWASP Dependency-Check,https://owasp.org/www-project-dependency-check,tool
+OWASP,Open Web Application Security Project,OWASP ZAP,OWASP Zed Attack Proxy,https://www.zaproxy.org,tool
+CSA,Cloud Security Alliance,CCM,Cloud Controls Matrix,https://cloudsecurityalliance.org/research/cloud-controls-matrix,framework
+CSA,Cloud Security Alliance,CAIQ,Consensus Assessments Initiative Questionnaire,https://cloudsecurityalliance.org/artifacts/consensus-assessments-initiative-questionnaire,standard
+CSA,Cloud Security Alliance,STAR,Security Trust Assurance and Risk,https://cloudsecurityalliance.org/star,certification
+CSA,Cloud Security Alliance,AICM,AI Controls Matrix,https://cloudsecurityalliance.org/artifacts/ai-controls-matrix,framework
+CSA,Cloud Security Alliance,AI Safety Initiative,CSA AI Safety Initiative,https://cloudsecurityalliance.org/research/working-groups/artificial-intelligence,initiative
+CISA,Cybersecurity and Infrastructure Security Agency,KEV,Known Exploited Vulnerabilities Catalog,https://www.cisa.gov/known-exploited-vulnerabilities-catalog,database
+CISA,Cybersecurity and Infrastructure Security Agency,Vulnrichment,CISA Vulnrichment,https://github.com/cisagov/vulnrichment,database
+CISA,Cybersecurity and Infrastructure Security Agency,SSVC,Stakeholder-Specific Vulnerability Categorization,https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc,scoring
+CISA,Cybersecurity and Infrastructure Security Agency,CPGs,Cross-Sector Cybersecurity Performance Goals,https://www.cisa.gov/cross-sector-cybersecurity-performance-goals,framework
+CISA,Cybersecurity and Infrastructure Security Agency,Secure by Design,Secure by Design Principles,https://www.cisa.gov/securebydesign,guide
+CIS,Center for Internet Security,CIS Controls,CIS Critical Security Controls,https://www.cisecurity.org/controls,framework
+CIS,Center for Internet Security,CIS Benchmarks,CIS Benchmarks,https://www.cisecurity.org/cis-benchmarks,standard
+CIS,Center for Internet Security,MS-ISAC,Multi-State Information Sharing and Analysis Center,https://www.cisecurity.org/ms-isac,organization
+ISO,International Organization for Standardization,ISO 27001,Information Security Management Systems,https://www.iso.org/standard/27001,standard
+ISO,International Organization for Standardization,ISO 27002,Information Security Controls,https://www.iso.org/standard/75652.html,standard
+ISO,International Organization for Standardization,ISO 27005,Information Security Risk Management,https://www.iso.org/standard/80585.html,standard
+ISO,International Organization for Standardization,ISO 27017,Cloud Security Controls,https://www.iso.org/standard/43757.html,standard
+ISO,International Organization for Standardization,ISO 27018,PII Protection in Public Clouds,https://www.iso.org/standard/76559.html,standard
+ISO,International Organization for Standardization,ISO 27701,Privacy Information Management,https://www.iso.org/standard/71670.html,standard
+ISO,International Organization for Standardization,ISO 42001,AI Management System,https://www.iso.org/standard/81230.html,standard
+ISO,International Organization for Standardization,ISO 22301,Business Continuity Management,https://www.iso.org/standard/75106.html,standard
+ENISA,European Union Agency for Cybersecurity,ENISA Threat Landscape,ENISA Threat Landscape Report,https://www.enisa.europa.eu/topics/cyber-threats/threats-and-trends,report
+ENISA,European Union Agency for Cybersecurity,EU CSA,EU Cybersecurity Act,https://www.enisa.europa.eu/topics/cybersecurity-policy/nis-directive-new,regulation
+ENISA,European Union Agency for Cybersecurity,EUCS,EU Cloud Certification Scheme,https://www.enisa.europa.eu/publications/eucs-cloud-service-scheme,certification
+CERT/CC,CERT Coordination Center,VINCE,Vulnerability Information and Coordination Environment,https://www.kb.cert.org/vince,platform
+CERT/CC,CERT Coordination Center,CERT VDB,CERT Vulnerability Database,https://www.kb.cert.org/vuls,database
+CERT/CC,CERT Coordination Center,CERT Guide to CVD,Guide to Coordinated Vulnerability Disclosure,https://certcc.github.io/CERT-Guide-to-CVD,guide
+JPCERT/CC,Japan Computer Emergency Response Team Coordination Center,JVN,Japan Vulnerability Notes,https://jvn.jp,database
+JPCERT/CC,Japan Computer Emergency Response Team Coordination Center,JVN iPedia,JVN iPedia Vulnerability Database,https://jvndb.jvn.jp,database
+TWCERT/CC,Taiwan Computer Emergency Response Team Coordination Center,TVN,Taiwan Vulnerability Notes,https://www.twcert.org.tw,database
+CNVD,China National Vulnerability Database,CNVD,China National Vulnerability Database,https://www.cnvd.org.cn,database
+CNNVD,China National Vulnerability Database of Information Security,CNNVD,China National Vulnerability Database of Information Security,https://www.cnnvd.org.cn,database
+KRCERT/CC,Korea Internet and Security Agency,KVE,Korea Vulnerability Enumeration,https://knvd.krcert.or.kr,database
+CERT-In,Indian Computer Emergency Response Team,CERT-In VDB,CERT-In Vulnerability Database,https://www.cert-in.org.in,database
+CERT-FR,French Government Computer Security Incident Response Team,CERT-FR Advisories,CERT-FR Security Advisories,https://www.cert.ssi.gouv.fr,database
+BSI,German Federal Office for Information Security,BSI Advisories,BSI Security Advisories,https://www.bsi.bund.de/EN,database
+NCSC-UK,UK National Cyber Security Centre,NCSC Advisories,NCSC Security Advisories,https://www.ncsc.gov.uk/section/keep-up-to-date/threat-reports,database
+NCSC-NL,Dutch National Cyber Security Centre,NCSC-NL Advisories,NCSC-NL Security Advisories,https://www.ncsc.nl,database
+AusCERT,Australian Cyber Emergency Response Team,AusCERT Bulletins,AusCERT Security Bulletins,https://auscert.org.au,database
+CERT-EU,Computer Emergency Response Team for EU Institutions,CERT-EU,CERT-EU Publications,https://cert.europa.eu,database
+Google,Google LLC,OSV,Open Source Vulnerabilities,https://osv.dev,database
+Google,Google LLC,OSV Schema,OSV Schema Specification,https://ossf.github.io/osv-schema,standard
+GitHub,GitHub Inc,GHSA,GitHub Security Advisories,https://github.com/advisories,database
+GitHub,GitHub Inc,GHSA Schema,GitHub Security Advisory Schema,https://docs.github.com/en/code-security/security-advisories,standard
+OpenSSF,Open Source Security Foundation,OpenSSF Scorecard,OpenSSF Security Scorecard,https://securityscorecards.dev,tool
+OpenSSF,Open Source Security Foundation,SLSA,Supply-chain Levels for Software Artifacts,https://slsa.dev,framework
+OpenSSF,Open Source Security Foundation,Sigstore,Sigstore Code Signing,https://www.sigstore.dev,tool
+OpenSSF,Open Source Security Foundation,GUAC,Graph for Understanding Artifact Composition,https://guac.sh,tool
+OpenSSF,Open Source Security Foundation,Alpha-Omega,Alpha-Omega Project,https://openssf.org/community/alpha-omega,initiative
+OASIS,Organization for the Advancement of Structured Information Standards,STIX,Structured Threat Information Expression,https://oasis-open.github.io/cti-documentation/stix/intro.html,standard
+OASIS,Organization for the Advancement of Structured Information Standards,TAXII,Trusted Automated Exchange of Intelligence Information,https://oasis-open.github.io/cti-documentation/taxii/intro.html,standard
+OASIS,Organization for the Advancement of Structured Information Standards,CSAF,Common Security Advisory Framework,https://docs.oasis-open.org/csaf/csaf/v2.0/csaf-v2.0.html,standard
+OASIS,Organization for the Advancement of Structured Information Standards,OpenC2,Open Command and Control,https://openc2.org,standard
+OASIS,Organization for the Advancement of Structured Information Standards,SARIF,Static Analysis Results Interchange Format,https://sarifweb.azurewebsites.net,standard
+OMG,Object Management Group,CWRAF,Common Weakness Risk Analysis Framework,https://www.omg.org/spec/CWRAF,standard
+IETF,Internet Engineering Task Force,CVE JSON,CVE Record Format,https://datatracker.ietf.org/doc/draft-ietf-secsh-cve,standard
+IETF,Internet Engineering Task Force,CVRF,Common Vulnerability Reporting Framework,https://datatracker.ietf.org/doc/rfc8615,standard
+PCI SSC,Payment Card Industry Security Standards Council,PCI DSS,Payment Card Industry Data Security Standard,https://www.pcisecuritystandards.org/document_library,standard
+SANS,SANS Institute,CWE/SANS Top 25,CWE/SANS Top 25 Most Dangerous Software Errors,https://www.sans.org/top25-software-errors,taxonomy
+SANS,SANS Institute,GIAC,Global Information Assurance Certification,https://www.giac.org,certification
+Offensive Security,Offensive Security,Exploit-DB,Exploit Database,https://www.exploit-db.com,database
+Offensive Security,Offensive Security,GHDB,Google Hacking Database,https://www.exploit-db.com/google-hacking-database,database
+VulnCheck,VulnCheck Inc,VulnCheck KEV,VulnCheck Known Exploited Vulnerabilities,https://vulncheck.com/kev,database
+VulnCheck,VulnCheck Inc,VulnCheck NVD++,VulnCheck NVD Enhancement,https://vulncheck.com/nvd,database
+Snyk,Snyk Ltd,Snyk VDB,Snyk Vulnerability Database,https://security.snyk.io,database
+Sonatype,Sonatype Inc,OSS Index,Sonatype OSS Index,https://ossindex.sonatype.org,database
+CIRCL,Computer Incident Response Center Luxembourg,CVE Search,CVE Search Tool,https://cve.circl.lu,tool
+CIRCL,Computer Incident Response Center Luxembourg,MISP,Malware Information Sharing Platform,https://www.misp-project.org,platform
+CIRCL,Computer Incident Response Center Luxembourg,AIL,Analysis Information Leak,https://www.ail-project.org,tool
+NVD,National Vulnerability Database,NVD API,NVD API Services,https://nvd.nist.gov/developers,api
+NVD,National Vulnerability Database,NVD Data Feeds,NVD Data Feeds,https://nvd.nist.gov/vuln/data-feeds,database
+ICASI,Industry Consortium for Advancement of Security on the Internet,MPCVD,Multi-Party Coordinated Vulnerability Disclosure,https://www.icasi.org,standard
+Carnegie Mellon,Carnegie Mellon University SEI,OCTAVE,Operationally Critical Threat Asset and Vulnerability Evaluation,https://www.sei.cmu.edu/our-work/cybersecurity-center-development/octave,framework
+Carnegie Mellon,Carnegie Mellon University SEI,CERT RMM,CERT Resilience Management Model,https://www.sei.cmu.edu/our-work/cert-rmm,framework
+ISACA,Information Systems Audit and Control Association,COBIT,Control Objectives for Information Technologies,https://www.isaca.org/resources/cobit,framework
+ISACA,Information Systems Audit and Control Association,RISK IT,Risk IT Framework,https://www.isaca.org/resources/it-risk,framework
+ICS-CERT,Industrial Control Systems Cyber Emergency Response Team,ICS-CERT Advisories,ICS-CERT Security Advisories,https://www.cisa.gov/uscert/ics/advisories,database
+NTIA,National Telecommunications and Information Administration,SBOM,Software Bill of Materials,https://www.ntia.gov/page/software-bill-materials,standard
+EU,European Union,EUVD,European Vulnerability Database,https://euvd.enisa.europa.eu,database
+EU,European Union,NIS2,Network and Information Security Directive 2,https://digital-strategy.ec.europa.eu/en/policies/nis2-directive,regulation
+EU,European Union,DORA,Digital Operational Resilience Act,https://www.digital-operational-resilience-act.com,regulation
+EU,European Union,CRA,Cyber Resilience Act,https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act,regulation
+ATT4CKER,ATT4CKER Project,FIGHT,5G Hierarchy of Interconnected Gaps for Harm Targeting,https://fight.mitre.org,framework
+NIST,National Institute of Standards and Technology,SSDF,Secure Software Development Framework,https://csrc.nist.gov/Projects/ssdf,framework
+NIST,National Institute of Standards and Technology,Zero Trust,Zero Trust Architecture,https://www.nist.gov/publications/zero-trust-architecture,framework
+Microsoft,Microsoft Corporation,STRIDE,Spoofing Tampering Repudiation Information Disclosure Denial of Service Elevation of Privilege,https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats,framework
+Microsoft,Microsoft Corporation,SDL,Security Development Lifecycle,https://www.microsoft.com/en-us/securityengineering/sdl,framework
+Microsoft,Microsoft Corporation,MSRC,Microsoft Security Response Center,https://msrc.microsoft.com,organization
+Google,Google LLC,Project Zero,Google Project Zero,https://googleprojectzero.blogspot.com,research
+Lockheed Martin,Lockheed Martin Corporation,Cyber Kill Chain,Cyber Kill Chain Framework,https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html,framework
+ISECOM,Institute for Security and Open Methodologies,OSSTMM,Open Source Security Testing Methodology Manual,https://www.isecom.org/OSSTMM.3.pdf,framework
+PTES,Penetration Testing Execution Standard,PTES,Penetration Testing Execution Standard,http://www.pentest-standard.org,standard
+NIST,National Institute of Standards and Technology,Privacy Framework,NIST Privacy Framework,https://www.nist.gov/privacy-framework,framework
+HITRUST,HITRUST Alliance,HITRUST CSF,HITRUST Common Security Framework,https://hitrustalliance.net/csf,framework
+SOC 2,AICPA,SOC 2,Service Organization Control 2,https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/aaborserviceorganizations,standard
+IEEE,Institute of Electrical and Electronics Engineers,IEEE P3119,Standard for AI Model Sharing,https://standards.ieee.org,standard
+NIST,National Institute of Standards and Technology,SP 800-53,Security and Privacy Controls,https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final,standard
+NIST,National Institute of Standards and Technology,SP 800-61,Computer Security Incident Handling Guide,https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final,standard
+NIST,National Institute of Standards and Technology,SP 800-171,Protecting CUI,https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final,standard
+NIST,National Institute of Standards and Technology,SP 800-218,SSDF,https://csrc.nist.gov/publications/detail/sp/800-218/final,standard

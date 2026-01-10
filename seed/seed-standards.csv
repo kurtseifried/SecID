@@ -1,0 +1,97 @@
+standard_short,standard_full,maintainer,category,url,status,notes
+CVE,Common Vulnerabilities and Exposures,MITRE,identifier,https://www.cve.org,active,Vulnerability identifier standard
+CWE,Common Weakness Enumeration,MITRE,taxonomy,https://cwe.mitre.org,active,Software weakness taxonomy
+CPE,Common Platform Enumeration,NIST/MITRE,identifier,https://nvd.nist.gov/products/cpe,active,IT product naming standard
+CVSS,Common Vulnerability Scoring System,FIRST,scoring,https://www.first.org/cvss,active,Vulnerability severity scoring (v4.0 current)
+EPSS,Exploit Prediction Scoring System,FIRST,scoring,https://www.first.org/epss,active,Exploitation probability scoring
+CWSS,Common Weakness Scoring System,MITRE,scoring,https://cwe.mitre.org/cwss,active,Weakness severity scoring
+CWRAF,Common Weakness Risk Analysis Framework,MITRE,framework,https://cwe.mitre.org/cwraf,active,Weakness risk analysis
+CCE,Common Configuration Enumeration,NIST/MITRE,identifier,https://ncp.nist.gov/cce,active,Configuration setting identifiers
+CAPEC,Common Attack Pattern Enumeration and Classification,MITRE,taxonomy,https://capec.mitre.org,active,Attack pattern taxonomy
+SCAP,Security Content Automation Protocol,NIST,protocol,https://csrc.nist.gov/projects/security-content-automation-protocol,active,Umbrella for security automation standards (v1.4)
+OVAL,Open Vulnerability and Assessment Language,MITRE/CIS,language,https://oval.mitre.org,active,System assessment language
+XCCDF,Extensible Configuration Checklist Description Format,NIST,format,https://csrc.nist.gov/projects/security-content-automation-protocol/specifications/xccdf,active,Security checklist format
+OCIL,Open Checklist Interactive Language,NIST,language,https://csrc.nist.gov/projects/security-content-automation-protocol/specifications/ocil,active,Interactive checklist questions
+ARF,Asset Reporting Format,NIST,format,https://csrc.nist.gov/projects/security-content-automation-protocol,active,Security assessment results format
+AI,Asset Identification,NIST,format,https://csrc.nist.gov/projects/security-content-automation-protocol,active,Asset identification specification
+TMSAD,Trust Model for Security Automation Data,NIST,model,https://csrc.nist.gov/projects/security-content-automation-protocol,active,Trust model for SCAP data
+SWID,Software Identification Tags,ISO/NIST,format,https://csrc.nist.gov/projects/software-identification-swid,active,Software inventory tags (ISO/IEC 19770-2)
+STIX,Structured Threat Information eXpression,OASIS,format,https://oasis-open.github.io/cti-documentation/stix/intro.html,active,Threat intelligence format (v2.1)
+TAXII,Trusted Automated eXchange of Intelligence Information,OASIS,protocol,https://oasis-open.github.io/cti-documentation/taxii/intro.html,active,Threat intelligence exchange protocol (v2.1)
+CybOX,Cyber Observable eXpression,MITRE/OASIS,format,https://cyboxproject.github.io,deprecated,Merged into STIX 2.0
+MAEC,Malware Attribute Enumeration and Characterization,MITRE,format,https://maecproject.github.io,active,Malware characterization language
+CSAF,Common Security Advisory Framework,OASIS,format,https://docs.oasis-open.org/csaf/csaf/v2.0/csaf-v2.0.html,active,Machine-readable security advisories (v2.0)
+CVRF,Common Vulnerability Reporting Framework,OASIS,format,https://www.icasi.org/cvrf,deprecated,Predecessor to CSAF
+ROLIE,Resource-Oriented Lightweight Information Exchange,IETF,protocol,https://datatracker.ietf.org/doc/rfc8322,active,Security automation data exchange
+VEX,Vulnerability Exploitability eXchange,CISA/NTIA,format,https://www.cisa.gov/sbom,active,Vulnerability exploitability status
+SARIF,Static Analysis Results Interchange Format,OASIS,format,https://sarifweb.azurewebsites.net,active,Static analysis results format
+OpenC2,Open Command and Control,OASIS,protocol,https://openc2.org,active,Cyber defense command protocol
+CACAO,Collaborative Automated Course of Action Operations,OASIS,format,https://docs.oasis-open.org/cacao/security-playbooks/v2.0/security-playbooks-v2.0.html,active,Security playbook format
+SBOM,Software Bill of Materials,NTIA/CISA,concept,https://www.cisa.gov/sbom,active,Software component inventory concept
+SPDX,Software Package Data Exchange,Linux Foundation,format,https://spdx.dev,active,SBOM format (ISO/IEC 5962:2021)
+CycloneDX,CycloneDX SBOM Standard,OWASP,format,https://cyclonedx.org,active,Security-focused SBOM format
+PURL,Package URL,Package URL Project,identifier,https://github.com/package-url/purl-spec,active,Software package identifier
+OSV,Open Source Vulnerability Format,Google/OpenSSF,format,https://ossf.github.io/osv-schema,active,Open source vulnerability format
+SSVC,Stakeholder-Specific Vulnerability Categorization,CISA/CERT-CC,framework,https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc,active,Vulnerability prioritization framework
+TLP,Traffic Light Protocol,FIRST,protocol,https://www.first.org/tlp,active,Information sharing classification (v2.0)
+PAP,Permissible Actions Protocol,FIRST,protocol,https://www.first.org/global/sigs/isac/guidelines/pap,active,Companion to TLP for actions
+IODEF,Incident Object Description Exchange Format,IETF,format,https://datatracker.ietf.org/doc/rfc7970,active,Incident data exchange (RFC 7970)
+RID,Real-time Inter-network Defense,IETF,protocol,https://datatracker.ietf.org/doc/rfc6545,active,Incident handling protocol (RFC 6545)
+VERIS,Vocabulary for Event Recording and Incident Sharing,Verizon,schema,http://veriscommunity.net,active,Incident classification schema
+MISP,MISP Core Format,CIRCL,format,https://www.misp-standard.org,active,Threat intelligence sharing format
+ATT&CK,MITRE ATT&CK Framework,MITRE,framework,https://attack.mitre.org,active,Adversary tactics and techniques
+ATLAS,Adversarial Threat Landscape for AI Systems,MITRE,framework,https://atlas.mitre.org,active,AI/ML attack framework
+D3FEND,D3FEND Knowledge Graph,MITRE,framework,https://d3fend.mitre.org,active,Defensive techniques framework
+NIST CSF,NIST Cybersecurity Framework,NIST,framework,https://www.nist.gov/cyberframework,active,Risk management framework (v2.0)
+NIST AI RMF,NIST AI Risk Management Framework,NIST,framework,https://www.nist.gov/itl/ai-risk-management-framework,active,AI risk management framework
+OSCAL,Open Security Controls Assessment Language,NIST,format,https://pages.nist.gov/OSCAL,active,Security controls documentation format
+SSDF,Secure Software Development Framework,NIST,framework,https://csrc.nist.gov/Projects/ssdf,active,Secure development practices (SP 800-218)
+SAML,Security Assertion Markup Language,OASIS,standard,https://www.oasis-open.org/committees/security,active,Identity federation standard
+XACML,eXtensible Access Control Markup Language,OASIS,standard,https://www.oasis-open.org/committees/xacml,active,Access control policy language
+OAuth,Open Authorization,IETF,standard,https://oauth.net,active,Authorization framework
+OIDC,OpenID Connect,OpenID Foundation,standard,https://openid.net/connect,active,Identity layer on OAuth
+KMIP,Key Management Interoperability Protocol,OASIS,protocol,https://www.oasis-open.org/committees/kmip,active,Cryptographic key management
+PKCS,Public Key Cryptography Standards,RSA/IETF,standard,https://datatracker.ietf.org/doc/html/rfc8017,active,Cryptographic standards suite
+X.509,X.509 Public Key Infrastructure,ITU-T/IETF,standard,https://datatracker.ietf.org/doc/html/rfc5280,active,Certificate format standard
+OCSP,Online Certificate Status Protocol,IETF,protocol,https://datatracker.ietf.org/doc/html/rfc6960,active,Certificate revocation checking
+CRL,Certificate Revocation List,ITU-T/IETF,format,https://datatracker.ietf.org/doc/html/rfc5280,active,Revoked certificates list
+CT,Certificate Transparency,Google/IETF,standard,https://certificate.transparency.dev,active,Certificate logging (RFC 6962)
+CAA,Certificate Authority Authorization,IETF,standard,https://datatracker.ietf.org/doc/html/rfc8659,active,DNS-based CA restriction
+DANE,DNS-based Authentication of Named Entities,IETF,standard,https://datatracker.ietf.org/doc/html/rfc6698,active,DNS certificate binding
+DMARC,Domain-based Message Authentication Reporting and Conformance,IETF,standard,https://dmarc.org,active,Email authentication policy
+SPF,Sender Policy Framework,IETF,standard,https://datatracker.ietf.org/doc/html/rfc7208,active,Email sender validation
+DKIM,DomainKeys Identified Mail,IETF,standard,https://datatracker.ietf.org/doc/html/rfc6376,active,Email signing standard
+BIMI,Brand Indicators for Message Identification,AuthIndicators,standard,https://bimigroup.org,active,Email brand verification
+MTA-STS,Mail Transfer Agent Strict Transport Security,IETF,standard,https://datatracker.ietf.org/doc/html/rfc8461,active,Email transport security
+DNSSEC,Domain Name System Security Extensions,IETF,standard,https://www.dnssec.net,active,DNS integrity/authentication
+DoH,DNS over HTTPS,IETF,standard,https://datatracker.ietf.org/doc/html/rfc8484,active,Encrypted DNS queries
+DoT,DNS over TLS,IETF,standard,https://datatracker.ietf.org/doc/html/rfc7858,active,Encrypted DNS transport
+HSTS,HTTP Strict Transport Security,IETF,standard,https://datatracker.ietf.org/doc/html/rfc6797,active,Force HTTPS connections
+CSP,Content Security Policy,W3C,standard,https://www.w3.org/TR/CSP3,active,Web content restrictions
+SRI,Subresource Integrity,W3C,standard,https://www.w3.org/TR/SRI,active,Resource hash verification
+CORS,Cross-Origin Resource Sharing,W3C,standard,https://www.w3.org/TR/cors,active,Cross-origin access control
+Sigstore,Sigstore,OpenSSF,standard,https://www.sigstore.dev,active,Software signing infrastructure
+SLSA,Supply-chain Levels for Software Artifacts,OpenSSF,framework,https://slsa.dev,active,Supply chain security levels
+in-toto,in-toto,CNCF,framework,https://in-toto.io,active,Supply chain attestation
+TUF,The Update Framework,CNCF,framework,https://theupdateframework.io,active,Secure software updates
+SPIFFE,Secure Production Identity Framework for Everyone,CNCF,framework,https://spiffe.io,active,Workload identity
+SPIRE,SPIFFE Runtime Environment,CNCF,implementation,https://spiffe.io/spire,active,SPIFFE implementation
+OPA,Open Policy Agent,CNCF,framework,https://www.openpolicyagent.org,active,Policy as code
+CEL,Common Expression Language,Google,language,https://github.com/google/cel-spec,active,Policy expression language
+Rego,Rego Policy Language,Styra,language,https://www.openpolicyagent.org/docs/latest/policy-language,active,OPA policy language
+YARA,YARA Rules,VirusTotal,language,https://virustotal.github.io/yara,active,Malware pattern matching
+Sigma,Sigma Rules,SigmaHQ,format,https://sigmahq.io,active,Generic detection signatures
+MISP Galaxies,MISP Galaxies,CIRCL,taxonomy,https://www.misp-project.org/galaxy.html,active,Threat actor/malware clusters
+MISP Taxonomies,MISP Taxonomies,CIRCL,taxonomy,https://www.misp-project.org/taxonomies.html,active,Classification taxonomies
+OpenIOC,Open Indicators of Compromise,Mandiant,format,https://github.com/mandiant/OpenIOC_1.1,deprecated,IOC description format
+SNORT,Snort Rules,Cisco,format,https://www.snort.org,active,Network intrusion detection rules
+Suricata,Suricata Rules,OISF,format,https://suricata.io,active,Network security rules
+Zeek,Zeek Scripts,Zeek Project,language,https://zeek.org,active,Network analysis scripting
+ECS,Elastic Common Schema,Elastic,schema,https://www.elastic.co/guide/en/ecs/current,active,Log/event normalization
+OCSF,Open Cybersecurity Schema Framework,AWS/Splunk,schema,https://schema.ocsf.io,active,Security event schema
+CEF,Common Event Format,ArcSight/HP,format,https://www.microfocus.com/documentation/arcsight,active,Security event format
+LEEF,Log Event Extended Format,IBM,format,https://www.ibm.com/docs/en/qsip,active,QRadar event format
+Syslog,Syslog Protocol,IETF,protocol,https://datatracker.ietf.org/doc/html/rfc5424,active,System logging (RFC 5424)
+JSON-LD,JSON for Linking Data,W3C,format,https://json-ld.org,active,Linked data format
+SHACL,Shapes Constraint Language,W3C,language,https://www.w3.org/TR/shacl,active,RDF validation
+SPARQL,SPARQL Query Language,W3C,language,https://www.w3.org/TR/sparql11-query,active,RDF query language

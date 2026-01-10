@@ -1,0 +1,24 @@
+ref_short,ref_full,publisher,category,url,version,notes
+whitehouse/eo-14110,Executive Order 14110 on AI,White House,executive-order,https://www.whitehouse.gov/briefing-room/presidential-actions/2023/10/30/executive-order-on-the-safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence/,2023,Safe Secure and Trustworthy AI
+whitehouse/eo-14028,Executive Order 14028 Cybersecurity,White House,executive-order,https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/,2021,Improving the Nation's Cybersecurity
+whitehouse/m-24-10,OMB M-24-10 AI Governance,OMB,policy-memo,https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf,2024,Federal AI governance memo
+whitehouse/m-24-18,OMB M-24-18 AI Procurement,OMB,policy-memo,https://www.whitehouse.gov/omb/briefing-room/2024/10/29/omb-releases-ai-procurement-guidance-to-help-agencies-better-harness-ai/,2024,Federal AI acquisition guidance
+whitehouse/nsm-22,NSM-22 Critical Infrastructure Security,White House,national-security-memo,https://www.whitehouse.gov/briefing-room/presidential-actions/2024/04/30/national-security-memorandum-on-critical-infrastructure-security-and-resilience/,2024,Critical infrastructure national security memo
+whitehouse/nsm-8,NSM-8 National Security Systems,White House,national-security-memo,https://www.whitehouse.gov/briefing-room/presidential-actions/2022/01/19/memorandum-on-improving-the-cybersecurity-of-national-security-department-of-defense-and-intelligence-community-systems/,2022,NSS cybersecurity requirements
+whitehouse/ncs-2023,National Cybersecurity Strategy 2023,White House,strategy,https://www.whitehouse.gov/wp-content/uploads/2023/03/National-Cybersecurity-Strategy-2023.pdf,2023,National cybersecurity strategy
+whitehouse/ncs-impl-plan,National Cybersecurity Strategy Implementation Plan,White House,strategy,https://www.whitehouse.gov/wp-content/uploads/2023/07/National-Cybersecurity-Strategy-Implementation-Plan-WH.gov_.pdf,2023,NCS implementation roadmap
+arxiv/2303.08774,GPT-4 Technical Report,OpenAI,research,https://arxiv.org/abs/2303.08774,2023,GPT-4 capabilities and limitations
+arxiv/2307.03109,Jailbroken: How Does LLM Safety Training Fail?,Various,research,https://arxiv.org/abs/2307.03109,2023,LLM jailbreak taxonomy study
+arxiv/2402.05369,Sleeper Agents,Anthropic,research,https://arxiv.org/abs/2402.05369,2024,Deceptive AI backdoor research
+arxiv/2406.12718,SEAL AI Leaderboard,Various,research,https://arxiv.org/abs/2406.12718,2024,AI safety evaluation benchmark
+arxiv/2312.02119,DeepSeek-V2,DeepSeek,research,https://arxiv.org/abs/2312.02119,2024,DeepSeek model architecture
+arxiv/2407.21783,AI Agents That Matter,Various,research,https://arxiv.org/abs/2407.21783,2024,AI agent evaluation methodology
+arxiv/2306.11698,Tensor Trust,Various,research,https://arxiv.org/abs/2306.11698,2023,Prompt injection game/dataset
+arxiv/2302.12173,Universal LLM Jailbreaks,Various,research,https://arxiv.org/abs/2302.12173,2023,Universal adversarial attacks on LLMs
+arxiv/2305.14950,Tree of Thoughts,Various,research,https://arxiv.org/abs/2305.14950,2023,LLM reasoning methodology
+arxiv/2310.04451,AutoDAN,Various,research,https://arxiv.org/abs/2310.04451,2023,Automated jailbreak generation
+arxiv/2308.03825,Red Teaming Language Models,Various,research,https://arxiv.org/abs/2308.03825,2023,Red teaming methodology survey
+arxiv/2309.00236,Catastrophic Jailbreak,Various,research,https://arxiv.org/abs/2309.00236,2023,Adversarial attack on aligned LLMs
+arxiv/2401.06373,Weak-to-Strong Generalization,OpenAI,research,https://arxiv.org/abs/2401.06373,2024,AI alignment research
+arxiv/2312.06942,Purple Llama CyberSecEval,Meta,research,https://arxiv.org/abs/2312.06942,2023,LLM cybersecurity evaluation
+arxiv/2408.12622,LLM Attack Techniques,Various,research,https://arxiv.org/abs/2408.12622,2024,LLM attack methodologies

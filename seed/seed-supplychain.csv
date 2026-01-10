@@ -1,0 +1,36 @@
+tool_short,tool_full,vendor,url,data_url,type,notes
+deps.dev,deps.dev,Google,https://deps.dev,https://api.deps.dev,dependency-graph,Open source dependency insights
+Socket,Socket.dev,Socket,https://socket.dev,https://socket.dev/npm,supply-chain,Supply chain attack detection
+Phylum,Phylum,Phylum,https://phylum.io,https://phylum.io/api,supply-chain,Software supply chain security
+Snyk Open Source,Snyk Open Source,Snyk,https://snyk.io/product/open-source-security-management,https://snyk.io/vuln,sca,Open source vulnerability scanning
+Mend (WhiteSource),Mend,Mend,https://www.mend.io,https://www.mend.io/vulnerability-database,sca,Software composition analysis
+Black Duck,Black Duck,Synopsys,https://www.blackducksoftware.com,https://www.blackducksoftware.com/security-advisories,sca,Open source security and compliance
+FOSSA,FOSSA,FOSSA,https://fossa.com,https://fossa.com/api,sca,License compliance and security
+Sonatype Nexus,Sonatype Nexus,Sonatype,https://www.sonatype.com,https://ossindex.sonatype.org,sca,Repository management and security
+JFrog Xray,JFrog Xray,JFrog,https://jfrog.com/xray,https://jfrog.com/xray/features,sca,Universal artifact analysis
+Checkmarx SCA,Checkmarx SCA,Checkmarx,https://checkmarx.com/product/opensource-security,https://checkmarx.com/cxsca,sca,Software composition analysis
+Veracode SCA,Veracode SCA,Veracode,https://www.veracode.com/products/software-composition-analysis,https://www.veracode.com/security,sca,Third-party component analysis
+OWASP Dependency-Check,OWASP Dependency-Check,OWASP,https://owasp.org/www-project-dependency-check,https://github.com/jeremylong/DependencyCheck,sca,Open source dependency checker
+Retire.js,Retire.js,RetireJS,https://retirejs.github.io/retire.js,https://github.com/RetireJS/retire.js,sca,JavaScript library vulnerability scanner
+npm audit,npm audit,npm,https://docs.npmjs.com/cli/v9/commands/npm-audit,https://www.npmjs.com/advisories,sca,npm built-in security audit
+yarn audit,yarn audit,Yarn,https://yarnpkg.com/cli/audit,https://www.npmjs.com/advisories,sca,Yarn built-in security audit
+pip-audit,pip-audit,PyPA,https://github.com/pypa/pip-audit,https://github.com/pypa/pip-audit,sca,Python dependency auditing
+Safety,Safety,SafetyCLI,https://safetycli.com,https://github.com/pyupio/safety-db,sca,Python dependency checker
+bundler-audit,bundler-audit,RubySec,https://github.com/rubysec/bundler-audit,https://github.com/rubysec/ruby-advisory-db,sca,Ruby gem vulnerability scanner
+cargo-audit,cargo-audit,RustSec,https://github.com/RustSec/rustsec,https://github.com/RustSec/advisory-db,sca,Rust crate vulnerability scanner
+govulncheck,govulncheck,Go,https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck,https://vuln.go.dev,sca,Go module vulnerability checker
+Sigstore,Sigstore,Linux Foundation,https://www.sigstore.dev,https://github.com/sigstore,signing,Keyless code signing
+Cosign,Cosign,Sigstore,https://github.com/sigstore/cosign,https://github.com/sigstore/cosign,signing,Container image signing
+Rekor,Rekor,Sigstore,https://github.com/sigstore/rekor,https://rekor.sigstore.dev,transparency,Immutable tamper-resistant ledger
+Fulcio,Fulcio,Sigstore,https://github.com/sigstore/fulcio,https://fulcio.sigstore.dev,ca,Root CA for code signing certificates
+in-toto,in-toto,CNCF,https://in-toto.io,https://github.com/in-toto/in-toto,attestation,Supply chain integrity framework
+SLSA,SLSA,Google/OpenSSF,https://slsa.dev,https://slsa.dev/spec,framework,Supply chain levels for artifacts
+GUAC,GUAC,OpenSSF,https://guac.sh,https://github.com/guacsec/guac,graph,Software supply chain graph
+Scorecard,OpenSSF Scorecard,OpenSSF,https://securityscorecards.dev,https://api.securityscorecards.dev,scoring,OSS security health scoring
+Allstar,Allstar,OpenSSF,https://github.com/ossf/allstar,https://github.com/ossf/allstar,enforcement,GitHub security policy enforcement
+CycloneDX,CycloneDX,OWASP,https://cyclonedx.org,https://github.com/CycloneDX,sbom,SBOM standard format
+SPDX,SPDX,Linux Foundation,https://spdx.dev,https://github.com/spdx,sbom,SBOM standard format
+Syft,Syft,Anchore,https://github.com/anchore/syft,https://github.com/anchore/syft,sbom,SBOM generation tool
+Tern,Tern,VMware,https://github.com/tern-tools/tern,https://github.com/tern-tools/tern,sbom,Container SBOM generator
+SBOM Tool,SBOM Tool,Microsoft,https://github.com/microsoft/sbom-tool,https://github.com/microsoft/sbom-tool,sbom,Microsoft SBOM generator
+Bomber,Bomber,Dev Black Ops,https://github.com/devops-kung-fu/bomber,https://github.com/devops-kung-fu/bomber,sbom,SBOM vulnerability scanner

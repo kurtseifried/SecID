@@ -1,0 +1,35 @@
+scanner_short,scanner_full,vendor,url,plugin_url,plugin_format,type,notes
+Nessus,Tenable Nessus,Tenable,https://www.tenable.com/products/nessus,https://www.tenable.com/plugins,NASL,vulnerability,Industry standard vulnerability scanner
+Tenable.io,Tenable.io,Tenable,https://www.tenable.com/products/tenable-io,https://www.tenable.com/plugins,NASL,vulnerability,Cloud vulnerability management
+Tenable.sc,Tenable Security Center,Tenable,https://www.tenable.com/products/tenable-sc,https://www.tenable.com/plugins,NASL,vulnerability,On-prem vulnerability management
+Qualys,Qualys VMDR,Qualys,https://www.qualys.com,https://qualys.com/research/vulndb,QID,vulnerability,Cloud-based VM platform
+Rapid7 InsightVM,InsightVM,Rapid7,https://www.rapid7.com/products/insightvm,https://www.rapid7.com/db,xml,vulnerability,Rapid7 vulnerability management
+Nexpose,Rapid7 Nexpose,Rapid7,https://www.rapid7.com/products/nexpose,https://www.rapid7.com/db,xml,vulnerability,On-prem vulnerability scanner
+OpenVAS,OpenVAS/Greenbone,Greenbone,https://www.openvas.org,https://community.greenbone.net/c/vulnerability-tests,NASL,vulnerability,Open source vulnerability scanner
+Greenbone,Greenbone Enterprise,Greenbone,https://www.greenbone.net,https://www.greenbone.net/en/vulnerability-tests,NASL,vulnerability,Commercial OpenVAS
+Nikto,Nikto,CIRT,https://cirt.net/Nikto2,https://github.com/sullo/nikto,perl,web,Open source web server scanner
+OWASP ZAP,OWASP ZAP,OWASP,https://www.zaproxy.org,https://www.zaproxy.org/docs/alerts,java,web,Open source web app scanner
+Burp Suite,Burp Suite,PortSwigger,https://portswigger.net/burp,https://portswigger.net/burp/documentation/scanner/audit-items,java,web,Web application security testing
+Acunetix,Acunetix,Invicti,https://www.acunetix.com,https://www.acunetix.com/vulnerabilities,proprietary,web,Web vulnerability scanner
+Invicti,Invicti (Netsparker),Invicti,https://www.invicti.com,https://www.invicti.com/vulnerability-list,proprietary,web,Enterprise web scanner
+Veracode,Veracode,Veracode,https://www.veracode.com,https://docs.veracode.com/r/c_about_flaws,proprietary,sast/dast,Application security platform
+Checkmarx,Checkmarx,Checkmarx,https://checkmarx.com,https://checkmarx.com/resource/documents/en/34965-68633-queries.html,proprietary,sast,Static application security testing
+Fortify,Fortify,OpenText,https://www.microfocus.com/en-us/cyberres/application-security/fortify,https://vulncat.fortify.com,proprietary,sast,Static and dynamic analysis
+SonarQube,SonarQube,SonarSource,https://www.sonarqube.org,https://rules.sonarsource.com,java,sast,Code quality and security
+Semgrep,Semgrep,Semgrep,https://semgrep.dev,https://semgrep.dev/r,yaml,sast,Lightweight static analysis
+CodeQL,CodeQL,GitHub,https://codeql.github.com,https://codeql.github.com/codeql-query-help,ql,sast,Semantic code analysis
+Snyk Code,Snyk Code,Snyk,https://snyk.io/product/snyk-code,https://snyk.io/vuln,proprietary,sast,Developer-first SAST
+Bandit,Bandit,PyCQA,https://bandit.readthedocs.io,https://bandit.readthedocs.io/en/latest/plugins,python,sast,Python security linter
+Brakeman,Brakeman,Brakeman,https://brakemanscanner.org,https://brakemanscanner.org/docs/warning_types,ruby,sast,Ruby on Rails security scanner
+Gosec,Gosec,Securego,https://github.com/securego/gosec,https://github.com/securego/gosec#available-rules,go,sast,Go security checker
+ESLint Security,eslint-plugin-security,eslint,https://github.com/eslint-community/eslint-plugin-security,https://github.com/eslint-community/eslint-plugin-security#rules,js,sast,JavaScript security linting
+Anchore,Anchore,Anchore,https://anchore.com,https://anchore.com/vulnerability-data,json,container,Container vulnerability scanning
+Clair,Clair,Quay,https://github.com/quay/clair,https://github.com/quay/claircore,go,container,Container vulnerability static analysis
+Trivy,Trivy,Aqua Security,https://trivy.dev,https://github.com/aquasecurity/trivy-db,json,container,Comprehensive vulnerability scanner
+Grype,Grype,Anchore,https://github.com/anchore/grype,https://github.com/anchore/grype-db,json,container,Container image vulnerability scanner
+Snyk Container,Snyk Container,Snyk,https://snyk.io/product/container-vulnerability-management,https://snyk.io/vuln,proprietary,container,Container scanning
+Docker Scout,Docker Scout,Docker,https://docs.docker.com/scout,https://docs.docker.com/scout/deep-dive,proprietary,container,Docker native scanning
+Prisma Cloud,Prisma Cloud (Twistlock),Palo Alto,https://www.paloaltonetworks.com/prisma/cloud,https://docs.paloaltonetworks.com/prisma/prisma-cloud,proprietary,container,Cloud-native security platform
+Wiz,Wiz,Wiz,https://www.wiz.io,https://www.wiz.io/blog,proprietary,cloud,Cloud security platform
+Orca,Orca Security,Orca,https://orca.security,https://orca.security/resources,proprietary,cloud,Agentless cloud security
+Lacework,Lacework,Lacework,https://www.lacework.com,https://docs.lacework.com,proprietary,cloud,Cloud security platform

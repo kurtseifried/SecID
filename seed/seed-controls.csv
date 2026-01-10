@@ -1,0 +1,354 @@
+control_short,control_full,maintainer,domain,url,current_version,notes
+CCM,Cloud Controls Matrix,CSA,cloud,https://cloudsecurityalliance.org/research/cloud-controls-matrix,4.0,Cloud security controls framework
+CAIQ,Consensus Assessments Initiative Questionnaire,CSA,cloud,https://cloudsecurityalliance.org/artifacts/consensus-assessments-initiative-questionnaire,4.0,CCM self-assessment questionnaire
+AICM,AI Controls Matrix,CSA,ai,https://cloudsecurityalliance.org/artifacts/ai-controls-matrix,1.0,AI/ML security controls
+CSA STAR,Security Trust Assurance and Risk,CSA,cloud,https://cloudsecurityalliance.org/star,,Cloud security certification program
+ISO 27001,Information Security Management Systems,ISO,general,https://www.iso.org/standard/27001,2022,ISMS requirements standard
+ISO 27002,Information Security Controls,ISO,general,https://www.iso.org/standard/75652.html,2022,Security control guidance (93 controls)
+ISO 27005,Information Security Risk Management,ISO,risk,https://www.iso.org/standard/80585.html,2022,Risk assessment methodology
+ISO 27017,Cloud Services Security Controls,ISO,cloud,https://www.iso.org/standard/43757.html,2015,Cloud-specific 27002 extension
+ISO 27018,PII Protection in Public Clouds,ISO,privacy,https://www.iso.org/standard/76559.html,2019,Cloud privacy controls
+ISO 27701,Privacy Information Management,ISO,privacy,https://www.iso.org/standard/71670.html,2019,PIMS extension to 27001
+ISO 27799,Health Informatics Security,ISO,healthcare,https://www.iso.org/standard/62777.html,2016,Healthcare security controls
+ISO 27032,Cybersecurity Guidelines,ISO,general,https://www.iso.org/standard/44375.html,2012,Cybersecurity framework
+ISO 27035,Incident Management,ISO,incident,https://www.iso.org/standard/78973.html,2023,Incident response guidance
+ISO 27037,Digital Evidence,ISO,forensics,https://www.iso.org/standard/44381.html,2012,Digital forensics guidance
+ISO 27040,Storage Security,ISO,infrastructure,https://www.iso.org/standard/44404.html,2015,Storage security controls
+ISO 27041,Incident Investigation,ISO,forensics,https://www.iso.org/standard/44405.html,2015,Investigation assurance
+ISO 27042,Digital Evidence Analysis,ISO,forensics,https://www.iso.org/standard/44406.html,2015,Evidence analysis guidance
+ISO 27043,Incident Investigation Principles,ISO,forensics,https://www.iso.org/standard/44407.html,2015,Investigation processes
+ISO 42001,AI Management System,ISO,ai,https://www.iso.org/standard/81230.html,2023,AI management system requirements
+ISO 22301,Business Continuity Management,ISO,resilience,https://www.iso.org/standard/75106.html,2019,BCM requirements
+ISO 31000,Risk Management,ISO,risk,https://www.iso.org/standard/65694.html,2018,Risk management principles
+ISO 38500,IT Governance,ISO,governance,https://www.iso.org/standard/62816.html,2015,IT governance framework
+NIST CSF,Cybersecurity Framework,NIST,general,https://www.nist.gov/cyberframework,2.0,Risk-based security framework
+SP 800-53,Security and Privacy Controls,NIST,general,https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final,Rev 5,Federal security controls (1000+ controls)
+SP 800-53A,Assessing Security Controls,NIST,assessment,https://csrc.nist.gov/publications/detail/sp/800-53a/rev-5/final,Rev 5,Control assessment procedures
+SP 800-53B,Control Baselines,NIST,general,https://csrc.nist.gov/publications/detail/sp/800-53b/final,Final,Low/Moderate/High baselines
+SP 800-171,Protecting CUI,NIST,government,https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final,Rev 2,Controlled Unclassified Information protection
+SP 800-172,Enhanced Security for CUI,NIST,government,https://csrc.nist.gov/publications/detail/sp/800-172/final,Final,Enhanced CUI requirements
+SP 800-37,Risk Management Framework,NIST,risk,https://csrc.nist.gov/publications/detail/sp/800-37/rev-2/final,Rev 2,RMF authorization process
+SP 800-39,Managing Information Security Risk,NIST,risk,https://csrc.nist.gov/publications/detail/sp/800-39/final,Final,Enterprise risk management
+SP 800-30,Risk Assessment Guide,NIST,risk,https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final,Rev 1,Risk assessment methodology
+SP 800-61,Incident Handling Guide,NIST,incident,https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final,Rev 2,Incident response guidance
+SP 800-82,ICS Security Guide,NIST,ics,https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final,Rev 3,Industrial control systems
+SP 800-160,Systems Security Engineering,NIST,engineering,https://csrc.nist.gov/publications/detail/sp/800-160/vol-1-rev-1/final,Vol 1 Rev 1,Security engineering
+SP 800-207,Zero Trust Architecture,NIST,architecture,https://csrc.nist.gov/publications/detail/sp/800-207/final,Final,Zero trust principles
+SP 800-218,SSDF,NIST,development,https://csrc.nist.gov/publications/detail/sp/800-218/final,Final,Secure software development
+NIST AI RMF,AI Risk Management Framework,NIST,ai,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI risk management
+NIST Privacy Framework,Privacy Framework,NIST,privacy,https://www.nist.gov/privacy-framework,1.0,Privacy risk management
+CIS Controls,Critical Security Controls,CIS,general,https://www.cisecurity.org/controls,8.0,Prioritized security actions (18 controls)
+CIS Benchmarks,CIS Benchmarks,CIS,configuration,https://www.cisecurity.org/cis-benchmarks,,Secure configuration guides
+PCI DSS,Payment Card Industry Data Security Standard,PCI SSC,payment,https://www.pcisecuritystandards.org,4.0,Payment card security (12 requirements)
+PCI PA-DSS,Payment Application Data Security Standard,PCI SSC,payment,https://www.pcisecuritystandards.org,,Payment application security (deprecated for SSF)
+PCI SSF,Software Security Framework,PCI SSC,payment,https://www.pcisecuritystandards.org,,Secure software lifecycle
+PCI P2PE,Point-to-Point Encryption,PCI SSC,payment,https://www.pcisecuritystandards.org,,Encryption standard
+PCI PIN,PIN Transaction Security,PCI SSC,payment,https://www.pcisecuritystandards.org,,PIN security requirements
+PCI 3DS,3-D Secure,PCI SSC,payment,https://www.pcisecuritystandards.org,,Card authentication
+SWIFT CSP,Customer Security Programme,SWIFT,financial,https://www.swift.com/myswift/customer-security-programme,,Financial messaging security
+COBIT,Control Objectives for Information Technologies,ISACA,governance,https://www.isaca.org/resources/cobit,2019,IT governance framework
+ITIL,Information Technology Infrastructure Library,Axelos,operations,https://www.axelos.com/certifications/itil-service-management,4,IT service management
+SOC 2,Service Organization Control 2,AICPA,assurance,https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome,2017,Trust services criteria
+SOC 1,Service Organization Control 1,AICPA,assurance,https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome,,Financial reporting controls
+SOC 3,Service Organization Control 3,AICPA,assurance,https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome,,Public trust report
+COSO,Internal Control Framework,COSO,governance,https://www.coso.org/guidance-erm,2013,Enterprise risk management
+HITRUST CSF,HITRUST Common Security Framework,HITRUST,healthcare,https://hitrustalliance.net/csf,11.0,Healthcare security framework
+FedRAMP,Federal Risk and Authorization Management Program,GSA,government,https://www.fedramp.gov,,Cloud security for federal agencies
+StateRAMP,State Risk and Authorization Management Program,StateRAMP,government,https://stateramp.org,,Cloud security for state/local gov
+CMMC,Cybersecurity Maturity Model Certification,DoD,defense,https://www.acq.osd.mil/cmmc,2.0,Defense contractor requirements
+NERC CIP,Critical Infrastructure Protection,NERC,energy,https://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx,,Bulk electric system security
+TSA SD,TSA Security Directives,TSA,transportation,https://www.tsa.gov/sd-and-ea,,Pipeline/rail cybersecurity
+FFIEC CAT,Cybersecurity Assessment Tool,FFIEC,financial,https://www.ffiec.gov/cyberassessmenttool.htm,,Financial institution assessment
+FFIEC Handbook,IT Examination Handbook,FFIEC,financial,https://ithandbook.ffiec.gov,,Financial IT guidance
+NY DFS,Cybersecurity Requirements,NY DFS,financial,https://www.dfs.ny.gov/industry_guidance/cybersecurity,23 NYCRR 500,NY financial cybersecurity
+ASVS,Application Security Verification Standard,OWASP,application,https://owasp.org/www-project-application-security-verification-standard,4.0,Application security requirements
+MASVS,Mobile Application Security Verification Standard,OWASP,mobile,https://mas.owasp.org/MASVS,2.0,Mobile app security requirements
+SAMM,Software Assurance Maturity Model,OWASP,development,https://owaspsamm.org,2.0,Secure development maturity
+BSIMM,Building Security In Maturity Model,Synopsys,development,https://www.synopsys.com/software-integrity/software-security-services/bsimm-maturity-model.html,14,Security initiative measurement
+CERT RMM,Resilience Management Model,CERT/SEI,resilience,https://www.sei.cmu.edu/our-work/cert-rmm,1.2,Operational resilience
+FAIR,Factor Analysis of Information Risk,FAIR Institute,risk,https://www.fairinstitute.org,,Quantitative risk analysis
+OCTAVE,Operationally Critical Threat Asset and Vulnerability Evaluation,CERT/SEI,risk,https://www.sei.cmu.edu/our-work/octave,,Risk assessment methodology
+STRIDE,STRIDE Threat Model,Microsoft,threat-modeling,https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats,,Threat categorization
+PASTA,Process for Attack Simulation and Threat Analysis,VerSprite,threat-modeling,https://versprite.com/blog/what-is-pasta-threat-modeling,,Risk-centric threat modeling
+LINDDUN,Privacy Threat Modeling,KU Leuven,privacy,https://linddun.org,,Privacy threat framework
+DREAD,DREAD Risk Assessment,Microsoft,risk,https://learn.microsoft.com/en-us/windows-hardware/drivers/driversecurity/threat-modeling-for-drivers,,Risk rating model (deprecated)
+SIG,Standardized Information Gathering,Shared Assessments,vendor,https://sharedassessments.org/sig,,Third-party risk questionnaire
+CAIQ Lite,CAIQ Lite,CSA,cloud,https://cloudsecurityalliance.org,,Simplified cloud assessment
+Cyber Essentials,Cyber Essentials,NCSC UK,general,https://www.ncsc.gov.uk/cyberessentials,3.1,UK basic security controls
+Cyber Essentials Plus,Cyber Essentials Plus,NCSC UK,general,https://www.ncsc.gov.uk/cyberessentials,,UK verified security
+IASME Governance,IASME Cyber Assurance,IASME,general,https://iasme.co.uk,,UK SME security standard
+ASD Essential 8,Essential Eight,ASD,general,https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/essential-eight,,Australian security strategies
+ISM,Information Security Manual,ASD,government,https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism,,Australian government security
+PSPF,Protective Security Policy Framework,AGD,government,https://www.protectivesecurity.gov.au,,Australian government security policy
+BSI IT-Grundschutz,IT-Grundschutz,BSI Germany,general,https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/it-grundschutz_node.html,,German security baseline
+C5,Cloud Computing Compliance Criteria Catalogue,BSI Germany,cloud,https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Informationen-und-Empfehlungen/Empfehlungen-nach-Angriffszielen/Cloud-Computing/Kriterienkatalog-C5/kriterienkatalog-c5_node.html,2020,German cloud security
+SecNumCloud,SecNumCloud,ANSSI France,cloud,https://www.ssi.gouv.fr/administration/qualifications/prestataires-de-services-de-confiance-qualifies/prestataires-de-service-dinformatique-en-nuage-secnumcloud,,French cloud certification
+HDS,Hébergeur de Données de Santé,ASIP Santé,healthcare,https://esante.gouv.fr/labels-certifications/hds,,French health data hosting
+TISAX,Trusted Information Security Assessment Exchange,ENX,automotive,https://www.enx.com/en-us/tisax,,Automotive industry security
+IEC 62443,Industrial Automation and Control Systems Security,IEC,ics,https://www.iec.ch/iec-62443,,ICS/OT security standard
+ISA/IEC 62443,Industrial Cybersecurity Standard,ISA/IEC,ics,https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards,,Industrial automation security
+NIST SP 800-82,ICS Security,NIST,ics,https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final,Rev 3,ICS security guide
+API Security,API Security Standards,OWASP,api,https://owasp.org/www-project-api-security,,API security guidelines
+Cloud Security Guidelines,Cloud Security Guidelines,ENISA,cloud,https://www.enisa.europa.eu/publications/cloud-security-guide-for-smes,,EU cloud security
+IoT Security,IoT Security Guidelines,ENISA,iot,https://www.enisa.europa.eu/topics/iot-and-smart-infrastructures,,IoT security baseline
+GSMA Security,Mobile Security Guidelines,GSMA,mobile,https://www.gsma.com/security,,Telecom security
+3GPP Security,3GPP Security Standards,3GPP,telecom,https://www.3gpp.org/specifications-groups/sa-plenary/sa3-security,,Mobile network security
+ETSI EN 303 645,Cyber Security for Consumer IoT,ETSI,iot,https://www.etsi.org/deliver/etsi_en/303600_303699/303645/,2.1.1,Consumer IoT security
+Matter,Matter Smart Home Standard,CSA (Connectivity),iot,https://csa-iot.org/all-solutions/matter,,Smart home security
+FIDO2,FIDO2 Authentication,FIDO Alliance,authentication,https://fidoalliance.org/fido2,,Passwordless authentication
+WebAuthn,Web Authentication,W3C/FIDO,authentication,https://www.w3.org/TR/webauthn-2,,Web authentication API
+Passkeys,Passkeys,FIDO Alliance,authentication,https://fidoalliance.org/passkeys,,Cross-device credentials
+NIST 800-63,Digital Identity Guidelines,NIST,identity,https://pages.nist.gov/800-63-3,3,Identity assurance levels
+eIDAS,Electronic Identification and Trust Services,EU,identity,https://digital-strategy.ec.europa.eu/en/policies/eidas-regulation,,EU digital identity
+Google SAIF,Secure AI Framework,Google,ai,https://safety.google/cybersecurity-advancements/saif,1.0,Google AI security framework
+Microsoft RAI,Responsible AI Standard,Microsoft,ai,https://www.microsoft.com/en-us/ai/responsible-ai,2.0,Microsoft responsible AI principles
+AWS ML Security,AWS Machine Learning Security,AWS,ai,https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens,1.0,AWS ML security guidance
+Azure AI Security,Azure AI Security Guidelines,Microsoft,ai,https://learn.microsoft.com/en-us/azure/ai-services/security-features,,Azure AI security
+Anthropic RSP,Responsible Scaling Policy,Anthropic,ai,https://www.anthropic.com/news/anthropics-responsible-scaling-policy,1.0,AI capability thresholds
+OpenAI Safety,OpenAI Safety Framework,OpenAI,ai,https://openai.com/safety,,OpenAI safety practices
+Meta AI Safety,Meta AI Safety Guidelines,Meta,ai,https://ai.meta.com/responsible-ai,,Meta responsible AI
+NVIDIA AI Enterprise,NVIDIA AI Enterprise Security,NVIDIA,ai,https://www.nvidia.com/en-us/data-center/products/ai-enterprise,,NVIDIA AI platform security
+IBM AI Ethics,IBM AI Ethics,IBM,ai,https://www.ibm.com/policy/ibm-artificial-intelligence-pillars,,IBM AI governance
+Salesforce AI,Salesforce Trusted AI Principles,Salesforce,ai,https://www.salesforce.com/company/intentional-innovation/trustworthy-ai,,Salesforce AI ethics
+OWASP LLM Controls,OWASP LLM Top 10 Mitigations,OWASP,ai,https://owasp.org/www-project-top-10-for-large-language-model-applications,2.0,LLM security controls
+OWASP ML Controls,OWASP ML Security Top 10 Mitigations,OWASP,ai,https://owasp.org/www-project-machine-learning-security-top-10,1.0,ML security controls
+MITRE ATLAS Mitigations,ATLAS Mitigations,MITRE,ai,https://atlas.mitre.org/mitigations,,AI/ML attack mitigations
+NIST AI RMF GOVERN,AI RMF Govern Function,NIST,ai,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI governance controls
+NIST AI RMF MAP,AI RMF Map Function,NIST,ai,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI context mapping
+NIST AI RMF MEASURE,AI RMF Measure Function,NIST,ai,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI risk measurement
+NIST AI RMF MANAGE,AI RMF Manage Function,NIST,ai,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI risk management
+NIST AI 600-1,Generative AI Profile,NIST,ai,https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence,1.0,GenAI-specific controls
+ISO 23894,AI Risk Management,ISO,ai,https://www.iso.org/standard/77304.html,2023,AI risk management guidance
+ISO 24028,AI Trustworthiness,ISO,ai,https://www.iso.org/standard/77608.html,2020,Trustworthy AI overview
+ISO 24029,AI Robustness,ISO,ai,https://www.iso.org/standard/77609.html,2021,AI robustness assessment
+ISO 5338,AI Lifecycle,ISO,ai,https://www.iso.org/standard/81118.html,2023,AI system lifecycle processes
+ISO 22989,AI Concepts,ISO,ai,https://www.iso.org/standard/74296.html,2022,AI terminology standard
+ISO 23053,ML Framework,ISO,ai,https://www.iso.org/standard/74438.html,2022,ML using framework
+ISO 38507,AI Governance,ISO,ai,https://www.iso.org/standard/56641.html,2022,Governance of AI
+ISO 27090,AI Security,ISO,ai,https://www.iso.org/standard/56581.html,pending,AI cybersecurity guidance
+ISO 27091,AI Privacy,ISO,ai,https://www.iso.org/standard/56582.html,pending,AI privacy protection
+ALTAI,Assessment List for Trustworthy AI,EU,ai,https://digital-strategy.ec.europa.eu/en/library/assessment-list-trustworthy-artificial-intelligence-altai-self-assessment,,EU AI self-assessment
+Singapore AI Verify,AI Verify Testing Framework,IMDA Singapore,ai,https://aiverifyfoundation.sg,2.0,AI governance testing
+IEEE 7000,Ethical System Design,IEEE,ai,https://standards.ieee.org/ieee/7000/6781,2021,Value-based system design
+IEEE 7001,AI Transparency,IEEE,ai,https://standards.ieee.org/ieee/7001/6929,2021,Autonomous system transparency
+IEEE 7002,Data Privacy,IEEE,ai,https://standards.ieee.org/ieee/7002/6220,2022,Data privacy processes
+IEEE 7010,AI Wellbeing Metrics,IEEE,ai,https://standards.ieee.org/ieee/7010/10016,2020,Wellbeing impact assessment
+IEEE 2841,AI Trustworthiness Taxonomy,IEEE,ai,https://standards.ieee.org/ieee/2841/10632,pending,AI trustworthiness framework
+IEEE 3652.1,Federated ML,IEEE,ai,https://standards.ieee.org/ieee/3652.1/10929,2020,Federated machine learning
+AI Fairness 360,AI Fairness 360,IBM,ai,https://aif360.mybluemix.net,,AI bias detection toolkit
+Fairlearn,Fairlearn,Microsoft,ai,https://fairlearn.org,,ML fairness assessment
+Model Cards,Model Cards for Model Reporting,Google,ai,https://modelcards.withgoogle.com,,Model documentation standard
+Datasheets for Datasets,Dataset Documentation,Microsoft,ai,https://www.microsoft.com/en-us/research/project/datasheets-for-datasets,,Dataset documentation
+HELM,Holistic Evaluation of Language Models,Stanford,ai,https://crfm.stanford.edu/helm,,LLM evaluation benchmark
+MLCommons,ML Commons Benchmarks,MLCommons,ai,https://mlcommons.org,,ML benchmarks and safety
+AI Red Team,AI Red Teaming Guidelines,NIST,ai,https://www.nist.gov/publications,pending,AI adversarial testing
+Anthropic Model Spec,Anthropic Model Spec,Anthropic,ai,https://www.anthropic.com,,AI model behavior specification
+AWS Well-Architected,AWS Well-Architected Framework,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html,2024,AWS architecture best practices
+AWS Security Pillar,AWS Security Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html,2024,AWS security architecture
+AWS Operational Excellence,AWS Operational Excellence Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html,2024,AWS operations best practices
+AWS Reliability Pillar,AWS Reliability Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html,2024,AWS reliability architecture
+AWS Performance Pillar,AWS Performance Efficiency Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/performance-efficiency-pillar/welcome.html,2024,AWS performance optimization
+AWS Cost Pillar,AWS Cost Optimization Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html,2024,AWS cost management
+AWS Sustainability Pillar,AWS Sustainability Pillar,AWS,cloud,https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/welcome.html,2024,AWS environmental sustainability
+AWS SRA,AWS Security Reference Architecture,AWS,cloud,https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html,2024,AWS security architecture reference
+AWS Foundational Security,AWS Foundational Security Best Practices,AWS,cloud,https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp.html,,AWS Security Hub controls
+AWS GuardDuty,AWS GuardDuty Findings,AWS,cloud,https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html,,AWS threat detection
+Azure Security Benchmark,Azure Security Benchmark,Microsoft,cloud,https://learn.microsoft.com/en-us/security/benchmark/azure,3.0,Azure security controls
+Azure Well-Architected,Azure Well-Architected Framework,Microsoft,cloud,https://learn.microsoft.com/en-us/azure/well-architected,2024,Azure architecture best practices
+Azure Security Baseline,Azure Security Baselines,Microsoft,cloud,https://learn.microsoft.com/en-us/security/benchmark/azure/security-baselines-overview,,Azure service security
+Azure Landing Zone,Azure Landing Zone,Microsoft,cloud,https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone,,Azure enterprise architecture
+Azure CAF,Cloud Adoption Framework for Azure,Microsoft,cloud,https://learn.microsoft.com/en-us/azure/cloud-adoption-framework,,Azure adoption methodology
+Microsoft SSPA,Supplier Security and Privacy Assurance,Microsoft,cloud,https://www.microsoft.com/en-us/procurement/supplier-security-and-privacy,,Microsoft vendor security
+Google Cloud Security,Google Cloud Security Best Practices,Google,cloud,https://cloud.google.com/security/best-practices,2024,GCP security guidance
+Google Cloud Architecture,Google Cloud Architecture Framework,Google,cloud,https://cloud.google.com/architecture/framework,2024,GCP architecture best practices
+Google Security Foundations,Google Cloud Security Foundations,Google,cloud,https://cloud.google.com/architecture/security-foundations,2024,GCP security foundations blueprint
+Google BeyondCorp,BeyondCorp Enterprise,Google,cloud,https://cloud.google.com/beyondcorp,,Zero trust access
+Google Chronicle,Chronicle Security Operations,Google,cloud,https://cloud.google.com/chronicle,,Security operations platform
+GCP Security Command Center,Security Command Center,Google,cloud,https://cloud.google.com/security-command-center,,GCP security posture
+CIS AWS Foundations,CIS Amazon Web Services Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/amazon_web_services,3.0,AWS security configuration
+CIS Azure Foundations,CIS Microsoft Azure Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/azure,2.1,Azure security configuration
+CIS GCP Foundations,CIS Google Cloud Platform Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/google_cloud_computing_platform,3.0,GCP security configuration
+CIS Oracle Cloud,CIS Oracle Cloud Infrastructure Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/oracle_cloud,2.0,OCI security configuration
+CIS Alibaba Cloud,CIS Alibaba Cloud Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/alibaba_cloud,1.0,Alibaba Cloud security
+CIS IBM Cloud,CIS IBM Cloud Foundations Benchmark,CIS,cloud,https://www.cisecurity.org/benchmark/ibm_cloud,1.0,IBM Cloud security
+CIS Kubernetes,CIS Kubernetes Benchmark,CIS,container,https://www.cisecurity.org/benchmark/kubernetes,1.9,Kubernetes security configuration
+CIS Docker,CIS Docker Benchmark,CIS,container,https://www.cisecurity.org/benchmark/docker,1.6,Docker security configuration
+CIS EKS,CIS Amazon Elastic Kubernetes Service Benchmark,CIS,container,https://www.cisecurity.org/benchmark/amazon_elastic_kubernetes_service,1.4,EKS security
+CIS AKS,CIS Azure Kubernetes Service Benchmark,CIS,container,https://www.cisecurity.org/benchmark/azure_kubernetes_service,1.4,AKS security
+CIS GKE,CIS Google Kubernetes Engine Benchmark,CIS,container,https://www.cisecurity.org/benchmark/google_kubernetes_engine,1.6,GKE security
+NSA Kubernetes,NSA/CISA Kubernetes Hardening Guide,NSA/CISA,container,https://media.defense.gov/2022/Aug/29/2003066362/-1/-1/0/CTR_KUBERNETES_HARDENING_GUIDANCE_1.2_20220829.PDF,1.2,Kubernetes hardening
+NIST Container Security,NIST Container Security Guide,NIST,container,https://csrc.nist.gov/publications/detail/sp/800-190/final,SP 800-190,Container security guidance
+Docker Security,Docker Security Best Practices,Docker,container,https://docs.docker.com/engine/security,,Docker security
+Kubernetes Security,Kubernetes Security Best Practices,CNCF,container,https://kubernetes.io/docs/concepts/security,,K8s security documentation
+Pod Security Standards,Kubernetes Pod Security Standards,CNCF,container,https://kubernetes.io/docs/concepts/security/pod-security-standards,,K8s pod security
+OPA Gatekeeper,OPA Gatekeeper Policy,CNCF,container,https://open-policy-agent.github.io/gatekeeper,,Kubernetes policy enforcement
+Kyverno,Kyverno Policy Engine,CNCF,container,https://kyverno.io,,Kubernetes policy management
+Falco Rules,Falco Runtime Security Rules,CNCF,container,https://falco.org/docs/rules,,Container runtime detection
+Trivy Checks,Trivy Security Checks,Aqua Security,container,https://aquasecurity.github.io/trivy,,Container vulnerability scanning
+CNCF Security TAG,CNCF Security Technical Advisory Group,CNCF,cloud-native,https://github.com/cncf/tag-security,,Cloud native security
+Software Supply Chain,CNCF Software Supply Chain Best Practices,CNCF,supply-chain,https://github.com/cncf/tag-security/blob/main/supply-chain-security/supply-chain-security-paper/CNCF_SSCP_v1.pdf,1.0,Supply chain security
+SLSA,Supply-chain Levels for Software Artifacts,Google,supply-chain,https://slsa.dev,1.0,Software supply chain security
+Sigstore,Sigstore,Linux Foundation,supply-chain,https://www.sigstore.dev,,Software signing
+in-toto,in-toto Supply Chain Framework,CNCF,supply-chain,https://in-toto.io,,Supply chain attestation
+SBOM,Software Bill of Materials,NTIA/CISA,supply-chain,https://www.cisa.gov/sbom,,Software component inventory
+SPDX,Software Package Data Exchange,Linux Foundation,supply-chain,https://spdx.dev,2.3,SBOM standard format
+CycloneDX,CycloneDX,OWASP,supply-chain,https://cyclonedx.org,1.5,SBOM and xBOM standard
+VEX,Vulnerability Exploitability eXchange,CISA,supply-chain,https://www.cisa.gov/sites/default/files/publications/VEX_Use_Cases_Apri2022.pdf,,Vulnerability status communication
+OpenSSF Scorecard,OpenSSF Scorecard,OpenSSF,supply-chain,https://securityscorecards.dev,,OSS security scoring
+OpenSSF Best Practices,OpenSSF Best Practices Badge,OpenSSF,supply-chain,https://bestpractices.coreinfrastructure.org,,OSS security maturity
+GUAC,Graph for Understanding Artifact Composition,OpenSSF,supply-chain,https://guac.sh,,Software supply chain graph
+S2C2F,Secure Supply Chain Consumption Framework,Microsoft,supply-chain,https://github.com/microsoft/oss-ssc-framework,1.0,OSS consumption framework
+MITRE ATT&CK Mitigations,ATT&CK Enterprise Mitigations,MITRE,threat,https://attack.mitre.org/mitigations/enterprise,,Enterprise attack mitigations
+MITRE ATT&CK Mobile,ATT&CK Mobile Mitigations,MITRE,threat,https://attack.mitre.org/mitigations/mobile,,Mobile attack mitigations
+MITRE ATT&CK ICS,ATT&CK ICS Mitigations,MITRE,threat,https://attack.mitre.org/mitigations/ics,,ICS attack mitigations
+MITRE ATT&CK Cloud,ATT&CK Cloud Matrix,MITRE,threat,https://attack.mitre.org/matrices/enterprise/cloud,,Cloud attack techniques
+MITRE D3FEND,D3FEND Knowledge Graph,MITRE,defense,https://d3fend.mitre.org,0.14,Defensive technique ontology
+MITRE ENGAGE,MITRE Engage,MITRE,defense,https://engage.mitre.org,,Adversary engagement
+MITRE CALDERA,CALDERA Adversary Emulation,MITRE,testing,https://caldera.mitre.org,4.2,Adversary emulation platform
+MITRE ATT&CK Evaluations,ATT&CK Evaluations,MITRE,testing,https://attackevals.mitre-engenuity.org,,Security product evaluation
+Atomic Red Team,Atomic Red Team,Red Canary,testing,https://atomicredteam.io,,ATT&CK-based testing
+VECTR,VECTR Purple Team,Security Risk Advisors,testing,https://vectr.io,,Purple team tracking
+RE&CT,RE&CT Framework,Atc-Project,incident,https://github.com/atc-project/atc-react,,Response actions framework
+NIST SP 800-150,Cyber Threat Information Sharing,NIST,threat-intel,https://csrc.nist.gov/publications/detail/sp/800-150/final,Final,Threat sharing guidance
+STIX,Structured Threat Information Expression,OASIS,threat-intel,https://oasis-open.github.io/cti-documentation/stix/intro,2.1,Threat intelligence format
+TAXII,Trusted Automated Exchange of Intelligence Information,OASIS,threat-intel,https://oasis-open.github.io/cti-documentation/taxii/intro,2.1,Threat intel transport
+OpenCTI,OpenCTI Platform,Filigran,threat-intel,https://www.opencti.io,,Threat intelligence platform
+MISP,Malware Information Sharing Platform,MISP Project,threat-intel,https://www.misp-project.org,,Threat sharing platform
+TLP,Traffic Light Protocol,FIRST,threat-intel,https://www.first.org/tlp,2.0,Information sharing classification
+PAP,Permissible Actions Protocol,FIRST,threat-intel,https://www.first.org/global/sigs/information-sharing,,Actions classification
+CVSS,Common Vulnerability Scoring System,FIRST,vulnerability,https://www.first.org/cvss,4.0,Vulnerability severity scoring
+EPSS,Exploit Prediction Scoring System,FIRST,vulnerability,https://www.first.org/epss,3.0,Exploit probability scoring
+SSVC,Stakeholder-Specific Vulnerability Categorization,CISA,vulnerability,https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc,2.0,Vulnerability prioritization
+KEV,Known Exploited Vulnerabilities Catalog,CISA,vulnerability,https://www.cisa.gov/known-exploited-vulnerabilities-catalog,,Active exploitation tracking
+Vulnrichment,CISA Vulnrichment,CISA,vulnerability,https://github.com/cisagov/vulnrichment,,CVE enrichment data
+NIST SP 800-40,Patch Management,NIST,vulnerability,https://csrc.nist.gov/publications/detail/sp/800-40/rev-4/final,Rev 4,Patch management guidance
+Zero Trust Architecture,Zero Trust Architecture,NIST,architecture,https://csrc.nist.gov/publications/detail/sp/800-207/final,SP 800-207,Zero trust reference
+CISA Zero Trust,CISA Zero Trust Maturity Model,CISA,architecture,https://www.cisa.gov/zero-trust-maturity-model,2.0,Zero trust maturity
+DoD Zero Trust,DoD Zero Trust Reference Architecture,DoD,architecture,https://dodcio.defense.gov/Portals/0/Documents/Library/DoD-ZTRefArch.pdf,2.0,DoD zero trust
+Forrester ZTX,Zero Trust eXtended Framework,Forrester,architecture,https://www.forrester.com/blogs/the-definition-of-modern-zero-trust,,Zero trust ecosystem
+Google BeyondProd,BeyondProd,Google,architecture,https://cloud.google.com/security/beyondprod,,Cloud-native zero trust
+CARTA,Continuous Adaptive Risk and Trust Assessment,Gartner,architecture,https://www.gartner.com/en/information-technology/glossary/carta,,Adaptive security
+SAFECode,SAFECode Security Practices,SAFECode,development,https://safecode.org/publications,,Secure development practices
+Microsoft SDL,Security Development Lifecycle,Microsoft,development,https://www.microsoft.com/en-us/securityengineering/sdl,2023,Secure development lifecycle
+Cisco SDL,Cisco Secure Development Lifecycle,Cisco,development,https://www.cisco.com/c/en/us/about/security-center/secure-development-lifecycle.html,,Secure development
+Google SLSA,Supply-chain Levels for Software Artifacts,Google,development,https://slsa.dev,1.0,Build integrity levels
+SSDF,Secure Software Development Framework,NIST,development,https://csrc.nist.gov/publications/detail/sp/800-218/final,SP 800-218,Secure development tasks
+DevSecOps,DevSecOps Fundamentals,DoD,development,https://software.af.mil/wp-content/uploads/2021/05/DoD-Enterprise-DevSecOps-Reference-Design-v2.0.pdf,2.0,DoD DevSecOps reference
+GitLab Security,GitLab Security Guidelines,GitLab,development,https://docs.gitlab.com/ee/development/secure_coding_guidelines,,Secure coding practices
+GitHub Security,GitHub Security Best Practices,GitHub,development,https://docs.github.com/en/code-security,,Code security features
+Snyk Security,Snyk Security Guidelines,Snyk,development,https://snyk.io/learn,,Developer security education
+SonarQube Rules,SonarQube Security Rules,SonarSource,development,https://rules.sonarsource.com,,Code quality rules
+Semgrep Rules,Semgrep Security Rules,Semgrep,development,https://semgrep.dev/r,,Static analysis rules
+CodeQL,CodeQL Security Queries,GitHub,development,https://codeql.github.com/codeql-query-help,,Code scanning queries
+Checkmarx,Checkmarx Security Queries,Checkmarx,development,https://checkmarx.com/resource/documents/en/34965-68633-queries.html,,SAST queries
+Veracode,Veracode Security Standards,Veracode,development,https://docs.veracode.com/r/c_about_flaws,,Application security flaws
+CERT Secure Coding,CERT Secure Coding Standards,CERT/SEI,development,https://wiki.sei.cmu.edu/confluence/display/seccode,,Language-specific security
+CWE/SANS Top 25,CWE/SANS Top 25 Dangerous Software Weaknesses,MITRE/SANS,development,https://cwe.mitre.org/top25,2023,Critical software weaknesses
+OWASP Proactive Controls,OWASP Proactive Controls,OWASP,development,https://owasp.org/www-project-proactive-controls,3.0,Security controls for developers
+OWASP Cheat Sheets,OWASP Cheat Sheet Series,OWASP,development,https://cheatsheetseries.owasp.org,,Security guidance cheat sheets
+OWASP Testing Guide,OWASP Web Security Testing Guide,OWASP,testing,https://owasp.org/www-project-web-security-testing-guide,4.2,Web application testing
+OWASP MASTG,OWASP Mobile Application Security Testing Guide,OWASP,testing,https://mas.owasp.org/MASTG,2.0,Mobile app testing guide
+PTES,Penetration Testing Execution Standard,PTES,testing,https://www.pentest-standard.org,,Pentest methodology
+OSSTMM,Open Source Security Testing Methodology Manual,ISECOM,testing,https://www.isecom.org/OSSTMM.3.pdf,3.0,Security testing methodology
+NIST SP 800-115,Technical Guide to Information Security Testing,NIST,testing,https://csrc.nist.gov/publications/detail/sp/800-115/final,Final,Security testing guidance
+PCI Pentest,PCI Penetration Testing Guidance,PCI SSC,testing,https://www.pcisecuritystandards.org/document_library,,PCI pentest requirements
+CREST,CREST Penetration Testing,CREST,testing,https://www.crest-approved.org,,Pentest certification
+CBEST,CBEST Intelligence-Led Testing,Bank of England,testing,https://www.bankofengland.co.uk/financial-stability/operational-resilience-of-the-financial-sector/cbest-tiber,,Financial sector pentest
+TIBER-EU,Threat Intelligence-Based Ethical Red Teaming,ECB,testing,https://www.ecb.europa.eu/paym/cyber-resilience/tiber-eu/html/index.en.html,,EU financial red team
+DORA Testing,DORA Threat-Led Penetration Testing,EU,testing,https://www.digital-operational-resilience-act.com,,EU financial resilience testing
+Bug Bounty,Bug Bounty Program Guidelines,HackerOne,testing,https://www.hackerone.com/resources/reporting/bug-bounty-program-guide,,Vulnerability disclosure programs
+ISO 27036,Supplier Relationships,ISO,vendor,https://www.iso.org/standard/82905.html,2023,Information security for supplier relationships
+NIST SP 800-161,Supply Chain Risk Management,NIST,vendor,https://csrc.nist.gov/publications/detail/sp/800-161/rev-1/final,Rev 1,C-SCRM practices
+SIG Lite,Standardized Information Gathering Lite,Shared Assessments,vendor,https://sharedassessments.org/sig-lite,,Simplified vendor assessment
+HECVAT,Higher Education Cloud Vendor Assessment Tool,EDUCAUSE,vendor,https://library.educause.edu/resources/2020/4/higher-education-community-vendor-assessment-toolkit,,Higher ed cloud assessment
+VSAQ,Vendor Security Assessment Questionnaire,Google,vendor,https://vsaq-demo.withgoogle.com,,Vendor security questionnaire
+CIS RAM,CIS Risk Assessment Method,CIS,risk,https://www.cisecurity.org/insights/white-papers/cis-ram-risk-assessment-method,2.1,Risk assessment methodology
+NIST RMF,Risk Management Framework,NIST,risk,https://csrc.nist.gov/projects/risk-management/about-rmf,2.0,Federal risk management
+ISO 27005,Information Security Risk Management,ISO,risk,https://www.iso.org/standard/80585.html,2022,Risk management guidance
+EBIOS RM,EBIOS Risk Manager,ANSSI France,risk,https://www.ssi.gouv.fr/guide/ebios-risk-manager-the-method,,French risk methodology
+IRAM2,Information Risk Assessment Methodology 2,ISF,risk,https://www.securityforum.org/tool/information-risk-assessment-methodology-iram2,2.0,ISF risk assessment
+ISMS,Information Security Management System,ISO,governance,https://www.iso.org/standard/27001,27001:2022,Security management system
+BCMS,Business Continuity Management System,ISO,resilience,https://www.iso.org/standard/75106.html,22301:2019,Business continuity
+ITSCM,IT Service Continuity Management,ITIL,resilience,https://www.axelos.com/certifications/itil-service-management,,IT continuity management
+BCI GPG,Business Continuity Institute Good Practice Guidelines,BCI,resilience,https://www.thebci.org/resource/good-practice-guidelines.html,2018,BC best practices
+DRJ Practices,Disaster Recovery Journal Practices,DRJ,resilience,https://drj.com/resources,,DR best practices
+NIST SP 800-34,Contingency Planning Guide,NIST,resilience,https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final,Rev 1,IT contingency planning
+AWS Resilience,AWS Resilience Hub,AWS,resilience,https://aws.amazon.com/resilience-hub,,AWS resilience assessment
+Azure Resiliency,Azure Resiliency Guidance,Microsoft,resilience,https://learn.microsoft.com/en-us/azure/well-architected/reliability,,Azure reliability
+Chaos Engineering,Principles of Chaos Engineering,Netflix,resilience,https://principlesofchaos.org,,Chaos engineering practices
+Gremlin,Gremlin Chaos Engineering,Gremlin,resilience,https://www.gremlin.com/community/tutorials,,Chaos engineering tutorials
+NIST SP 800-83,Guide to Malware Incident Prevention,NIST,endpoint,https://csrc.nist.gov/publications/detail/sp/800-83/rev-1/final,Rev 1,Malware prevention
+CIS Endpoint Security,CIS Endpoint Security Guide,CIS,endpoint,https://www.cisecurity.org/insights/white-papers/cis-endpoint-security-guide,,Endpoint protection
+EDR Guidelines,Endpoint Detection and Response Guidelines,CISA,endpoint,https://www.cisa.gov/resources-tools/services/endpoint-detection-and-response-edr,,EDR guidance
+XDR,Extended Detection and Response,Gartner,endpoint,https://www.gartner.com/en/information-technology/glossary/extended-detection-and-response-xdr,,XDR capabilities
+SIEM Use Cases,SIEM Use Cases,MITRE,detection,https://attack.mitre.org/resources/siem-components,,Detection use cases
+Sigma Rules,Sigma Detection Rules,SigmaHQ,detection,https://github.com/SigmaHQ/sigma,,Generic detection rules
+YARA Rules,YARA Malware Detection Rules,VirusTotal,detection,https://yara.readthedocs.io,,Pattern matching rules
+Snort Rules,Snort Intrusion Detection Rules,Cisco,detection,https://www.snort.org/downloads,,Network detection rules
+Suricata Rules,Suricata Detection Rules,OISF,detection,https://suricata.io/,,Network security rules
+Elastic Detection Rules,Elastic Security Detection Rules,Elastic,detection,https://github.com/elastic/detection-rules,,SIEM detection rules
+Splunk Security Content,Splunk Security Content,Splunk,detection,https://research.splunk.com,,Detection analytics
+Chronicle Detection,Chronicle Detection Rules,Google,detection,https://cloud.google.com/chronicle/docs/detection,,Chronicle YARA-L rules
+Microsoft Sentinel,Microsoft Sentinel Analytics Rules,Microsoft,detection,https://github.com/Azure/Azure-Sentinel,,SIEM detection content
+AWS Security Lake,Amazon Security Lake,AWS,detection,https://aws.amazon.com/security-lake,,Security data lake
+OCSF,Open Cybersecurity Schema Framework,AWS/Splunk,detection,https://schema.ocsf.io,1.0,Security event schema
+CAR,Cyber Analytics Repository,MITRE,detection,https://car.mitre.org,,ATT&CK-based analytics
+ADS,Alerting and Detection Strategy,Palantir,detection,https://github.com/palantir/alerting-detection-strategy-framework,,Detection framework
+Detection Engineering,Detection Engineering Maturity,Kyle Bailey,detection,https://detectionengineering.io,,Detection maturity model
+NIST SP 800-92,Guide to Security Log Management,NIST,logging,https://csrc.nist.gov/publications/detail/sp/800-92/final,Final,Log management
+Logging Best Practices,Cloud Logging Best Practices,CISA,logging,https://www.cisa.gov/resources-tools/services/logging-made-easy,,Logging guidance
+ECS,Elastic Common Schema,Elastic,logging,https://www.elastic.co/guide/en/ecs/current,8.0,Log normalization schema
+CEF,Common Event Format,ArcSight,logging,https://www.microfocus.com/documentation/arcsight/arcsight-smartconnectors/cef-implementation-standard,,Log format standard
+LEEF,Log Event Extended Format,IBM,logging,https://www.ibm.com/docs/en/dsm?topic=overview-leef-event-sources,,QRadar log format
+Windows Event Logging,Windows Security Event Logging,Microsoft,logging,https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/advanced-security-auditing,,Windows audit guidance
+Linux Audit,Linux Audit Framework,Linux,logging,https://github.com/linux-audit/audit-documentation,,Linux audit rules
+macOS Unified Logging,macOS Security Logging,Apple,logging,https://developer.apple.com/documentation/os/logging,,macOS logging
+CloudTrail Best Practices,AWS CloudTrail Best Practices,AWS,logging,https://docs.aws.amazon.com/awscloudtrail/latest/userguide/best-practices-security.html,,AWS audit logging
+Azure Monitor,Azure Monitor Security,Microsoft,logging,https://learn.microsoft.com/en-us/azure/azure-monitor/,,Azure logging
+GCP Cloud Audit,Google Cloud Audit Logs,Google,logging,https://cloud.google.com/logging/docs/audit,,GCP audit logging
+WEF AI Governance,WEF AI Governance Alliance,World Economic Forum,ai,https://www.weforum.org/communities/ai-governance-alliance,2024,Multi-stakeholder AI governance initiative
+WEF Responsible AI,WEF Presidio AI Framework,World Economic Forum,ai,https://www.weforum.org/projects/presidio-recommendations-on-responsible-generative-ai,2024,Responsible generative AI recommendations
+WEF C4IR,Centre for the Fourth Industrial Revolution,World Economic Forum,ai,https://www.weforum.org/communities/centre-for-the-fourth-industrial-revolution,2017,Technology governance hub
+WEF AI Toolkit,WEF AI Governance Toolkit,World Economic Forum,ai,https://www.weforum.org/projects/ai-governance-toolkit,2024,Practical AI governance resources
+WEF Generative AI,WEF Generative AI Governance,World Economic Forum,ai,https://www.weforum.org/publications/generative-ai-governance-shaping-our-collective-global-future,2024,GenAI governance framework
+ITU AI/ML,ITU-T Y.3170 Series AI/ML Framework,ITU,ai,https://www.itu.int/rec/T-REC-Y.3170,2018,AI/ML architecture framework
+ITU AI Health,ITU/WHO AI for Health,ITU,ai,https://www.itu.int/en/ITU-T/focusgroups/ai4h/Pages/default.aspx,2024,AI for health standards
+ITU AI Ethics,ITU AI Ethics and Governance,ITU,ai,https://www.itu.int/en/ITU-T/AI/Pages/default.aspx,2024,Telecom AI ethics
+ITU AI4Good,AI for Good,ITU,ai,https://aiforgood.itu.int,2024,UN AI initiative platform
+ITU ML5G,ITU-T Focus Group on ML for 5G,ITU,ai,https://www.itu.int/en/ITU-T/focusgroups/ml5g/Pages/default.aspx,2024,ML for networks standards
+ITU Y.3172,ITU-T Y.3172 ML Pipeline,ITU,ai,https://www.itu.int/rec/T-REC-Y.3172,2019,ML pipeline architectural framework
+ITU Y.3174,ITU-T Y.3174 ML Sandbox,ITU,ai,https://www.itu.int/rec/T-REC-Y.3174,2020,ML evaluation framework
+ITU Y.3176,ITU-T Y.3176 ML Model Serving,ITU,ai,https://www.itu.int/rec/T-REC-Y.3176,2020,ML model serving framework
+ITU Y.3181,ITU-T Y.3181 Trustworthy AI,ITU,ai,https://www.itu.int/rec/T-REC-Y.3181,2023,Trustworthy AI pipeline requirements
+ITU FG-AI4A,ITU Focus Group AI for Autonomous Systems,ITU,ai,https://www.itu.int/en/ITU-T/focusgroups/ai4a/Pages/default.aspx,2024,Autonomous driving AI standards
+White House AI Commitments,Voluntary AI Commitments (July 2023),White House,ai,https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai,2023,15 company commitments (Amazon/Anthropic/Google/Inflection/Meta/Microsoft/OpenAI + 8 more)
+White House AI Commitments 2,Additional Voluntary AI Commitments (Sept 2023),White House,ai,https://www.whitehouse.gov/briefing-room/statements-releases/2023/09/12/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-eight-additional-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai,2023,8 additional companies (Adobe/Cohere/IBM/NVIDIA/Palantir/Salesforce/Scale/Stability)
+Seoul AI Commitments,Seoul AI Safety Commitments,International,ai,https://www.gov.uk/government/publications/seoul-ai-safety-summit-2024-company-commitments,2024,16 company frontier AI commitments
+Frontier Model Forum,Frontier Model Forum,Industry,ai,https://www.frontiermodelforum.org,2023,Anthropic/Google/Microsoft/OpenAI safety coalition
+PAI Guidelines,Partnership on AI Guidelines,Partnership on AI,ai,https://partnershiponai.org/guidelines,2024,Multi-stakeholder AI guidelines
+Google AI Principles,Google AI Principles,Google,ai,https://ai.google/responsibility/principles,2018,Google responsible AI commitments
+Microsoft RAI Commitments,Microsoft Responsible AI Commitments,Microsoft,ai,https://www.microsoft.com/en-us/ai/principles-and-approach,2024,Microsoft AI principles and governance
+Amazon AI Commitments,Amazon Responsible AI,Amazon,ai,https://www.amazon.science/responsible-ai,2024,Amazon AI responsibility practices
+Meta AI Commitments,Meta Responsible AI,Meta,ai,https://ai.meta.com/responsible-ai,2024,Meta responsible AI practices
+Anthropic Commitments,Anthropic Safety Commitments,Anthropic,ai,https://www.anthropic.com/news/core-views-on-ai-safety,2023,Anthropic safety philosophy
+OpenAI Charter,OpenAI Charter,OpenAI,ai,https://openai.com/charter,2018,OpenAI mission and commitments
+IBM AI Ethics Board,IBM AI Ethics Board,IBM,ai,https://www.ibm.com/policy/ibm-artificial-intelligence-pillars,2018,IBM AI ethics governance
+Salesforce AI Acceptable Use,Salesforce AI Acceptable Use Policy,Salesforce,ai,https://www.salesforce.com/company/intentional-innovation/ai-acceptable-use-policy,2024,Salesforce AI use boundaries
+Adobe AI Ethics,Adobe AI Ethics,Adobe,ai,https://www.adobe.com/ai/overview/ethics.html,2024,Adobe AI ethics principles
+NVIDIA AI Ethics,NVIDIA Trustworthy AI,NVIDIA,ai,https://www.nvidia.com/en-us/ai-data-science/trustworthy-ai,2024,NVIDIA responsible AI practices
+CCSK,Certificate of Cloud Security Knowledge,CSA,cloud,https://cloudsecurityalliance.org/education/ccsk,5.0,CSA cloud security certification curriculum
+govCAR,Government Cyber Assurance Reference,CISA,government,https://www.cisa.gov/resources-tools/services/government-cyber-assurance-reference-govcar,2024,Federal cyber capability assessment framework
+CDM govCAR,CDM Program govCAR,CISA,government,https://www.cisa.gov/cdm,2024,Continuous Diagnostics and Mitigation capability mapping
+IBM GenAI Controls,IBM Generative AI Controls Framework,IBM,ai,https://www.ibm.com/downloads/documents/us-en/10dc2e2d96c7f3f9,2024,Generative AI security controls whitepaper
+MITRE CTID,MITRE Center for Threat-Informed Defense,MITRE,threat,https://ctid.mitre-engenuity.org,2024,ATT&CK community research center
+CTID ATT&CK Mappings,ATT&CK Mappings Project,MITRE CTID,threat,https://center-for-threat-informed-defense.github.io/mappings-explorer,2024,ATT&CK to frameworks/clouds mapping
+CTID AWS Mapping,ATT&CK to AWS Mapping,MITRE CTID,cloud,https://center-for-threat-informed-defense.github.io/security-stack-mappings/AWS/README.html,2024,AWS security services to ATT&CK
+CTID Azure Mapping,ATT&CK to Azure Mapping,MITRE CTID,cloud,https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html,2024,Azure security services to ATT&CK
+CTID GCP Mapping,ATT&CK to GCP Mapping,MITRE CTID,cloud,https://center-for-threat-informed-defense.github.io/security-stack-mappings/GCP/README.html,2024,GCP security services to ATT&CK
+CTID M365 Mapping,ATT&CK to M365 Mapping,MITRE CTID,cloud,https://center-for-threat-informed-defense.github.io/security-stack-mappings/M365/README.html,2024,Microsoft 365 security to ATT&CK
+CTID NIST Mapping,ATT&CK to NIST 800-53 Mapping,MITRE CTID,controls,https://center-for-threat-informed-defense.github.io/attack-control-framework-mappings,2024,ATT&CK to NIST controls mapping
+CTID VERIS Mapping,ATT&CK to VERIS Mapping,MITRE CTID,incident,https://github.com/center-for-threat-informed-defense/attack_to_veris,2024,ATT&CK to VERIS incident schema
+BSI AIC4,AI Cloud Service Compliance Criteria Catalogue,BSI Germany,ai,https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Informationen-und-Empfehlungen/Kuenstliche-Intelligenz/kuenstliche-intelligenz_node.html,2021,German AI cloud security criteria (AIC4)
+Equifax Security,Equifax Security Best Practices,Equifax,security,https://www.equifax.com/business/security,2024,Post-breach security transformation practices
+AIUC,AI Use Case Repository,AIUC,ai,https://aiuc.com,2024,Curated enterprise AI use case library
+AIUC Framework,AIUC AI Use Case Framework,AIUC,ai,https://aiuc.com/framework,2024,AI use case classification and assessment

@@ -1,0 +1,72 @@
+relationship_id,source,target,relationship_type,url,maintainer,notes
+NIST-AI-RMF-ISO-23894,NIST AI RMF 1.0,ISO/IEC 23894,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-10-isoiec-23894,NIST,AI risk management alignment
+NIST-AI-RMF-ISO-42001,NIST AI RMF 1.0,ISO/IEC 42001,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-10-isoiec-42001,NIST,AI management system alignment
+NIST-AI-RMF-ISO-5338-5339,NIST AI RMF 1.0,ISO/IEC 5338/5339,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-isoiec-5338-5339,NIST,AI lifecycle alignment
+NIST-AI-RMF-OECD,NIST AI RMF 1.0,OECD AI Principles,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-10-oecd-ai-principles,NIST,OECD principles mapping
+NIST-AI-RMF-EO,NIST AI RMF 1.0,Executive Order 14110,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-eo-14110,NIST,US AI EO alignment
+NIST-AI-RMF-EU-AI-Act,NIST AI RMF 1.0,EU AI Act,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-eu-ai-act,NIST,EU AI Act mapping
+NIST-AI-RMF-BoR,NIST AI RMF 1.0,AI Bill of Rights,crosswalk,https://www.nist.gov/document/crosswalk-ai-rmf-ai-bill-rights,NIST,AI Bill of Rights alignment
+NIST-AI-RMF-AI-Verify,NIST AI RMF 1.0,Singapore AI Verify,crosswalk,https://www.nist.gov/document/nist-ai-rmf-ai-verify-crosswalk,NIST/IMDA,Singapore AI governance alignment
+NIST-AI-RMF-TTA,NIST AI RMF 1.0,Trustworthy & Transparent AI,crosswalk,https://www.nist.gov/document/crosswalk-nist-ai-rmf-tta-guidebook,NIST,TTA guidebook alignment
+NIST-AI-RMF-Terminology,NIST AI RMF 1.0,AI Terminology Standards,crosswalk,https://www.nist.gov/document/crosswalk-terminology-rmf,NIST,Terminology harmonization
+NIST-AI-RMF-Concepts,NIST AI RMF 1.0,AI Concepts Framework,crosswalk,https://www.nist.gov/document/crosswalk-concepts-rmf,NIST,Concepts alignment
+NIST-AI-Trustworthiness,NIST AI RMF,AI Trustworthiness Characteristics,taxonomy,https://www.nist.gov/document/taxonomy-ai-trustworthiness,NIST,Trustworthiness taxonomy tables
+CTID-ATT&CK-NIST-800-53,MITRE ATT&CK,NIST SP 800-53,mapping,https://center-for-threat-informed-defense.github.io/attack-control-framework-mappings,MITRE CTID,Techniques to controls mapping
+CTID-ATT&CK-AWS,MITRE ATT&CK,AWS Security Services,mapping,https://center-for-threat-informed-defense.github.io/security-stack-mappings/AWS,MITRE CTID,AWS security stack mapping
+CTID-ATT&CK-Azure,MITRE ATT&CK,Azure Security Services,mapping,https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure,MITRE CTID,Azure security stack mapping
+CTID-ATT&CK-GCP,MITRE ATT&CK,GCP Security Services,mapping,https://center-for-threat-informed-defense.github.io/security-stack-mappings/GCP,MITRE CTID,GCP security stack mapping
+CTID-ATT&CK-M365,MITRE ATT&CK,Microsoft 365 Security,mapping,https://center-for-threat-informed-defense.github.io/security-stack-mappings/M365,MITRE CTID,M365 security stack mapping
+CTID-ATT&CK-VERIS,MITRE ATT&CK,VERIS,mapping,https://github.com/center-for-threat-informed-defense/attack_to_veris,MITRE CTID,Incident schema mapping
+CTID-CVE-ATT&CK,CVE,MITRE ATT&CK,mapping,https://github.com/center-for-threat-informed-defense/cve-to-attack,MITRE CTID,CVE to techniques mapping
+CWE-CAPEC,CWE,CAPEC,mapping,https://cwe.mitre.org/data/definitions/1000.html,MITRE,Weakness to attack pattern mapping
+CWE-ATT&CK,CWE,MITRE ATT&CK,mapping,https://cwe.mitre.org,MITRE,Weakness to technique mapping
+CVE-CWE,CVE,CWE,mapping,https://cve.mitre.org,MITRE/NVD,Vulnerability to weakness mapping
+CVE-CPE,CVE,CPE,mapping,https://nvd.nist.gov,NVD,Vulnerability to product mapping
+NVD-CVE-Enrichment,CVE,NVD Enrichment,enrichment,https://nvd.nist.gov,NVD,CVSS/CWE/CPE enrichment
+CISA-Vulnrichment,CVE,CISA Vulnrichment,enrichment,https://github.com/cisagov/vulnrichment,CISA,SSVC/KEV enrichment
+ATLAS-ATT&CK,MITRE ATLAS,MITRE ATT&CK,extension,https://atlas.mitre.org,MITRE,AI techniques extending ATT&CK
+D3FEND-ATT&CK,MITRE D3FEND,MITRE ATT&CK,countermeasure,https://d3fend.mitre.org,MITRE,Defensive techniques for ATT&CK
+ENGAGE-ATT&CK,MITRE ENGAGE,MITRE ATT&CK,engagement,https://engage.mitre.org,MITRE,Adversary engagement for ATT&CK
+OWASP-LLM-CWE,OWASP LLM Top 10,CWE,mapping,https://genai.owasp.org,OWASP,LLM risks to CWE mapping
+OWASP-ML-CWE,OWASP ML Top 10,CWE,mapping,https://owasp.org/www-project-machine-learning-security-top-10,OWASP,ML risks to CWE mapping
+OWASP-Top10-CWE,OWASP Top 10,CWE,mapping,https://owasp.org/www-project-top-ten,OWASP,Web risks to CWE mapping
+CCM-ISO-27001,CSA CCM,ISO/IEC 27001,mapping,https://cloudsecurityalliance.org/artifacts/ccm-to-iso-27001-mapping,CSA,Cloud controls to ISMS mapping
+CCM-ISO-27017,CSA CCM,ISO/IEC 27017,mapping,https://cloudsecurityalliance.org/artifacts/ccm-to-iso-27017-mapping,CSA,Cloud controls to cloud ISO mapping
+CCM-NIST-800-53,CSA CCM,NIST SP 800-53,mapping,https://cloudsecurityalliance.org/artifacts/ccm-to-nist-800-53-mapping,CSA,Cloud controls to NIST mapping
+CCM-PCI-DSS,CSA CCM,PCI DSS,mapping,https://cloudsecurityalliance.org/artifacts/ccm-to-pci-dss-mapping,CSA,Cloud controls to PCI mapping
+CCM-FedRAMP,CSA CCM,FedRAMP,mapping,https://cloudsecurityalliance.org/artifacts/ccm-to-fedramp-mapping,CSA,Cloud controls to FedRAMP mapping
+AICM-CCM,CSA AICM,CSA CCM,extension,https://cloudsecurityalliance.org/artifacts/ai-controls-matrix,CSA,AI controls extending CCM
+AICM-NIST-AI-RMF,CSA AICM,NIST AI RMF,mapping,https://cloudsecurityalliance.org/artifacts/aicm-to-nist-ai-rmf-mapping,CSA,AI controls to RMF mapping
+ISO-27001-NIST-800-53,ISO/IEC 27001,NIST SP 800-53,mapping,https://csrc.nist.gov/CSRC/media/Publications/sp/800-53/rev-5/final/documents/sp800-53r5-to-iso-27001-mapping.xlsx,NIST,ISMS to federal controls mapping
+ISO-27001-CIS-Controls,ISO/IEC 27001,CIS Controls,mapping,https://www.cisecurity.org/white-papers/mapping-cis-controls-v8-to-iso-27001,CIS,ISMS to CIS mapping
+CIS-Controls-NIST-800-53,CIS Controls,NIST SP 800-53,mapping,https://www.cisecurity.org/white-papers/cis-controls-v8-mapping-to-nist-sp-800-53-rev-5,CIS,CIS to federal controls mapping
+CIS-Controls-ATT&CK,CIS Controls,MITRE ATT&CK,mapping,https://www.cisecurity.org/controls/v8,CIS,CIS to ATT&CK techniques mapping
+FedRAMP-NIST-800-53,FedRAMP,NIST SP 800-53,baseline,https://www.fedramp.gov/baselines,FedRAMP,FedRAMP control baselines
+StateRAMP-FedRAMP,StateRAMP,FedRAMP,equivalence,https://stateramp.org,StateRAMP,State/local cloud authorization
+CMMC-NIST-800-171,CMMC,NIST SP 800-171,mapping,https://www.acq.osd.mil/cmmc,DoD,Defense contractor requirements mapping
+HITRUST-ISO-27001,HITRUST CSF,ISO/IEC 27001,mapping,https://hitrustalliance.net/csf,HITRUST,Healthcare to ISMS mapping
+HITRUST-NIST-800-53,HITRUST CSF,NIST SP 800-53,mapping,https://hitrustalliance.net/csf,HITRUST,Healthcare to federal mapping
+HITRUST-HIPAA,HITRUST CSF,HIPAA,mapping,https://hitrustalliance.net/csf,HITRUST,CSF to HIPAA requirements
+SOC2-NIST-800-53,SOC 2,NIST SP 800-53,mapping,https://www.aicpa.org,AICPA,Trust criteria to federal controls
+PCI-DSS-NIST-800-53,PCI DSS,NIST SP 800-53,mapping,https://www.pcisecuritystandards.org,PCI SSC,Payment to federal controls
+STIX-ATT&CK,STIX,MITRE ATT&CK,format,https://oasis-open.github.io/cti-documentation,OASIS/MITRE,ATT&CK in STIX format
+STIX-CVE,STIX,CVE,format,https://oasis-open.github.io/cti-documentation,OASIS,CVE in STIX format
+STIX-CAPEC,STIX,CAPEC,format,https://oasis-open.github.io/cti-documentation,OASIS,Attack patterns in STIX format
+OSCAL-NIST-800-53,OSCAL,NIST SP 800-53,format,https://pages.nist.gov/OSCAL,NIST,Controls in OSCAL format
+OSCAL-FedRAMP,OSCAL,FedRAMP,format,https://pages.nist.gov/OSCAL,NIST/FedRAMP,FedRAMP in OSCAL format
+OSV-CVE,OSV,CVE,mapping,https://ossf.github.io/osv-schema,OpenSSF,OSV to CVE references
+GHSA-CVE,GHSA,CVE,mapping,https://github.com/advisories,GitHub,GitHub advisories to CVE
+CSAF-CVE,CSAF,CVE,format,https://docs.oasis-open.org/csaf/csaf/v2.0,OASIS,CVE in CSAF advisories
+VEX-CVE,VEX,CVE,status,https://www.cisa.gov/sbom,CISA,Vulnerability exploitability status
+SBOM-CVE,SBOM,CVE,dependency,https://www.cisa.gov/sbom,CISA/NTIA,Software components to vulnerabilities
+SPDX-SBOM,SPDX,SBOM,format,https://spdx.dev,Linux Foundation,SBOM in SPDX format
+CycloneDX-SBOM,CycloneDX,SBOM,format,https://cyclonedx.org,OWASP,SBOM in CycloneDX format
+SLSA-in-toto,SLSA,in-toto,attestation,https://slsa.dev,OpenSSF,SLSA using in-toto attestations
+Sigstore-SLSA,Sigstore,SLSA,signing,https://www.sigstore.dev,OpenSSF,Sigstore for SLSA provenance
+CVSS-CVE,CVSS,CVE,scoring,https://www.first.org/cvss,FIRST,CVSS scores for CVEs
+EPSS-CVE,EPSS,CVE,scoring,https://www.first.org/epss,FIRST,Exploit probability for CVEs
+SSVC-CVE,SSVC,CVE,prioritization,https://www.cisa.gov/ssvc,CISA,Stakeholder prioritization for CVEs
+KEV-CVE,CISA KEV,CVE,exploitation,https://www.cisa.gov/known-exploited-vulnerabilities-catalog,CISA,Known exploited vulnerabilities
+Sigma-ATT&CK,Sigma Rules,MITRE ATT&CK,detection,https://sigmahq.io,SigmaHQ,Detection rules tagged with ATT&CK
+YARA-Malware,YARA Rules,Malware,detection,https://virustotal.github.io/yara,VirusTotal,Malware detection signatures
+Snort-ATT&CK,Snort Rules,MITRE ATT&CK,detection,https://www.snort.org,Cisco,IDS rules with ATT&CK mapping

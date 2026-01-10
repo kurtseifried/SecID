@@ -1,0 +1,30 @@
+source_short,source_full,vendor,url,data_url,type,notes
+Trivy,Trivy,Aqua Security,https://trivy.dev,https://github.com/aquasecurity/trivy-db,scanner,Comprehensive vulnerability scanner for containers/IaC
+Grype,Grype,Anchore,https://github.com/anchore/grype,https://github.com/anchore/grype-db,scanner,Container image vulnerability scanner
+Clair,Clair,Quay/Red Hat,https://github.com/quay/clair,https://github.com/quay/claircore,scanner,Static analysis for container vulnerabilities
+Anchore Engine,Anchore Engine,Anchore,https://anchore.com,https://github.com/anchore/anchore-engine,scanner,Container analysis and policy engine
+Snyk Container,Snyk Container,Snyk,https://snyk.io/product/container-vulnerability-management,https://snyk.io/vuln,scanner,Container vulnerability scanning
+Docker Scout,Docker Scout,Docker,https://docs.docker.com/scout,https://docs.docker.com/scout/deep-dive,scanner,Docker native vulnerability scanning
+Prisma Cloud,Prisma Cloud (Twistlock),Palo Alto,https://www.paloaltonetworks.com/prisma/cloud,https://docs.paloaltonetworks.com/prisma/prisma-cloud,platform,Cloud-native security platform
+Aqua Security,Aqua Platform,Aqua Security,https://www.aquasec.com,https://avd.aquasec.com,platform,Container and cloud-native security
+Sysdig Secure,Sysdig Secure,Sysdig,https://sysdig.com/products/secure,https://docs.sysdig.com,platform,Container runtime security
+Falco,Falco,CNCF/Sysdig,https://falco.org,https://github.com/falcosecurity/falco,runtime,Cloud-native runtime security
+KubeArmor,KubeArmor,AccuKnox,https://kubearmor.io,https://github.com/kubearmor/KubeArmor,runtime,Kubernetes runtime security enforcement
+Tetragon,Tetragon,Cilium/Isovalent,https://tetragon.io,https://github.com/cilium/tetragon,runtime,eBPF-based security observability
+kube-bench,kube-bench,Aqua Security,https://github.com/aquasecurity/kube-bench,https://github.com/aquasecurity/kube-bench,compliance,CIS Kubernetes benchmark checks
+kube-hunter,kube-hunter,Aqua Security,https://github.com/aquasecurity/kube-hunter,https://github.com/aquasecurity/kube-hunter,scanner,Kubernetes penetration testing
+Kubescape,Kubescape,ARMO,https://kubescape.io,https://github.com/kubescape/kubescape,scanner,Kubernetes security platform
+Checkov,Checkov,Bridgecrew/Palo Alto,https://www.checkov.io,https://github.com/bridgecrewio/checkov,iac,Infrastructure as code security scanning
+Terrascan,Terrascan,Tenable,https://runterrascan.io,https://github.com/tenable/terrascan,iac,IaC static analysis
+KICS,KICS,Checkmarx,https://kics.io,https://github.com/Checkmarx/kics,iac,Keeping Infrastructure as Code Secure
+Polaris,Polaris,Fairwinds,https://www.fairwinds.com/polaris,https://github.com/FairwindsOps/polaris,compliance,Kubernetes best practices validation
+Starboard,Starboard (deprecated),Aqua Security,https://github.com/aquasecurity/starboard,https://github.com/aquasecurity/starboard,operator,Kubernetes-native security toolkit (merged into Trivy)
+OPA Gatekeeper,OPA Gatekeeper,CNCF,https://open-policy-agent.github.io/gatekeeper,https://github.com/open-policy-agent/gatekeeper,policy,Kubernetes admission controller
+Kyverno,Kyverno,CNCF,https://kyverno.io,https://github.com/kyverno/kyverno,policy,Kubernetes policy engine
+Notary,Notary Project,CNCF,https://notaryproject.dev,https://github.com/notaryproject/notary,signing,Container image signing
+Cosign,Cosign,Sigstore,https://github.com/sigstore/cosign,https://github.com/sigstore/cosign,signing,Container signing and verification
+Harbor,Harbor,CNCF,https://goharbor.io,https://github.com/goharbor/harbor,registry,Container registry with built-in scanning
+Quay,Quay,Red Hat,https://www.projectquay.io,https://github.com/quay/quay,registry,Container registry with Clair integration
+ECR Scanning,Amazon ECR Scanning,AWS,https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html,https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html,registry,AWS container registry scanning
+GCR Scanning,Google Container Analysis,Google,https://cloud.google.com/container-analysis,https://cloud.google.com/container-analysis/docs,registry,GCP container vulnerability scanning
+ACR Defender,Microsoft Defender for Containers,Microsoft,https://docs.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-introduction,https://docs.microsoft.com/en-us/azure/defender-for-cloud,registry,Azure container security

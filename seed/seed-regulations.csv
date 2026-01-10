@@ -1,0 +1,377 @@
+regulation_short,regulation_full,jurisdiction,domain,url,effective_date,notes
+GDPR,General Data Protection Regulation,EU,privacy,https://gdpr.eu,2018-05-25,EU data protection law (Regulation 2016/679)
+NIS2,Network and Information Security Directive 2,EU,cybersecurity,https://digital-strategy.ec.europa.eu/en/policies/nis2-directive,2024-10-17,Critical infrastructure cybersecurity (Directive 2022/2555)
+DORA,Digital Operational Resilience Act,EU,financial,https://www.digital-operational-resilience-act.com,2025-01-17,Financial sector ICT resilience (Regulation 2022/2554)
+CRA,Cyber Resilience Act,EU,product,https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act,2027,Product cybersecurity requirements
+EU AI Act,Artificial Intelligence Act,EU,ai,https://artificialintelligenceact.eu,2024-08-01,AI system regulation (phased implementation)
+ePrivacy Directive,Privacy and Electronic Communications Directive,EU,privacy,https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32002L0058,2002,Electronic communications privacy (2002/58/EC)
+PSD2,Payment Services Directive 2,EU,financial,https://ec.europa.eu/info/law/payment-services-psd-2-directive-eu-2015-2366_en,2018-01-13,Payment security and open banking
+AMLD6,Anti-Money Laundering Directive 6,EU,financial,https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32018L1673,2020-12-03,AML requirements
+Data Act,EU Data Act,EU,data,https://digital-strategy.ec.europa.eu/en/policies/data-act,2025-09-12,Data access and sharing rules
+DGA,Data Governance Act,EU,data,https://digital-strategy.ec.europa.eu/en/policies/data-governance-act,2023-09-24,Data sharing governance
+DSA,Digital Services Act,EU,platform,https://digital-strategy.ec.europa.eu/en/policies/digital-services-act-package,2024-02-17,Online platform obligations
+DMA,Digital Markets Act,EU,platform,https://digital-strategy.ec.europa.eu/en/policies/digital-markets-act,2023-05-02,Gatekeeper platform rules
+EUCS,EU Cybersecurity Certification Scheme,EU,certification,https://www.enisa.europa.eu/topics/certification,pending,Cloud certification scheme
+UK GDPR,UK General Data Protection Regulation,UK,privacy,https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources,2021-01-01,UK data protection post-Brexit
+DPA 2018,Data Protection Act 2018,UK,privacy,https://www.legislation.gov.uk/ukpga/2018/12/contents,2018-05-25,UK GDPR implementation
+NIS Regulations,Network and Information Systems Regulations,UK,cybersecurity,https://www.legislation.gov.uk/uksi/2018/506/contents,2018-05-10,UK critical infrastructure security
+PECR,Privacy and Electronic Communications Regulations,UK,privacy,https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications,2003,UK electronic communications
+OSA,Online Safety Act,UK,platform,https://www.legislation.gov.uk/ukpga/2023/50/contents,2023-10-26,Online platform safety duties
+PSTI Act,Product Security and Telecommunications Infrastructure Act,UK,product,https://www.legislation.gov.uk/ukpga/2022/46/contents,2024-04-29,IoT device security
+HIPAA,Health Insurance Portability and Accountability Act,US,healthcare,https://www.hhs.gov/hipaa,1996-08-21,Healthcare privacy and security
+HITECH,Health Information Technology for Economic and Clinical Health Act,US,healthcare,https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule,2009-02-17,HIPAA enforcement enhancement
+GLBA,Gramm-Leach-Bliley Act,US,financial,https://www.ftc.gov/business-guidance/privacy-security/gramm-leach-bliley-act,1999-11-12,Financial privacy requirements
+SOX,Sarbanes-Oxley Act,US,financial,https://www.sec.gov/about/laws/soa2002.pdf,2002-07-30,Corporate financial controls
+FISMA,Federal Information Security Management Act,US,government,https://www.cisa.gov/topics/cyber-threats-and-advisories/federal-information-security-modernization-act,2002,Federal agency security requirements
+FISMA 2014,Federal Information Security Modernization Act,US,government,https://www.congress.gov/bill/113th-congress/senate-bill/2521,2014-12-18,FISMA update
+FERPA,Family Educational Rights and Privacy Act,US,education,https://www2.ed.gov/policy/gen/guid/fpco/ferpa,1974,Educational records privacy
+COPPA,Children's Online Privacy Protection Act,US,privacy,https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa,1998-10-21,Children's online privacy
+FCRA,Fair Credit Reporting Act,US,financial,https://www.ftc.gov/legal-library/browse/statutes/fair-credit-reporting-act,1970,Credit reporting requirements
+ECPA,Electronic Communications Privacy Act,US,privacy,https://bja.ojp.gov/program/it/privacy-civil-liberties/authorities/statutes/1285,1986,Electronic surveillance law
+CFAA,Computer Fraud and Abuse Act,US,cybercrime,https://www.law.cornell.edu/uscode/text/18/1030,1986,Federal computer crime law
+CISA 2015,Cybersecurity Information Sharing Act,US,cybersecurity,https://www.cisa.gov/resources-tools/resources/cybersecurity-information-sharing-act-2015-procedures-and-guidance,2015-12-18,Threat information sharing
+Cyber Incident Reporting Act,Cyber Incident Reporting for Critical Infrastructure Act,US,cybersecurity,https://www.cisa.gov/circia,2022-03-15,Mandatory incident reporting (CIRCIA)
+DPPA,Driver's Privacy Protection Act,US,privacy,https://www.law.cornell.edu/uscode/text/18/2721,1994,Motor vehicle records privacy
+VPPA,Video Privacy Protection Act,US,privacy,https://www.law.cornell.edu/uscode/text/18/2710,1988,Video rental records privacy
+CAN-SPAM,Controlling the Assault of Non-Solicited Pornography And Marketing Act,US,privacy,https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business,2003,Commercial email rules
+TCPA,Telephone Consumer Protection Act,US,privacy,https://www.fcc.gov/general/telemarketing-and-robocalls,1991,Telemarketing restrictions
+ADA,Americans with Disabilities Act,US,accessibility,https://www.ada.gov,1990,Digital accessibility requirements
+Section 508,Section 508 of the Rehabilitation Act,US,accessibility,https://www.section508.gov,1998,Federal digital accessibility
+CCPA,California Consumer Privacy Act,US-CA,privacy,https://oag.ca.gov/privacy/ccpa,2020-01-01,California consumer privacy
+CPRA,California Privacy Rights Act,US-CA,privacy,https://cppa.ca.gov,2023-01-01,CCPA amendment
+VCDPA,Virginia Consumer Data Protection Act,US-VA,privacy,https://law.lis.virginia.gov/vacodefull/title59.1/chapter53,2023-01-01,Virginia privacy law
+CPA,Colorado Privacy Act,US-CO,privacy,https://coag.gov/resources/colorado-privacy-act,2023-07-01,Colorado privacy law
+CTDPA,Connecticut Data Privacy Act,US-CT,privacy,https://portal.ct.gov/AG/Sections/Privacy/The-Connecticut-Data-Privacy-Act,2023-07-01,Connecticut privacy law
+UCPA,Utah Consumer Privacy Act,US-UT,privacy,https://le.utah.gov/~2022/bills/static/SB0227.html,2023-12-31,Utah privacy law
+TDPSA,Texas Data Privacy and Security Act,US-TX,privacy,https://capitol.texas.gov/BillLookup/History.aspx?LegSess=88R&Bill=HB4,2024-07-01,Texas privacy law
+OCPA,Oregon Consumer Privacy Act,US-OR,privacy,https://www.oregonlegislature.gov/bills_laws/ors/ors646A.html,2024-07-01,Oregon privacy law
+MTCDPA,Montana Consumer Data Privacy Act,US-MT,privacy,https://leg.mt.gov/bills/2023/billhtml/SB0384.htm,2024-10-01,Montana privacy law
+DPDPA,Delaware Personal Data Privacy Act,US-DE,privacy,https://legis.delaware.gov/BillDetail?LegislationId=140388,2025-01-01,Delaware privacy law
+NJDPA,New Jersey Data Protection Act,US-NJ,privacy,https://www.njleg.state.nj.us/bill-search/2024/S332,2025-01-15,New Jersey privacy law
+ICDPA,Iowa Consumer Data Protection Act,US-IA,privacy,https://www.legis.iowa.gov/legislation/BillBook?ga=90&ba=SF%20262,2025-01-01,Iowa privacy law
+TIPA,Tennessee Information Protection Act,US-TN,privacy,https://www.capitol.tn.gov/Bills/113/Bill/HB1181.pdf,2025-07-01,Tennessee privacy law
+INCDPA,Indiana Consumer Data Protection Act,US-IN,privacy,https://iga.in.gov/legislative/2023/bills/senate/5,2026-01-01,Indiana privacy law
+SHIELD Act,Stop Hacks and Improve Electronic Data Security Act,US-NY,cybersecurity,https://ag.ny.gov/resources/organizations/data-breach-reporting/shield-act,2020-03-21,NY data security requirements
+23 NYCRR 500,NY DFS Cybersecurity Regulation,US-NY,financial,https://www.dfs.ny.gov/industry_guidance/cybersecurity,2017-03-01,NY financial cybersecurity
+BIPA,Biometric Information Privacy Act,US-IL,privacy,https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=3004,2008,Illinois biometric privacy
+MCDPA,Maryland Consumer Data Protection Act,US-MD,privacy,https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/sb0541?ys=2024RS,2025-10-01,Maryland privacy law
+KCDPA,Kentucky Consumer Data Protection Act,US-KY,privacy,https://apps.legislature.ky.gov/record/24rs/hb15.html,2026-01-01,Kentucky privacy law
+MHMD,My Health My Data Act,US-WA,healthcare,https://app.leg.wa.gov/billsummary?BillNumber=1155&Year=2023,2024-03-31,Washington health data privacy
+PIPEDA,Personal Information Protection and Electronic Documents Act,Canada,privacy,https://www.priv.gc.ca/en/privacy-topics/privacy-laws-in-canada/the-personal-information-protection-and-electronic-documents-act-pipeda,2000-04-13,Canadian federal privacy law
+Quebec Law 25,Act respecting the protection of personal information in the private sector,Canada-QC,privacy,https://www.legisquebec.gouv.qc.ca/en/document/cs/P-39.1,2023-09-22,Quebec privacy law (phased)
+PHIPA,Personal Health Information Protection Act,Canada-ON,healthcare,https://www.ontario.ca/laws/statute/04p03,2004-11-01,Ontario health privacy
+PIPA BC,Personal Information Protection Act,Canada-BC,privacy,https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01,2004-01-01,BC privacy law
+PIPA AB,Personal Information Protection Act,Canada-AB,privacy,https://www.qp.alberta.ca/documents/Acts/P06P5.pdf,2004-01-01,Alberta privacy law
+AIDA,Artificial Intelligence and Data Act,Canada,ai,https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act,pending,Canadian AI regulation (proposed)
+LGPD,Lei Geral de Proteção de Dados,Brazil,privacy,https://www.gov.br/cidadania/pt-br/acesso-a-informacao/lgpd,2020-09-18,Brazilian data protection law
+LFPDPPP,Federal Law on Protection of Personal Data,Mexico,privacy,https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf,2010-07-05,Mexican privacy law
+PDPA Singapore,Personal Data Protection Act,Singapore,privacy,https://www.pdpc.gov.sg/overview-of-pdpa/the-legislation/personal-data-protection-act,2014-07-02,Singapore data protection
+CSA Singapore,Cybersecurity Act,Singapore,cybersecurity,https://sso.agc.gov.sg/Act/CA2018,2018-08-31,Singapore cybersecurity law
+PDPA Thailand,Personal Data Protection Act,Thailand,privacy,https://www.pdpc.or.th,2022-06-01,Thai data protection law
+PIPA Korea,Personal Information Protection Act,South Korea,privacy,https://www.pipc.go.kr/eng/user/lgp/law/lawDetail.do,2011-09-30,Korean privacy law
+Network Act Korea,Act on Promotion of Information and Communications Network Utilization,South Korea,cybersecurity,https://elaw.klri.re.kr/eng_service/lawView.do?hseq=53998,2001,Korean network security
+APPI,Act on Protection of Personal Information,Japan,privacy,https://www.ppc.go.jp/en/legal,2005-04-01,Japanese privacy law (amended 2022)
+Cybersecurity Basic Act,Basic Act on Cybersecurity,Japan,cybersecurity,https://www.nisc.go.jp/eng/index.html,2014-11-12,Japanese cybersecurity framework
+CSL,Cybersecurity Law,China,cybersecurity,https://www.cac.gov.cn,2017-06-01,Chinese cybersecurity law
+PIPL,Personal Information Protection Law,China,privacy,https://www.cac.gov.cn,2021-11-01,Chinese privacy law
+DSL,Data Security Law,China,data,https://www.cac.gov.cn,2021-09-01,Chinese data security law
+MLPS 2.0,Multi-Level Protection Scheme 2.0,China,cybersecurity,https://www.tc260.org.cn,2019-12-01,Chinese security classification
+Privacy Act 1988,Privacy Act,Australia,privacy,https://www.oaic.gov.au/privacy/the-privacy-act,1988-12-14,Australian privacy law
+SOCI Act,Security of Critical Infrastructure Act,Australia,cybersecurity,https://www.cisc.gov.au/legislative-framework/soci-act,2018-07-11,Australian critical infrastructure (amended 2022)
+Privacy Act 2020,Privacy Act,New Zealand,privacy,https://www.privacy.org.nz/privacy-act-2020,2020-12-01,NZ privacy law
+DPDP Act,Digital Personal Data Protection Act,India,privacy,https://www.meity.gov.in/data-protection-framework,2023-08-11,Indian data protection law
+IT Act 2000,Information Technology Act,India,cybersecurity,https://www.meity.gov.in/content/information-technology-act-2000,2000-10-17,Indian IT and cybercrime law
+POPIA,Protection of Personal Information Act,South Africa,privacy,https://popia.co.za,2021-07-01,South African privacy law
+PDPL,Personal Data Protection Law,Saudi Arabia,privacy,https://sdaia.gov.sa,2023-09-14,Saudi privacy law
+UAE PDPL,Personal Data Protection Law,UAE,privacy,https://u.telefonicatech.com/pdpl-uae,2022-01-02,UAE federal privacy law
+DIFC DP Law,Data Protection Law,UAE-DIFC,privacy,https://www.difc.ae/business/laws-regulations/data-protection,2020-07-01,Dubai financial center privacy
+ADGM DPR,Data Protection Regulations,UAE-ADGM,privacy,https://www.adgm.com/setting-up/data-protection,2021-02-14,Abu Dhabi financial center privacy
+Turkey KVKK,Personal Data Protection Law,Turkey,privacy,https://www.kvkk.gov.tr/Icerik/6649/Personal-Data-Protection-Law,2016-04-07,Turkish privacy law
+Swiss DPA,Federal Act on Data Protection,Switzerland,privacy,https://www.fedlex.admin.ch/eli/cc/2022/491/en,2023-09-01,Swiss data protection (revised)
+Convention 108+,Convention for the Protection of Individuals,Council of Europe,privacy,https://www.coe.int/en/web/data-protection/convention108-and-protocol,2018-10-10,International privacy treaty
+OECD Privacy,OECD Privacy Guidelines,OECD,privacy,https://www.oecd.org/sti/ieconomy/privacy-guidelines.htm,1980,International privacy principles (updated 2013)
+APEC CBPR,APEC Cross-Border Privacy Rules,APEC,privacy,https://www.apec.org/about-us/about-apec/fact-sheets/what-is-the-cross-border-privacy-rules-system,2011,Asia-Pacific privacy framework
+NERC CIP Standards,Critical Infrastructure Protection Standards,US,energy,https://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx,2008,Bulk electric system cybersecurity
+TSA Pipeline SD,TSA Pipeline Security Directives,US,transportation,https://www.tsa.gov/sd-and-ea,2021-05,Pipeline cybersecurity requirements
+TSA Rail SD,TSA Rail Security Directives,US,transportation,https://www.tsa.gov/sd-and-ea,2021-12,Rail cybersecurity requirements
+Maritime Cyber,Maritime Cybersecurity Standards,IMO,transportation,https://www.imo.org/en/OurWork/Security/Pages/Cyber-security.aspx,2021-01-01,IMO maritime cyber requirements
+FAA Cybersecurity,FAA Cybersecurity Requirements,US,aviation,https://www.faa.gov/air_traffic/technology/cybersecurity,varies,Aviation cybersecurity
+UNECE WP.29,UN Vehicle Cybersecurity Regulation,UNECE,automotive,https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security,2022-07,Vehicle cybersecurity (R155/R156)
+NIS Directive,Network and Information Security Directive,EU,cybersecurity,https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=uriserv:OJ.L_.2016.194.01.0001.01.ENG,2016-07-06,Original NIS (superseded by NIS2)
+KRITIS,IT Security Act / KRITIS,Germany,cybersecurity,https://www.bsi.bund.de/EN/Themen/KRITIS-und-regulierte-Unternehmen/kritis-und-regulierte-unternehmen_node.html,2015,German critical infrastructure
+LPM,Military Programming Law (Cyber),France,cybersecurity,https://www.ssi.gouv.fr/en/regulation,2013,French critical infrastructure
+CNI Regulations,Critical National Infrastructure,UK,cybersecurity,https://www.ncsc.gov.uk/section/private-sector-cni/cni,varies,UK critical infrastructure
+NHDPA,New Hampshire Data Privacy Act,US-NH,privacy,https://www.gencourt.state.nh.us/bill_status/billinfo.aspx?id=2089,2025-01-01,New Hampshire privacy law
+NDPA,Nebraska Data Privacy Act,US-NE,privacy,https://nebraskalegislature.gov/bills/view_bill.php?DocumentID=52831,2025-01-01,Nebraska privacy law
+MODPL,Minnesota Consumer Data Privacy Act,US-MN,privacy,https://www.revisor.mn.gov/laws/2024/0/Session+Law/Chapter/121,2025-07-31,Minnesota privacy law
+RIDPA,Rhode Island Data Transparency and Privacy Protection Act,US-RI,privacy,https://webserver.rilegislature.gov/BillText/BillText24/HouseText24/H7787A.pdf,2026-01-01,Rhode Island privacy law
+FDBR,Florida Digital Bill of Rights,US-FL,privacy,https://www.flsenate.gov/Session/Bill/2023/262,2024-07-01,Florida privacy law (limited scope)
+VCPA,Virginia Consumer Protection Act Amendments,US-VA,privacy,https://lis.virginia.gov/cgi-bin/legp604.exe?241+sum+SB381,2025-01-01,Virginia VCDPA amendments
+MODPL,Missouri Consumer Data Protection Act,US-MO,privacy,pending,pending,Missouri privacy law (proposed)
+WDPA,Wisconsin Data Privacy Act,US-WI,privacy,pending,pending,Wisconsin privacy law (proposed)
+NYDPA,New York Privacy Act,US-NY,privacy,pending,pending,New York comprehensive privacy (proposed)
+ADPPA,American Data Privacy and Protection Act,US,privacy,pending,pending,Federal privacy bill (proposed)
+Kids Online Safety Act,Kids Online Safety Act,US,privacy,pending,pending,Children's online safety (KOSA - proposed)
+FTC Safeguards Rule,FTC Safeguards Rule,US,financial,https://www.ftc.gov/legal-library/browse/rules/safeguards-rule,2003,Financial institution security (amended 2023)
+SEC Cybersecurity Rules,SEC Cybersecurity Disclosure Rules,US,financial,https://www.sec.gov/rules/final/2023/33-11216.pdf,2023-12-18,Public company cyber disclosure
+NYDFS Amendment,23 NYCRR 500 Amendment,US-NY,financial,https://www.dfs.ny.gov/industry_guidance/cybersecurity,2023-11-01,Enhanced NY financial cybersecurity
+FDA Cybersecurity,FDA Medical Device Cybersecurity,US,healthcare,https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity,2023-03-29,Medical device security (PATCH Act)
+CMMC,Cybersecurity Maturity Model Certification,US,government,https://www.acq.osd.mil/cmmc,2025,DoD contractor cybersecurity
+FedRAMP,Federal Risk and Authorization Management Program,US,government,https://www.fedramp.gov,2011,Federal cloud security authorization
+StateRAMP,State Risk and Authorization Management Program,US,government,https://stateramp.org,2020,State/local cloud security
+Executive Order 14028,Improving the Nation's Cybersecurity,US,government,https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity,2021-05-12,Federal cybersecurity requirements
+OMB M-22-09,Zero Trust Architecture Strategy,US,government,https://www.whitehouse.gov/omb/briefing-room/2022/01/26/office-of-management-and-budget-releases-federal-strategy-to-move-the-u-s-government-towards-a-zero-trust-architecture,2022-01-26,Federal zero trust mandate
+SBOM Requirements,Software Bill of Materials Requirements,US,government,https://www.cisa.gov/sbom,2021,Federal SBOM requirements
+eIDAS 2.0,Electronic Identification and Trust Services Regulation,EU,identity,https://digital-strategy.ec.europa.eu/en/policies/eidas-regulation,2024,EU digital identity framework
+EHDS,European Health Data Space,EU,healthcare,https://health.ec.europa.eu/ehealth-digital-health-and-care/european-health-data-space_en,pending,EU health data regulation
+PLD Revision,Product Liability Directive Revision,EU,product,https://ec.europa.eu/commission/presscorner/detail/en/ip_22_5807,pending,Updated product liability for AI/software
+Corporate Sustainability DD,Corporate Sustainability Due Diligence Directive,EU,sustainability,https://commission.europa.eu/business-economy-euro/doing-business-eu/corporate-sustainability-due-diligence_en,2024,Supply chain due diligence
+CSRD,Corporate Sustainability Reporting Directive,EU,sustainability,https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en,2024-01-01,ESG reporting requirements
+IT-Sicherheitsgesetz 2.0,IT Security Act 2.0,Germany,cybersecurity,https://www.bsi.bund.de/EN/Themen/Regulierung/IT-SiG/it-sig_node.html,2021-05-28,German cybersecurity (updated)
+BSI-KritisV,BSI-Kritisverordnung,Germany,cybersecurity,https://www.bsi.bund.de/EN/Themen/KRITIS-und-regulierte-Unternehmen/Kritische-Infrastrukturen/kritis_node.html,2021,German critical infrastructure rules
+ANSSI,French Cybersecurity Requirements,France,cybersecurity,https://www.ssi.gouv.fr/en/regulation,varies,French national cybersecurity
+Spain LOPD,Organic Law on Data Protection,Spain,privacy,https://www.boe.es/eli/es/lo/2018/12/05/3,2018-12-07,Spanish GDPR implementation
+Italy Privacy Code,Italian Data Protection Code,Italy,privacy,https://www.garanteprivacy.it/web/guest/home/docweb/-/docweb-display/docweb/9042678,2018,Italian GDPR implementation
+Dutch UAVG,Implementation Act GDPR,Netherlands,privacy,https://wetten.overheid.nl/BWBR0040940/2021-07-01,2018-05-25,Dutch GDPR implementation
+Polish GDPR,Polish GDPR Implementation,Poland,privacy,https://uodo.gov.pl/en,2018-05-25,Polish data protection
+Sweden Data Act,Swedish Data Protection Act,Sweden,privacy,https://www.imy.se/en/organisations/data-protection/the-legislation/the-swedish-data-protection-act,2018-05-25,Swedish GDPR implementation
+Ireland DPA 2018,Data Protection Act 2018,Ireland,privacy,https://www.irishstatutebook.ie/eli/2018/act/7/enacted/en/html,2018-05-25,Irish GDPR implementation
+Austria DSG,Datenschutzgesetz,Austria,privacy,https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10001597,2018-05-25,Austrian GDPR implementation
+Belgium DPA,Data Protection Act,Belgium,privacy,https://www.gegevensbeschermingsautoriteit.be,2018-05-25,Belgian GDPR implementation
+PDP Indonesia,Personal Data Protection Law,Indonesia,privacy,https://peraturan.bpk.go.id/Home/Details/229798/uu-no-27-tahun-2022,2022-10-17,Indonesian data protection
+PDPA Malaysia,Personal Data Protection Act,Malaysia,privacy,https://www.pdp.gov.my,2013-11-15,Malaysian data protection
+DPA Philippines,Data Privacy Act,Philippines,privacy,https://www.privacy.gov.ph/data-privacy-act,2012-08-15,Philippine data protection
+Cybersecurity Vietnam,Law on Cybersecurity,Vietnam,cybersecurity,https://thuvienphapluat.vn/van-ban/EN/Cong-nghe-thong-tin/Law-24-2018-QH14-cyber-security/387049/noi-dung.aspx,2019-01-01,Vietnamese cybersecurity law
+PDPD Vietnam,Decree on Personal Data Protection,Vietnam,privacy,https://thuvienphapluat.vn/van-ban/EN/Cong-nghe-thong-tin/Decree-13-2023-ND-CP-protection-of-personal-data/558546/noi-dung.aspx,2023-07-01,Vietnamese personal data decree
+Taiwan PDPA,Personal Data Protection Act,Taiwan,privacy,https://law.moj.gov.tw/ENG/LawClass/LawAll.aspx?pcode=I0050021,2012-10-01,Taiwan data protection (amended 2023)
+Cyber Security Act Taiwan,Cyber Security Management Act,Taiwan,cybersecurity,https://law.moj.gov.tw/ENG/LawClass/LawAll.aspx?pcode=A0030297,2019-01-01,Taiwan cybersecurity
+Hong Kong PDPO,Personal Data Privacy Ordinance,Hong Kong,privacy,https://www.pcpd.org.hk/english/data_privacy_law/ordinance_at_a_Glance/ordinance.html,1996-12-20,Hong Kong privacy ordinance
+DPA Kenya,Data Protection Act,Kenya,privacy,https://www.odpc.go.ke/dpa-act,2019-11-25,Kenyan data protection
+NDPR Nigeria,Nigeria Data Protection Regulation,Nigeria,privacy,https://ndpr.nitda.gov.ng,2019-01-25,Nigerian data protection
+PDPL Egypt,Personal Data Protection Law,Egypt,privacy,https://mcit.gov.eg/en/Data_Protection,2020-10-15,Egyptian data protection (Law 151)
+DPA Ghana,Data Protection Act,Ghana,privacy,https://www.dataprotection.org.gh,2012-10-16,Ghanaian data protection
+POPIA South Africa,Protection of Personal Information Act,South Africa,privacy,https://popia.co.za,2021-07-01,South African privacy (duplicate check)
+PDP Morocco,Law 09-08 on Personal Data Protection,Morocco,privacy,https://www.cndp.ma,2009-02-18,Moroccan data protection
+Argentina PDPL,Personal Data Protection Law,Argentina,privacy,https://www.argentina.gob.ar/aaip,2000-10-30,Argentine data protection (Law 25326)
+Chile DPL,Data Protection Law,Chile,privacy,https://www.bcn.cl/leychile/navegar?idNorma=141599,1999-08-28,Chilean data protection (being updated)
+Colombia PDPL,Personal Data Protection Law,Colombia,privacy,https://www.sic.gov.co/datos-personales,2012-10-18,Colombian data protection (Law 1581)
+Peru PDPL,Personal Data Protection Law,Peru,privacy,https://www.gob.pe/minjus,2011-07-03,Peruvian data protection (Law 29733)
+Uruguay PDPL,Personal Data Protection Law,Uruguay,privacy,https://www.gub.uy/unidad-reguladora-control-datos-personales,2008-08-11,Uruguayan data protection (Law 18331)
+Ecuador LOPDP,Organic Law on Personal Data Protection,Ecuador,privacy,https://www.telecomunicaciones.gob.ec,2021-05-26,Ecuadorian data protection
+Costa Rica LPDP,Law for the Protection of the Person Against the Processing of Their Personal Data,Costa Rica,privacy,https://www.prodhab.go.cr,2011-09-05,Costa Rican data protection (Law 8968)
+Panama LPDP,Personal Data Protection Law,Panama,privacy,https://www.antai.gob.pa,2019-03-29,Panamanian data protection (Law 81)
+Israel PPL,Privacy Protection Law,Israel,privacy,https://www.gov.il/en/departments/the_privacy_protection_authority,1981,Israeli privacy law (amended)
+Russia PDPL,Personal Data Law,Russia,privacy,http://www.consultant.ru/document/cons_doc_LAW_61801,2006-07-27,Russian personal data (152-FZ)
+Russia Sovereign Internet,Sovereign Internet Law,Russia,cybersecurity,http://www.consultant.ru/document/cons_doc_LAW_322117,2019-11-01,Russian internet control (90-FZ)
+Kazakhstan PDPL,Personal Data Protection Law,Kazakhstan,privacy,https://adilet.zan.kz/eng/docs/Z1300000094,2013-05-21,Kazakh data protection
+Qatar DPL,Data Protection Law,Qatar,privacy,https://www.motc.gov.qa,2016-11-13,Qatari data protection (Law 13)
+Bahrain PDPL,Personal Data Protection Law,Bahrain,privacy,https://www.pdp.gov.bh,2019-08-01,Bahraini data protection (Law 30)
+Kuwait DPL,Data Privacy Protection Regulation,Kuwait,privacy,https://citra.gov.kw,2021,Kuwaiti data protection
+Oman PDPL,Personal Data Protection Law,Oman,privacy,https://mtc.gov.om,2022,Omani data protection
+Jordan DPL,Data Protection Law,Jordan,privacy,https://www.moict.gov.jo,2023,Jordanian data protection (draft)
+Pakistan PDPB,Personal Data Protection Bill,Pakistan,privacy,https://moitt.gov.pk,pending,Pakistani data protection (proposed)
+Sri Lanka PDPA,Personal Data Protection Act,Sri Lanka,privacy,https://www.parliament.lk,2022-03-19,Sri Lankan data protection
+Bangladesh DPA,Data Protection Act,Bangladesh,privacy,pending,pending,Bangladesh data protection (proposed)
+Nepal Privacy Act,Privacy Act,Nepal,privacy,https://www.opmcm.gov.np,2018,Nepali privacy law
+UN Cybercrime Convention,UN Convention against Cybercrime,UN,cybercrime,https://www.unodc.org/unodc/en/cybercrime/ad_hoc_committee/home,pending,International cybercrime treaty
+Budapest Convention,Convention on Cybercrime,Council of Europe,cybercrime,https://www.coe.int/en/web/cybercrime/the-budapest-convention,2004-07-01,International cybercrime treaty
+Tallinn Manual,Tallinn Manual on Cyber Operations,NATO CCDCOE,cybersecurity,https://ccdcoe.org/research/tallinn-manual,2017,International law applicable to cyber
+GDPR Adequacy,GDPR Adequacy Decisions,EU,privacy,https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en,varies,Countries with EU adequacy
+EU-US DPF,EU-US Data Privacy Framework,EU-US,privacy,https://www.dataprivacyframework.gov,2023-07-10,Transatlantic data transfers
+UK-US Data Bridge,UK Extension to EU-US DPF,UK-US,privacy,https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/uk-us-data-bridge,2023-10-12,UK-US data transfers
+Swiss-US DPF,Swiss-US Data Privacy Framework,Swiss-US,privacy,https://www.dataprivacyframework.gov/s/article/Swiss-US-Data-Privacy-Framework-Program,2024-01,Swiss-US data transfers
+AI Liability Directive,AI Liability Directive,EU,ai,https://ec.europa.eu/commission/presscorner/detail/en/ip_22_5807,pending,AI-specific liability rules
+Colorado AI Act,Colorado AI Act,US-CO,ai,https://leg.colorado.gov/bills/sb24-205,2026-02-01,Colorado AI governance
+NYC Local Law 144,NYC Automated Employment Decision Tools,US-NY,ai,https://rules.cityofnewyork.us/wp-content/uploads/2023/04/DCWP-NOA-for-Use-of-Automated-Employment-Decisionmaking-Tools-2.pdf,2023-07-05,NYC AI hiring bias audits
+Illinois AI Video Interview Act,Artificial Intelligence Video Interview Act,US-IL,ai,https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=4015,2020-01-01,Illinois AI hiring disclosure
+Utah AI Policy Act,Utah Artificial Intelligence Policy Act,US-UT,ai,https://le.utah.gov/~2024/bills/static/SB0149.html,2024-05-01,Utah AI disclosure requirements
+California AI Bills,California AI Legislation Package,US-CA,ai,varies,varies,Multiple CA AI bills (SB 1047 vetoed etc.)
+China AI Provisions,Interim Measures for Generative AI,China,ai,https://www.cac.gov.cn,2023-08-15,Chinese generative AI rules
+China Algorithm Rules,Algorithm Recommendation Rules,China,ai,https://www.cac.gov.cn,2022-03-01,Chinese algorithm governance
+China Deep Synthesis,Deep Synthesis Regulations,China,ai,https://www.cac.gov.cn,2023-01-10,Chinese deepfake rules
+Japan AI Guidelines,AI Guidelines for Business,Japan,ai,https://www.meti.go.jp/english/policy/mono_info_service/information_economy/artificial_intelligence.html,2024,Japanese AI governance guidelines
+Korea AI Act,AI Industry Development Act,South Korea,ai,pending,pending,Korean AI legislation (proposed)
+Singapore AI Governance,Model AI Governance Framework,Singapore,ai,https://www.pdpc.gov.sg/help-and-resources/2020/01/model-ai-governance-framework,2020,Singapore AI guidelines
+Brazil AI Bill,AI Regulation Bill,Brazil,ai,https://www.camara.leg.br/propostas-legislativas/2236340,pending,Brazilian AI regulation (PL 2338)
+UK AI White Paper,Pro-Innovation Approach to AI Regulation,UK,ai,https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach,2023,UK AI regulatory principles
+Bletchley Declaration,Bletchley Declaration on AI Safety,International,ai,https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration,2023-11-01,International AI safety declaration
+G7 Hiroshima AI Process,G7 AI Principles,G7,ai,https://www.mofa.go.jp/ecm/ec/page5e_000076.html,2023-10-30,G7 AI governance principles
+OECD AI Principles,OECD Principles on AI,OECD,ai,https://oecd.ai/en/ai-principles,2019-05-22,International AI principles
+UNESCO AI Ethics,UNESCO Recommendation on Ethics of AI,UNESCO,ai,https://www.unesco.org/en/artificial-intelligence/recommendation-ethics,2021-11-23,International AI ethics framework
+ISO/IEC 27001,Information Security Management System,ISO,cybersecurity,https://www.iso.org/standard/27001,2022,Information security standard
+ISO/IEC 27701,Privacy Information Management,ISO,privacy,https://www.iso.org/standard/71670.html,2019,Privacy extension to 27001
+ISO/IEC 42001,AI Management System,ISO,ai,https://www.iso.org/standard/81230.html,2023-12,AI management system standard
+ISO/IEC 23894,AI Risk Management,ISO,ai,https://www.iso.org/standard/77304.html,2023,AI risk management guidance
+SOC 2,Service Organization Control 2,AICPA,compliance,https://www.aicpa.org/resources/landing/system-and-organization-controls-soc-suite-of-services,2010,Service organization security
+PCI DSS,Payment Card Industry Data Security Standard,PCI SSC,financial,https://www.pcisecuritystandards.org,2004,Payment card security (v4.0 2024)
+SWIFT CSP,SWIFT Customer Security Programme,SWIFT,financial,https://www.swift.com/myswift/customer-security-programme-csp,2017,Financial messaging security
+HITRUST CSF,HITRUST Common Security Framework,HITRUST,healthcare,https://hitrustalliance.net,2007,Healthcare security framework
+TISAX,Trusted Information Security Assessment Exchange,VDA,automotive,https://www.enx.com/en-us/tisax,2017,Automotive supply chain security
+IEC 62443,Industrial Cybersecurity Standards,IEC,industrial,https://www.iec.ch/cyber-security,varies,Industrial control system security
+NIST AI RMF,AI Risk Management Framework,US,ai,https://www.nist.gov/itl/ai-risk-management-framework,2023-01-26,US AI risk management framework
+NIST SP 800-53,Security and Privacy Controls,US,government,https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final,2020,Federal security controls (Rev 5)
+NIST SP 800-171,Protecting CUI,US,government,https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final,2020,Controlled unclassified info protection
+NIST SP 800-218,Secure Software Development Framework,US,government,https://csrc.nist.gov/publications/detail/sp/800-218/final,2022,Secure development practices
+CIS Controls,CIS Critical Security Controls,CIS,cybersecurity,https://www.cisecurity.org/controls,2008,Security controls (v8.1)
+COBIT,Control Objectives for IT,ISACA,governance,https://www.isaca.org/resources/cobit,1996,IT governance framework
+ITIL,IT Infrastructure Library,Axelos,governance,https://www.axelos.com/best-practice-solutions/itil,1989,IT service management
+CSA CCM,Cloud Controls Matrix,CSA,cloud,https://cloudsecurityalliance.org/research/cloud-controls-matrix,2010,Cloud security controls (v4)
+CSA STAR,Security Trust Assurance and Risk,CSA,cloud,https://cloudsecurityalliance.org/star,2011,Cloud security certification
+SOX Section 404,SOX IT Controls,US,financial,https://www.sec.gov/spotlight/sarbanes-oxley.htm,2002,IT controls for financial reporting
+GLBA Safeguards,GLBA Safeguards Rule,US,financial,https://www.ftc.gov/legal-library/browse/rules/safeguards-rule,2003,Financial privacy safeguards
+MAS TRM,Technology Risk Management Guidelines,Singapore,financial,https://www.mas.gov.sg/regulation/guidelines/technology-risk-management-guidelines,2021,Singapore financial technology risk
+HKMA Cybersecurity,Cybersecurity Fortification Initiative,Hong Kong,financial,https://www.hkma.gov.uk/eng/key-functions/banking/banking-conduct-supervision/cybersecurity-fortification-initiative,2016,HK financial cybersecurity
+APRA CPS 234,Information Security,Australia,financial,https://www.apra.gov.au/sites/default/files/cps_234_july_2019_for_public_release.pdf,2019-07-01,Australian financial security
+OSFI B-13,Technology and Cyber Risk Management,Canada,financial,https://www.osfi-bsif.gc.ca/Eng/fi-if/rg-ro/gdn-ort/gl-ld/Pages/b13-dft.aspx,2022,Canadian financial technology risk
+PRA SS1/21,Operational Resilience,UK,financial,https://www.bankofengland.co.uk/prudential-regulation/publication/2021/march/operational-resilience-policy-ss,2022-03-31,UK financial operational resilience
+FCA SYSC,Senior Management Arrangements Systems and Controls,UK,financial,https://www.handbook.fca.org.uk/handbook/SYSC,2001,UK financial systems controls
+Executive Order 14110,Safe Secure and Trustworthy AI,US,ai,https://www.whitehouse.gov/briefing-room/presidential-actions/2023/10/30/executive-order-on-the-safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence,2023-10-30,Biden AI Executive Order
+OMB M-24-10,Advancing Governance Innovation and Risk Management for Agency Use of AI,US,ai,https://www.whitehouse.gov/omb/briefing-room/2024/03/28/omb-releases-implementation-guidance-following-president-bidens-executive-order-on-artificial-intelligence,2024-03-28,Federal agency AI governance
+OMB M-24-18,Advancing the Responsible Acquisition of AI in Government,US,ai,https://www.whitehouse.gov/omb/briefing-room/2024/10/03/advancing-the-responsible-acquisition-of-artificial-intelligence-in-government,2024-10-03,Federal AI procurement guidance
+NAIRR,National AI Research Resource,US,ai,https://www.ai.gov/nairrtf,pending,National AI research infrastructure
+AI Bill of Rights,Blueprint for an AI Bill of Rights,US,ai,https://www.whitehouse.gov/ostp/ai-bill-of-rights,2022-10-04,OSTP AI principles (non-binding)
+Texas AI Advisory Council,Texas AI Advisory Council,US-TX,ai,https://gov.texas.gov/organization/disabilities/ai_advisory_council,2023,Texas state AI governance
+Connecticut AI Task Force,Connecticut AI Task Force,US-CT,ai,https://portal.ct.gov/AG/Press-Releases/2024-Press-Releases/Attorney-General-Tong-Announces-Connecticut-Artificial-Intelligence-Task-Force,2024,Connecticut AI governance
+California SB 1047,Safe and Secure Innovation for Frontier AI Models Act,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047,vetoed,California frontier AI bill (vetoed)
+California AB 2013,AI Training Data Transparency,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2013,2026-01-01,California AI training data disclosure
+California AB 2885,Government AI Procurement,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2885,2025-01-01,California government AI use
+California AB 2930,Automated Decision Tools,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2930,vetoed,California ADT regulation (vetoed)
+California SB 942,AI Transparency Act,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB942,2026-01-01,California AI content labeling
+California AB 1836,Digital Replicas,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB1836,2025-01-01,California deceased performer digital replicas
+California AB 2602,Digital Replicas Contracts,US-CA,ai,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2602,2025-01-01,California performer digital replica contracts
+Tennessee ELVIS Act,Ensuring Likeness Voice and Image Security Act,US-TN,ai,https://www.capitol.tn.gov/Bills/113/Bill/SB2096.pdf,2024-07-01,Tennessee AI voice/likeness protection
+No AI FRAUD Act,No Artificial Intelligence Fake Replicas And Unauthorized Duplications Act,US,ai,pending,pending,Federal AI deepfake bill (proposed)
+NO FAKES Act,Nurture Originals Foster Art and Keep Entertainment Safe Act,US,ai,pending,pending,Federal digital replica bill (proposed)
+DEFIANCE Act,Disrupt Explicit Forged Images and Non-Consensual Edits Act,US,ai,pending,pending,Federal deepfake NCII bill (proposed)
+TAKE IT DOWN Act,Tools to Address Known Exploitation by Immobilizing Technological Deepfakes on Websites and Networks,US,ai,pending,pending,Federal deepfake removal bill (proposed)
+CREATE AI Act,CREATE AI Act,US,ai,pending,pending,Federal AI copyright clarification (proposed)
+AI Foundation Model Transparency Act,AI Foundation Model Transparency Act,US,ai,pending,pending,Federal foundation model disclosure (proposed)
+AI Labeling Act,AI Labeling Act of 2023,US,ai,pending,pending,Federal AI content labeling (proposed)
+Algorithmic Accountability Act,Algorithmic Accountability Act,US,ai,pending,pending,Federal algorithmic impact assessment (proposed)
+Federal AI Governance Report,Federal AI Use Case Inventory,US,ai,https://ai.gov/ai-use-cases,2023,Federal agency AI use reporting
+DOD AI Principles,DoD AI Ethical Principles,US,ai,https://www.defense.gov/News/Releases/Release/Article/2091996/dod-adopts-ethical-principles-for-artificial-intelligence,2020-02-24,US military AI ethics
+DOD RAI Strategy,DoD Responsible AI Strategy,US,ai,https://www.ai.mil/docs/RAI_Strategy_and_Implementation_Pathway.pdf,2022-06-22,US military responsible AI
+DOD CDAO,Chief Digital and AI Office Policies,US,ai,https://www.ai.mil,varies,US military AI governance
+IC AI Principles,Intelligence Community AI Principles,US,ai,https://www.dni.gov/index.php/features/2693-principles-of-artificial-intelligence-ethics-for-the-intelligence-community,2020-07,US intelligence AI ethics
+FDA AI/ML SaMD,AI/ML-Based Software as Medical Device,US,ai,https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device,2021,FDA AI medical device framework
+FDA AI Action Plan,FDA AI/ML Action Plan,US,ai,https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices,2021-01,FDA AI regulatory approach
+CMS AI Health Equity,CMS AI Health Equity Guidance,US,ai,https://www.cms.gov/newsroom/press-releases/cms-announces-rule-advance-health-equity-and-patient-safety,2024,Medicare AI discrimination rules
+OCC Model Risk,OCC Model Risk Management,US,ai,https://www.occ.gov/publications-and-resources/publications/comptrollers-handbook/files/model-risk-management/index-model-risk-management.html,2011,Banking AI/ML model governance (SR 11-7)
+Fed SR 11-7,Supervisory Guidance on Model Risk Management,US,ai,https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm,2011-04-04,Federal Reserve AI/ML model risk
+CFPB AI Guidance,CFPB Circular on Adverse Action and AI,US,ai,https://www.consumerfinance.gov/compliance/circulars/circular-2022-03-adverse-action-notification-requirements-in-connection-with-credit-decisions-based-on-complex-algorithms,2022-05-26,Consumer credit AI explainability
+EEOC AI Guidance,EEOC AI and Algorithmic Fairness Initiative,US,ai,https://www.eeoc.gov/ai,2021,Employment discrimination and AI
+FTC AI Enforcement,FTC AI and Algorithms Enforcement,US,ai,https://www.ftc.gov/business-guidance/blog/2023/02/keep-your-ai-claims-check,varies,FTC AI enforcement policy
+HHS AI Strategy,HHS AI Strategy,US,ai,https://www.hhs.gov/about/agencies/asa/ocio/ai,2024,Health and Human Services AI
+DHS AI Roadmap,DHS AI Roadmap,US,ai,https://www.dhs.gov/ai,2024,Homeland Security AI governance
+DOE AI Principles,DOE AI Advancement Council,US,ai,https://www.energy.gov/artificial-intelligence-technology-office,2024,Department of Energy AI
+DOT AV Policy,Automated Vehicles Comprehensive Plan,US,ai,https://www.transportation.gov/AV,varies,US autonomous vehicle policy
+NHTSA ADS Framework,ADS Framework for Safety,US,ai,https://www.nhtsa.gov/technology-innovation/automated-vehicles-safety,varies,Autonomous driving safety framework
+FAA UAS Integration,FAA UAS Integration,US,ai,https://www.faa.gov/uas,varies,Drone and autonomous aircraft rules
+EU AI Act Annex I,EU AI Act High-Risk AI Systems,EU,ai,https://artificialintelligenceact.eu/annex/1,2024-08-01,High-risk AI classification
+EU AI Act Annex III,EU AI Act High-Risk Use Cases,EU,ai,https://artificialintelligenceact.eu/annex/3,2024-08-01,High-risk AI use case list
+EU AI Act Annex IV,EU AI Act Technical Documentation,EU,ai,https://artificialintelligenceact.eu/annex/4,2024-08-01,AI technical documentation requirements
+EU AI Office,EU AI Office Guidelines,EU,ai,https://digital-strategy.ec.europa.eu/en/policies/ai-office,2024,EU AI Act implementation body
+GPAI Code of Practice,General Purpose AI Code of Practice,EU,ai,https://digital-strategy.ec.europa.eu/en/policies/ai-office,2025,EU GPAI model rules
+AI Pact,EU AI Pact,EU,ai,https://digital-strategy.ec.europa.eu/en/policies/ai-pact,2024,Voluntary EU AI Act early adoption
+HLEG AI Ethics,High-Level Expert Group AI Ethics Guidelines,EU,ai,https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai,2019-04-08,EU trustworthy AI guidelines
+ALTAI,Assessment List for Trustworthy AI,EU,ai,https://digital-strategy.ec.europa.eu/en/library/assessment-list-trustworthy-artificial-intelligence-altai-self-assessment,2020-07-17,EU AI self-assessment tool
+EU AI Liability Proposal,AI Liability Directive Proposal,EU,ai,https://ec.europa.eu/commission/presscorner/detail/en/ip_22_5807,pending,AI-specific liability rules
+ENISA AI Threat Landscape,ENISA AI Cybersecurity,EU,ai,https://www.enisa.europa.eu/topics/ai,varies,EU AI security guidance
+EBA ML Guidelines,EBA Guidelines on ML for IRB,EU,ai,https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/credit-risk/guidelines-use-machine-learning-irb,2024,EU banking AI/ML guidance
+ESMA AI Guidelines,ESMA AI in Investment Services,EU,ai,https://www.esma.europa.eu/press-news/esma-news/esma-consults-guidelines-use-ai-investment-services,2024,EU securities AI guidance
+EIOPA AI Governance,EIOPA AI Governance Principles,EU,ai,https://www.eiopa.europa.eu/browse/digitalisation-and-financial-innovation/artificial-intelligence_en,varies,EU insurance AI guidance
+ECB AI Guidance,ECB AI and ML in Banking Supervision,EU,ai,https://www.bankingsupervision.europa.eu/press/publications/newsletter/2024/html/ssm.nl240214.en.html,2024,ECB banking AI supervision
+UK AISI,UK AI Safety Institute,UK,ai,https://www.gov.uk/government/organisations/ai-safety-institute,2023-11,UK AI safety research
+UK AI Regulation Bill,UK AI Regulation Bill,UK,ai,pending,pending,UK AI legislation (proposed)
+UK AI Standards Hub,UK AI Standards Hub,UK,ai,https://aistandardshub.org,2022,UK AI standards coordination
+ICO AI Guidance,ICO AI and Data Protection,UK,ai,https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence,varies,UK data protection and AI
+FCA AI Guidance,FCA AI and Machine Learning,UK,ai,https://www.fca.org.uk/firms/artificial-intelligence-machine-learning,varies,UK financial AI guidance
+PRA AI Model Risk,PRA Model Risk Management for AI,UK,ai,https://www.bankofengland.co.uk/prudential-regulation/publication/2024/may/model-risk-management-principles-for-banks-ss,2024,UK banking AI model risk
+UK Competition AI,CMA AI Foundation Models Review,UK,ai,https://www.gov.uk/cma-cases/ai-foundation-models-initial-review,2023,UK competition and AI
+CDEI AI Assurance,CDEI AI Assurance Guide,UK,ai,https://www.gov.uk/government/publications/introduction-to-ai-assurance,2021,UK AI assurance framework
+Alan Turing Institute AI,Turing AI Ethics,UK,ai,https://www.turing.ac.uk/research/research-programmes/public-policy,varies,UK AI research guidance
+Germany AI Strategy,German AI Strategy,Germany,ai,https://www.ki-strategie-deutschland.de/home.html,2018,German national AI strategy (updated 2020)
+France AI Strategy,French AI Strategy,France,ai,https://www.economie.gouv.fr/france-2030/strategie-nationale-intelligence-artificielle,2018,French national AI strategy
+Italy AI Strategy,Italian AI Strategy,Italy,ai,https://www.governo.it/it/approfondimento/strategia-italiana-lintelligenza-artificiale/16147,2024,Italian national AI strategy
+Spain AI Strategy,Spanish AI Strategy (ENIA),Spain,ai,https://portal.mineco.gob.es/en-us/ministerio/estrategias/Pages/ENIA.aspx,2020,Spanish national AI strategy
+Netherlands AI Strategy,Dutch AI Strategy (SAPAI),Netherlands,ai,https://www.government.nl/topics/artificial-intelligence-ai,2019,Dutch AI strategy
+Canada AI Strategy,Pan-Canadian AI Strategy,Canada,ai,https://ised-isde.canada.ca/site/ai-strategy/en,2017,Canadian national AI strategy
+Canada AI Directive,Directive on Automated Decision-Making,Canada,ai,https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592,2019-04-01,Canadian federal AI use
+Canada OSFI AI,OSFI AI/ML Guidance,Canada,ai,https://www.osfi-bsif.gc.ca,2024,Canadian banking AI guidance
+Canada C-27,Digital Charter Implementation Act,Canada,ai,https://www.parl.ca/legisinfo/en/bill/44-1/c-27,pending,Canadian AI and privacy bill
+Quebec Bill 64 AI,Quebec AI Provisions,Canada-QC,ai,https://www.legisquebec.gouv.qc.ca,2023,Quebec automated decision rules
+Australia AI Ethics,Australian AI Ethics Framework,Australia,ai,https://www.industry.gov.au/publications/australias-artificial-intelligence-ethics-framework,2019,Australian voluntary AI principles
+Australia AI Action Plan,Australian AI Action Plan,Australia,ai,https://www.industry.gov.au/publications/australias-ai-action-plan,2021,Australian AI strategy
+Australia AI in Government,Australian Government AI Policy,Australia,ai,https://www.digital.gov.au/policies/ai,2024,Australian federal AI use
+APRA AI Guidance,APRA AI Governance,Australia,ai,https://www.apra.gov.au,2024,Australian financial AI guidance
+NZ AI Strategy,New Zealand AI Strategy,New Zealand,ai,https://www.digital.govt.nz/digital-government/programmes-and-projects/artificial-intelligence,2024,NZ government AI approach
+NZ Algorithm Charter,NZ Algorithm Charter,New Zealand,ai,https://data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter,2020,NZ government algorithm transparency
+Japan AI Strategy,AI Strategy 2022,Japan,ai,https://www8.cao.go.jp/cstp/ai/index.html,2022,Japanese national AI strategy
+Japan GPAI,Japan GPAI Guidelines,Japan,ai,https://www.meti.go.jp/english/policy/mono_info_service/information_economy/artificial_intelligence.html,2024,Japanese generative AI guidelines
+METI AI Governance,METI AI Governance Guidelines,Japan,ai,https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/index.html,2022,Japanese corporate AI governance
+Japan FSA AI,FSA AI Guidelines for Finance,Japan,ai,https://www.fsa.go.jp,2024,Japanese financial AI guidance
+Korea AI Ethics,Korean AI Ethics Standards,South Korea,ai,https://www.msit.go.kr,2020,Korean AI ethics framework
+Korea AI TK,Korean AI Trust and Safety Framework,South Korea,ai,https://www.pipc.go.kr,2023,Korean AI safety standards
+PIPC AI Guidance,Korean AI Data Protection Guidance,South Korea,ai,https://www.pipc.go.kr/eng/user/lgp/law/lawDetail.do,2024,Korean AI and privacy
+China AI Governance,China AI Governance Principles,China,ai,https://www.most.gov.cn,2019,Chinese AI ethics principles
+China AIGC Rules,Measures for Generative AI Services,China,ai,https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm,2023-08-15,Chinese generative AI rules
+China TC260 AI,TC260 AI Security Standards,China,ai,https://www.tc260.org.cn,varies,Chinese AI security standards
+China AI Safety,AI Safety Governance Framework,China,ai,https://www.cac.gov.cn,2024,Chinese AI safety requirements
+China Model Filing,Large Model Registration,China,ai,https://www.cac.gov.cn,2023,Chinese LLM registration requirement
+Singapore FEAT,FEAT Principles for Finance AI,Singapore,ai,https://www.mas.gov.sg/publications/monographs-or-information-paper/2018/feat,2018,Singapore financial AI fairness
+Singapore AI Verify,AI Verify Governance Framework,Singapore,ai,https://aiverifyfoundation.sg,2022,Singapore AI testing framework
+Singapore IMDA AI,IMDA AI Governance,Singapore,ai,https://www.imda.gov.sg/how-we-can-help/ai-governance,varies,Singapore AI governance model
+India AI Strategy,National AI Strategy,India,ai,https://www.niti.gov.in/national-strategy-artificial-intelligence,2018,Indian national AI strategy
+India AI Mission,IndiaAI Mission,India,ai,https://indiaai.gov.in,2024,Indian AI development program
+India DPDP AI,DPDP Act AI Provisions,India,ai,https://www.meity.gov.in,2023,Indian AI and data protection
+MeitY AI Framework,MeitY Responsible AI Framework,India,ai,https://www.meity.gov.in/artificial-intelligence,2021,Indian responsible AI approach
+RBI AI Guidelines,RBI AI and ML Governance,India,ai,https://www.rbi.org.in,2024,Indian banking AI guidance
+Brazil AI Strategy,Brazilian AI Strategy,Brazil,ai,https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/transformacaodigital/inteligenciaartificial,2021,Brazilian national AI strategy
+ANPD AI Guidance,ANPD AI and Data Protection,Brazil,ai,https://www.gov.br/anpd/pt-br,2024,Brazilian AI and privacy
+UAE AI Strategy,UAE AI Strategy 2031,UAE,ai,https://ai.gov.ae,2017,UAE national AI strategy
+UAE AI Ethics,UAE AI Ethics Guidelines,UAE,ai,https://ai.gov.ae/ai-ethics,2019,UAE AI ethics principles
+Saudi AI Strategy,Saudi National AI Strategy,Saudi Arabia,ai,https://sdaia.gov.sa,2020,Saudi AI strategy
+SDAIA AI Ethics,SDAIA AI Ethics Principles,Saudi Arabia,ai,https://sdaia.gov.sa/en/SDAIA/about/Pages/Principles.aspx,2023,Saudi AI ethics
+Israel AI Strategy,Israeli AI Policy,Israel,ai,https://innovationisrael.org.il,2023,Israeli national AI approach
+South Africa AI,South African AI Policy Framework,South Africa,ai,https://www.dcdt.gov.za,2024,South African AI approach
+Nigeria AI Strategy,Nigerian AI Strategy,Nigeria,ai,https://nitda.gov.ng,2024,Nigerian national AI strategy
+Kenya AI Strategy,Kenya AI Strategy,Kenya,ai,https://www.ict.go.ke,pending,Kenyan AI approach
+Rwanda AI Policy,Rwanda AI Policy,Rwanda,ai,https://www.minict.gov.rw,2023,Rwandan AI governance
+Chile AI Policy,Chilean AI Policy,Chile,ai,https://www.economia.gob.cl,2021,Chilean national AI strategy
+Colombia AI Strategy,Colombian AI Strategy,Colombia,ai,https://minciencias.gov.co,2019,Colombian AI approach
+Mexico AI Strategy,Mexican AI Strategy,Mexico,ai,https://www.gob.mx/cedn,2018,Mexican national AI strategy
+Argentina AI Plan,Argentina AI Plan,Argentina,ai,https://www.argentina.gob.ar,2019,Argentine AI approach
+GPAI,Global Partnership on AI,International,ai,https://gpai.ai,2020,International AI cooperation
+Partnership on AI,Partnership on AI,International,ai,https://partnershiponai.org,2016,Multi-stakeholder AI initiative
+AI Safety Summit Seoul,Seoul AI Safety Summit Declaration,International,ai,https://www.gov.uk/government/topical-events/ai-safety-summit-2024,2024-05,International AI safety follow-up
+Frontier AI Forum,Frontier Model Forum,International,ai,https://www.frontiermodelforum.org,2023,Industry AI safety initiative
+IEEE AI Ethics,IEEE Ethically Aligned Design,IEEE,ai,https://ethicsinaction.ieee.org,2019,IEEE AI ethics standards
+ISO/IEC 22989,AI Concepts and Terminology,ISO,ai,https://www.iso.org/standard/74296.html,2022,AI terminology standard
+ISO/IEC 23053,ML Framework,ISO,ai,https://www.iso.org/standard/74438.html,2022,Machine learning framework
+ISO/IEC 24028,AI Trustworthiness Overview,ISO,ai,https://www.iso.org/standard/77608.html,2020,AI trustworthiness guidance
+ISO/IEC 24029,AI Robustness,ISO,ai,https://www.iso.org/standard/77609.html,2021,AI robustness assessment
+ISO/IEC 38507,AI Governance,ISO,ai,https://www.iso.org/standard/56641.html,2022,AI governance framework
+ISO/IEC 5338,AI Lifecycle,ISO,ai,https://www.iso.org/standard/81118.html,2023,AI system lifecycle
+ISO/IEC 5339,AI Guidelines,ISO,ai,https://www.iso.org/standard/81119.html,pending,AI guidance for organizations
+ISO/IEC 27090,AI Security,ISO,ai,https://www.iso.org/standard/56581.html,pending,AI cybersecurity guidance
+ISO/IEC 27091,AI Privacy,ISO,ai,https://www.iso.org/standard/56582.html,pending,AI privacy guidance
+NIST AI 100-1,AI Risk Management Framework,US,ai,https://www.nist.gov/itl/ai-risk-management-framework,2023-01-26,NIST AI RMF core document
+NIST AI 100-2,Adversarial ML Taxonomy,US,ai,https://csrc.nist.gov/pubs/ai/100/2/e2023/final,2024,NIST adversarial ML taxonomy
+NIST AI 100-4,Reducing Risks from AI Content,US,ai,https://www.nist.gov/publications,2024,NIST synthetic content guidance
+NIST AI 600-1,AI RMF Generative AI Profile,US,ai,https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence,2024-07-26,NIST GenAI risk profile
+CSA AI Safety Initiative,CSA AI Safety Initiative,CSA,ai,https://cloudsecurityalliance.org/research/working-groups/artificial-intelligence,2023,CSA AI security guidance
+OWASP ML Top 10,OWASP Machine Learning Security Top 10,OWASP,ai,https://owasp.org/www-project-machine-learning-security-top-10,2023,ML security risks
+OWASP LLM Top 10,OWASP Top 10 for LLM Applications,OWASP,ai,https://owasp.org/www-project-top-10-for-large-language-model-applications,2023,LLM security risks
+MITRE ATLAS,Adversarial Threat Landscape for AI Systems,MITRE,ai,https://atlas.mitre.org,2021,AI attack framework
+AIAAIC Repository,AI Incident Database,AIAAIC,ai,https://www.aiaaic.org,2019,AI incident tracking
+AI Incident Database,AI Incident Database,Partnership on AI,ai,https://incidentdatabase.ai,2019,AI incident repository
+Frontier AI Commitments,Voluntary AI Commitments,US,ai,https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai,2023-07-21,US industry AI commitments
+Seoul AI Commitments,Seoul AI Safety Commitments,International,ai,https://www.gov.uk/government/publications/seoul-ai-safety-summit-2024-company-commitments,2024-05-21,International company AI commitments
+CHIPS Act,CHIPS and Science Act,US,semiconductor,https://www.congress.gov/bill/117th-congress/house-bill/4346,2022-08-09,US semiconductor manufacturing and R&D investment
+CHIPS NSTC,CHIPS National Semiconductor Technology Center,US,semiconductor,https://www.nist.gov/chips,2024,NIST CHIPS program implementation
+NSM-AI,National Security Memorandum on AI,US,ai,https://www.whitehouse.gov/briefing-room/presidential-actions/2024/10/24/memorandum-on-advancing-the-united-states-leadership-in-artificial-intelligence-harnessing-artificial-intelligence-to-fulfill-national-security-objectives-and-fostering-the-safety-security,2024-10-24,NSM on AI for national security (NSM-25)
+NSM-AI Framework,Framework to Advance AI Governance and Risk Management in National Security,US,ai,https://ai.gov/wp-content/uploads/2024/10/NSM-Framework-to-Advance-AI-Governance-and-Risk-Management-in-National-Security.pdf,2024-10-24,Implementation framework for NSM-AI
+UK AI Opportunities,UK AI Opportunities Action Plan,UK,ai,https://www.gov.uk/government/publications/ai-opportunities-action-plan,2025-01-13,UK AI growth and adoption strategy (50 recommendations)
+UK AI Action Plan,AI Opportunities Action Plan Implementation,UK,ai,https://www.gov.uk/government/publications/ai-opportunities-action-plan/ai-opportunities-action-plan,2025,UK AI infrastructure and adoption plan
+UK AI Sovereign Capability,UK AI Sovereign Capability,UK,ai,https://www.gov.uk/government/publications/ai-opportunities-action-plan,2025,UK domestic AI compute and models strategy
+Canada AIDA,Artificial Intelligence and Data Act,Canada,ai,https://www.parl.ca/legisinfo/en/bill/44-1/c-27,pending,Canadian AI and data governance (Part 3 of C-27)

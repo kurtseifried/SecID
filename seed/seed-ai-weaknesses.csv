@@ -1,0 +1,241 @@
+taxonomy_short,taxonomy_full,maintainer,type,url,version,notes
+OWASP LLM Top 10,OWASP Top 10 for Large Language Model Applications,OWASP,weakness-list,https://owasp.org/www-project-top-10-for-large-language-model-applications,2025,Top 10 LLM security risks
+OWASP ML Top 10,OWASP Machine Learning Security Top 10,OWASP,weakness-list,https://owasp.org/www-project-machine-learning-security-top-10,1.0,Top 10 ML security risks
+OWASP AI Exchange,OWASP AI Exchange,OWASP,framework,https://owaspai.org,2024,AI security knowledge base
+MITRE ATLAS,Adversarial Threat Landscape for AI Systems,MITRE,attack-framework,https://atlas.mitre.org,4.0,AI/ML adversarial attack framework
+MITRE ATLAS Tactics,ATLAS Tactics,MITRE,tactic-list,https://atlas.mitre.org/tactics,4.0,AI attack tactic categories
+MITRE ATLAS Techniques,ATLAS Techniques,MITRE,technique-list,https://atlas.mitre.org/techniques,4.0,AI attack technique catalog
+MITRE ATLAS Mitigations,ATLAS Mitigations,MITRE,mitigation-list,https://atlas.mitre.org/mitigations,4.0,AI attack mitigations
+MITRE ATLAS Case Studies,ATLAS Case Studies,MITRE,incident-list,https://atlas.mitre.org/studies,4.0,Real-world AI attack examples
+NIST AI 100-2,Adversarial Machine Learning Taxonomy,NIST,taxonomy,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Official AML attack taxonomy
+NIST AI RMF Risks,NIST AI RMF Risk Categories,NIST,risk-framework,https://www.nist.gov/itl/ai-risk-management-framework,1.0,AI risk management categories
+BIML-78,BIML Machine Learning Risk Framework,BIML,risk-list,https://berryvilleiml.com/results,1.0,78 architectural ML security risks
+BIML-81,BIML LLM Risk Framework,BIML,risk-list,https://berryvilleiml.com/results,2024,81 LLM-specific security risks
+BIML Interactive,BIML Interactive ML Risk Framework,BIML,tool,https://berryvilleiml.com/interactive,1.0,Interactive ML risk explorer
+AVID,AI Vulnerability Database,AVID ML,taxonomy,https://avidml.org,1.0,AI/ML vulnerability taxonomy and database
+AVID Taxonomy,AVID Vulnerability Taxonomy,AVID ML,taxonomy,https://avidml.org/taxonomy,1.0,Structured AI vulnerability classification
+AI Incident Database,AI Incident Database,Partnership on AI,incident-db,https://incidentdatabase.ai,2024,Repository of AI incidents
+AIAAIC Repository,AIAAIC Repository,AIAAIC,incident-db,https://www.aiaaic.org,2024,AI incidents and issues
+Stanford HELM,Holistic Evaluation of Language Models,Stanford CRFM,benchmark,https://crfm.stanford.edu/helm,2024,LLM evaluation framework
+Stanford HELM Safety,HELM Safety Benchmark,Stanford CRFM,benchmark,https://crfm.stanford.edu/helm/safety/latest,1.0,LLM safety evaluation
+AIR-Bench,AI Risk Benchmark 2024,Stanford CRFM,benchmark,https://github.com/stanford-crfm/air-bench-2024,2024,Regulation-aligned safety benchmark (314 risk categories)
+Google SAIF,Secure AI Framework,Google,framework,https://safety.google/cybersecurity-advancements/saif,1.0,Google AI security framework
+Meta Purple Llama,Purple Llama,Meta,toolkit,https://github.com/meta-llama/PurpleLlama,2024,LLM security evaluation tools
+CyberSecEval,CyberSecEval,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,LLM cybersecurity benchmark
+CyberSecEval Insecure Code,CyberSecEval Insecure Code Generation,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,Tests LLM insecure code generation
+CyberSecEval Cyberattack,CyberSecEval Cyberattack Assistance,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,Tests LLM cyberattack compliance
+CyberSecEval Prompt Injection,CyberSecEval Prompt Injection,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,Prompt injection susceptibility
+CyberSecEval Code Interpreter,CyberSecEval Code Interpreter Abuse,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,Code interpreter abuse testing
+AutoPatchBench,AutoPatchBench,Meta,benchmark,https://meta-llama.github.io/PurpleLlama/CyberSecEval,4.0,Vulnerability patching benchmark
+Llama Guard,Llama Guard,Meta,model,https://github.com/meta-llama/PurpleLlama/tree/main/Llama-Guard,3.0,Content safety classifier
+Prompt Guard,Prompt Guard,Meta,model,https://github.com/meta-llama/PurpleLlama/tree/main/Prompt-Guard,1.0,Prompt injection detector
+Microsoft PyRIT,Python Risk Identification Tool for AI,Microsoft,tool,https://github.com/Azure/PyRIT,2024,AI red teaming automation tool
+Microsoft Counterfit,Counterfit,Microsoft,tool,https://github.com/Azure/counterfit,2024,Adversarial ML attack framework
+Microsoft RAI Dashboard,Responsible AI Dashboard,Microsoft,tool,https://github.com/microsoft/responsible-ai-toolbox,2024,AI fairness and reliability
+NVIDIA Garak,Garak LLM Vulnerability Scanner,NVIDIA,tool,https://github.com/NVIDIA/garak,2024,LLM vulnerability scanner (150+ attacks)
+Garak Probes,Garak Probe Categories,NVIDIA,attack-list,https://github.com/NVIDIA/garak/tree/main/garak/probes,2024,LLM attack probe library
+Garak Detectors,Garak Detector Categories,NVIDIA,detection-list,https://github.com/NVIDIA/garak/tree/main/garak/detectors,2024,LLM vulnerability detectors
+IBM ART,Adversarial Robustness Toolbox,IBM/LF AI,tool,https://adversarial-robustness-toolbox.org,1.17,Adversarial ML attack/defense toolkit
+IBM ART Evasion,ART Evasion Attacks,IBM/LF AI,attack-list,https://adversarial-robustness-toolbox.readthedocs.io/en/latest/modules/attacks/evasion.html,1.17,ML evasion attack implementations
+IBM ART Poisoning,ART Poisoning Attacks,IBM/LF AI,attack-list,https://adversarial-robustness-toolbox.readthedocs.io/en/latest/modules/attacks/poisoning.html,1.17,ML poisoning attack implementations
+IBM ART Extraction,ART Extraction Attacks,IBM/LF AI,attack-list,https://adversarial-robustness-toolbox.readthedocs.io/en/latest/modules/attacks/extraction.html,1.17,Model extraction attacks
+IBM ART Inference,ART Inference Attacks,IBM/LF AI,attack-list,https://adversarial-robustness-toolbox.readthedocs.io/en/latest/modules/attacks/inference.html,1.17,Privacy inference attacks
+IBM ART Defenses,ART Defense Modules,IBM/LF AI,defense-list,https://adversarial-robustness-toolbox.readthedocs.io/en/latest/modules/defences.html,1.17,ML defense implementations
+AI Fairness 360,AI Fairness 360,IBM,tool,https://aif360.mybluemix.net,2024,Bias detection and mitigation
+Fairlearn,Fairlearn,Microsoft,tool,https://fairlearn.org,2024,ML fairness assessment toolkit
+TextAttack,TextAttack,QData,tool,https://github.com/QData/TextAttack,2024,NLP adversarial attack framework
+TextAttack Recipes,TextAttack Attack Recipes,QData,attack-list,https://textattack.readthedocs.io/en/latest/3recipes/attack_recipes.html,2024,16 NLP attack implementations
+CleverHans,CleverHans,CleverHans Lab,tool,https://github.com/cleverhans-lab/cleverhans,2024,Adversarial example library
+Foolbox,Foolbox,Bethge Lab,tool,https://github.com/bethgelab/foolbox,2024,Adversarial attack toolbox
+OpenAttack,OpenAttack,THU-CSLT,tool,https://github.com/thunlp/OpenAttack,2024,Textual adversarial toolkit
+AdvBox,AdvBox,Baidu,tool,https://github.com/advboxes/AdvBox,2024,Adversarial ML toolbox
+DeepRobust,DeepRobust,DSE-MSU,tool,https://github.com/DSE-MSU/DeepRobust,2024,Adversarial robustness toolkit
+Giskard,Giskard AI Testing,Giskard,tool,https://github.com/Giskard-AI/giskard,2024,ML testing and vulnerability scanner
+LLM Guard,LLM Guard,Protect AI,tool,https://github.com/protectai/llm-guard,2024,LLM security controls
+Rebuff,Rebuff Prompt Injection Detection,Protect AI,tool,https://github.com/protectai/rebuff,2024,Prompt injection defense
+NeMo Guardrails,NeMo Guardrails,NVIDIA,tool,https://github.com/NVIDIA/NeMo-Guardrails,2024,LLM conversation guardrails
+Guardrails AI,Guardrails AI,Guardrails AI,tool,https://github.com/guardrails-ai/guardrails,2024,LLM output validation
+DeepTeam,DeepTeam,Confident AI,tool,https://github.com/confident-ai/deepteam,2024,LLM red teaming framework
+Promptfoo,Promptfoo,Promptfoo,tool,https://github.com/promptfoo/promptfoo,2024,LLM testing and red teaming
+Vigil,Vigil LLM Security,deadbits,tool,https://github.com/deadbits/vigil-llm,2024,LLM prompt analysis
+HarmBench,HarmBench,Center for AI Safety,benchmark,https://github.com/centerforaisafety/HarmBench,2024,Automated red teaming benchmark
+JailbreakBench,JailbreakBench,JailbreakBench,benchmark,https://github.com/JailbreakBench/jailbreakbench,2024,Jailbreak evaluation benchmark
+TrustLLM,TrustLLM,PKU,benchmark,https://github.com/HowieHwong/TrustLLM,2024,LLM trustworthiness benchmark
+SafetyBench,SafetyBench,THU,benchmark,https://github.com/thu-coai/SafetyBench,2024,LLM safety evaluation
+DecodingTrust,DecodingTrust,AI2,benchmark,https://decodingtrust.github.io,2024,GPT trustworthiness assessment
+AdvBench,AdvBench,UMD,benchmark,https://github.com/llm-attacks/llm-attacks,2024,Adversarial behavior benchmark
+SimpleSafetyTests,SimpleSafetyTests,Anthropic,benchmark,https://github.com/bertiewooster/SimpleSafetyTests,2024,Basic LLM safety tests
+BBQ,Bias Benchmark for QA,Google,benchmark,https://github.com/nyu-mll/BBQ,2024,Social bias evaluation
+RealToxicityPrompts,RealToxicityPrompts,AI2,benchmark,https://github.com/allenai/real-toxicity-prompts,2024,Toxicity generation benchmark
+ToxiGen,ToxiGen,Microsoft,benchmark,https://github.com/microsoft/TOXIGEN,2024,Toxic language dataset
+WinoBias,WinoBias,JHU,benchmark,https://github.com/uclanlp/corefBias,2024,Gender bias evaluation
+StereoSet,StereoSet,MIT,benchmark,https://github.com/moinnadeem/StereoSet,2024,Stereotype measurement
+CrowS-Pairs,CrowS-Pairs,NYU,benchmark,https://github.com/nyu-mll/crows-pairs,2024,Stereotype evaluation
+BOLD,Bias in Open-Ended Language Generation Dataset,Amazon,benchmark,https://github.com/amazon-science/bold,2024,Bias in generation
+HolisticBias,HolisticBias,Meta,benchmark,https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias,2024,Comprehensive bias dataset
+Anthropic RSP,Anthropic Responsible Scaling Policy,Anthropic,policy,https://www.anthropic.com/responsible-scaling-policy,2.2,AI safety levels framework
+Anthropic ASL,AI Safety Levels,Anthropic,framework,https://www.anthropic.com/responsible-scaling-policy,2.2,ASL-1 through ASL-4+ definitions
+Anthropic Model Spec,Anthropic Model Spec,Anthropic,specification,https://www.anthropic.com/news/the-model-spec,2024,Model behavior specification
+Anthropic Red Team,Anthropic Frontier Red Team,Anthropic,methodology,https://www.anthropic.com/news/strategic-warning-for-ai-risk-progress-and-insights-from-our-frontier-red-team,2024,Capability assessment methodology
+OpenAI Model Spec,OpenAI Model Spec,OpenAI,specification,https://openai.com/index/the-model-spec,2024,Model behavior specification
+OpenAI System Card,OpenAI Model System Card,OpenAI,disclosure,https://openai.com/index/gpt-4o-system-card,2024,Model capability and safety disclosure
+OpenAI Red Teaming,OpenAI Red Teaming Network,OpenAI,methodology,https://openai.com/index/red-teaming-network,2024,External red teaming program
+Google DeepMind Safety,DeepMind Safety Research,Google DeepMind,research,https://deepmind.google/discover/blog/?category=safety-ethics,2024,AI safety research
+Google Frontier Safety,Google Frontier Safety Framework,Google,framework,https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework,2024,Critical capability levels
+ENISA ML Threats,ENISA Securing Machine Learning Algorithms,ENISA,report,https://www.enisa.europa.eu/publications/securing-machine-learning-algorithms,2021,EU AI threat analysis
+ENISA AI Framework,ENISA Multilayer Framework for AI Cybersecurity,ENISA,framework,https://www.enisa.europa.eu/publications/multilayer-framework-for-good-cybersecurity-practices-for-ai,2023,EU AI security practices
+CSA AI Controls,CSA AI Controls Matrix,CSA,framework,https://cloudsecurityalliance.org/artifacts/ai-controls-matrix,1.0,Cloud AI security controls
+CSA AI Safety,CSA AI Safety Initiative,CSA,initiative,https://cloudsecurityalliance.org/research/working-groups/artificial-intelligence,2024,AI safety working group
+IEEE AI Ethics,IEEE Ethically Aligned Design,IEEE,standard,https://ethicsinaction.ieee.org,2019,AI ethics framework
+IEEE 7000,IEEE 7000 Ethical System Design,IEEE,standard,https://standards.ieee.org/ieee/7000/6781,2021,Model process for addressing ethics
+ISO 42001,ISO/IEC 42001 AI Management System,ISO,standard,https://www.iso.org/standard/81230.html,2023,AI management system requirements
+ISO 23894,ISO/IEC 23894 AI Risk Management,ISO,standard,https://www.iso.org/standard/77304.html,2023,AI risk management guidance
+ISO 24028,ISO/IEC 24028 AI Trustworthiness,ISO,standard,https://www.iso.org/standard/77608.html,2020,AI trustworthiness overview
+ISO 24029,ISO/IEC 24029 AI Robustness,ISO,standard,https://www.iso.org/standard/77609.html,2021,Neural network robustness
+ALTAI,Assessment List for Trustworthy AI,EU HLEG,tool,https://digital-strategy.ec.europa.eu/en/library/assessment-list-trustworthy-artificial-intelligence-altai-self-assessment,2020,AI trustworthiness self-assessment
+Singapore AI Verify,AI Verify,IMDA Singapore,framework,https://aiverifyfoundation.sg,2.0,AI governance testing framework
+MLCommons Safety,MLCommons AI Safety,MLCommons,initiative,https://mlcommons.org/working-groups/ai-safety,2024,AI safety benchmarks
+MLCommons Croissant,MLCommons Croissant,MLCommons,format,https://mlcommons.org/croissant,2024,ML dataset format with safety metadata
+Model Cards,Model Cards for Model Reporting,Google,format,https://modelcards.withgoogle.com,2019,Model documentation standard
+Datasheets for Datasets,Datasheets for Datasets,Microsoft,format,https://www.microsoft.com/en-us/research/project/datasheets-for-datasets,2021,Dataset documentation standard
+System Cards,System Cards,Various,format,https://huggingface.co/docs/hub/model-cards,2024,Model and system documentation
+LLM01,Prompt Injection,OWASP,weakness,https://genai.owasp.org/llmrisk/llm01-prompt-injection,2025,OWASP LLM Top 10 #1
+LLM02,Sensitive Information Disclosure,OWASP,weakness,https://genai.owasp.org/llmrisk/llm02-sensitive-information-disclosure,2025,OWASP LLM Top 10 #2
+LLM03,Supply Chain,OWASP,weakness,https://genai.owasp.org/llmrisk/llm03-supply-chain,2025,OWASP LLM Top 10 #3
+LLM04,Data and Model Poisoning,OWASP,weakness,https://genai.owasp.org/llmrisk/llm04-data-and-model-poisoning,2025,OWASP LLM Top 10 #4
+LLM05,Improper Output Handling,OWASP,weakness,https://genai.owasp.org/llmrisk/llm05-improper-output-handling,2025,OWASP LLM Top 10 #5
+LLM06,Excessive Agency,OWASP,weakness,https://genai.owasp.org/llmrisk/llm06-excessive-agency,2025,OWASP LLM Top 10 #6
+LLM07,System Prompt Leakage,OWASP,weakness,https://genai.owasp.org/llmrisk/llm07-system-prompt-leakage,2025,OWASP LLM Top 10 #7
+LLM08,Vector and Embedding Weaknesses,OWASP,weakness,https://genai.owasp.org/llmrisk/llm08-vector-and-embedding-weaknesses,2025,OWASP LLM Top 10 #8
+LLM09,Misinformation,OWASP,weakness,https://genai.owasp.org/llmrisk/llm09-misinformation,2025,OWASP LLM Top 10 #9
+LLM10,Unbounded Consumption,OWASP,weakness,https://genai.owasp.org/llmrisk/llm10-unbounded-consumption,2025,OWASP LLM Top 10 #10
+ML01,Input Manipulation,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #1
+ML02,Data Poisoning,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #2
+ML03,Model Inversion,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #3
+ML04,Membership Inference,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #4
+ML05,Model Theft,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #5
+ML06,AI Supply Chain,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #6
+ML07,Transfer Learning Attack,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #7
+ML08,Model Skewing,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #8
+ML09,Output Integrity,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #9
+ML10,Model Poisoning,OWASP,weakness,https://owasp.org/www-project-machine-learning-security-top-10,1.0,OWASP ML Top 10 #10
+AML Evasion,Evasion Attacks,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Attacks at inference time
+AML Poisoning,Poisoning Attacks,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Attacks at training time
+AML Data Poisoning,Data Poisoning,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Manipulating training data
+AML Model Poisoning,Model Poisoning,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Manipulating model parameters
+AML Extraction,Model Extraction,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Stealing model functionality
+AML Inference,Inference Attacks,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Privacy attacks on training data
+AML Membership,Membership Inference,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Determining training set membership
+AML Attribute,Attribute Inference,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Inferring sensitive attributes
+AML Inversion,Model Inversion,NIST,attack-category,https://csrc.nist.gov/pubs/ai/100/2/e2025/final,E2025,Reconstructing training data
+HuggingFace Safety,HuggingFace Model Safety,HuggingFace,platform,https://huggingface.co/docs/hub/models-gated,2024,Model access controls
+HuggingFace Evaluate,HuggingFace Evaluate,HuggingFace,tool,https://huggingface.co/docs/evaluate,2024,ML evaluation library
+Weights & Biases,W&B Model Evaluation,Weights & Biases,tool,https://wandb.ai/site/solutions/llm-evaluation,2024,ML experiment tracking
+LangSmith,LangSmith LLM Evaluation,LangChain,tool,https://www.langchain.com/langsmith,2024,LLM application testing
+Arize Phoenix,Arize Phoenix,Arize AI,tool,https://phoenix.arize.com,2024,LLM observability
+Langfuse,Langfuse,Langfuse,tool,https://langfuse.com,2024,LLM analytics and evaluation
+PromptTools,PromptTools,Hegel AI,tool,https://github.com/hegelai/prompttools,2024,Prompt testing framework
+LMSYS Chatbot Arena,LMSYS Chatbot Arena,LMSYS,benchmark,https://chat.lmsys.org,2024,LLM comparison platform
+Open LLM Leaderboard,Open LLM Leaderboard,HuggingFace,benchmark,https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard,2024,Open model comparison
+Big Code Leaderboard,Big Code Models Leaderboard,HuggingFace,benchmark,https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard,2024,Code model evaluation
+Hallucination Leaderboard,Hallucination Leaderboard,Vectara,benchmark,https://github.com/vectara/hallucination-leaderboard,2024,Factual accuracy ranking
+Sightline,Sightline AI/ML Supply Chain Vulnerabilities,Protect AI,database,https://sightline.protectai.com,2024,AI/ML supply chain vulnerability database
+huntr AI/ML,huntr AI/ML Bug Bounty,Protect AI,bug-bounty,https://huntr.com,2024,AI/ML vulnerability disclosure
+Lakera Gandalf,Lakera Gandalf,Lakera,game,https://gandalf.lakera.ai,2024,Prompt injection challenge
+Tensor Trust,Tensor Trust,ETH Zurich,game,https://tensortrust.ai,2024,Prompt injection competition
+PromptArmor,PromptArmor,PromptArmor,scanner,https://promptarmor.com,2024,Indirect prompt injection scanner
+MIT AI Risk Repository,MIT AI Risk Repository,MIT FutureTech,risk-taxonomy,https://airisk.mit.edu,2025,1700+ risks in 7 domains and 23 subdomains
+MIT AI Risk Database,MIT AI Risk Database,MIT FutureTech,risk-database,https://airisk.mit.edu,2025,Curated risks from 74 frameworks
+MIT Causal Taxonomy,MIT AI Risk Causal Taxonomy,MIT FutureTech,taxonomy,https://airisk.mit.edu,2025,Entity/Intentionality/Timing classification
+MIT Domain Taxonomy,MIT AI Risk Domain Taxonomy,MIT FutureTech,taxonomy,https://airisk.mit.edu,2025,7 domains: discrimination/privacy/misinfo/misuse/HCI/socioeconomic/safety
+MIT AI Incident Tracker,MIT AI Incident Tracker,MIT FutureTech,incident-db,https://airisk.mit.edu/ai-incident-tracker,2025,AI incident classification and tracking
+OECD AIM,OECD AI Incidents Monitor,OECD,incident-db,https://oecd.ai/en/incidents,2024,Policy-focused AI incident monitoring
+OECD AI Classification,OECD Framework for Classification of AI Systems,OECD,framework,https://oecd.ai/en/classification,2024,AI system classification for policy
+OECD AI Incident Framework,OECD Common AI Incident Reporting Framework,OECD,framework,https://www.oecd.org/en/topics/ai-risks-and-incidents.html,2025,Standardized incident reporting
+OECD AI Policy Observatory,OECD.AI Policy Observatory,OECD,portal,https://oecd.ai,2024,AI policy resources and monitoring
+Center for AI Safety,Center for AI Safety,CAIS,research,https://www.safe.ai,2024,AI safety research organization
+CAIS Statement,CAIS Statement on AI Risk,CAIS,declaration,https://www.safe.ai/statement-on-ai-risk,2023,AI extinction risk statement
+Future of Life Institute,Future of Life Institute AI,FLI,research,https://futureoflife.org/cause-area/artificial-intelligence,2024,AI existential risk research
+FLI AI Policy,FLI AI Policy Resources,FLI,policy,https://futureoflife.org/project/policy,2024,AI governance and policy
+FLI Pause Letter,FLI Pause Giant AI Experiments,FLI,declaration,https://futureoflife.org/open-letter/pause-giant-ai-experiments,2023,Open letter on AI development
+MIRI,Machine Intelligence Research Institute,MIRI,research,https://intelligence.org,2024,AI alignment research
+Alignment Forum,Alignment Forum,LessWrong,community,https://www.alignmentforum.org,2024,AI alignment research community
+AI Alignment,AI Alignment Research,Various,research,https://aisafety.info,2024,AI safety resource hub
+Centre for Study of Existential Risk,CSER AI Research,Cambridge,research,https://www.cser.ac.uk/research/risks-from-ai,2024,Existential risk from AI
+Center for Human-Compatible AI,CHAI,UC Berkeley,research,https://humancompatible.ai,2024,Human-compatible AI research
+Anthropic Research,Anthropic Safety Research,Anthropic,research,https://www.anthropic.com/research,2024,AI safety research publications
+DeepMind Safety,DeepMind Safety Research,Google DeepMind,research,https://deepmind.google/discover/blog/?category=safety-ethics,2024,AI safety and ethics research
+OpenAI Safety,OpenAI Safety Research,OpenAI,research,https://openai.com/safety,2024,AI safety research and practices
+AI Safety Institute UK,UK AI Safety Institute,UK Government,government,https://www.gov.uk/government/organisations/ai-safety-institute,2024,UK government AI safety research
+AI Safety Institute US,US AI Safety Institute,NIST,government,https://www.nist.gov/aisi,2024,US government AI safety research
+AI Safety Institute Japan,Japan AI Safety Institute,Japan Government,government,https://www.meti.go.jp/english/policy/mono_info_service/information_economy/artificial_intelligence.html,2024,Japanese AI safety efforts
+AI Seoul Summit,Seoul AI Safety Summit,International,summit,https://www.gov.uk/government/topical-events/ai-safety-summit-2024,2024,International AI safety coordination
+AI Bletchley,Bletchley AI Safety Summit,International,summit,https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration,2023,First international AI safety summit
+Epoch AI,Epoch AI,Epoch,research,https://epochai.org,2024,AI trends and forecasting research
+AI Index,Stanford AI Index,Stanford HAI,report,https://aiindex.stanford.edu,2024,Annual AI progress report
+State of AI,State of AI Report,Air Street Capital,report,https://www.stateof.ai,2024,Annual AI industry report
+HAI Policy Brief,Stanford HAI Policy Briefs,Stanford HAI,policy,https://hai.stanford.edu/policy-briefs,2024,AI policy research
+Brookings AI,Brookings AI Governance,Brookings,policy,https://www.brookings.edu/topic/artificial-intelligence,2024,AI governance research
+RAND AI,RAND AI Policy,RAND,policy,https://www.rand.org/topics/artificial-intelligence.html,2024,AI policy analysis
+Carnegie AI,Carnegie AI Governance,Carnegie Endowment,policy,https://carnegieendowment.org/topics/artificial-intelligence,2024,AI governance research
+Ada Lovelace Institute,Ada Lovelace Institute AI,Ada Lovelace,research,https://www.adalovelaceinstitute.org,2024,AI ethics and society research
+AI Now Institute,AI Now Institute,NYU,research,https://ainowinstitute.org,2024,Social implications of AI
+Data & Society,Data & Society AI,Data & Society,research,https://datasociety.net,2024,AI and society research
+Algorithm Watch,Algorithm Watch,Algorithm Watch,watchdog,https://algorithmwatch.org,2024,Algorithmic accountability
+Distributed AI Research,DAIR Institute,DAIR,research,https://www.dairinstitute.org,2024,Community-rooted AI research
+EleutherAI,EleutherAI,EleutherAI,research,https://www.eleuther.ai,2024,Open-source AI research
+Conjecture,Conjecture,Conjecture,research,https://www.conjecture.dev,2024,AI alignment research
+Redwood Research,Redwood Research,Redwood,research,https://www.redwoodresearch.org,2024,AI alignment research
+Apollo Research,Apollo Research,Apollo,research,https://www.apolloresearch.ai,2024,AI deception and safety research
+ARC Evals,ARC Evaluations,ARC,evaluation,https://evals.alignment.org,2024,Dangerous capability evaluations
+METR,Model Evaluation and Threat Research,METR,evaluation,https://metr.org,2024,AI capability evaluations
+Palisade Research,Palisade Research,Palisade,research,https://palisaderesearch.org,2024,AI safety and security research
+NHTSA AV Incidents,NHTSA Standing General Order Crash Reports,NHTSA,incident-db,https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting,2024,Autonomous vehicle crash reports (500+ incidents)
+NHTSA AV Recalls,NHTSA Autonomous Vehicle Recalls,NHTSA,incident-db,https://www.nhtsa.gov/recalls-spotlight/automated-vehicle-recalls,2024,AV safety recalls database
+NHTSA ODI,NHTSA Office of Defects Investigation,NHTSA,incident-db,https://www.nhtsa.gov/vehicle-safety/vehicle-related-complaints,2024,Vehicle defect complaints including ADAS/AV
+Tesla Deaths,Tesla Deaths Tracker,Tesladeaths.com,incident-db,https://www.tesladeaths.com,2024,Crowdsourced Tesla Autopilot incidents
+Autopilot Incidents,AP/Autopilot Incidents Database,Various,incident-db,https://www.autopilotreview.com/incidents,2024,Compiled ADAS/autopilot incidents
+DMV AV Reports,California DMV Autonomous Vehicle Reports,CA DMV,incident-db,https://www.dmv.ca.gov/portal/vehicle-industry-services/autonomous-vehicles/autonomous-vehicle-collision-reports,2024,California AV collision and disengagement reports
+FDA MAUDE AI,FDA MAUDE Medical Device Adverse Events,FDA,incident-db,https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfmaude/search.cfm,2024,Medical device adverse events (filter for AI/ML devices)
+FDA AI/ML Devices,FDA AI/ML-Enabled Medical Devices,FDA,database,https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices,2024,Authorized AI/ML medical devices list (900+)
+AI Healthcare Incidents,AI in Healthcare Incident Collection,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Healthcare subset of AIID
+Epic Sepsis Model,Epic Sepsis Prediction Failures,Academic,case-study,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8366091,2021,Widely deployed sepsis model performance issues
+IBM Watson Health,IBM Watson for Oncology Issues,Academic,case-study,https://www.statnews.com/2018/07/25/ibm-watson-recommended-unsafe-incorrect-treatments,2018,Watson oncology recommendation failures
+Optum Algorithm,Optum/UHC Healthcare Algorithm Bias,Academic,case-study,https://www.science.org/doi/10.1126/science.aax2342,2019,Racial bias in healthcare algorithm
+IDx-DR,IDx-DR Diabetic Retinopathy AI,FDA,case-study,https://www.fda.gov/news-events/press-announcements/fda-permits-marketing-artificial-intelligence-based-device-detect-certain-diabetes-related-eye,2018,First FDA-approved autonomous AI diagnostic
+Hiring AI Incidents,AI Hiring Bias Incidents,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Employment/hiring AI incidents subset
+Amazon Hiring Tool,Amazon AI Recruiting Tool Bias,Reuters,case-study,https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G,2018,Gender bias in resume screening
+HireVue Issues,HireVue Video Interview AI Concerns,FTC/Academic,case-study,https://epic.org/privacy/ftc/hirevue,2024,Video interview AI bias concerns
+COMPAS,COMPAS Recidivism Algorithm,ProPublica,case-study,https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing,2016,Criminal justice algorithm bias
+Facial Recognition Incidents,Facial Recognition Wrongful Arrests,ACLU/Various,incident-db,https://www.aclu.org/news/privacy-technology/wronghat-facial-recognition-cant-tell-black-people-apart,2024,Facial recognition misidentification incidents
+Clearview AI Issues,Clearview AI Privacy/Accuracy Issues,Various,case-study,https://www.nytimes.com/2020/01/18/technology/clearview-privacy-facial-recognition.html,2020,Facial recognition privacy and accuracy concerns
+ShotSpotter Issues,ShotSpotter Gunshot Detection Issues,AP/Academic,case-study,https://apnews.com/article/artificial-intelligence-algorithm-technology-police-crime-7e3345ac2b,2021,Gunshot detection accuracy and bias
+Content Moderation AI,Social Media Content Moderation Failures,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Content moderation AI incidents
+YouTube Algorithm,YouTube Recommendation Issues,Mozilla/Academic,case-study,https://foundation.mozilla.org/en/youtube/findings,2024,Recommendation algorithm harms research
+Deepfake Incidents,Deepfake/Synthetic Media Incidents,Sensity/Various,incident-db,https://sensity.ai/reports,2024,Deepfake abuse tracking
+Financial AI Incidents,Financial Services AI Incidents,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Financial AI incidents subset
+Knight Capital,Knight Capital Trading Algorithm,SEC,case-study,https://www.sec.gov/litigation/admin/2013/34-70694.pdf,2012,Algorithmic trading $440M loss
+Flash Crash 2010,2010 Flash Crash,SEC/CFTC,case-study,https://www.sec.gov/news/studies/2010/marketevents-report.pdf,2010,Algorithmic trading market crash
+Zillow iBuyer,Zillow Offers AI Pricing Failure,Various,case-study,https://www.bloomberg.com/news/articles/2021-11-02/zillow-selling-7-000-homes-for-2-8-billion-after-algorithm-stumbles,2021,Home pricing algorithm $500M+ loss
+Credit Scoring AI,AI Credit Scoring Issues,CFPB/Various,incident-db,https://www.consumerfinance.gov/about-us/blog/using-alternative-data-evaluate-creditworthiness,2024,AI credit decisioning concerns
+Apple Card Bias,Apple Card Credit Limit Bias,Various,case-study,https://www.bloomberg.com/news/articles/2019-11-09/viral-tweet-about-apple-card-leads-to-probe-into-goldman-sachs,2019,Gender bias in credit limits
+Education AI Incidents,Education AI Incidents,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Educational AI incidents subset
+IB Algorithm 2020,International Baccalaureate Algorithm 2020,Various,case-study,https://www.bbc.com/news/education-53923279,2020,Exam grade prediction algorithm failures
+A-Levels Algorithm,UK A-Levels Algorithm 2020,Ofqual,case-study,https://www.gov.uk/government/publications/awarding-gcse-as-a-levels-in-summer-2020-interim-report,2020,UK exam grading algorithm controversy
+Proctoring AI,AI Proctoring Software Issues,EFF/Various,incident-db,https://www.eff.org/deeplinks/2020/09/students-are-pushing-back-against-proctoring-surveillance-apps,2024,Remote proctoring AI bias and privacy
+Infrastructure AI,Critical Infrastructure AI Incidents,Various,incident-db,https://incidentdatabase.ai/taxonomy/cset/ai_applications,2024,Infrastructure AI incidents subset
+Uber ATG Crash,Uber Autonomous Vehicle Fatal Crash,NTSB,case-study,https://www.ntsb.gov/investigations/AccidentReports/Reports/HAR1903.pdf,2018,First autonomous vehicle pedestrian fatality
+Cruise Incidents,Cruise AV Incidents,Various,incident-db,https://www.nhtsa.gov/press-releases/nhtsa-upgrades-cruise-llc-investigation,2024,Cruise robotaxi incidents and suspension
+Waymo Incidents,Waymo AV Incident Reports,Waymo/NHTSA,incident-db,https://waymo.com/safety,2024,Waymo safety reports and incidents
+AI Weapons Incidents,AI/Autonomous Weapons Concerns,Various,incident-db,https://autonomousweapons.org,2024,Autonomous weapons incidents and concerns
+Drone Strike AI,AI-Assisted Targeting Incidents,Various,case-study,https://www.hrw.org/topic/arms/autonomous-weapons,2024,Military AI targeting concerns
+OWASP AIVSS,AI Vulnerability Scoring System,OWASP,scoring,https://owasp.org/www-project-ai-vulnerability-scoring-system,2024,AI-specific vulnerability severity scoring
+OWASP Agentic AI,OWASP Agentic AI Top 10,OWASP,weakness-list,https://owasp.org/www-project-agentic-ai-threats-and-mitigations,2024,Agentic AI security risks
+Anthropic Model Card,Anthropic Claude Model Card,Anthropic,model-card,https://www.anthropic.com/claude,2024,Claude model capability documentation
+Google Model Cards,Google AI Model Cards,Google,model-card,https://modelcards.withgoogle.com/object-detection,2024,Google model documentation examples
+OpenAI GPT-4 Card,GPT-4 System Card,OpenAI,system-card,https://cdn.openai.com/papers/gpt-4-system-card.pdf,2023,GPT-4 capability and safety documentation
+OpenAI GPT-4o Card,GPT-4o System Card,OpenAI,system-card,https://openai.com/index/gpt-4o-system-card,2024,GPT-4o multimodal system card
+OpenAI o1 Card,o1 System Card,OpenAI,system-card,https://openai.com/index/openai-o1-system-card,2024,o1 reasoning model system card
+Meta Llama Card,Llama Model Card,Meta,model-card,https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/MODEL_CARD.md,2024,Llama model documentation
+HuggingFace Model Cards,HuggingFace Model Cards,HuggingFace,model-card,https://huggingface.co/docs/hub/model-cards,2024,Community model card standard
+AI Risk Cards,AI Risk Cards,Various,risk-card,https://airisk.mit.edu,2024,MIT AI risk documentation format

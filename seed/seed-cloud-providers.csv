@@ -1,0 +1,66 @@
+provider_short,provider_full,vendor,region,url,compliance_url,type,notes
+AWS,Amazon Web Services,Amazon,US/Global,https://aws.amazon.com,https://aws.amazon.com/compliance,hyperscaler,Market leader; most services and regions
+Azure,Microsoft Azure,Microsoft,US/Global,https://azure.microsoft.com,https://azure.microsoft.com/en-us/explore/trusted-cloud/compliance,hyperscaler,Enterprise-focused; hybrid strength
+GCP,Google Cloud Platform,Google,US/Global,https://cloud.google.com,https://cloud.google.com/security/compliance,hyperscaler,AI/ML and data analytics focus
+Oracle Cloud,Oracle Cloud Infrastructure,Oracle,US/Global,https://www.oracle.com/cloud,https://www.oracle.com/corporate/cloud-compliance,tier-1,Database and enterprise workloads
+IBM Cloud,IBM Cloud,IBM,US/Global,https://www.ibm.com/cloud,https://www.ibm.com/cloud/compliance,tier-1,Hybrid cloud; enterprise AI
+Alibaba Cloud,Alibaba Cloud (Aliyun),Alibaba,China/Global,https://www.alibabacloud.com,https://www.alibabacloud.com/trust-center,hyperscaler,Largest Asian cloud provider
+Tencent Cloud,Tencent Cloud,Tencent,China/Global,https://www.tencentcloud.com,https://www.tencentcloud.com/document/product/1033/30427,tier-1,Gaming and social media expertise
+Huawei Cloud,Huawei Cloud,Huawei,China/Global,https://www.huaweicloud.com,https://www.huaweicloud.com/intl/en-us/securecenter/compliance.html,tier-1,Enterprise and telecom focus
+Baidu AI Cloud,Baidu AI Cloud,Baidu,China,https://cloud.baidu.com,https://cloud.baidu.com/product/security.html,tier-2,AI and autonomous driving focus
+JD Cloud,JD Cloud,JD.com,China,https://www.jdcloud.com,https://www.jdcloud.com/en/pages/security,tier-2,E-commerce and logistics cloud
+Kingsoft Cloud,Kingsoft Cloud,Kingsoft,China,https://www.ksyun.com,https://www.ksyun.com/nv/security,tier-2,Gaming and video streaming
+UCloud,UCloud,UCloud,China,https://www.ucloud.cn,https://www.ucloud.cn/site/product/ugc.html,tier-2,Chinese enterprise cloud
+Digital Ocean,DigitalOcean,DigitalOcean,US/Global,https://www.digitalocean.com,https://www.digitalocean.com/trust,tier-2,Developer-focused simplicity
+Linode,Linode (Akamai),Akamai,US/Global,https://www.linode.com,https://www.linode.com/legal-security,tier-2,Developer cloud; edge computing
+Vultr,Vultr,Constant Company,US/Global,https://www.vultr.com,https://www.vultr.com/legal/compliance,tier-2,High performance cloud compute
+Rackspace,Rackspace Technology,Rackspace,US/Global,https://www.rackspace.com,https://www.rackspace.com/compliance,tier-2,Managed cloud services
+OVHcloud,OVHcloud,OVH,France/EU,https://www.ovhcloud.com,https://www.ovhcloud.com/en/about-us/certifications,tier-1,Largest European cloud; data sovereignty
+Scaleway,Scaleway,Iliad Group,France/EU,https://www.scaleway.com,https://www.scaleway.com/en/about-us/compliance,tier-2,European developer cloud
+Hetzner,Hetzner Cloud,Hetzner,Germany/EU,https://www.hetzner.com/cloud,https://www.hetzner.com/legal/privacy-policy,tier-2,Cost-effective European hosting
+IONOS,IONOS Cloud,United Internet,Germany/EU,https://www.ionos.com/cloud,https://www.ionos.com/cloud/security,tier-2,European SMB cloud
+Exoscale,Exoscale,A1 Digital,Switzerland/EU,https://www.exoscale.com,https://www.exoscale.com/compliance,tier-2,Swiss data sovereignty
+Infomaniak,Infomaniak Cloud,Infomaniak,Switzerland,https://www.infomaniak.com/en/hosting/cloud,https://www.infomaniak.com/en/legal/general-terms-and-conditions,tier-3,Swiss ethical cloud
+UpCloud,UpCloud,UpCloud,Finland/EU,https://upcloud.com,https://upcloud.com/resources/tutorials/upcloud-security-compliance,tier-2,European performance cloud
+Yandex Cloud,Yandex Cloud,Yandex,Russia,https://cloud.yandex.com,https://cloud.yandex.com/en/docs/overview/security,tier-1,Russian market leader
+SberCloud,SberCloud,Sberbank,Russia,https://sbercloud.ru,https://sbercloud.ru/en/security,tier-2,Russian financial cloud
+NTT Communications,NTT Cloud,NTT,Japan/Global,https://www.ntt.com/en/services/cloud.html,https://www.ntt.com/en/about-us/global-data-centers/security-compliance.html,tier-1,Japanese enterprise cloud
+SoftBank,SoftBank Cloud,SoftBank,Japan,https://www.softbank.jp/biz/cloud,https://www.softbank.jp/biz/security,tier-2,Japanese telecom cloud
+Fujitsu Cloud,Fujitsu Cloud Service,Fujitsu,Japan,https://www.fujitsu.com/global/services/hybrid-cloud,https://www.fujitsu.com/global/about/csr/security,tier-2,Japanese enterprise hybrid cloud
+NAVER Cloud,NAVER Cloud Platform,NAVER,South Korea,https://www.ncloud.com,https://www.ncloud.com/support/security,tier-1,Korean market leader
+Kakao Cloud,Kakao Cloud,Kakao,South Korea,https://www.kakaocloud.com,https://www.kakaocloud.com/service/security,tier-2,Korean messaging platform cloud
+KT Cloud,KT Cloud,KT Corporation,South Korea,Korea,https://cloud.kt.com,https://cloud.kt.com/portal/security,tier-2,Korean telecom cloud
+NHN Cloud,NHN Cloud,NHN,South Korea,https://www.nhncloud.com,https://www.nhncloud.com/kr/service/security,tier-2,Korean gaming cloud
+Singtel Cloud,Singtel Cloud,Singtel,Singapore/APAC,https://www.singtel.com/business/products-services/cloud,https://www.singtel.com/about-us/trust-centre,tier-2,Singapore telecom cloud
+Telstra Cloud,Telstra Cloud Services,Telstra,Australia,https://www.telstra.com.au/business-enterprise/solutions/cloud,https://www.telstra.com.au/privacy/privacy-statement,tier-2,Australian telecom cloud
+Spark NZ,Spark Cloud,Spark NZ,New Zealand,https://www.spark.co.nz/business/solutions/cloud,https://www.spark.co.nz/privacy,tier-2,New Zealand cloud
+Tata Communications,Tata Communications Cloud,Tata,India/Global,https://www.tatacommunications.com/services/cloud-and-data-centre,https://www.tatacommunications.com/about/compliance,tier-2,Indian enterprise cloud
+Reliance Jio,Jio Cloud,Reliance Jio,India,https://www.jio.com/business/cloud,https://www.jio.com/en-in/privacy-policy,tier-2,Indian consumer/enterprise cloud
+CtrlS,CtrlS Datacenters,CtrlS,India,https://www.ctrls.in,https://www.ctrls.in/compliance,tier-3,Indian data center provider
+E2E Networks,E2E Cloud,E2E Networks,India,https://www.e2enetworks.com,https://www.e2enetworks.com/compliance,tier-3,Indian GPU cloud
+Biznet Gio,Biznet Gio Cloud,Biznet,Indonesia,https://www.biznetgio.com,https://www.biznetgio.com/en/compliance,tier-3,Indonesian local cloud
+VNPT Cloud,VNPT Cloud,VNPT,Vietnam,https://cloud.vnpt.vn,https://cloud.vnpt.vn/bao-mat,tier-3,Vietnamese state telecom cloud
+Viettel Cloud,Viettel Cloud,Viettel,Vietnam,https://viettelcloud.vn,https://viettelcloud.vn/bao-mat,tier-3,Vietnamese telecom cloud
+True IDC,True IDC,True Corporation,Thailand,https://www.trueidc.com,https://www.trueidc.com/en/security,tier-3,Thai data center cloud
+Beeks,Beeks Financial Cloud,Beeks Group,UK/Global,https://www.beeksgroup.com,https://www.beeksgroup.com/compliance,specialty,Financial services cloud
+Equinix Metal,Equinix Metal,Equinix,US/Global,https://deploy.equinix.com,https://www.equinix.com/data-centers/design/security,specialty,Bare metal cloud
+phoenixNAP,phoenixNAP,phoenixNAP,US/Global,https://phoenixnap.com,https://phoenixnap.com/compliance,tier-3,Bare metal and colocation
+Lumen,Lumen Cloud,Lumen Technologies,US/Global,https://www.lumen.com/en-us/cloud.html,https://www.lumen.com/en-us/about/compliance.html,tier-2,Edge and hybrid cloud
+VMware Cloud,VMware Cloud,VMware/Broadcom,US/Global,https://cloud.vmware.com,https://www.vmware.com/solutions/trust-center.html,specialty,Multi-cloud virtualization
+SAP Cloud,SAP Business Technology Platform,SAP,Germany/Global,https://www.sap.com/products/technology-platform.html,https://www.sap.com/about/trust-center/certification-compliance.html,specialty,Enterprise application cloud
+Salesforce,Salesforce Platform,Salesforce,US/Global,https://www.salesforce.com/platform,https://compliance.salesforce.com,specialty,CRM and business cloud
+ServiceNow,ServiceNow Cloud,ServiceNow,US/Global,https://www.servicenow.com,https://www.servicenow.com/company/trust.html,specialty,Workflow and ITSM cloud
+Workday,Workday Cloud,Workday,US/Global,https://www.workday.com,https://www.workday.com/en-us/company/about-workday/security-trust.html,specialty,HR and finance cloud
+Cloudflare,Cloudflare,Cloudflare,US/Global,https://www.cloudflare.com,https://www.cloudflare.com/trust-hub/compliance-resources,specialty,Edge cloud and security
+Fastly,Fastly,Fastly,US/Global,https://www.fastly.com,https://www.fastly.com/trust,specialty,Edge cloud platform
+Akamai,Akamai Connected Cloud,Akamai,US/Global,https://www.akamai.com/solutions/cloud-computing,https://www.akamai.com/legal/compliance,specialty,CDN and edge cloud
+Lambda Labs,Lambda Cloud,Lambda Labs,US,https://lambdalabs.com/service/gpu-cloud,https://lambdalabs.com/legal/terms-of-service,specialty,GPU cloud for AI/ML
+CoreWeave,CoreWeave,CoreWeave,US,https://www.coreweave.com,https://www.coreweave.com/trust-center,specialty,GPU cloud for AI/ML
+Paperspace,Paperspace (DigitalOcean),DigitalOcean,US,https://www.paperspace.com,https://www.paperspace.com/security,specialty,GPU cloud and ML platform
+RunPod,RunPod,RunPod,US,https://www.runpod.io,https://www.runpod.io/legal/privacy-policy,specialty,GPU cloud for AI inference
+Crusoe Cloud,Crusoe Cloud,Crusoe Energy,US,https://www.crusoe.ai,https://www.crusoe.ai/cloud,specialty,Clean energy AI cloud
+Together AI,Together Cloud,Together AI,US,https://www.together.ai,https://www.together.ai/trust,specialty,AI inference cloud
+Anyscale,Anyscale,Anyscale,US,https://www.anyscale.com,https://www.anyscale.com/security,specialty,Ray-based AI compute
+Modal,Modal,Modal Labs,US,https://modal.com,https://modal.com/security,specialty,Serverless AI compute
+Replicate,Replicate,Replicate,US,https://replicate.com,https://replicate.com/terms,specialty,ML model hosting
+Baseten,Baseten,Baseten,US,https://www.baseten.co,https://www.baseten.co/security,specialty,ML inference platform

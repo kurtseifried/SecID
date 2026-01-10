@@ -1,0 +1,110 @@
+cert_short,cert_full,provider,domain,url,level,notes
+CCSK,Certificate of Cloud Security Knowledge,CSA,cloud,https://cloudsecurityalliance.org/education/ccsk,foundation,CSA cloud security fundamentals (v5)
+CCSP,Certified Cloud Security Professional,ISC2/CSA,cloud,https://www.isc2.org/certifications/ccsp,professional,Advanced cloud security certification
+CCAK,Certificate of Cloud Auditing Knowledge,CSA/ISACA,cloud,https://cloudsecurityalliance.org/education/ccak,professional,Cloud auditing certification
+CISSP,Certified Information Systems Security Professional,ISC2,general,https://www.isc2.org/certifications/cissp,professional,Broad security management certification
+CISM,Certified Information Security Manager,ISACA,management,https://www.isaca.org/credentialing/cism,professional,Security management focus
+CISA,Certified Information Systems Auditor,ISACA,audit,https://www.isaca.org/credentialing/cisa,professional,IT audit certification
+CRISC,Certified in Risk and Information Systems Control,ISACA,risk,https://www.isaca.org/credentialing/crisc,professional,IT risk management
+CGEIT,Certified in Governance of Enterprise IT,ISACA,governance,https://www.isaca.org/credentialing/cgeit,professional,IT governance certification
+CDPSE,Certified Data Privacy Solutions Engineer,ISACA,privacy,https://www.isaca.org/credentialing/cdpse,professional,Privacy engineering certification
+SSCP,Systems Security Certified Practitioner,ISC2,general,https://www.isc2.org/certifications/sscp,associate,Entry-level security certification
+CSSLP,Certified Secure Software Lifecycle Professional,ISC2,development,https://www.isc2.org/certifications/csslp,professional,Secure development certification
+HCISPP,HealthCare Information Security and Privacy Practitioner,ISC2,healthcare,https://www.isc2.org/certifications/hcispp,professional,Healthcare security certification
+Security+,CompTIA Security+,CompTIA,general,https://www.comptia.org/certifications/security,foundation,Entry-level security certification
+CySA+,CompTIA Cybersecurity Analyst,CompTIA,analyst,https://www.comptia.org/certifications/cybersecurity-analyst,professional,Security analyst certification
+CASP+,CompTIA Advanced Security Practitioner,CompTIA,general,https://www.comptia.org/certifications/comptia-advanced-security-practitioner,advanced,Advanced technical security
+PenTest+,CompTIA PenTest+,CompTIA,offensive,https://www.comptia.org/certifications/pentest,professional,Penetration testing certification
+Cloud+,CompTIA Cloud+,CompTIA,cloud,https://www.comptia.org/certifications/cloud,foundation,Cloud fundamentals certification
+CEH,Certified Ethical Hacker,EC-Council,offensive,https://www.eccouncil.org/programs/certified-ethical-hacker-ceh,professional,Ethical hacking certification
+CPENT,Certified Penetration Testing Professional,EC-Council,offensive,https://www.eccouncil.org/programs/certified-penetration-testing-professional-cpent,advanced,Advanced penetration testing
+LPT,Licensed Penetration Tester,EC-Council,offensive,https://www.eccouncil.org/programs/licensed-penetration-tester-lpt-master,expert,Master-level penetration testing
+CHFI,Computer Hacking Forensic Investigator,EC-Council,forensics,https://www.eccouncil.org/programs/computer-hacking-forensic-investigator-chfi,professional,Digital forensics certification
+OSCP,Offensive Security Certified Professional,OffSec,offensive,https://www.offsec.com/courses/pen-200,professional,Hands-on penetration testing
+OSEP,Offensive Security Experienced Penetration Tester,OffSec,offensive,https://www.offsec.com/courses/pen-300,advanced,Advanced evasion techniques
+OSWE,Offensive Security Web Expert,OffSec,offensive,https://www.offsec.com/courses/web-300,advanced,Web application security
+OSED,Offensive Security Exploit Developer,OffSec,offensive,https://www.offsec.com/courses/exp-301,advanced,Windows exploit development
+OSEE,Offensive Security Exploitation Expert,OffSec,offensive,https://www.offsec.com/courses/exp-401,expert,Advanced Windows exploitation
+GPEN,GIAC Penetration Tester,SANS/GIAC,offensive,https://www.giac.org/certifications/penetration-tester-gpen,professional,SANS penetration testing
+GWAPT,GIAC Web Application Penetration Tester,SANS/GIAC,offensive,https://www.giac.org/certifications/web-application-penetration-tester-gwapt,professional,Web app penetration testing
+GCIH,GIAC Certified Incident Handler,SANS/GIAC,incident,https://www.giac.org/certifications/certified-incident-handler-gcih,professional,Incident response certification
+GCIA,GIAC Certified Intrusion Analyst,SANS/GIAC,analyst,https://www.giac.org/certifications/certified-intrusion-analyst-gcia,professional,Network intrusion analysis
+GSEC,GIAC Security Essentials,SANS/GIAC,general,https://www.giac.org/certifications/security-essentials-gsec,foundation,Security fundamentals
+GCFA,GIAC Certified Forensic Analyst,SANS/GIAC,forensics,https://www.giac.org/certifications/certified-forensic-analyst-gcfa,professional,Advanced digital forensics
+GCFE,GIAC Certified Forensic Examiner,SANS/GIAC,forensics,https://www.giac.org/certifications/certified-forensic-examiner-gcfe,professional,Windows forensics
+GNFA,GIAC Network Forensic Analyst,SANS/GIAC,forensics,https://www.giac.org/certifications/network-forensic-analyst-gnfa,professional,Network forensics
+GREM,GIAC Reverse Engineering Malware,SANS/GIAC,malware,https://www.giac.org/certifications/reverse-engineering-malware-grem,professional,Malware analysis certification
+GCTI,GIAC Cyber Threat Intelligence,SANS/GIAC,threat-intel,https://www.giac.org/certifications/cyber-threat-intelligence-gcti,professional,Threat intelligence certification
+GICSP,GIAC Global Industrial Cyber Security Professional,SANS/GIAC,ics,https://www.giac.org/certifications/global-industrial-cyber-security-professional-gicsp,professional,ICS/OT security
+GRID,GIAC Response and Industrial Defense,SANS/GIAC,ics,https://www.giac.org/certifications/response-industrial-defense-grid,professional,ICS incident response
+GSLC,GIAC Security Leadership,SANS/GIAC,management,https://www.giac.org/certifications/security-leadership-gslc,professional,Security management
+GCPM,GIAC Certified Project Manager,SANS/GIAC,management,https://www.giac.org/certifications/certified-project-manager-gcpm,professional,Security project management
+GSTRT,GIAC Strategic Planning Policy and Leadership,SANS/GIAC,management,https://www.giac.org/certifications/strategic-planning-policy-leadership-gstrt,professional,Security strategy
+GAWN,GIAC Assessing and Auditing Wireless Networks,SANS/GIAC,wireless,https://www.giac.org/certifications/assessing-auditing-wireless-networks-gawn,professional,Wireless security
+GMOB,GIAC Mobile Device Security Analyst,SANS/GIAC,mobile,https://www.giac.org/certifications/mobile-device-security-analyst-gmob,professional,Mobile security
+GPYC,GIAC Python Coder,SANS/GIAC,development,https://www.giac.org/certifications/python-coder-gpyc,professional,Security Python programming
+GDSA,GIAC Defensible Security Architecture,SANS/GIAC,architecture,https://www.giac.org/certifications/defensible-security-architecture-gdsa,professional,Security architecture
+GCCC,GIAC Critical Controls Certification,SANS/GIAC,controls,https://www.giac.org/certifications/critical-controls-certification-gccc,professional,CIS Controls certification
+GCLOUD,GIAC Cloud Security Automation,SANS/GIAC,cloud,https://www.giac.org/certifications/cloud-security-automation-gcsa,professional,Cloud security automation
+AWS SAA,AWS Solutions Architect Associate,AWS,cloud,https://aws.amazon.com/certification/certified-solutions-architect-associate,associate,AWS architecture fundamentals
+AWS SAP,AWS Solutions Architect Professional,AWS,cloud,https://aws.amazon.com/certification/certified-solutions-architect-professional,professional,Advanced AWS architecture
+AWS Security,AWS Certified Security Specialty,AWS,cloud,https://aws.amazon.com/certification/certified-security-specialty,specialty,AWS security certification
+AWS DevOps,AWS Certified DevOps Engineer Professional,AWS,cloud,https://aws.amazon.com/certification/certified-devops-engineer-professional,professional,AWS DevOps certification
+Azure Administrator,Microsoft Certified Azure Administrator,Microsoft,cloud,https://learn.microsoft.com/en-us/certifications/azure-administrator,associate,Azure administration
+Azure Security,Microsoft Certified Azure Security Engineer,Microsoft,cloud,https://learn.microsoft.com/en-us/certifications/azure-security-engineer,associate,Azure security certification
+Azure Architect,Microsoft Certified Azure Solutions Architect,Microsoft,cloud,https://learn.microsoft.com/en-us/certifications/azure-solutions-architect,expert,Azure architecture certification
+SC-100,Microsoft Cybersecurity Architect,Microsoft,security,https://learn.microsoft.com/en-us/certifications/cybersecurity-architect-expert,expert,Microsoft security architecture
+SC-200,Microsoft Security Operations Analyst,Microsoft,security,https://learn.microsoft.com/en-us/certifications/security-operations-analyst,associate,Microsoft SOC analyst
+SC-300,Microsoft Identity and Access Administrator,Microsoft,identity,https://learn.microsoft.com/en-us/certifications/identity-and-access-administrator,associate,Microsoft identity management
+SC-400,Microsoft Information Protection Administrator,Microsoft,data,https://learn.microsoft.com/en-us/certifications/information-protection-administrator,associate,Microsoft data protection
+GCP Security,Google Cloud Professional Security Engineer,Google,cloud,https://cloud.google.com/certification/cloud-security-engineer,professional,GCP security certification
+GCP Architect,Google Cloud Professional Architect,Google,cloud,https://cloud.google.com/certification/cloud-architect,professional,GCP architecture certification
+CKS,Certified Kubernetes Security Specialist,CNCF,container,https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist,specialty,Kubernetes security
+CKA,Certified Kubernetes Administrator,CNCF,container,https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka,professional,Kubernetes administration
+CKAD,Certified Kubernetes Application Developer,CNCF,container,https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad,professional,Kubernetes development
+PCNSE,Palo Alto Networks Certified Security Engineer,Palo Alto,network,https://www.paloaltonetworks.com/services/education/certification,professional,Palo Alto firewall certification
+CCNA Security,Cisco Certified Network Associate Security,Cisco,network,https://www.cisco.com/c/en/us/training-events/training-certifications/certifications.html,associate,Cisco network security
+CCNP Security,Cisco Certified Network Professional Security,Cisco,network,https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional/ccnp-security.html,professional,Advanced Cisco security
+CCIE Security,Cisco Certified Internetwork Expert Security,Cisco,network,https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/expert/ccie-security.html,expert,Expert-level Cisco security
+PCIP,Payment Card Industry Professional,PCI SSC,payment,https://www.pcisecuritystandards.org/program_training_and_qualification/pci_professional_qualification,professional,PCI DSS implementation
+QSA,Qualified Security Assessor,PCI SSC,payment,https://www.pcisecuritystandards.org/program_training_and_qualification/qsa_qualification,professional,PCI DSS assessment
+ISA,Internal Security Assessor,PCI SSC,payment,https://www.pcisecuritystandards.org/program_training_and_qualification/internal_security_assessor,professional,Internal PCI assessment
+PA-QSA,Payment Application QSA,PCI SSC,payment,https://www.pcisecuritystandards.org/program_training_and_qualification/pa-qsa_qualification,professional,Payment application assessment
+P2PE QSA,Point-to-Point Encryption QSA,PCI SSC,payment,https://www.pcisecuritystandards.org/program_training_and_qualification/p2pe_qsa,professional,P2PE assessment
+CIPP,Certified Information Privacy Professional,IAPP,privacy,https://iapp.org/certify/cipp,professional,Privacy law certification (US/E/C/A/G variants)
+CIPM,Certified Information Privacy Manager,IAPP,privacy,https://iapp.org/certify/cipm,professional,Privacy program management
+CIPT,Certified Information Privacy Technologist,IAPP,privacy,https://iapp.org/certify/cipt,professional,Privacy technology certification
+FIP,Fellow of Information Privacy,IAPP,privacy,https://iapp.org/certify/fip,expert,Senior privacy designation
+CBCP,Certified Business Continuity Professional,DRI International,resilience,https://drii.org/certification/cbcp,professional,Business continuity certification
+MBCP,Master Business Continuity Professional,DRI International,resilience,https://drii.org/certification/mbcp,expert,Advanced BC certification
+CFCP,Certified Functional Continuity Professional,DRI International,resilience,https://drii.org/certification/cfcp,professional,Functional BC certification
+ABCP,Associate Business Continuity Professional,DRI International,resilience,https://drii.org/certification/abcp,associate,Entry-level BC certification
+CBCI,Certificate of the Business Continuity Institute,BCI,resilience,https://www.thebci.org/training-qualifications/qualifications.html,professional,BCI certification
+CBRM,Certified Business Resilience Manager,BRCCI,resilience,https://brcci.org/certifications,professional,Business resilience certification
+ISO 27001 LA,ISO 27001 Lead Auditor,Various,audit,https://www.iso.org/isoiec-27001-information-security.html,professional,ISMS audit certification
+ISO 27001 LI,ISO 27001 Lead Implementer,Various,implementation,https://www.iso.org/isoiec-27001-information-security.html,professional,ISMS implementation certification
+ISO 22301 LA,ISO 22301 Lead Auditor,Various,audit,https://www.iso.org/iso-22301-business-continuity.html,professional,BCMS audit certification
+ISO 22301 LI,ISO 22301 Lead Implementer,Various,implementation,https://www.iso.org/iso-22301-business-continuity.html,professional,BCMS implementation certification
+HITRUST CCSFP,HITRUST CSF Practitioner,HITRUST,healthcare,https://hitrustalliance.net/certification,professional,HITRUST implementation
+CAP,Certified Authorization Professional,ISC2,government,https://www.isc2.org/certifications/cap,professional,RMF/ATO certification
+CGRC,Certified in Governance Risk and Compliance,ISC2,governance,https://www.isc2.org/certifications/cgrc,professional,GRC certification (formerly CAP)
+CCZT,Certified in Zero Trust,CSA,architecture,https://cloudsecurityalliance.org/education/cczt,professional,Zero trust architecture certification
+CASE,Certified Application Security Engineer,EC-Council,development,https://www.eccouncil.org/programs/certified-application-security-engineer,professional,Application security certification
+CTIA,Certified Threat Intelligence Analyst,EC-Council,threat-intel,https://www.eccouncil.org/programs/certified-threat-intelligence-analyst,professional,Threat intelligence certification
+ECIH,EC-Council Certified Incident Handler,EC-Council,incident,https://www.eccouncil.org/programs/ec-council-certified-incident-handler-ecih,professional,Incident handling certification
+CCISO,Certified Chief Information Security Officer,EC-Council,management,https://www.eccouncil.org/programs/certified-chief-information-security-officer-cciso,executive,CISO certification
+HTB CPTS,Hack The Box Certified Penetration Testing Specialist,HTB,offensive,https://academy.hackthebox.com/preview/certifications/htb-certified-penetration-testing-specialist,professional,Practical penetration testing
+HTB CDSA,Hack The Box Certified Defensive Security Analyst,HTB,defensive,https://academy.hackthebox.com/preview/certifications/htb-certified-defensive-security-analyst,professional,Blue team certification
+HTB CWEE,Hack The Box Certified Web Exploitation Expert,HTB,offensive,https://academy.hackthebox.com/preview/certifications/htb-certified-web-exploitation-expert,advanced,Web exploitation certification
+eJPT,eLearnSecurity Junior Penetration Tester,INE,offensive,https://security.ine.com/certifications/ejpt-certification,foundation,Entry-level penetration testing
+eCPPT,eLearnSecurity Certified Professional Penetration Tester,INE,offensive,https://security.ine.com/certifications/ecppt-certification,professional,Professional penetration testing
+eWPT,eLearnSecurity Web Application Penetration Tester,INE,offensive,https://security.ine.com/certifications/ewpt-certification,professional,Web penetration testing
+eMAPT,eLearnSecurity Mobile Application Penetration Tester,INE,offensive,https://security.ine.com/certifications/emapt-certification,professional,Mobile penetration testing
+BTL1,Blue Team Level 1,Security Blue Team,defensive,https://www.securityblue.team/certifications/blue-team-level-1,foundation,Entry-level blue team
+BTL2,Blue Team Level 2,Security Blue Team,defensive,https://www.securityblue.team/certifications/blue-team-level-2,professional,Advanced blue team
+PNPT,Practical Network Penetration Tester,TCM Security,offensive,https://certifications.tcm-sec.com/pnpt,professional,Practical penetration testing
+PJPT,Practical Junior Penetration Tester,TCM Security,offensive,https://certifications.tcm-sec.com/pjpt,foundation,Junior penetration testing
+GXPN,GIAC Exploit Researcher and Advanced Penetration Tester,SANS/GIAC,offensive,https://www.giac.org/certifications/exploit-researcher-advanced-penetration-tester-gxpn,advanced,Advanced exploitation
+GPCS,GIAC Public Cloud Security,SANS/GIAC,cloud,https://www.giac.org/certifications/public-cloud-security-gpcs,professional,Multi-cloud security
+GCPN,GIAC Cloud Penetration Tester,SANS/GIAC,cloud,https://www.giac.org/certifications/cloud-penetration-tester-gcpn,professional,Cloud penetration testing
+GDAT,GIAC Defending Advanced Threats,SANS/GIAC,defensive,https://www.giac.org/certifications/defending-advanced-threats-gdat,professional,Advanced threat defense

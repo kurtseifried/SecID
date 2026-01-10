@@ -1,0 +1,21 @@
+platform_short,platform_full,url,disclosure_url,api,notes
+HackerOne,HackerOne,https://www.hackerone.com,https://hackerone.com/hacktivity,https://api.hackerone.com,Largest bug bounty platform; public Hacktivity feed
+Bugcrowd,Bugcrowd,https://www.bugcrowd.com,https://bugcrowd.com/crowdstream,https://docs.bugcrowd.com/api,Enterprise bug bounty; CrowdStream for disclosures
+Intigriti,Intigriti,https://www.intigriti.com,https://www.intigriti.com/researchers/submissions,https://kb.intigriti.com/en/articles/5595869-api-documentation,European bug bounty platform
+YesWeHack,YesWeHack,https://www.yeswehack.com,https://www.yeswehack.com/programs,https://api.yeswehack.com,European bug bounty; CVE numbering authority
+Synack,Synack Red Team,https://www.synack.com,,,Private/managed bug bounty platform
+Cobalt,Cobalt,https://www.cobalt.io,https://www.cobalt.io/blog/pentester-resources,https://docs.cobalt.io/v1,Pentest as a Service with public findings
+Detectify,Detectify Crowdsource,https://www.detectify.com,https://labs.detectify.com,,Crowdsourced security scanning
+Open Bug Bounty,Open Bug Bounty,https://www.openbugbounty.org,https://www.openbugbounty.org/reports,,Free coordinated disclosure platform
+Vulnerability Lab,Vulnerability Lab,https://www.vulnerability-lab.com,https://www.vulnerability-lab.com/get_content.php?id=23,,Public vulnerability disclosures
+ZDI,Zero Day Initiative,https://www.zerodayinitiative.com,https://www.zerodayinitiative.com/advisories/published,https://www.zerodayinitiative.com/rss/published,Trend Micro; buys vulnerabilities; publishes advisories
+Google VRP,Google Vulnerability Reward Program,https://bughunters.google.com,https://bughunters.google.com/report/reports,https://bughunters.google.com/open-source,Google products and OSS
+Microsoft MSRC Bounty,Microsoft Bug Bounty,https://www.microsoft.com/en-us/msrc/bounty,https://msrc.microsoft.com/update-guide,,Microsoft products
+Apple Security Bounty,Apple Security Bounty,https://security.apple.com/bounty,https://support.apple.com/en-us/HT201222,,Apple products
+Meta Bug Bounty,Meta Bug Bounty Program,https://www.facebook.com/whitehat,https://www.facebook.com/security/advisories,,Facebook/Meta products
+GitHub Security Lab,GitHub Security Lab,https://securitylab.github.com,https://securitylab.github.com/advisories,https://securitylab.github.com/research,GitHub-funded OSS research
+Internet Bug Bounty,Internet Bug Bounty,https://internetbugbounty.org,https://hackerone.com/ibb,,Bounties for internet infrastructure (OpenSSL etc)
+EU-FOSSA,EU Free and Open Source Software Auditing,https://ec.europa.eu/info/departments/informatics/eu-fossa-2_en,,,EU-funded OSS bug bounties
+Immunefi,Immunefi,https://immunefi.com,https://immunefi.com/explore,https://immunefi.com/api,Web3/blockchain bug bounties
+Code4rena,Code4rena,https://code4rena.com,https://code4rena.com/reports,,Smart contract audit competitions
+Sherlock,Sherlock Protocol,https://www.sherlock.xyz,https://github.com/sherlock-audit,,DeFi security audit contests

@@ -1,0 +1,213 @@
+db_short,db_full,operator,region,url,type,notes
+CVE,Common Vulnerabilities and Exposures,MITRE,Global,https://www.cve.org,identifier,Global vulnerability identifier system
+NVD,National Vulnerability Database,NIST,US,https://nvd.nist.gov,enrichment,US government CVE enrichment (CVSS/CPE/CWE)
+CISA KEV,Known Exploited Vulnerabilities Catalog,CISA,US,https://www.cisa.gov/known-exploited-vulnerabilities-catalog,catalog,Actively exploited vulnerabilities
+Vulnrichment,CISA Vulnrichment,CISA,US,https://github.com/cisagov/vulnrichment,enrichment,CISA CVE enrichment data
+VulnCheck KEV,VulnCheck KEV,VulnCheck,US,https://vulncheck.com/kev,catalog,Extended KEV with more sources
+VulnCheck NVD++,VulnCheck NVD++,VulnCheck,US,https://vulncheck.com,enrichment,Enhanced NVD data
+CNVD,China National Vulnerability Database,CNCERT/CC,China,https://www.cnvd.org.cn,national,Chinese national vulnerability database
+CNNVD,China National Vulnerability Database of Information Security,CNCERT,China,https://www.cnnvd.org.cn,national,Chinese government vulnerability database
+JVN,Japan Vulnerability Notes,JPCERT/CC & IPA,Japan,https://jvn.jp,national,Japanese vulnerability database
+JVN iPedia,JVN iPedia,IPA,Japan,https://jvndb.jvn.jp,national,Japanese vulnerability encyclopedia
+KVE,Korea Vulnerability Enumeration,KISA,South Korea,https://knvd.kisa.go.kr,national,Korean vulnerability database (KNVD)
+TWCVE,Taiwan CVE,TWCERT/CC,Taiwan,https://www.twcert.org.tw,national,Taiwan vulnerability tracking
+EUVD,European Union Vulnerability Database,ENISA,EU,https://www.enisa.europa.eu/topics/vulnerability-disclosure,regional,EU vulnerability database (upcoming)
+CERT-EU Vuln,CERT-EU Vulnerability Database,CERT-EU,EU,https://cert.europa.eu,regional,EU institutions vulnerability tracking
+DFN-CERT Advisories,DFN-CERT Advisory Database,DFN-CERT,Germany,https://adv-archiv.dfn-cert.de,national,German research network advisories
+CERT-Bund Advisories,CERT-Bund Advisories,BSI,Germany,https://www.cert-bund.de/advisories,national,German federal CERT advisories
+CERT-FR Advisories,CERT-FR Advisories,ANSSI,France,https://www.cert.ssi.gouv.fr/avis,national,French government advisories
+NCSC-NL Advisories,NCSC-NL Advisories,NCSC-NL,Netherlands,https://advisories.ncsc.nl,national,Dutch national advisories
+CERT-SE Advisories,CERT-SE Vulnerability Database,CERT-SE,Sweden,https://www.cert.se,national,Swedish national advisories
+NCSC Advisories,NCSC Advisories,NCSC UK,UK,https://www.ncsc.gov.uk/section/keep-up-to-date/advisories-alerts,national,UK national cyber security advisories
+AusCERT Bulletins,AusCERT Security Bulletins,AusCERT,Australia,https://www.auscert.org.au/bulletins,national,Australian security bulletins
+ACSC Alerts,ACSC Alerts and Advisories,ACSC,Australia,https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories,national,Australian government advisories
+CCCS Advisories,CCCS Advisories,CCCS,Canada,https://www.cyber.gc.ca/en/advisories,national,Canadian government advisories
+CERT-In Advisories,CERT-In Vulnerability Notes,CERT-In,India,https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES,national,Indian national advisories
+SingCERT Advisories,SingCERT Advisories,CSA Singapore,Singapore,https://www.csa.gov.sg/singcert/Advisories,national,Singapore advisories
+GHSA,GitHub Security Advisories,GitHub,Global,https://github.com/advisories,vendor,GitHub-curated security advisories
+GHSA Database,GitHub Advisory Database,GitHub,Global,https://github.com/github/advisory-database,vendor,GitHub advisory database repo
+GitLab Advisories,GitLab Security Advisories,GitLab,Global,https://advisories.gitlab.com,vendor,GitLab security advisories
+OSV,Open Source Vulnerabilities,Google/OpenSSF,Global,https://osv.dev,aggregator,Open source vulnerability aggregator
+OSV Schema,OSV Schema,OpenSSF,Global,https://ossf.github.io/osv-schema,format,Open source vulnerability format
+Go Vulncheck,Go Vulnerability Database,Google,Global,https://vuln.go.dev,ecosystem,Go module vulnerabilities
+npm Advisories,npm Security Advisories,npm/GitHub,Global,https://www.npmjs.com/advisories,ecosystem,Node.js package vulnerabilities
+PyPI Advisory DB,Python Advisory Database,PyPA,Global,https://github.com/pypa/advisory-database,ecosystem,Python package vulnerabilities
+RubyGems Advisories,RubyGems Security Advisories,RubyGems,Global,https://rubygems.org/advisories,ecosystem,Ruby gem vulnerabilities
+Ruby Advisory DB,Ruby Advisory Database,RubySec,Global,https://github.com/rubysec/ruby-advisory-db,ecosystem,Ruby security advisories
+Packagist Advisories,Packagist Security Advisories,Packagist,Global,https://packagist.org/advisories,ecosystem,PHP Composer vulnerabilities
+crates.io Advisories,RustSec Advisory Database,RustSec,Global,https://rustsec.org,ecosystem,Rust crate vulnerabilities
+Hex.pm Advisories,Hex.pm Security Advisories,Hex,Global,https://hex.pm/advisories,ecosystem,Elixir/Erlang vulnerabilities
+Maven Advisories,Maven Security Advisories,Sonatype,Global,https://ossindex.sonatype.org,ecosystem,Java/Maven vulnerabilities
+NuGet Advisories,NuGet Security Advisories,Microsoft,Global,https://github.com/NuGet/Announcements,ecosystem,NuGet package vulnerabilities
+Haskell Advisories,Haskell Security Advisory Database,Haskell Foundation,Global,https://github.com/haskell/security-advisories,ecosystem,Haskell package vulnerabilities
+SwiftPM Advisories,Swift Package Manager Advisories,Apple,Global,https://github.com/apple/swift-package-manager,ecosystem,Swift package vulnerabilities
+Bitnami VulnDB,Bitnami Vulnerability Database,VMware,Global,https://github.com/bitnami/vulndb,ecosystem,Bitnami container vulnerabilities
+Wolfi Advisories,Wolfi Security Advisories,Chainguard,Global,https://github.com/wolfi-dev/advisories,ecosystem,Wolfi OS advisories
+Alpine SecDB,Alpine Linux Security Database,Alpine,Global,https://secdb.alpinelinux.org,distro,Alpine Linux security
+Debian Security Tracker,Debian Security Tracker,Debian,Global,https://security-tracker.debian.org/tracker,distro,Debian vulnerability tracking
+Ubuntu CVE Tracker,Ubuntu CVE Tracker,Canonical,Global,https://ubuntu.com/security/cves,distro,Ubuntu vulnerability tracking
+USN,Ubuntu Security Notices,Canonical,Global,https://ubuntu.com/security/notices,distro,Ubuntu security advisories
+DSA,Debian Security Advisories,Debian,Global,https://www.debian.org/security,distro,Debian security advisories
+DLA,Debian LTS Advisories,Debian,Global,https://www.debian.org/lts/security,distro,Debian LTS advisories
+RHSA,Red Hat Security Advisories,Red Hat,Global,https://access.redhat.com/security/security-updates,distro,Red Hat security advisories
+Red Hat CVE DB,Red Hat CVE Database,Red Hat,Global,https://access.redhat.com/security/cve,distro,Red Hat CVE tracking
+RHEL Security,Red Hat Product Security,Red Hat,Global,https://www.redhat.com/security,distro,Red Hat security portal
+CentOS Security,CentOS Security Advisories,CentOS,Global,https://lists.centos.org/pipermail/centos-announce,distro,CentOS advisories (legacy)
+Rocky Linux Security,Rocky Linux Security Advisories,Rocky Linux,Global,https://errata.rockylinux.org,distro,Rocky Linux advisories
+AlmaLinux Security,AlmaLinux Security Advisories,AlmaLinux,Global,https://errata.almalinux.org,distro,AlmaLinux advisories
+Oracle Linux Security,Oracle Linux Security Advisories,Oracle,Global,https://linux.oracle.com/security,distro,Oracle Linux advisories
+SUSE Security,SUSE Security Advisories,SUSE,Global,https://www.suse.com/security/cve,distro,SUSE security advisories
+openSUSE Security,openSUSE Security Advisories,openSUSE,Global,https://lists.opensuse.org/archives/list/security-announce@lists.opensuse.org,distro,openSUSE advisories
+Amazon Linux Security,Amazon Linux Security Center,AWS,Global,https://alas.aws.amazon.com,distro,Amazon Linux advisories
+ALAS,Amazon Linux Security Advisories,AWS,Global,https://alas.aws.amazon.com/alas2.html,distro,Amazon Linux 2 advisories
+Arch Linux Security,Arch Linux Security Tracker,Arch Linux,Global,https://security.archlinux.org,distro,Arch Linux vulnerabilities
+Gentoo GLSA,Gentoo Linux Security Advisories,Gentoo,Global,https://security.gentoo.org/glsa,distro,Gentoo advisories
+FreeBSD Security,FreeBSD Security Advisories,FreeBSD,Global,https://www.freebsd.org/security/advisories,distro,FreeBSD advisories
+OpenBSD Security,OpenBSD Security Advisories,OpenBSD,Global,https://www.openbsd.org/errata.html,distro,OpenBSD errata
+NetBSD Security,NetBSD Security Advisories,NetBSD,Global,https://www.netbsd.org/support/security,distro,NetBSD advisories
+Photon OS Security,Photon OS Security Advisories,VMware,Global,https://github.com/vmware/photon/wiki/Security-Advisories,distro,VMware Photon advisories
+CBL-Mariner Security,CBL-Mariner Security,Microsoft,Global,https://github.com/microsoft/CBL-Mariner,distro,Microsoft Linux distro
+Flatpak Security,Flatpak Security Advisories,Flatpak,Global,https://github.com/flatpak/flatpak/security,container,Flatpak security
+Snap Security,Snap Store Security,Canonical,Global,https://snapcraft.io/docs/security-policy,container,Snap package security
+Docker Hub Security,Docker Hub Vulnerability Scanning,Docker,Global,https://docs.docker.com/docker-hub/vulnerability-scanning,container,Docker image scanning
+Quay Security,Quay.io Security Scanning,Red Hat,Global,https://quay.io,container,Container image scanning
+GCR Security,Google Container Registry Vulnerability Scanning,Google,Global,https://cloud.google.com/container-analysis,container,GCP container scanning
+ECR Security,Amazon ECR Image Scanning,AWS,Global,https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html,container,AWS container scanning
+ACR Security,Azure Container Registry Vulnerability Scanning,Microsoft,Global,https://docs.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-vulnerability-assessment-azure,container,Azure container scanning
+Trivy DB,Trivy Vulnerability Database,Aqua Security,Global,https://github.com/aquasecurity/trivy-db,scanner,Trivy vulnerability database
+Grype DB,Grype Vulnerability Database,Anchore,Global,https://github.com/anchore/grype-db,scanner,Grype vulnerability database
+Clair DB,Clair Vulnerability Database,Quay,Global,https://github.com/quay/clair,scanner,Clair scanner database
+Snyk Vuln DB,Snyk Vulnerability Database,Snyk,Global,https://snyk.io/vuln,commercial,Snyk proprietary database
+Snyk Intel,Snyk Intel Vulnerability Database,Snyk,Global,https://snyk.io/product/vulnerability-database,commercial,Snyk intelligence
+Mend Vuln DB,Mend Vulnerability Database,Mend (WhiteSource),Global,https://www.mend.io,commercial,Mend proprietary database
+Sonatype OSS Index,Sonatype OSS Index,Sonatype,Global,https://ossindex.sonatype.org,commercial,Free OSS vulnerability data
+Sonatype Vuln DB,Sonatype Vulnerability Database,Sonatype,Global,https://www.sonatype.com/products/vulnerability-database,commercial,Nexus vulnerability data
+Black Duck,Black Duck Security Advisories,Synopsys,Global,https://www.synopsys.com/software-integrity/security-testing/software-composition-analysis.html,commercial,Black Duck SCA database
+Veracode SCA,Veracode SCA Database,Veracode,Global,https://www.veracode.com/products/software-composition-analysis,commercial,Veracode SCA vulnerabilities
+Checkmarx SCA,Checkmarx SCA Database,Checkmarx,Global,https://checkmarx.com/product/cxsca-open-source-scanning,commercial,Checkmarx SCA database
+FOSSA Security,FOSSA Security Database,FOSSA,Global,https://fossa.com,commercial,FOSSA vulnerability data
+VulnDB,Risk Based Security VulnDB,Flashpoint,Global,https://flashpoint.io/ignite/vulnerability-intelligence,commercial,Comprehensive vulnerability database
+Secunia,Secunia Research,Flexera,Global,https://www.flexera.com/products/software-vulnerability-research/secunia-research,commercial,Secunia vulnerability research
+SecPod SCAP,SecPod SCAP Feed,SecPod,Global,https://www.secpod.com/scap-feed,commercial,SCAP vulnerability data
+VulDB,VulDB Vulnerability Database,VulDB,Global,https://vuldb.com,commercial,Crowdsourced vulnerability database
+Packet Storm,Packet Storm Security,Packet Storm,Global,https://packetstormsecurity.com,community,Security exploits and advisories
+Exploit-DB,Exploit Database,OffSec,Global,https://www.exploit-db.com,community,Exploit archive with CVE mapping
+SecurityFocus BugTraq,SecurityFocus BugTraq,Symantec,Global,https://www.securityfocus.com/bid,legacy,Historical vulnerability database (archived)
+OSVDB,Open Source Vulnerability Database,OSVDB,Global,https://blog.osvdb.org,legacy,Historical database (discontinued 2016)
+Full Disclosure,Full Disclosure Mailing List,Nmap,Global,https://seclists.org/fulldisclosure,community,Vulnerability disclosure list
+oss-security,oss-security Mailing List,OpenWall,Global,https://www.openwall.com/lists/oss-security,community,Open source security discussions
+Rapid7 Vuln DB,Rapid7 Vulnerability Database,Rapid7,Global,https://www.rapid7.com/db,commercial,Rapid7 vulnerability and exploit data
+AttackerKB,AttackerKB,Rapid7,Global,https://attackerkb.com,community,Community vulnerability assessments
+Nuclei Templates,Nuclei Templates,ProjectDiscovery,Global,https://github.com/projectdiscovery/nuclei-templates,community,Vulnerability detection templates
+OpenCVE,OpenCVE,OpenCVE,Global,https://www.opencve.io,aggregator,CVE monitoring and alerting platform
+CVE Details,CVE Details,CVE Details,Global,https://www.cvedetails.com,aggregator,CVE statistics and search
+Shodan Vulns,Shodan Vulnerability Search,Shodan,Global,https://www.shodan.io,scanner,Internet-wide vulnerability detection
+Censys,Censys Internet Security,Censys,Global,https://censys.io,scanner,Internet-wide security scanning
+GreyNoise,GreyNoise Intelligence,GreyNoise,Global,https://www.greynoise.io,intel,Mass exploitation detection
+Shadowserver,Shadowserver Foundation,Shadowserver,Global,https://www.shadowserver.org,intel,Free security scanning reports
+MITRE CVE List,MITRE CVE List,MITRE,Global,https://cve.mitre.org/cve/search_cve_list.html,identifier,Legacy CVE search
+CVE GitHub,CVE List V5,CVE Project,Global,https://github.com/CVEProject/cvelistV5,identifier,Official CVE JSON repository
+CVE Services,CVE Services API,MITRE,Global,https://cveawg.mitre.org/api,api,CVE Services REST API
+NVD API,NVD API 2.0,NIST,Global,https://nvd.nist.gov/developers,api,NVD data feeds and API
+ICS-CERT Advisories,ICS-CERT Advisories,CISA,US,https://www.cisa.gov/uscert/ics/advisories,sector,Industrial control systems advisories
+US-CERT Alerts,US-CERT Alerts,CISA,US,https://www.cisa.gov/uscert/ncas/alerts,national,US-CERT security alerts
+CERT/CC Vuln Notes,CERT/CC Vulnerability Notes,CERT/CC,US,https://www.kb.cert.org/vuls,coordination,CERT/CC vulnerability notes
+ICS Advisory Project,ICS Advisory Project,CISA,US,https://github.com/cisagov/CSAF,sector,ICS advisories in CSAF format
+FIRST VRDX,FIRST VRDX SIG,FIRST,Global,https://www.first.org/global/sigs/vrdx,coordination,Vulnerability reporting and data exchange
+Patchstack,Patchstack WordPress Vulnerabilities,Patchstack,Global,https://patchstack.com/database,sector,WordPress vulnerability database
+WPScan,WPScan Vulnerability Database,WPScan,Global,https://wpscan.com/wordpresses,sector,WordPress vulnerabilities
+Wordfence Intel,Wordfence Threat Intelligence,Wordfence,Global,https://www.wordfence.com/threat-intel,sector,WordPress threat intelligence
+Drupal Security,Drupal Security Advisories,Drupal,Global,https://www.drupal.org/security,sector,Drupal security advisories
+Joomla Security,Joomla Security Centre,Joomla,Global,https://developer.joomla.org/security-centre.html,sector,Joomla security advisories
+Magento Security,Adobe Commerce Security Bulletins,Adobe,Global,https://helpx.adobe.com/security/products/magento.html,sector,Magento/Adobe Commerce security
+Kubernetes CVE Feed,Kubernetes Security Issues,Kubernetes,Global,https://kubernetes.io/docs/reference/issues-security/official-cve-feed,sector,Kubernetes CVE tracking
+Cloud Native Security,CNCF Security Advisories,CNCF,Global,https://www.cncf.io/security-advisories,sector,CNCF project advisories
+HashiCorp Security,HashiCorp Security Bulletins,HashiCorp,Global,https://discuss.hashicorp.com/c/security,vendor,HashiCorp product security
+Elastic Security,Elastic Security Advisories,Elastic,Global,https://www.elastic.co/community/security,vendor,Elastic stack advisories
+MongoDB Security,MongoDB Security Alerts,MongoDB,Global,https://www.mongodb.com/alerts,vendor,MongoDB advisories
+PostgreSQL Security,PostgreSQL Security Information,PostgreSQL,Global,https://www.postgresql.org/support/security,vendor,PostgreSQL security
+MySQL Security,MySQL Security Advisories,Oracle,Global,https://www.oracle.com/security-alerts/cpujan2024.html,vendor,MySQL security (via Oracle CPU)
+Apache Security,Apache Security Reports,Apache,Global,https://www.apache.org/security,vendor,Apache project security
+Nginx Security,Nginx Security Advisories,F5,Global,https://nginx.org/en/security_advisories.html,vendor,Nginx advisories
+OpenSSL Security,OpenSSL Security Advisories,OpenSSL,Global,https://www.openssl.org/news/vulnerabilities.html,vendor,OpenSSL vulnerabilities
+LibreSSL Security,LibreSSL Security,OpenBSD,Global,https://www.libressl.org,vendor,LibreSSL security
+BoringSSL Security,BoringSSL Security,Google,Global,https://boringssl.googlesource.com/boringssl,vendor,Google's OpenSSL fork
+curl Security,curl Security,curl Project,Global,https://curl.se/docs/security.html,vendor,curl advisories
+wget Security,GNU Wget Security,GNU,Global,https://lists.gnu.org/archive/html/bug-wget,vendor,wget security
+Git Security,Git Security,Git,Global,https://github.com/git/git/security/advisories,vendor,Git version control security
+Chromium Security,Chromium Security,Google,Global,https://chromereleases.googleblog.com,vendor,Chrome/Chromium security
+Firefox Security,Mozilla Foundation Security Advisories,Mozilla,Global,https://www.mozilla.org/en-US/security/advisories,vendor,Firefox/Mozilla advisories
+WebKit Security,WebKit Security,Apple/WebKit,Global,https://webkit.org/security,vendor,Safari/WebKit security
+Node.js Security,Node.js Security Releases,Node.js,Global,https://nodejs.org/en/blog/vulnerability,vendor,Node.js security releases
+Deno Security,Deno Security Advisories,Deno,Global,https://github.com/denoland/deno/security/advisories,vendor,Deno runtime security
+Bun Security,Bun Security,Oven,Global,https://github.com/oven-sh/bun/security/advisories,vendor,Bun runtime security
+Python Security,Python Security,Python,Global,https://www.python.org/news/security,vendor,Python language security
+Ruby Security,Ruby Security,Ruby,Global,https://www.ruby-lang.org/en/news/categories/security,vendor,Ruby language security
+PHP Security,PHP Security Advisories,PHP,Global,https://www.php.net/security,vendor,PHP language security
+Java Security,Oracle Java Security,Oracle,Global,https://www.oracle.com/java/technologies/javase/securityalerts.html,vendor,Java security alerts
+.NET Security,.NET Security Updates,Microsoft,Global,https://github.com/dotnet/announcements/labels/Security,vendor,.NET framework security
+Rust Security,Rust Security Advisories,Rust,Global,https://www.rust-lang.org/policies/security,vendor,Rust language security
+Go Security,Go Security,Google,Global,https://go.dev/security,vendor,Go language security
+Swift Security,Swift Security,Apple,Global,https://support.apple.com/en-us/HT201222,vendor,Swift/Apple security
+Linux Kernel Security,Linux Kernel Security,Linux,Global,https://www.kernel.org/category/security.html,vendor,Linux kernel security
+Android Security,Android Security Bulletins,Google,Global,https://source.android.com/docs/security/bulletin,vendor,Android monthly bulletins
+iOS Security,Apple Security Updates,Apple,Global,https://support.apple.com/en-us/HT201222,vendor,iOS/macOS security updates
+Windows Security,Microsoft Security Updates,Microsoft,Global,https://msrc.microsoft.com/update-guide,vendor,Windows/Microsoft security
+VMware Security,VMware Security Advisories,Broadcom,Global,https://www.vmware.com/security/advisories.html,vendor,VMware advisories (VMSA)
+Citrix Security,Citrix Security Bulletins,Cloud Software Group,Global,https://support.citrix.com/securitybulletins,vendor,Citrix advisories
+Fortinet Security,Fortinet PSIRT Advisories,Fortinet,Global,https://www.fortiguard.com/psirt,vendor,Fortinet advisories
+Palo Alto Security,Palo Alto Networks Security Advisories,Palo Alto Networks,Global,https://security.paloaltonetworks.com,vendor,PAN-OS advisories
+Cisco Security,Cisco Security Advisories,Cisco,Global,https://sec.cloudapps.cisco.com/security/center/publicationListing.x,vendor,Cisco advisories
+Juniper Security,Juniper Security Advisories,Juniper Networks,Global,https://supportportal.juniper.net/s/security-advisories,vendor,Juniper advisories
+F5 Security,F5 Security Advisories,F5,Global,https://my.f5.com/manage/s/article/K4602,vendor,F5 BIG-IP advisories
+Arista Security,Arista Security Advisories,Arista,Global,https://www.arista.com/en/support/advisories-notices/security-advisories,vendor,Arista advisories
+HPE Security,HPE Security Bulletins,HPE,Global,https://support.hpe.com/hpesc/public/home/documentHome?docContentType=Security%20Bulletin,vendor,HPE security bulletins
+Dell Security,Dell Security Advisories,Dell,Global,https://www.dell.com/support/security,vendor,Dell advisories
+Lenovo Security,Lenovo Security Advisories,Lenovo,Global,https://support.lenovo.com/us/en/product_security/home,vendor,Lenovo advisories
+Intel Security,Intel Security Center,Intel,Global,https://www.intel.com/content/www/us/en/security-center/default.html,vendor,Intel advisories (INTEL-SA)
+AMD Security,AMD Product Security,AMD,Global,https://www.amd.com/en/resources/product-security.html,vendor,AMD advisories
+NVIDIA Security,NVIDIA Security Bulletins,NVIDIA,Global,https://www.nvidia.com/en-us/security,vendor,NVIDIA advisories
+Qualcomm Security,Qualcomm Security Bulletins,Qualcomm,Global,https://www.qualcomm.com/company/product-security/bulletins,vendor,Qualcomm advisories
+MediaTek Security,MediaTek Security Bulletins,MediaTek,Global,https://corp.mediatek.com/product-security-bulletin,vendor,MediaTek advisories
+Siemens ProductCERT,Siemens ProductCERT,Siemens,Global,https://new.siemens.com/global/en/products/services/cert.html,vendor,Siemens ICS advisories
+Schneider Electric,Schneider Electric Security Notifications,Schneider Electric,Global,https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp,vendor,Schneider ICS advisories
+ABB Security,ABB Cybersecurity Advisories,ABB,Global,https://global.abb/group/en/technology/cyber-security/alerts-and-notifications,vendor,ABB ICS advisories
+Rockwell Security,Rockwell Automation Security Advisories,Rockwell,Global,https://www.rockwellautomation.com/en-us/support/advisory.html,vendor,Rockwell ICS advisories
+Honeywell Security,Honeywell Security Notifications,Honeywell,Global,https://www.honeywell.com/us/en/product-security,vendor,Honeywell ICS advisories
+GE Security,GE Digital Security Advisories,GE,Global,https://www.ge.com/digital/security,vendor,GE ICS advisories
+Emerson Security,Emerson Cybersecurity Notifications,Emerson,Global,https://www.emerson.com/en-us/support/security-notifications,vendor,Emerson ICS advisories
+Yokogawa Security,Yokogawa Security Advisories,Yokogawa,Global,https://www.yokogawa.com/library/resources/white-papers/yokogawa-security-advisory-report-list,vendor,Yokogawa ICS advisories
+Mitsubishi Security,Mitsubishi Electric Security Advisories,Mitsubishi Electric,Global,https://www.mitsubishielectric.com/en/psirt/vulnerability/index.html,vendor,Mitsubishi ICS advisories
+Omron Security,Omron Security Advisories,Omron,Global,https://www.ia.omron.com/product/vulnerability,vendor,Omron ICS advisories
+Phoenix Contact,Phoenix Contact Security Advisories,Phoenix Contact,Global,https://www.phoenixcontact.com/psirt,vendor,Phoenix Contact ICS advisories
+Beckhoff Security,Beckhoff Security Advisories,Beckhoff,Global,https://www.beckhoff.com/en-en/support/security-advisories,vendor,Beckhoff ICS advisories
+CODESYS Security,CODESYS Security Advisories,CODESYS,Global,https://www.codesys.com/security/security-reports.html,vendor,CODESYS ICS advisories
+SAP Security,SAP Security Patch Day,SAP,Global,https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html,vendor,SAP security notes
+Oracle CPU,Oracle Critical Patch Updates,Oracle,Global,https://www.oracle.com/security-alerts,vendor,Oracle quarterly updates
+Salesforce Security,Salesforce Security Advisories,Salesforce,Global,https://security.salesforce.com/security-advisories,vendor,Salesforce advisories
+ServiceNow Security,ServiceNow Security Advisories,ServiceNow,Global,https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0547244,vendor,ServiceNow advisories
+Atlassian Security,Atlassian Security Advisories,Atlassian,Global,https://www.atlassian.com/trust/security/advisories,vendor,Jira/Confluence advisories
+Zoom Security,Zoom Security Bulletins,Zoom,Global,https://explore.zoom.us/en/trust/security/security-bulletin,vendor,Zoom advisories
+Slack Security,Slack Security Updates,Salesforce,Global,https://slack.com/trust/security/security-updates,vendor,Slack advisories
+GitLab Security,GitLab Security Releases,GitLab,Global,https://about.gitlab.com/releases/categories/releases,vendor,GitLab security releases
+Jenkins Security,Jenkins Security Advisories,Jenkins,Global,https://www.jenkins.io/security/advisories,vendor,Jenkins advisories
+Grafana Security,Grafana Security Advisories,Grafana Labs,Global,https://grafana.com/security/security-advisories,vendor,Grafana advisories
+Splunk Security,Splunk Security Advisories,Cisco,Global,https://advisory.splunk.com,vendor,Splunk advisories
+Datadog Security,Datadog Security Advisories,Datadog,Global,https://docs.datadoghq.com/security,vendor,Datadog advisories
+New Relic Security,New Relic Security Bulletins,New Relic,Global,https://docs.newrelic.com/docs/security/security-privacy/information-security/security-bulletins,vendor,New Relic advisories
+PagerDuty Security,PagerDuty Security Advisories,PagerDuty,Global,https://support.pagerduty.com/docs/security-training-resources,vendor,PagerDuty security
+AWS Security Bulletins,AWS Security Bulletins,AWS,Global,https://aws.amazon.com/security/security-bulletins,vendor,AWS advisories
+Azure Security,Microsoft Security Response Center,Microsoft,Global,https://msrc.microsoft.com,vendor,Azure/Microsoft advisories
+GCP Security,Google Cloud Security Bulletins,Google,Global,https://cloud.google.com/support/bulletins,vendor,GCP advisories
+IBM Security,IBM Security Bulletins,IBM,Global,https://www.ibm.com/support/pages/bulletin,vendor,IBM product advisories
+Alibaba Cloud Security,Alibaba Cloud Security Advisories,Alibaba,Global,https://www.alibabacloud.com/trust-center/security-advisories,vendor,Alibaba Cloud advisories
+Huawei PSIRT,Huawei PSIRT Security Advisories,Huawei,Global,https://www.huawei.com/en/psirt,vendor,Huawei advisories
+Tencent Security,Tencent Security Response Center,Tencent,China,https://security.tencent.com,vendor,Tencent advisories
+Baidu Security,Baidu Security Response Center,Baidu,China,https://sec.baidu.com,vendor,Baidu advisories
+AI Vulnerability Database,AI Vulnerability Database,AIAAIC,Global,https://www.aiaaic.org,ai,AI incident and vulnerability tracking
+AI Incident Database,AI Incident Database,Partnership on AI,Global,https://incidentdatabase.ai,ai,AI incident repository
+AVID,AI Vulnerability Database,AVID,Global,https://avidml.org,ai,AI/ML vulnerability database
+Garak Probes,Garak LLM Vulnerability Probes,NVIDIA,Global,https://github.com/leondz/garak,ai,LLM vulnerability scanner
+LLM Guard,LLM Guard Security Checks,Protect AI,Global,https://github.com/protectai/llm-guard,ai,LLM security controls
+Rebuff,Rebuff AI Prompt Injection,Protect AI,Global,https://github.com/protectai/rebuff,ai,Prompt injection detection
+HuggingFace Security,HuggingFace Security Advisories,HuggingFace,Global,https://huggingface.co/docs/hub/security,ai,HuggingFace model security

@@ -1,0 +1,34 @@
+source_short,source_full,url,feed_url,format,type,notes
+OTX,AlienVault Open Threat Exchange,https://otx.alienvault.com,https://otx.alienvault.com/api,STIX/OTX,iocs,Community threat intelligence platform
+URLhaus,URLhaus,https://urlhaus.abuse.ch,https://urlhaus.abuse.ch/downloads,csv/json,urls,Malicious URL tracking (abuse.ch)
+MalwareBazaar,MalwareBazaar,https://bazaar.abuse.ch,https://bazaar.abuse.ch/export,csv/json,malware,Malware sample sharing (abuse.ch)
+ThreatFox,ThreatFox,https://threatfox.abuse.ch,https://threatfox.abuse.ch/export,csv/json,iocs,IOC sharing platform (abuse.ch)
+Feodo Tracker,Feodo Tracker,https://feodotracker.abuse.ch,https://feodotracker.abuse.ch/downloads,csv,botnet,Botnet C2 tracking (abuse.ch)
+SSL Blacklist,SSLBL,https://sslbl.abuse.ch,https://sslbl.abuse.ch/blacklist,csv,certs,Malicious SSL certificates (abuse.ch)
+YARAify,YARAify,https://yaraify.abuse.ch,https://yaraify.abuse.ch/api,json,yara,YARA rule sharing (abuse.ch)
+GreyNoise,GreyNoise,https://www.greynoise.io,https://api.greynoise.io,json,noise,Internet scanner/noise identification
+Shodan,Shodan,https://www.shodan.io,https://api.shodan.io,json,exposure,Internet device search engine
+Censys,Censys,https://censys.io,https://search.censys.io/api,json,exposure,Internet-wide scanning
+BinaryEdge,BinaryEdge,https://www.binaryedge.io,https://api.binaryedge.io,json,exposure,Internet scanning and threat intel
+ZoomEye,ZoomEye,https://www.zoomeye.org,https://api.zoomeye.org,json,exposure,Chinese internet search engine
+FOFA,FOFA,https://fofa.info,https://fofa.info/api,json,exposure,Chinese internet asset search
+Hunter.io,Hunter.io,https://hunter.io,https://api.hunter.io,json,osint,Email finding service
+SecurityTrails,SecurityTrails,https://securitytrails.com,https://api.securitytrails.com,json,dns,DNS and domain intelligence
+PassiveTotal,RiskIQ PassiveTotal,https://community.riskiq.com,https://api.passivetotal.org,json,passive-dns,Passive DNS and enrichment
+VirusTotal,VirusTotal,https://www.virustotal.com,https://www.virustotal.com/api/v3,json,multi,File/URL/IP analysis aggregation
+Hybrid Analysis,Hybrid Analysis,https://www.hybrid-analysis.com,https://www.hybrid-analysis.com/api,json,sandbox,CrowdStrike Falcon Sandbox
+Pulsedive,Pulsedive,https://pulsedive.com,https://pulsedive.com/api,json,iocs,Community threat intelligence
+ThreatCrowd,ThreatCrowd,https://www.threatcrowd.org,https://www.threatcrowd.org/searchApi,json,pivot,Open source threat pivot tool
+ThreatMiner,ThreatMiner,https://www.threatminer.org,https://api.threatminer.org,json,pivot,Data mining for threat intel
+Maltiverse,Maltiverse,https://maltiverse.com,https://api.maltiverse.com,json,iocs,IOC enrichment platform
+PhishTank,PhishTank,https://phishtank.org,https://data.phishtank.com/data,json/csv,phishing,Community phishing verification
+OpenPhish,OpenPhish,https://openphish.com,https://openphish.com/feed.txt,txt,phishing,Automated phishing detection
+C2IntelFeeds,C2IntelFeeds,https://github.com/drb-ra/C2IntelFeeds,https://github.com/drb-ra/C2IntelFeeds,csv,c2,Open C2 framework indicators
+Blocklist.de,Blocklist.de,https://www.blocklist.de,https://lists.blocklist.de,txt,blocklist,Community blocklists
+EmergingThreats,Emerging Threats Rules,https://rules.emergingthreats.net,https://rules.emergingthreats.net/open,snort/suricata,ids,Open IDS rules
+ET Intelligence,Proofpoint ET Intelligence,https://www.proofpoint.com/us/products/et-intelligence,https://rules.emergingthreatspro.com,snort/suricata,ids,Commercial ET rules
+CIRCL,CIRCL Passive DNS/SSL,https://www.circl.lu,https://www.circl.lu/services/passive-dns,json,passive-dns,Luxembourg CERT services
+SpamHaus,SpamHaus,https://www.spamhaus.org,https://www.spamhaus.org/drop,txt,blocklist,Spam and malware blocklists
+IPsum,IPsum,https://github.com/stamparm/ipsum,https://raw.githubusercontent.com/stamparm/ipsum/master/levels,txt,blocklist,Daily aggregated threat IP feeds
+Botvrij,Botvrij.eu,https://botvrij.eu,https://botvrij.eu/data,txt,iocs,OSINT IOC feeds
+ThreatBook,ThreatBook,https://x.threatbook.com,https://api.threatbook.cn,json,iocs,Chinese threat intelligence platform

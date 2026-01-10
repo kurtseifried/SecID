@@ -1,0 +1,33 @@
+source_short,source_full,url,data_url,type,notes
+arXiv Security,arXiv cs.CR,https://arxiv.org/list/cs.CR/recent,https://arxiv.org/list/cs.CR/recent,preprints,Cryptography and Security preprints
+USENIX Security,USENIX Security Symposium,https://www.usenix.org/conferences/byname/108,https://www.usenix.org/conference/usenixsecurity24/technical-sessions,conference,Top academic security conference
+IEEE S&P,IEEE Symposium on Security and Privacy,https://www.ieee-security.org/TC/SP2024,https://www.ieee-security.org/TC/SP-Index.html,conference,Oakland; premier security venue
+ACM CCS,ACM Conference on Computer and Communications Security,https://www.sigsac.org/ccs.html,https://dl.acm.org/conference/ccs,conference,ACM flagship security conference
+NDSS,Network and Distributed System Security Symposium,https://www.ndss-symposium.org,https://www.ndss-symposium.org/ndss-program,conference,Internet Society security symposium
+Black Hat,Black Hat Briefings,https://www.blackhat.com,https://www.blackhat.com/html/archives.html,conference,Industry security research conference
+DEF CON,DEF CON,https://defcon.org,https://media.defcon.org,conference,Hacker conference
+RSA Conference,RSA Conference,https://www.rsaconference.com,https://www.rsaconference.com/library,conference,Enterprise security conference
+CanSecWest,CanSecWest,https://cansecwest.com,https://cansecwest.com/csw_archive.html,conference,Applied security conference; Pwn2Own host
+OffensiveCon,OffensiveCon,https://www.offensivecon.org,https://www.offensivecon.org/speakers,conference,Offensive security research
+REcon,REcon,https://recon.cx,https://recon.cx/archives,conference,Reverse engineering conference
+Infiltrate,Infiltrate Conference,https://infiltratecon.com,https://infiltratecon.com/archives,conference,Deep technical security research
+WOOT,USENIX Workshop on Offensive Technologies,https://www.usenix.org/conferences/byname/159,https://www.usenix.org/conference/woot23,workshop,Academic offensive security
+HotSec,USENIX HotSec,https://www.usenix.org/conferences/byname/109,,workshop,Hot topics in security
+ACSAC,Annual Computer Security Applications Conference,https://www.acsac.org,https://www.acsac.org/archive,conference,Applied security research
+ESORICS,European Symposium on Research in Computer Security,https://esorics2024.org,https://link.springer.com/conference/esorics,conference,European security symposium
+DIMVA,Detection of Intrusions and Malware & Vulnerability Assessment,https://dimva.org,https://link.springer.com/conference/dimva,conference,Malware and intrusion detection research
+RAID,International Symposium on Research in Attacks Intrusions and Defenses,https://raid2024.github.io,https://dl.acm.org/conference/raid,symposium,Attacks and defenses research
+AsiaCCS,ACM Asia Conference on Computer and Communications Security,https://asiaccs2024.sutd.edu.sg,https://dl.acm.org/conference/asiaccs,conference,Asia-Pacific security conference
+Phrack,Phrack Magazine,https://phrack.org,https://phrack.org/archives,zine,Classic hacker publication
+PoC||GTFO,PoC or GTFO,https://www.alchemistowl.org/pocorgtfo,https://github.com/angea/pocorgtfo,zine,Technical exploitation journal
+tmp.0ut,tmp.0ut,https://tmpout.sh,https://tmpout.sh/,zine,ELF research zine
+Google Project Zero,Project Zero Blog,https://googleprojectzero.blogspot.com,https://googleprojectzero.blogspot.com,blog,Google's vulnerability research team
+Microsoft Security Research,Microsoft Security Response Center Blog,https://msrc.microsoft.com/blog,https://msrc.microsoft.com/blog,blog,Microsoft security research
+Trail of Bits,Trail of Bits Blog,https://blog.trailofbits.com,https://blog.trailofbits.com,blog,Security research firm
+Quarkslab,Quarkslab Blog,https://blog.quarkslab.com,https://blog.quarkslab.com,blog,French security research
+NCC Group,NCC Group Research,https://research.nccgroup.com,https://research.nccgroup.com,blog,Security consulting research
+Exodus Intelligence,Exodus Intelligence Blog,https://blog.exodusintel.com,https://blog.exodusintel.com,blog,Vulnerability research
+Zero Day Engineering,Zero Day Engineering,https://zerodayengineering.com,https://zerodayengineering.com/blog,blog,Exploitation training and research
+Azeria Labs,Azeria Labs,https://azeria-labs.com,https://azeria-labs.com/writing-arm-shellcode,blog,ARM exploitation research
+DBLP Security,DBLP Computer Security Bibliography,https://dblp.org/db/journals/compsec/index.html,https://dblp.org/search?q=security,index,Computer science bibliography
+Semantic Scholar Security,Semantic Scholar,https://www.semanticscholar.org,https://api.semanticscholar.org,search,AI-powered academic search
