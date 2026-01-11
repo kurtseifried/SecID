@@ -10,6 +10,31 @@ A federated identifier system for security knowledge, using [Package URL (PURL)]
 
 SecID is **explicitly scoped to identifiers only**. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
 
+## Vision
+
+**A SecID isn't just an identifier - it's a handle that gives you everything you need to understand and work with security knowledge.**
+
+Today, security data is fragmented. CVEs live in one place, CWEs in another, controls in spreadsheets, regulations in PDFs. Finding information requires knowing where to look. Understanding it requires domain expertise. Connecting it requires manual effort.
+
+SecID changes this. When you have a SecID, you can:
+
+1. **Find it** - Get the URL or search instructions
+2. **Understand it** - Read a description of what it is
+3. **Read it** - Get the actual content (where licensing permits)
+4. **Interpret it** - Understand what the fields mean
+5. **Use it** - Know what to do with this data
+6. **Connect it** - See related concepts, mitigations, and examples
+
+**This is AI-first infrastructure.** The primary consumer is AI agents that need to navigate security knowledge autonomously. When an agent receives a SecID response, it should be self-describing - the agent knows what it has, how to interpret it, and what to do with it.
+
+We're building this in layers:
+- **v1.0**: URL resolution + descriptions (where to find it, what it is)
+- **v1.x**: Raw content with licensing (the actual text, properly attributed)
+- **v2.x**: Metadata wrapper (interpretation and usage guidance for AI)
+- **Future**: Relationships and overlays (connections and enrichment)
+
+See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
+
 ## PURL to SecID Mapping
 
 SecID is PURL with a different scheme. The grammar is identical:
@@ -77,76 +102,66 @@ secid:control/csa/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
 
 Tools should render these human-friendly for display while storing the encoded form.
 
-## Divergences from PURL
+## Relationship to PURL
 
-SecID uses PURL grammar but diverges in three specific ways:
+**SecID is 95% identical to PURL.** The grammar, structure, and mental model are the same. If you know PURL, you know SecID.
 
-### 1. Scheme: `secid:` instead of `pkg:`
+| Same as PURL | Different in SecID |
+|--------------|-------------------|
+| Grammar: `scheme:type/namespace/name@version?qualifiers#subpath` | Scheme: `secid:` instead of `pkg:` |
+| Percent encoding rules | Types: security domains instead of package ecosystems |
+| Version and qualifier semantics | Subpath: references items in databases, not files in packages |
 
-PURL uses `pkg:` to identify packages. SecID uses `secid:` to identify security knowledge. This is the expected way to use PURL grammar for a different domain - you change the scheme.
+### Why the Differences Matter
 
-### 2. Type: Security domains instead of package ecosystems
+PURL identifies packages. SecID identifies security knowledge. Different domains need different schemes - that's expected.
 
-PURL types are package ecosystems: `npm`, `pypi`, `maven`, `cargo`, `nuget`, etc.
+The types change from package ecosystems (`npm`, `pypi`, `maven`) to security domains (`advisory`, `weakness`, `control`). This is vocabulary, not structure.
 
-SecID types are security domains: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`.
+**The subpath difference is where the real value comes from.**
 
-This is semantic, not structural - the grammar is identical, just the vocabulary differs.
+PURL's `#subpath` points to files: `pkg:npm/lodash@4.17.21#lib/fp.js`
 
-### 3. Subpath: Identifier references instead of file paths
-
-**This is the significant divergence.**
-
-In PURL, `#subpath` is defined as:
-> "a subpath within the package, relative to the package root"
-
-It's meant for file paths: `pkg:npm/lodash@4.17.21#lib/fp.js`
-
-In SecID, `#subpath` identifies **specific items within a database or framework**:
+SecID's `#subpath` points to **specific items within security knowledge**:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234       # A specific CVE
-secid:weakness/mitre/cwe#CWE-79              # A specific weakness
-secid:ttp/mitre/attack#T1059.003             # A specific technique
-secid:control/nist/800-53@r5#AC-1            # A specific control
-secid:control/iso/27001@2022#A.8.1           # An ISO Annex control
-secid:advisory/redhat/errata#RHSA-2024:1234  # A Red Hat advisory
+secid:advisory/mitre/cve#CVE-2024-1234           # A specific vulnerability
+secid:control/nist/800-53@r5#AC-1               # A specific security control
+secid:regulation/eu/gdpr#art-32/1/a             # Article 32(1)(a) of GDPR
+secid:ttp/mitre/attack#T1059.003                # A specific attack technique
+secid:weakness/mitre/cwe#CWE-79/mitigations     # Mitigations section within a weakness
 ```
 
-**Why this divergence is necessary:**
+Security knowledge isn't packages with files - it's databases of identifiers, frameworks of controls, and regulations with articles. The subpath lets us precisely reference any item within any security knowledge system.
 
-Security databases aren't packages with files - they're registries of identifiers. CVE-2024-1234 isn't a file path; it's an identifier within the CVE database. CWE-79 isn't a directory; it's an entry in the weakness enumeration.
+### What This Precision Enables
 
-The subpath lets us say "this specific item within that database" using PURL-compatible syntax.
+Being able to reference specific items - not just "the NIST 800-53 framework" but "control AC-1 in revision 5" - unlocks capabilities that weren't possible before:
 
-**Extended subpath semantics:**
+- **Cross-reference security knowledge**: Link a CVE to its CWE weakness to the ATT&CK technique that exploits it
+- **Map compliance requirements**: Connect GDPR Article 32 to the specific controls that satisfy it
+- **Build relationship graphs**: Express that control X mitigates weakness Y which is exploited by technique Z
+- **Layer enrichment data**: Add severity scores, organizational context, or remediation guidance on top of canonical identifiers
+- **Enable AI-powered security tooling**: Give agents precise handles to fetch, compare, and reason about security knowledge
 
-Because security knowledge is often hierarchical, SecID subpaths support:
+SecID is foundational infrastructure. The identifier system is deliberately simple; the value comes from what you build on top.
 
-1. **Identifier prefixes** - Different item types within one namespace:
-   ```
-   secid:advisory/redhat/errata#RHSA-2024:1234  # Security Advisory
-   secid:advisory/redhat/errata#RHBA-2024:5678  # Bug Advisory
-   secid:advisory/redhat/errata#RHEA-2024:9012  # Enhancement Advisory
-   ```
+### Subpath Patterns
 
-2. **Hierarchical references** using `/`:
-   ```
-   secid:control/csa/ccm@4.0#IAM-12/audit           # Audit section of control
-   secid:regulation/eu/gdpr#art-32/1/a              # Article 32(1)(a)
-   secid:weakness/mitre/cwe#CWE-79/mitigations      # Mitigations for CWE-79
-   ```
+SecID subpaths support hierarchical references and framework-specific patterns:
 
-3. **Framework-specific patterns**:
-   ```
-   secid:ttp/mitre/attack#T1059.003    # Sub-technique (ATT&CK uses dots)
-   secid:control/iso/27001@2022#A.8.1  # Annex control (ISO uses dots)
-   secid:control/nist/800-53@r5#AC-1   # Control family-number format
-   ```
+```
+secid:control/csa/ccm@4.0#IAM-12/audit           # Audit section of a control
+secid:regulation/eu/gdpr#art-32/1/a              # Article 32(1)(a)
+secid:advisory/redhat/errata#RHSA-2024:1234      # Red Hat Security Advisory
+secid:advisory/redhat/errata#RHBA-2024:5678      # Red Hat Bug Advisory
+```
 
-Each registry file documents its subpath patterns and how to resolve them to URLs.
+Each registry file documents its subpath patterns and resolution rules.
 
-**Registry file mapping:** The registry directory structure mirrors the SecID structure:
+### Registry File Mapping
+
+The registry directory structure mirrors SecID identifiers:
 
 ```
 SecID:                          Registry File:
@@ -157,17 +172,7 @@ secid:control/csa/ccm           → registry/control/csa/ccm.md
 secid:regulation/eu/gdpr        → registry/regulation/eu/gdpr.md
 ```
 
-Each registry file contains resolution rules for subpaths. For example, `registry/weakness/mitre/cwe.md` explains how to resolve `#CWE-123`:
-
-```yaml
-# In registry/weakness/mitre/cwe.md
-urls:
-  lookup: "https://cwe.mitre.org/data/definitions/{num}.html"
-
-# secid:weakness/mitre/cwe#CWE-123
-#   → extract "123" from "CWE-123"
-#   → https://cwe.mitre.org/data/definitions/123.html
-```
+Each registry file contains resolution rules. For example, `registry/weakness/mitre/cwe.md` explains how `#CWE-123` resolves to `https://cwe.mitre.org/data/definitions/123.html`.
 
 ## Identifier Format
 

@@ -1,133 +1,252 @@
 # SecID Implementation Roadmap
 
-This document describes what we're building, in what order, and why - including how the building process itself teaches us about the problem space.
+This document describes what we're building, in what order, and why.
 
-## What We're Building
+## Version 1.0 Goal: URL Resolution
 
-SecID isn't just a spec - it's a stack of capabilities built on that spec:
+**Given a SecID string, return the URL(s) where that resource can be found.**
 
-```
-┌─────────────────────────────────────────────────┐
-│  Applications (future)                          │
-│  - AI vulnerability database                    │
-│  - Security knowledge graph UI                  │
-│  - Cross-database search                        │
-├─────────────────────────────────────────────────┤
-│  Enrichment & Analysis                          │
-│  - Gap analysis (what's missing?)               │
-│  - Quality scoring                              │
-│  - Trend detection                              │
-├─────────────────────────────────────────────────┤
-│  Overlays                                       │
-│  - Normalization (clean up messy data)          │
-│  - Cross-references (link related things)       │
-│  - Warnings (flag issues)                       │
-├─────────────────────────────────────────────────┤
-│  Relationships                                  │
-│  - CVE ↔ GHSA ↔ OSV aliases                     │
-│  - CVE → CWE weakness mappings                  │
-│  - Weakness → Control mitigations               │
-│  - Technique → Weakness exploits                │
-├─────────────────────────────────────────────────┤
-│  Entity Registry                                │
-│  - Organizations, databases, standards          │
-│  - Products, frameworks, tools                  │
-│  - Ecosystem participation declarations         │
-├─────────────────────────────────────────────────┤
-│  Specification                                  │
-│  - Identifier format                            │
-│  - Ecosystem definitions                        │
-│  - Naming conventions                           │
-└─────────────────────────────────────────────────┘
-```
-
-Each layer builds on the one below. We're starting from the bottom.
-
-## Phased Approach: Two Parallel Tracks
-
-**Identifiers are just identifiers.** We're building in two parallel tracks:
-
-### Track 1: Content & Data
-
-| Phase | Focus | Status |
-|-------|-------|--------|
-| **1.1** | Specification | **Current** |
-| **1.2** | Registry (namespaces, seed data) | **Current** |
-| **1.3** | Relationship Layer | Planned - design informed by usage |
-| **1.4** | Overlay Layer | Planned - design informed by usage |
-| **1.5** | Applications (knowledge graph UI, cross-database search) | Future |
-
-### Track 2: Technical Components
-
-| Phase | Focus | Status |
-|-------|-------|--------|
-| **2.1** | Parser libraries (Python, JavaScript, Go, etc.) | Planned |
-| **2.2** | Validators (schema, format, duplicate detection) | Planned |
-| **2.3** | CLI tools (parse, validate, resolve) | Planned |
-| **2.4** | API (REST/GraphQL for registry and resolution) | Planned |
-| **2.5** | Resolution service (SecID → URL/resource) | Future |
-
-### How the Tracks Interact
+This is the simplest useful thing SecID can do, and it's the foundation everything else builds on.
 
 ```
-Content Track:     Spec ──→ Registry ──→ Relationships ──→ Overlays ──→ Applications
-                     │         │              │               │              │
-                     ▼         ▼              ▼               ▼              ▼
-Technical Track:  Parsers ──→ Validators ──→ CLI ─────────→ API ─────────→ Resolution
+secid:advisory/mitre/cve#CVE-2024-1234
+  → https://www.cve.org/CVERecord?id=CVE-2024-1234
+
+secid:weakness/mitre/cwe#CWE-79
+  → https://cwe.mitre.org/data/definitions/79.html
+
+secid:control/nist/800-53@r5#AC-1
+  → https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_1_1/home?element=AC-1
 ```
 
-The tracks reinforce each other:
-- Parsers enable people to use SecIDs in their tools
-- Validators ensure registry quality
-- API makes the registry programmatically accessible
-- Applications consume both content and technical components
+### Why Start Here?
 
-### Why Defer the Data Layers?
+URL resolution delivers immediate value with minimal complexity:
 
-The relationship and overlay layers involve design decisions that benefit from real-world usage:
+1. **Useful on day one** - People can start using SecIDs to link to security resources
+2. **Tests the registry** - Every namespace must define resolution rules, validating the data model
+3. **Foundation for everything else** - Relationships, overlays, and applications all need resolution
+4. **Clear success criteria** - Either the URL works or it doesn't
 
-- **Directionality**: Are relationships one-way or bidirectional?
-- **Cardinality**: One-to-one, one-to-many, many-to-many?
-- **Provenance**: Who asserted this? When? Based on what?
-- **Conflict resolution**: What if two sources disagree?
-- **Storage format**: JSONL? Graph database? SQLite?
+### How Resolution Works
 
-Rather than guess upfront, we're building the identifier system and registry first. Actual usage will reveal:
-- What relationships people actually need
-- What enrichments are most valuable
-- Where conflicts arise and how to resolve them
+**Simple case (most namespaces):** String substitution. The registry file contains a URL template:
 
-See [RELATIONSHIPS.md](RELATIONSHIPS.md) and [OVERLAYS.md](OVERLAYS.md) for current thinking on these layers.
+```yaml
+# registry/advisory/mitre/cve.md
+urls:
+  lookup: "https://www.cve.org/CVERecord?id={id}"
+```
 
-## Future Layers (Design Pending)
+Resolution: extract `CVE-2024-1234` from the subpath, substitute into template.
 
-### Relationship Layer
+**Complex case (no direct URL):** Some resources don't have predictable URLs. For these, we provide search instructions that humans and AI agents can follow:
 
-The spec is just syntax. The real value will come from relationships - connecting CVEs to GHSAs, weaknesses to controls, techniques to mitigations.
+```yaml
+# Example: a resource without direct linking
+resolution:
+  type: search
+  instructions: "Search the vendor's security portal for the advisory ID"
+  search_url: "https://example.com/security/search?q={id}"
+```
 
-Without relationships, we're just another list. With relationships, we'd enable:
-- "Show me all SQL injection vulns in Python packages"
-- "What controls mitigate this ATT&CK technique?"
-- "Which CVEs have GHSA but no NVD enrichment?"
+## Version 1.0 Deliverables (In Priority Order)
 
-**Status**: Deferred until usage informs design. See [RELATIONSHIPS.md](RELATIONSHIPS.md) for exploratory thinking.
+| Priority | Deliverable | Why This Order |
+|----------|-------------|----------------|
+| **1** | **Registry data** | Foundation - libraries need data to resolve against |
+| **2** | **Python library** | Security community standard; threat intel, SIEM, AI/ML pipelines |
+| **3** | **npm/TypeScript library** | Web applications, CI/CD integrations, broad developer reach |
+| **4** | **REST API** | Unlocks every other language without waiting for native libraries |
+| **5** | **Go library** | Cloud-native security tools (Trivy, Grype, Falco), Kubernetes ecosystem |
+| **6** | **Rust library** | Memory-safe systems tools, growing security tooling adoption |
+| **7** | **Java library** | Enterprise SAST/DAST tools, legacy integration |
+| **8** | **C#/.NET library** | Windows/enterprise ecosystem |
 
-### Overlay Layer
+### Why This Order?
 
-Overlays would let us improve data without modifying sources - adding cross-references, flagging quality issues, supplementing delayed enrichment.
+**Registry first** because everything depends on it. A library without data is useless.
 
-**Status**: Deferred until usage informs design. See [OVERLAYS.md](OVERLAYS.md) for exploratory thinking.
+**Python second** because the security community runs on Python. Threat intelligence platforms, SIEM integrations, vulnerability scanners, AI/ML pipelines - Python is the lingua franca.
 
-### Why We're Waiting
+**npm/TypeScript third** because it covers web applications and has the broadest developer reach. Security dashboards, CI/CD integrations, and developer tools often use JavaScript/TypeScript.
 
-These layers involve design decisions that benefit from real-world usage:
-- Directionality and cardinality
-- Provenance and conflict resolution
-- Storage formats and query patterns
+**REST API fourth** because it's a force multiplier. Once the API exists, any language can consume SecID - Ruby, PHP, shell scripts, anything that can make HTTP requests. This reduces pressure to ship every native library immediately.
 
-Rather than guess, we're building the identifier system and registry first. Usage will teach us what's actually needed.
+**Go fifth** because cloud-native security infrastructure runs on Go. Tools like Trivy, Grype, and Falco would benefit from native SecID support, and Go is common for CLI tools and microservices.
 
-## Initial Entity Seeding Strategy
+**Rust, Java, C#/.NET later** because their communities can use the REST API until native libraries ship. These are important for completeness but not blockers for adoption.
+
+## What We're Building (Full Stack)
+
+SecID isn't just a spec - it's a complete system for working with security knowledge. We're building in **two parallel tracks**:
+
+```
+                    CONTENT TRACK                         DATA LAYERS
+                    (what you get back)                   (connections & context)
+
+┌─────────────────────────────────────┐     ┌─────────────────────────────────┐
+│  Normalized Content (future)        │     │  Overlays (future)              │
+│  - JSON container with schema       │     │  - Quality flags                │
+│  - Interpretation guidance          │     │  - Cross-references             │
+│  - Usage instructions for AI        │     │  - Organizational context       │
+├─────────────────────────────────────┤     ├─────────────────────────────────┤
+│  Raw Content (future)               │     │  Relationships (future)         │
+│  - Actual control/weakness text     │     │  - CVE ↔ CWE ↔ ATT&CK           │
+│  - License information              │     │  - Control → Weakness           │
+│  - Source attribution               │     │  - Technique → Mitigation       │
+├─────────────────────────────────────┤     └─────────────────────────────────┘
+│  Description (v1.0)                 │               ↑
+│  - What this thing is               │               │ Independent tracks
+│  - Human/AI readable summary        │               │ (can develop in parallel)
+├─────────────────────────────────────┤               │
+│  URL Resolution (v1.0)              │  ← WE ARE HERE
+│  - Where to find it                 │
+│  - Search instructions if no URL    │
+├─────────────────────────────────────┤
+│  Registry (v1.0)                    │  ← WE ARE HERE
+│  - Namespace definitions            │
+│  - Resolution rules                 │
+│  - ID patterns and examples         │
+├─────────────────────────────────────┤
+│  Specification (complete)           │
+│  - Identifier format                │
+│  - Type definitions                 │
+│  - Naming conventions               │
+└─────────────────────────────────────┘
+```
+
+### The Vision: AI-First Responses
+
+A SecID isn't just an identifier - it's a handle that gives you everything you need to understand and work with that security concept. When an AI agent receives a SecID response, it should be able to:
+
+1. **Find it** - URL or search instructions
+2. **Understand it** - Description of what it is
+3. **Read it** - Actual content (where licensing permits)
+4. **Interpret it** - Schema, guidance on what fields mean
+5. **Use it** - Instructions on what to do with this data
+6. **Connect it** - Related concepts, mitigations, examples
+
+**Example future response:**
+
+```json
+{
+  "secid": "secid:control/csa/ccm@4.0#IAM-12",
+  "urls": {
+    "lookup": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4",
+    "api": "https://api.secid.dev/v1/control/csa/ccm/IAM-12"
+  },
+  "description": "Identity & Access Management control requiring multi-factor authentication for all interactive access to cloud services.",
+  "content": {
+    "raw": {
+      "title": "IAM-12: Multi-Factor Authentication",
+      "control_text": "Multi-factor authentication shall be implemented for all interactive access...",
+      "implementation_guidance": "...",
+      "audit_guidance": "..."
+    },
+    "license": "CC BY-NC-SA 4.0",
+    "attribution": "Cloud Security Alliance",
+    "retrieved": "2024-01-15"
+  },
+  "relationships": {
+    "mitigates": ["secid:weakness/mitre/cwe#CWE-308", "secid:weakness/mitre/cwe#CWE-287"],
+    "related_controls": ["secid:control/nist/800-53@r5#IA-2"],
+    "attacked_by": ["secid:ttp/mitre/attack#T1078"]
+  },
+  "meta": {
+    "schema": "https://secid.dev/schemas/control/v1",
+    "interpretation": "This is a technical control requiring MFA. The 'control_text' field contains the normative requirement. Check 'implementation_guidance' for how to implement, 'audit_guidance' for how to verify compliance.",
+    "usage": "Use this to verify MFA requirements in cloud environments. Compare against your current authentication configuration.",
+    "spec": "https://secid.dev/spec",
+    "api_docs": "https://secid.dev/api"
+  }
+}
+```
+
+This response is **self-describing** - an AI receiving it knows what it has, how to interpret it, and what to do with it. The raw content stays raw; we add context through metadata, not transformation.
+
+## Content Track (Parallel Development)
+
+### Phase 1: URL + Description (v1.0)
+
+Return where to find it and what it is:
+
+```json
+{
+  "secid": "secid:control/csa/ccm@4.0#IAM-12",
+  "urls": { "lookup": "..." },
+  "description": "Identity & Access Management control requiring multi-factor authentication..."
+}
+```
+
+### Phase 2: Raw Content (v1.x)
+
+Add actual content where licensing permits:
+
+```json
+{
+  "content": {
+    "raw": { "title": "...", "control_text": "...", "guidance": "..." },
+    "license": "CC BY-NC-SA 4.0",
+    "attribution": "Cloud Security Alliance"
+  }
+}
+```
+
+**Why this matters:** Some sources are hard to access programmatically:
+- CSA CCM/AICM are in spreadsheets
+- ISO standards are behind paywalls
+- Vendor advisories require authentication
+- Data is buried in HTML tables or nested pages
+
+We respect licensing - include license info, proper attribution, and only redistribute what's permitted.
+
+### Phase 3: Content Metadata (v2.x)
+
+Wrap raw content in a JSON container with interpretation and usage guidance:
+
+```json
+{
+  "content": {
+    "raw": { "title": "...", "control_text": "...", "guidance": "..." },
+    "license": "CC BY-NC-SA 4.0",
+    "attribution": "Cloud Security Alliance"
+  },
+  "meta": {
+    "schema": "https://secid.dev/schemas/control/v1",
+    "interpretation": "This is a technical control requiring MFA. The 'control_text' field contains the normative requirement, 'guidance' contains implementation suggestions.",
+    "usage": "Use this to verify MFA requirements in cloud environments. Compare against your current authentication configuration.",
+    "spec": "https://secid.dev/spec",
+    "api_docs": "https://secid.dev/api"
+  }
+}
+```
+
+**Why this matters:** Raw data alone isn't enough for AI agents. They need:
+- Schema link to understand structure
+- Interpretation guidance for what fields mean
+- Usage instructions for what to do with the data
+- The content stays raw - we're adding context, not transforming it
+
+## Data Layers (Independent Track)
+
+### Relationships (Future)
+
+Connect SecIDs to each other: CVE → CWE weakness, weakness → control mitigation, technique → weakness exploit.
+
+**Why independent?** Relationship design benefits from real-world usage. We can ship content before relationships are fully designed.
+
+See [RELATIONSHIPS.md](RELATIONSHIPS.md) for exploratory thinking.
+
+### Overlays (Future)
+
+Add metadata without modifying sources: cross-references, quality flags, severity adjustments, organizational context.
+
+**Why independent?** Same reason - usage will inform design. Overlays can be added to any response once the infrastructure exists.
+
+See [OVERLAYS.md](OVERLAYS.md) for exploratory thinking.
+
+## Registry Seeding Strategy
 
 ### Why Start with Hundreds/Thousands of Entities?
 
@@ -227,47 +346,74 @@ This learning feeds back into spec refinement and overlay priorities.
 
 ## Concrete Deliverables
 
-### Near-term (Building Now)
+### Version 1.0: URL + Description
 
-1. **Entity registry**: 50+ core entities with rich documentation
-2. **Relationship seed**: Manual CVE↔GHSA↔CWE mappings for ~100 vulns
-3. **Spec validation**: Confirm naming conventions work for edge cases
+| Deliverable | Status | Success Criteria |
+|-------------|--------|------------------|
+| Registry data (500+ namespaces) | In progress | Every namespace has URL resolution rules + description |
+| Python library (`secid`) | Planned | `pip install secid` enables parsing and resolution |
+| npm/TypeScript library (`secid`) | Planned | `npm install secid` enables parsing and resolution |
+| REST API | Planned | Any language can resolve SecIDs via HTTP |
+| Go library | Planned | Native Go support for cloud-native tools |
+| Rust library | Planned | Native Rust support for systems tools |
+| Java library | Planned | Native Java support for enterprise tools |
+| C#/.NET library | Planned | Native .NET support for Windows ecosystem |
 
-### Medium-term (Next Phase)
+### Version 1.x: Raw Content
 
-1. **Automated harvesting**: Scripts to extract relationships from GHSA, OSV
-2. **Framework mappings**: OWASP LLM Top 10 ↔ ATLAS ↔ CWE
-3. **Overlay infrastructure**: Format and storage for overlays
-4. **500+ entities**: Cover AI ecosystem comprehensively
+| Deliverable | Status | Success Criteria |
+|-------------|--------|------------------|
+| Content ingestion (CSA CCM/AICM) | Planned | Spreadsheet data extracted, licensed properly |
+| Content ingestion (NIST 800-53) | Planned | Control text available via API |
+| Content ingestion (CWE/ATT&CK) | Planned | Weakness/technique descriptions included |
+| License tracking | Planned | Every content response includes license + attribution |
+| API content endpoints | Planned | `?include=content` returns raw text |
 
-### Longer-term (Future Phases)
+### Version 2.x: Content Metadata + Data Layers
 
-1. **Web interface**: Browse and search the knowledge graph
-2. **API**: Programmatic access to entities and relationships
-3. **AI vulnerability database**: New vulnerability data for AI-specific issues
-4. **Community contributions**: External entity/relationship PRs
+| Deliverable | Status | Success Criteria |
+|-------------|--------|------------------|
+| JSON schemas for each type | Planned | Documented, versioned schemas for controls, weaknesses, etc. |
+| Metadata wrapper | Planned | Raw content wrapped with interpretation + usage guidance |
+| Relationship layer | Planned | Connect CVE↔CWE↔ATT&CK, enable graph queries |
+| Overlay layer | Planned | Quality flags, cross-references, organizational context |
+
+### Future Applications
+
+| Deliverable | Depends On | Value |
+|-------------|------------|-------|
+| Web interface | REST API | Browse and search security knowledge visually |
+| AI-powered assistant | All of the above | Natural language queries over security knowledge |
+| Knowledge graph UI | Relationships | Visualize connections between security concepts |
 
 ## Success Indicators
 
-How we know the seeding is working:
+### v1.0 Success Criteria
+
+| Indicator | How We'll Know |
+|-----------|----------------|
+| Resolution works | Given any registered SecID, we return a working URL |
+| Libraries are usable | `pip install secid` and `npm install secid` work out of the box |
+| Coverage is comprehensive | Major advisory sources, weakness taxonomies, and control frameworks covered |
+| Community adoption | External projects start using SecID identifiers |
+
+### Registry Quality Indicators
 
 | Indicator | Meaning |
 |-----------|---------|
-| Naming conventions stable | No major spec changes needed |
-| Relationships form clusters | Graph has meaningful structure |
+| Naming conventions stable | No major spec changes needed after seeding |
 | Edge cases documented | Spec handles exceptions gracefully |
-| External interest | Others want to contribute entities |
-| Queries work | Can answer real security questions |
+| Resolution rules tested | URL templates produce valid, working links |
 
-## Open Questions for Seeding
+## Open Questions
 
-Things we'll learn as we add entities:
+Things we'll learn as we build v1.0:
 
-1. **Versioning**: How to handle when NVD API changes?
-2. **Deprecation**: What happens when a database shuts down?
-3. **Conflicts**: What if GHSA and NVD disagree on CVE mapping?
-4. **Automation balance**: How much can be auto-generated vs curated?
-5. **Update frequency**: How often do entity files need refresh?
+1. **Resolution edge cases**: What happens when a vendor changes their URL structure?
+2. **Deprecation**: How do we handle databases that shut down or get acquired?
+3. **Search fallback**: When direct URLs aren't possible, what search instructions work best for AI agents?
+4. **Update frequency**: How often do registry files need refresh?
+5. **Library scope**: Should libraries include validation, or just parsing and resolution?
 
 These will be answered empirically, not theoretically.
 
