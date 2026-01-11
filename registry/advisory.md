@@ -31,15 +31,24 @@ secid:advisory/debian/dsa#DSA-5678-1
 | `mitre` | `cve` | MITRE CVE | Canonical vulnerability identifiers |
 | `nist` | `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
 | `github` | `ghsa` | GitHub | Package security advisories |
-| `google` | `osv` | Google OSV | Ecosystem vulnerability database |
-| `redhat` | `cve`, `errata`, `bugzilla` | Red Hat | CVE pages, RHSA/RHBA/RHEA, Bugzilla bugs |
+| `google` | `osv`, `chrome`, `android`, `project-zero` | Google | OSV, Chrome, Android bulletins, P0 |
+| `redhat` | `cve`, `errata`, `bugzilla` | Red Hat | CVE pages, RHSA/RHBA/RHEA, Bugzilla |
 | `microsoft` | `msrc`, `advisory`, `kb`, `bulletin` | Microsoft | MSRC, ADV, KB, legacy MS bulletins |
 | `debian` | `dsa`, `dla`, `tracker`, `bts` | Debian | DSA, DLA, CVE tracker, bug tracking |
 | `ubuntu` | `usn`, `launchpad`, `cve-tracker` | Ubuntu | USN, Launchpad bugs, CVE tracker |
+| `suse` | `suse-su`, `bugzilla` | SUSE | Security updates, Bugzilla |
 | `cisco` | `psirt`, `bug` | Cisco | PSIRT advisories, CSC bug IDs |
+| `vmware` | `vmsa` | VMware | VMSA advisories |
+| `fortinet` | `fsa` | Fortinet | FG-IR advisories |
+| `paloalto` | `pan-sa` | Palo Alto | PAN-SA advisories |
 | `mozilla` | `mfsa`, `bugzilla` | Mozilla | MFSA advisories, Bugzilla bugs |
 | `apache` | `security`, `jira` | Apache | Security pages, Jira issues |
 | `oracle` | `cpu`, `alert` | Oracle | Critical Patch Updates, Security Alerts |
+| `atlassian` | `jira-security` | Atlassian | Confluence, Jira, Bitbucket advisories |
+| `apple` | `ht` | Apple | HT security articles |
+| `linux` | `kernel` | Linux | Kernel CVEs |
+| `openssl` | `secadv` | OpenSSL | Security advisories |
+| `cert` | `vu` | CERT/CC | VU# vulnerability notes |
 | `cnvd` | `cnvd` | China CNVD | Chinese vulnerability database |
 | `eu` | `euvd` | EU EUVD | European vulnerability database |
 
