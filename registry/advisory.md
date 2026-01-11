@@ -32,7 +32,7 @@ secid:advisory/debian/dsa#DSA-5678-1
 | `nist` | `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
 | `github` | `ghsa` | GitHub | Package security advisories |
 | `google` | `osv` | Google OSV | Ecosystem vulnerability database |
-| `redhat` | `cve`, `errata` | Red Hat | RHSA, RHBA, CVE pages |
+| `redhat` | `cve`, `errata`, `bugzilla` | Red Hat | CVE pages, RHSA/RHBA/RHEA, Bugzilla bugs |
 | `microsoft` | `msrc`, `advisory`, `kb` | Microsoft | MSRC CVEs, ADV advisories, KB articles |
 | `debian` | `dsa`, `dla`, `tracker` | Debian | DSA, DLA advisories, CVE tracker |
 | `ubuntu` | `usn` | Ubuntu | USN advisories |
@@ -61,9 +61,11 @@ secid:advisory/redhat/cve#CVE-2024-1234      # Red Hat CVE Database (vulnerabili
 secid:advisory/redhat/errata#RHSA-2024:1234  # Red Hat Security Advisory (the fix)
 secid:advisory/redhat/errata#RHBA-2024:5678  # Red Hat Bug Advisory
 secid:advisory/redhat/errata#RHEA-2024:9012  # Red Hat Enhancement Advisory
+secid:advisory/redhat/bugzilla#2045678       # Bugzilla bug (by ID)
+secid:advisory/redhat/bugzilla#CVE-2024-1234 # Bugzilla bug (by CVE alias)
 ```
 
-The `name` distinguishes the system (`cve` vs `errata`), and the subpath prefix (`RHSA-`, `RHBA-`, `RHEA-`) distinguishes the advisory type within errata.
+The `name` distinguishes the system (`cve` vs `errata` vs `bugzilla`). Within errata, the subpath prefix (`RHSA-`, `RHBA-`, `RHEA-`) distinguishes advisory types. Bugzilla accepts both numeric IDs and CVE aliases.
 
 **Microsoft example:**
 

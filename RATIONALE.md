@@ -189,17 +189,18 @@ secid:control/csa/aicm@1.0#...    # CSA AI Controls Matrix
 secid:control/nist/csf@2.0#...    # NIST Cybersecurity Framework
 ```
 
-### Vendor ID Routing
+### Vendors with Multiple Systems
 
-For vendors with multiple systems, let the ID pattern disambiguate:
+For vendors with multiple advisory systems, use different names:
 
 ```
-secid:advisory/redhat/cve#CVE-2024-1234      # Routes to CVE database
-secid:advisory/redhat/errata#RHSA-2024:1234     # Routes to advisory database
-secid:advisory/redhat/2045678            # Routes to Bugzilla
+secid:advisory/redhat/cve#CVE-2024-1234       # Red Hat CVE database
+secid:advisory/redhat/errata#RHSA-2024:1234   # Red Hat errata (advisories)
+secid:advisory/redhat/bugzilla#2045678        # Bugzilla bug ID
+secid:advisory/redhat/bugzilla#CVE-2024-1234  # Bugzilla CVE alias
 ```
 
-The entity definition documents the routing rules. Only create sub-namespaces (`redhat-bugzilla`) if ID patterns genuinely collide.
+Each name (`cve`, `errata`, `bugzilla`) gets its own registry file documenting subpath patterns and resolution rules. Some systems support aliases - Bugzilla accepts both numeric IDs and CVE identifiers.
 
 ## Why Obsidian Format?
 
