@@ -23,21 +23,21 @@ Currently this requires:
 ### With SecID
 
 ```
-secid:advisory/cve/CVE-2024-1234
+secid:advisory/mitre/cve#CVE-2024-1234
     ├── aliases
-    │   ├── secid:advisory/ghsa/GHSA-xxxx-yyyy-zzzz
-    │   └── secid:advisory/osv/PYSEC-2024-567
+    │   ├── secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz
+    │   └── secid:advisory/google/osv#PYSEC-2024-567
     ├── classified_as
-    │   └── secid:weakness/cwe/CWE-89
+    │   └── secid:weakness/mitre/cwe#CWE-89
     ├── severity
     │   ├── cvss:3.1 → 8.8 (from NVD)
     │   └── epss → 0.42 (42% exploitation probability)
     ├── affects
     │   └── pkg:pypi/sqlparse@0.4.0-0.4.3
     ├── exploited_by
-    │   └── secid:ttp/attack/T1190
+    │   └── secid:ttp/mitre/attack#T1190
     └── mitigated_by
-        └── secid:control/owasp-asvs/V5.3.4
+        └── secid:control/owasp/asvs#V5.3.4
 ```
 
 One query, complete picture.
@@ -61,19 +61,19 @@ No single database has them all. No standard way to query across.
 
 ```
 # Find everything classified as prompt injection
-secid:weakness/cwe/CWE-1427  # Direct CWE for prompt injection
+secid:weakness/mitre/cwe#CWE-1427  # Direct CWE for prompt injection
     └── instances
-        ├── secid:advisory/cve/CVE-2023-29374  # LangChain
-        ├── secid:advisory/cve/CVE-2023-36189  # LangChain
-        ├── secid:advisory/ghsa/GHSA-...       # More LangChain
+        ├── secid:advisory/mitre/cve#CVE-2023-29374  # LangChain
+        ├── secid:advisory/mitre/cve#CVE-2023-36189  # LangChain
+        ├── secid:advisory/github/ghsa#GHSA-...       # More LangChain
         └── ...
 
-secid:weakness/owasp-llm/LLM01  # OWASP category
+secid:weakness/owasp/llm-top10#LLM01  # OWASP category
     └── instances
         ├── (everything above)
         └── (additional research/incidents)
 
-secid:ttp/atlas/AML.T0043  # Attack technique
+secid:ttp/mitre/atlas#AML.T0043  # Attack technique
     └── examples
         ├── (case studies)
         └── (related vulns)
@@ -99,21 +99,21 @@ You have controls documented somewhere. OWASP LLM Top 10 is documented. But the 
 # Pre-built mapping in relationships/
 mapping: "CSA AI Controls Matrix → OWASP LLM Top 10"
 
-secid:weakness/owasp-llm/LLM01  # Prompt Injection
+secid:weakness/owasp/llm-top10#LLM01  # Prompt Injection
     └── mitigated_by
-        ├── secid:control/csa-aicm/INP-01  # Input validation
+        ├── secid:control/csa/aicm#INP-01  # Input validation
         │   └── strength: partial
         │   └── notes: "Helps but doesn't fully prevent"
-        ├── secid:control/csa-aicm/INP-02  # Input sanitization
+        ├── secid:control/csa/aicm#INP-02  # Input sanitization
         │   └── strength: partial
-        └── secid:control/csa-aicm/ARC-03  # Prompt isolation
+        └── secid:control/csa/aicm#ARC-03  # Prompt isolation
             └── strength: strong
 
-secid:weakness/owasp-llm/LLM02  # Sensitive Information Disclosure
+secid:weakness/owasp/llm-top10#LLM02  # Sensitive Information Disclosure
     └── mitigated_by
-        ├── secid:control/csa-aicm/DAT-01  # Data classification
-        ├── secid:control/csa-aicm/DAT-04  # Output filtering
-        └── secid:control/csa-aicm/MOD-02  # Fine-tuning controls
+        ├── secid:control/csa/aicm#DAT-01  # Data classification
+        ├── secid:control/csa/aicm#DAT-04  # Output filtering
+        └── secid:control/csa/aicm#MOD-02  # Fine-tuning controls
 ```
 
 Auditor can see exact mappings with rationale. You can generate compliance matrices automatically.
@@ -173,8 +173,8 @@ secid:advisory/ai-vuln-db/JB-2024-0042
     ├── name: "DAN 15.0 Jailbreak"
     ├── description: "Persona-based jailbreak effective against GPT-4, Claude, Gemini"
     ├── classified_as
-    │   ├── secid:weakness/owasp-llm/LLM01
-    │   └── secid:ttp/atlas/AML.T0051
+    │   ├── secid:weakness/owasp/llm-top10#LLM01
+    │   └── secid:ttp/mitre/atlas#AML.T0051
     ├── affects
     │   ├── secid:entity/openai/gpt-4
     │   ├── secid:entity/anthropic/claude-3
@@ -204,7 +204,7 @@ Meanwhile, the vendor has published their own advisory with this information.
 ```yaml
 # overlays/enrichment/CVE-2024-9999.yaml
 overlay_type: enrich
-target: secid:advisory/cve/CVE-2024-9999
+target: secid:advisory/mitre/cve#CVE-2024-9999
 source: "secid:advisory/acme/SA-2024-042"
 
 adds:
@@ -245,12 +245,12 @@ You use `langchain`. You want EVERY security issue:
 ```
 pkg:pypi/langchain
     └── vulnerabilities
-        ├── secid:advisory/cve/CVE-2023-29374
-        │   └── classified_as: secid:weakness/cwe/CWE-94
-        ├── secid:advisory/cve/CVE-2023-36189
-        │   └── classified_as: secid:weakness/cwe/CWE-1427
-        ├── secid:advisory/ghsa/GHSA-...
-        └── secid:advisory/ghsa/GHSA-...
+        ├── secid:advisory/mitre/cve#CVE-2023-29374
+        │   └── classified_as: secid:weakness/mitre/cwe#CWE-94
+        ├── secid:advisory/mitre/cve#CVE-2023-36189
+        │   └── classified_as: secid:weakness/mitre/cwe#CWE-1427
+        ├── secid:advisory/github/ghsa#GHSA-...
+        └── secid:advisory/github/ghsa#GHSA-...
 
     └── dependencies (from SBOM)
         ├── pkg:pypi/openai
@@ -260,8 +260,8 @@ pkg:pypi/langchain
         └── ...
 
     └── relevant_techniques
-        ├── secid:ttp/atlas/AML.T0043  # Prompt injection
-        ├── secid:ttp/atlas/AML.T0054  # Plugin compromise
+        ├── secid:ttp/mitre/atlas#AML.T0043  # Prompt injection
+        ├── secid:ttp/mitre/atlas#AML.T0054  # Plugin compromise
         └── ...
 ```
 
@@ -278,18 +278,18 @@ You want to understand which vulnerability types are well-tracked across the eco
 ```
 # Query: Compare coverage across databases by weakness type
 
-secid:weakness/cwe/CWE-1427  # Prompt Injection
+secid:weakness/mitre/cwe#CWE-1427  # Prompt Injection
     └── cve_count: 12
     └── ghsa_count: 45
     └── atlas_references: 3
     └── coverage_note: "Emerging area, coverage expanding"
 
-secid:weakness/cwe/CWE-1426  # Improper AI Output Validation
+secid:weakness/mitre/cwe#CWE-1426  # Improper AI Output Validation
     └── cve_count: 3
     └── ghsa_count: 18
     └── coverage_note: "New weakness type, tracking growing"
 
-secid:weakness/cwe/CWE-502   # Deserialization
+secid:weakness/mitre/cwe#CWE-502   # Deserialization
     └── cve_count: 2,847
     └── ghsa_count: 312
     └── coverage_note: "Mature, well-tracked"
@@ -320,20 +320,20 @@ Components:
   - secid:entity/pinecone/vector-db → embedding manipulation risk
 
 Relevant Threats:
-  - secid:ttp/atlas/AML.T0043 (Prompt Injection)
+  - secid:ttp/mitre/atlas#AML.T0043 (Prompt Injection)
       └── your_exposure: HIGH (direct user input to LLM)
-  - secid:ttp/atlas/AML.T0054 (Plugin Compromise)
+  - secid:ttp/mitre/atlas#AML.T0054 (Plugin Compromise)
       └── your_exposure: MEDIUM (using tools)
-  - secid:ttp/atlas/AML.T0048 (Embedding Manipulation)
+  - secid:ttp/mitre/atlas#AML.T0048 (Embedding Manipulation)
       └── your_exposure: MEDIUM (RAG with Pinecone)
 
 Applicable Weaknesses:
-  - secid:weakness/owasp-llm/LLM01 through LLM10
+  - secid:weakness/owasp/llm-top10#LLM01 through LLM10
 
 Recommended Controls:
-  - secid:control/csa-aicm/INP-01 (Input Validation)
-  - secid:control/csa-aicm/OUT-01 (Output Validation)
-  - secid:control/csa-aicm/RAG-01 (RAG Security)
+  - secid:control/csa/aicm#INP-01 (Input Validation)
+  - secid:control/csa/aicm#OUT-01 (Output Validation)
+  - secid:control/csa/aicm#RAG-01 (RAG Security)
 ```
 
 Threat modeling becomes a query, not a research project.
@@ -358,19 +358,19 @@ No central index. No way to track what's been tried.
 secid:reference/arxiv/1908.07125
     ├── title: "Universal Adversarial Triggers"
     ├── demonstrates
-    │   └── secid:ttp/atlas/AML.T0043
+    │   └── secid:ttp/mitre/atlas#AML.T0043
     ├── affects
     │   ├── secid:entity/openai/gpt-2
     │   └── secid:entity/google/bert
     └── related_to
-        └── secid:weakness/cwe/CWE-1427
+        └── secid:weakness/mitre/cwe#CWE-1427
 
 # Jailbreak technique (future: could be tracked via AI vuln database)
 secid:advisory/ai-vuln-db/JB-2024-0015
     ├── name: "DAN Jailbreak"
     ├── versions: ["DAN 1.0", "DAN 5.0", "DAN 11.0", ...]
     ├── demonstrates
-    │   └── secid:ttp/atlas/AML.T0051
+    │   └── secid:ttp/mitre/atlas#AML.T0051
     └── affects
         ├── secid:entity/openai/gpt-3.5
         └── secid:entity/openai/gpt-4 (partial)

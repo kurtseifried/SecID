@@ -1,23 +1,24 @@
 ---
-namespace: owasp-top10
-full_name: "OWASP Top 10"
 type: weakness
-operator: "secid:entity/owasp/top-10"
+namespace: owasp
+name: top10
+full_name: "OWASP Top 10"
+operator: "secid:entity/owasp"
 
 urls:
   website: "https://owasp.org/www-project-top-ten/"
   lookup: "https://owasp.org/Top10/A{num}_{year}_{name}/"
 
-id_pattern: "A\\d{2}(-\\d{4})?"
+id_pattern: "A\\d{2}"
 versions:
   - "2021"
   - "2017"
   - "2013"
 
 examples:
-  - "A01-2021"
-  - "A03-2021"
-  - "A01"
+  - "secid:weakness/owasp/top10@2021#A01"
+  - "secid:weakness/owasp/top10@2021#A03"
+  - "secid:weakness/owasp/top10#A01"
 
 status: active
 ---
@@ -29,8 +30,9 @@ The most critical web application security risks.
 ## Format
 
 ```
-secid:weakness/owasp-top10/A0N@YYYY
-secid:weakness/owasp-top10/A0N           # Current version
+secid:weakness/owasp/top10[@YEAR]#ITEM
+secid:weakness/owasp/top10@2021#A03
+secid:weakness/owasp/top10#A01           # Current version
 ```
 
 ## 2021 Edition
@@ -51,5 +53,6 @@ secid:weakness/owasp-top10/A0N           # Current version
 ## Notes
 
 - Updated every 3-4 years
-- Version matters: A01@2021 ≠ A01@2017
+- Version matters: top10@2021#A01 ≠ top10@2017#A01
 - Maps to CWEs
+

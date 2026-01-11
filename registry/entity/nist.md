@@ -37,7 +37,9 @@ NIST is a US federal agency within the Department of Commerce. In the security c
 
 | Name | Full Name | Identifier Type |
 |------|-----------|-----------------|
-| `nvd` | National Vulnerability Database | `advisory/nvd/*` |
+| `nvd` | National Vulnerability Database | `secid:advisory/nist/nvd#*` |
+| `csf` | Cybersecurity Framework | `secid:control/nist/csf#*` |
+| `800-53` | SP 800-53 Security Controls | `secid:control/nist/800-53#*` |
 
 ## Examples
 

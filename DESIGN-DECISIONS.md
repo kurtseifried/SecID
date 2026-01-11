@@ -58,10 +58,10 @@ PURL doesn't define:
 
 Those concerns are handled by other systems (OSV, GHSA, etc.) that *use* PURLs. PURL is just the identifier.
 
-SecID follows this pattern. The spec defines how to write:
+SecID follows this pattern. **SecID uses PURL grammar with `secid:` as the scheme** - just as PURL uses `pkg:`, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly (`type/namespace/name`):
 
 ```
-secid:advisory/cve/CVE-2024-1234
+secid:advisory/mitre/cve#CVE-2024-1234
 ```
 
 What you can say *about* that identifier - relationships, enrichments, history - is a separate concern.
@@ -103,7 +103,7 @@ How do you handle name changes? Companies get acquired, products get rebranded, 
 - VMware → Broadcom VMware
 - RHSA-* → hypothetically IBMRHSA-*
 
-If someone wrote `secid:advisory/redhat/RHSA-2024-1234` in a paper, a database, or a tool, what happens when "redhat" becomes "ibmredhat"?
+If someone wrote `secid:advisory/redhat/errata#RHSA-2024-1234` in a paper, a database, or a tool, what happens when "redhat" becomes "ibmredhat"?
 
 ### The UUID Proposal
 
@@ -123,7 +123,7 @@ This is how some systems handle stability. It's not wrong.
 
 In practice, people would write:
 ```
-secid:advisory/redhat/RHSA-2024-1234
+secid:advisory/redhat/errata#RHSA-2024-1234
 ```
 
 Not:
@@ -147,7 +147,7 @@ We'd have all the costs of UUIDs with none of the benefits.
 When a namespace is renamed:
 
 1. **Both names remain valid identifiers**
-   - `secid:advisory/redhat/RHSA-2024-1234` works
+   - `secid:advisory/redhat/errata#RHSA-2024-1234` works
    - `secid:advisory/ibmredhat/RHSA-2024-1234` also works
 
 2. **The relationship layer records the change**
@@ -346,7 +346,7 @@ Note: To be a peer scheme, it needs a **self-identifying string format**. Standa
 
 ### Why Not Wrap Them?
 
-These schemes are already self-identifying. Writing `secid:package/npm/lodash` when `pkg:npm/lodash` exists would be:
+These schemes are already self-identifying. Writing `secid:package:npm/lodash` when `pkg:npm/lodash` exists would be:
 - Redundant
 - Confusing (two ways to say the same thing)
 - Fighting established standards
@@ -354,10 +354,10 @@ These schemes are already self-identifying. Writing `secid:package/npm/lodash` w
 Instead, use them as peers:
 
 ```yaml
-advisory: secid:advisory/cve/CVE-2024-1234
+advisory: secid:advisory/mitre/cve#CVE-2024-1234
 affects: pkg:pypi/langchain@0.1.0
 severity: CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H
-classified_as: secid:weakness/cwe/CWE-94
+classified_as: secid:weakness/mitre/cwe#CWE-94
 license: spdx:MIT
 paper: doi:10.48550/arXiv.2303.08774
 ```
@@ -367,8 +367,8 @@ paper: doi:10.48550/arXiv.2303.08774
 If a peer scheme has gaps we need to cover, we could create a compatible namespace:
 
 ```
-secid:license/spdx/MIT              → translates to → spdx:MIT
-secid:license/spdx/Custom-Corp-1.0  → covers gap SPDX doesn't have
+secid:license:spdx/MIT              → translates to → spdx:MIT
+secid:license:spdx/Custom-Corp-1.0  → covers gap SPDX doesn't have
 ```
 
 This approach:
@@ -394,7 +394,7 @@ This shapes everything about how we design responses and documentation.
 
 ### What AI-First Means
 
-When an AI encounters a SecID like `secid:advisory/redhat/CVE-2026-0544`, it should be able to:
+When an AI encounters a SecID like `secid:advisory/redhat/cve#CVE-2026-0544`, it should be able to:
 
 1. **Look it up** - Query the registry or API
 2. **Understand what it is** - Not just "a URL" but what kind of data, why it matters, how it differs from alternatives
@@ -455,11 +455,11 @@ These entries still provide value through explanatory text, relationships, and c
 
 ### Example: What AI Gets
 
-Query: `secid:advisory/redhat/CVE-2026-0544`
+Query: `secid:advisory/redhat/cve#CVE-2026-0544`
 
 Response includes:
 - **what**: "Red Hat's analysis of this CVE. Unlike the upstream CVE record, includes Red Hat severity rating, affected product matrix, and RHEL/OpenShift-specific remediation."
-- **when_to_use**: "Use for Red Hat-specific impact. For canonical description, use secid:advisory/cve/CVE-2026-0544."
+- **when_to_use**: "Use for Red Hat-specific impact. For canonical description, use secid:advisory/mitre/cve#CVE-2026-0544."
 - **urls**: Links to HTML page, CSAF/VEX JSON, API endpoint
 - **parsing**: "CSAF uses VEX profile. Python: `pip install csaf`. Key fields: `/vulnerabilities/[]/product_status/fixed`"
 - **ai_guidance**: "Red Hat severity may differ from NVD CVSS - both are valid perspectives representing different risk contexts."

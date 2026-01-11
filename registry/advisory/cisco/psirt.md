@@ -1,7 +1,8 @@
 ---
-namespace: cisco
-full_name: "Cisco Security Advisories"
 type: advisory
+namespace: cisco
+name: psirt
+full_name: "Cisco Security Advisories"
 operator: "secid:entity/cisco/psirt"
 
 urls:
@@ -11,20 +12,20 @@ urls:
 
 id_pattern: "cisco-sa-[a-z0-9-]+"
 examples:
-  - "cisco-sa-apache-log4j-qRuKNEbd"
-  - "cisco-sa-asaftd-xss-webui-gfnP9LmM"
+  - "secid:advisory/cisco/psirt#cisco-sa-apache-log4j-qRuKNEbd"
+  - "secid:advisory/cisco/psirt#cisco-sa-asaftd-xss-webui-gfnP9LmM"
 
 status: active
 ---
 
-# Cisco Namespace
+# Cisco PSIRT
 
 Cisco Security Advisories (PSIRT).
 
 ## Format
 
 ```
-secid:advisory/cisco/{id}
+secid:advisory/cisco/psirt#cisco-sa-{description}-{suffix}
 ```
 
 ## Resolution

@@ -1,7 +1,8 @@
 ---
-namespace: nvd
-full_name: "National Vulnerability Database"
 type: advisory
+namespace: nist
+name: nvd
+full_name: "National Vulnerability Database"
 operator: "secid:entity/nist/nvd"
 
 urls:
@@ -12,20 +13,20 @@ urls:
 
 id_pattern: "CVE-\\d{4}-\\d{4,}"
 examples:
-  - "CVE-2024-1234"
-  - "CVE-2023-44487"
+  - "secid:advisory/nist/nvd#CVE-2024-1234"
+  - "secid:advisory/nist/nvd#CVE-2023-44487"
 
 status: active
 ---
 
-# NVD Namespace
+# NVD (NIST)
 
 NIST's enrichment layer for CVE records.
 
 ## Format
 
 ```
-secid:advisory/nvd/CVE-YYYY-NNNNN
+secid:advisory/nist/nvd#CVE-YYYY-NNNNN
 ```
 
 ## Resolution
@@ -44,6 +45,7 @@ https://nvd.nist.gov/vuln/detail/{id}
 
 ## Notes
 
-- Uses same CVE IDs as cve namespace
-- `advisory/nvd/CVE-X` is NVD's enrichment of `advisory/cve/CVE-X`
+- Uses same CVE IDs as MITRE's CVE database
+- `advisory/nist/nvd#CVE-X` is NVD's enrichment of `advisory/mitre/cve#CVE-X`
 - NVD has 20,000+ CVE backlog; enrichment can take weeks or months
+

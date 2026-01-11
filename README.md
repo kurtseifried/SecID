@@ -1,30 +1,124 @@
 # SecID - Security Identifiers
 
-A federated identifier system for security knowledge, modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec).
+A federated identifier system for security knowledge, using [Package URL (PURL)](https://github.com/package-url/purl-spec) grammar with `secid:` as the scheme.
 
 ## What Is SecID?
 
-SecID is **explicitly scoped to identifiers only** - just like [Package URL (PURL)](https://github.com/package-url/purl-spec) for packages. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
+[Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents.
 
-SecID provides stable, canonical identifiers for security-relevant concepts:
+**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath]`.
+
+SecID is **explicitly scoped to identifiers only**. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
+
+## PURL to SecID Mapping
+
+SecID is PURL with a different scheme. The grammar is identical:
 
 ```
-secid:<type>/<namespace>/<name>[@<version>][?<qualifiers>][#<subpath>]
+PURL:   pkg:type/namespace/name@version?qualifiers#subpath
+SecID:  secid:type/namespace/name@version?qualifiers#subpath
+```
+
+**How each component maps:**
+
+| PURL Component | SecID Component | SecID Usage |
+|----------------|-----------------|-------------|
+| `pkg:` | `secid:` | Scheme (constant prefix) |
+| `type` | `type` | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
+| `namespace` | `namespace` | **Organization** that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `redhat`, `iso`) |
+| `name` | `name` | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `27001`) |
+| `@version` | `@version` | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
+| `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`) |
+| `#subpath` | `#subpath` | **Specific item** within the database (e.g., `#CVE-2024-1234`, `#CWE-79`, `#T1059`, `#A.8.1`) |
+
+**Visual mapping:**
+
+```
+secid:advisory/mitre/cve#CVE-2024-1234
+       ───┬─── ──┬── ─┬─ ──────┬──────
+          │      │    │        └─ subpath: specific CVE identifier
+          │      │    └────────── name: the CVE database
+          │      └─────────────── namespace: MITRE (the organization)
+          └────────────────────── type: advisory
+
+secid:control/iso/27001@2022#A.8.1
+       ──┬─── ─┬─ ──┬── ─┬── ──┬──
+         │     │    │    │     └─ subpath: specific control (Annex A.8.1)
+         │     │    │    └─────── version: 2022 edition
+         │     │    └──────────── name: ISO 27001 standard
+         │     └───────────────── namespace: ISO (the organization)
+         └─────────────────────── type: control
+```
+
+**Key insight:** The namespace is always the **organization** (who publishes it), the name is the **thing they publish** (database, framework, standard), and the subpath is the **specific item within** that thing.
+
+**Subpath hierarchy:** Subpaths can use `/` to express hierarchy within a document:
+
+```
+secid:control/csa/ccm@4.0#IAM-12                        # The control
+secid:control/csa/ccm@4.0#IAM-12/audit                  # Audit section within control
+secid:control/csa/ccm@4.0#IAM-12/implementation         # Implementation guidance
+secid:regulation/eu/gdpr#art-32/1/a                     # Article 32(1)(a)
+secid:weakness/mitre/cwe#CWE-79/potential-mitigations   # Mitigations section
+```
+
+**Percent encoding:** Special characters in names and subpaths are percent-encoded (URL encoding):
+
+| Character | Encoded | Example |
+|-----------|---------|---------|
+| Space | `%20` | `Auditing Guidelines` → `Auditing%20Guidelines` |
+| `&` | `%26` | `A&A-01` → `A%26A-01` |
+| `(` `)` | `%28` `%29` | `(Draft)` → `%28Draft%29` |
+
+```
+secid:control/csa/aicm@1.0#A%26A-01                     # A&A-01 control
+secid:control/csa/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
+```
+
+Tools should render these human-friendly for display while storing the encoded form.
+
+**Registry file mapping:** The registry directory structure mirrors the SecID structure:
+
+```
+SecID:                          Registry File:
+secid:weakness/mitre/cwe        → registry/weakness/mitre/cwe.md
+secid:advisory/nist/nvd         → registry/advisory/nist/nvd.md
+secid:ttp/mitre/attack          → registry/ttp/mitre/attack.md
+secid:control/csa/ccm           → registry/control/csa/ccm.md
+secid:regulation/eu/gdpr        → registry/regulation/eu/gdpr.md
+```
+
+Each registry file contains resolution rules for subpaths. For example, `registry/weakness/mitre/cwe.md` explains how to resolve `#CWE-123`:
+
+```yaml
+# In registry/weakness/mitre/cwe.md
+urls:
+  lookup: "https://cwe.mitre.org/data/definitions/{num}.html"
+
+# secid:weakness/mitre/cwe#CWE-123
+#   → extract "123" from "CWE-123"
+#   → https://cwe.mitre.org/data/definitions/123.html
+```
+
+## Identifier Format
+
+```
+secid:type/namespace/name[@version][?qualifiers][#subpath]
 ```
 
 **Examples:**
 ```
-secid:advisory/cve/CVE-2024-1234           # CVE record
-secid:weakness/cwe/CWE-79                  # CWE weakness
-secid:ttp/attack/T1059.003                 # ATT&CK technique
-secid:control/nist-csf/PR.AC-1@2.0         # NIST CSF control
-secid:control/csa-aicm/A%26A-01@1.0        # CSA AICM control (A&A-01)
-secid:regulation/eu/gdpr#art-32            # GDPR Article 32
-secid:entity/mitre/cve                     # CVE program
-secid:reference/whitehouse/eo-14110        # Reference document
+secid:advisory/mitre/cve#CVE-2024-1234            # CVE record
+secid:weakness/mitre/cwe#CWE-79                   # CWE weakness
+secid:ttp/mitre/attack#T1059.003                  # ATT&CK technique
+secid:control/nist/csf@2.0#PR.AC-1          # NIST CSF control
+secid:control/csa/aicm@1.0#A%26A-01         # CSA AICM control (A&A-01)
+secid:regulation/eu/gdpr#art-32             # GDPR Article 32
+secid:entity/mitre/cve                      # CVE program
+secid:reference/whitehouse/eo-14110         # Reference document
 ```
 
-Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Tools render these human-friendly for display.
+Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Subpaths can use `/` for hierarchy. Tools render these human-friendly for display.
 
 ## Types
 
@@ -50,14 +144,45 @@ secid/
 ├── USE-CASES.md         # Concrete examples
 ├── RELATIONSHIPS.md     # Future: relationship layer (exploratory)
 ├── OVERLAYS.md          # Future: overlay layer (exploratory)
-├── registry/            # Namespace definitions by type
+├── registry/            # Namespace definitions (mirrors SecID structure)
 │   ├── advisory.md      # Advisory type description
-│   ├── advisory/        # Advisory namespaces (cve.md, nvd.md, etc.)
+│   ├── advisory/        # Advisory namespaces
+│   │   ├── mitre/       # MITRE advisories
+│   │   │   └── cve.md   # secid:advisory/mitre/cve
+│   │   ├── nist/
+│   │   │   └── nvd.md   # secid:advisory/nist/nvd
+│   │   ├── github/
+│   │   │   └── ghsa.md  # secid:advisory/github/ghsa
+│   │   └── ...
+│   ├── weakness.md      # Weakness type description
+│   ├── weakness/
+│   │   ├── mitre/
+│   │   │   └── cwe.md   # secid:weakness/mitre/cwe
+│   │   └── owasp/
+│   │       ├── top10.md # secid:weakness/owasp/top10
+│   │       └── llm-top10.md
+│   ├── ttp.md           # TTP type description
+│   ├── ttp/
+│   │   └── mitre/
+│   │       ├── attack.md # secid:ttp/mitre/attack
+│   │       ├── atlas.md  # secid:ttp/mitre/atlas
+│   │       └── capec.md  # secid:ttp/mitre/capec
+│   ├── control.md       # Control type description
+│   ├── control/
+│   │   ├── nist/
+│   │   │   ├── csf.md   # secid:control/nist/csf
+│   │   │   └── 800-53.md
+│   │   └── cis/
+│   │       └── controls.md
 │   ├── entity.md        # Entity type description
-│   ├── entity/          # Entity namespaces (mitre.md, nist.md, etc.)
-│   └── ...              # Other types follow same pattern
+│   ├── entity/          # Entity namespaces (org descriptions)
+│   │   ├── mitre.md
+│   │   └── nist.md
+│   └── ...
 └── seed/                # Seed data for bulk import
 ```
+
+The registry directory structure mirrors SecID identifiers: `registry/<type>/<namespace>/<name>.md`
 
 ## File Format
 
@@ -85,12 +210,13 @@ Why this format:
 | Term | Definition |
 |------|------------|
 | **SecID** | A complete identifier string starting with `secid:` |
-| **Type** | The category of thing being identified (advisory, weakness, ttp, control, regulation, entity, reference) |
-| **Namespace** | The system or authority that issued the identifier (e.g., `cve`, `ghsa`, `redhat`, `cwe`) |
-| **Name** | The upstream identifier exactly as issued (e.g., `CVE-2024-1234`, `CWE-79`, `RHSA-2024:1234`) |
-| **Version** | Optional `@version` suffix for edition/revision of the thing (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
+| **Scheme** | The URL scheme - always `secid:` (like `pkg:` in PURL) |
+| **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
+| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`) |
+| **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`) |
+| **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
-| **Subpath** | Optional `#subpath` to reference internal structure (e.g., `#art-32`, `#section-4.1`) |
+| **Subpath** | The specific item within the document (e.g., `#CVE-2024-1234`, `#IAM-12`, `#T1059`); can use `/` for hierarchy |
 | **Registry** | The collection of namespace definition files that document what identifiers exist |
 | **Resolution** | The process of converting a SecID to a URL or retrieving the identified resource |
 
@@ -99,22 +225,22 @@ Why this format:
 SecIDs identify things; resolution retrieves them. Each namespace defines how to resolve its identifiers:
 
 ```
-secid:advisory/cve/CVE-2026-0544
+secid:advisory/mitre/cve#CVE-2026-0544
   → https://www.cve.org/CVERecord?id=CVE-2026-0544
 
-secid:advisory/nvd/CVE-2026-0544
+secid:advisory/nist/nvd#CVE-2026-0544
   → https://nvd.nist.gov/vuln/detail/CVE-2026-0544
 
-secid:advisory/redhat/CVE-2026-0544
+secid:advisory/redhat/cve#CVE-2026-0544
   → https://access.redhat.com/security/cve/CVE-2026-0544
 
-secid:advisory/redhat/RHSA-2026:0414
+secid:advisory/redhat/errata#RHSA-2026:0414
   → https://access.redhat.com/errata/RHSA-2026:0414
 
-secid:weakness/cwe/CWE-79
+secid:weakness/mitre/cwe#CWE-79
   → https://cwe.mitre.org/data/definitions/79.html
 
-secid:ttp/attack/T1059.003
+secid:ttp/mitre/attack#T1059.003
   → https://attack.mitre.org/techniques/T1059/003/
 
 secid:regulation/eu/gdpr#art-32

@@ -1,7 +1,8 @@
 ---
-namespace: nist-csf
-full_name: "NIST Cybersecurity Framework"
 type: control
+namespace: nist
+name: csf
+full_name: "NIST Cybersecurity Framework"
 operator: "secid:entity/nist"
 
 urls:
@@ -14,9 +15,9 @@ versions:
   - "1.1"
 
 examples:
-  - "GV.RM-01"
-  - "ID.AM-01"
-  - "PR.AC-01"
+  - "secid:control/nist/csf@2.0#GV.RM-01"
+  - "secid:control/nist/csf@2.0#ID.AM-01"
+  - "secid:control/nist/csf@2.0#PR.AC-01"
 
 status: active
 ---
@@ -28,8 +29,9 @@ Cybersecurity Framework for managing and reducing cyber risk.
 ## Format
 
 ```
-secid:control/nist-csf/XX.YY-NN@VERSION
-secid:control/nist-csf/GV.RM-01@2.0
+secid:control/nist/csf[@VERSION]#CONTROL-ID
+secid:control/nist/csf@2.0#GV.RM-01
+secid:control/nist/csf#PR.AC-01          # Current version
 ```
 
 ## Functions (CSF 2.0)
@@ -56,3 +58,4 @@ secid:control/nist-csf/GV.RM-01@2.0
 - CSF 2.0 released 2024 (adds Govern function)
 - Maps to other frameworks (ISO 27001, CIS)
 - Includes implementation tiers
+

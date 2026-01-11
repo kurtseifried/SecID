@@ -53,10 +53,10 @@ This was a key "aha" moment. We started from first principles designing an ident
 
 ### The Decision
 
-Rather than invent a new format, we adopted PURL's grammar:
+Rather than invent a new format, we adopted PURL's grammar with `secid:` as the scheme:
 
 ```
-secid:<type>/<namespace>/<name>[@version][?qualifiers][#subpath]
+secid:type/namespace/name[@version][?qualifiers][#subpath]
 ```
 
 Benefits:
@@ -65,7 +65,7 @@ Benefits:
 - **Tooling** can be adapted from PURL libraries
 - **Legitimacy** by association with established standard
 
-The `secid:` prefix (like `pkg:` for PURL) makes it unambiguous when SecIDs appear alongside other identifier schemes.
+**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:`, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath]`.
 
 For actual packages, we don't wrap PURL at all - just use `pkg:` directly. SecID handles the security knowledge that PURL doesn't cover.
 
@@ -86,7 +86,7 @@ This seemed clean: CVE-2024-1234 is "the vulnerability", and NVD's record, GHSA'
 But then we realized: **CVE would exist in both namespaces**.
 
 - `secid:vulnerability/cve/CVE-2024-1234` - the vulnerability
-- `secid:advisory/cve/CVE-2024-1234` - the CVE Record at cve.org
+- `secid:advisory/mitre/cve#CVE-2024-1234` - the CVE Record at cve.org
 
 The CVE Record IS what defines the CVE. It's not just commentary - it's the authoritative publication. So CVE is both a vulnerability identifier AND an advisory.
 
@@ -103,10 +103,10 @@ There is no platonic CVE-2024-1234 floating in the ether independent of the CVE 
 Everything is an advisory:
 
 ```
-secid:advisory/cve/CVE-2024-1234        # CVE Record (canonical)
-secid:advisory/nvd/CVE-2024-1234        # NVD enrichment
-secid:advisory/ghsa/GHSA-xxxx-yyyy      # GitHub advisory
-secid:advisory/redhat/RHSA-2024:1234    # Red Hat advisory
+secid:advisory/mitre/cve#CVE-2024-1234        # CVE Record (canonical)
+secid:advisory/nist/nvd#CVE-2024-1234        # NVD enrichment
+secid:advisory/github/ghsa#GHSA-xxxx-yyyy      # GitHub advisory
+secid:advisory/redhat/errata#RHSA-2024:1234    # Red Hat advisory
 ```
 
 CVE and OSV are "canonical" not because they live in a special namespace, but because other advisories reference them. The canonical nature is expressed through **relationships**, not types.
@@ -123,9 +123,9 @@ CVE and OSV are "canonical" not because they live in a special namespace, but be
 If you need to refer to "the vulnerability as a concept across all advisories", that's what relationships are for:
 
 ```
-advisory/nvd/CVE-2024-1234 → aliases → advisory/cve/CVE-2024-1234
-advisory/ghsa/GHSA-xxxx → aliases → advisory/cve/CVE-2024-1234
-advisory/redhat/CVE-2024-1234 → enriches → advisory/cve/CVE-2024-1234
+secid:advisory/nist/nvd#CVE-2024-1234 → aliases → secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/github/ghsa#GHSA-xxxx → aliases → secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/redhat/cve#CVE-2024-1234 → enriches → secid:advisory/mitre/cve#CVE-2024-1234
 ```
 
 The CVE advisory is the canonical anchor. Everything else relates to it.
@@ -173,19 +173,20 @@ Add types only when existing ones can't handle the semantics.
 ### Short Names When Unambiguous
 
 ```
-secid:advisory/cve/...       # Everyone knows CVE
-secid:advisory/ghsa/...      # Everyone knows GHSA
-secid:weakness/cwe/...       # Everyone knows CWE
-secid:ttp/attack/...         # Everyone knows ATT&CK
+secid:advisory/mitre/cve#...       # Everyone knows CVE
+secid:advisory/github/ghsa#...      # Everyone knows GHSA
+secid:weakness/mitre/cwe#...       # Everyone knows CWE
+secid:ttp/mitre/attack#...         # Everyone knows ATT&CK
 ```
 
 ### Longer Names for Disambiguation
 
 ```
-secid:weakness/owasp-top10/...    # vs owasp-llm
-secid:weakness/owasp-llm/...      # OWASP LLM Top 10
-secid:control/csa-ccm/...         # vs csa-aicm
-secid:control/nist-csf/...        # NIST Cybersecurity Framework
+secid:weakness/owasp/top10@2021#... # OWASP Top 10
+secid:weakness/owasp/llm-top10@2.0#... # OWASP LLM Top 10
+secid:control/csa/ccm@4.0#...      # CSA Cloud Controls Matrix
+secid:control/csa/aicm@1.0#...    # CSA AI Controls Matrix
+secid:control/nist/csf@2.0#...    # NIST Cybersecurity Framework
 ```
 
 ### Vendor ID Routing
@@ -193,8 +194,8 @@ secid:control/nist-csf/...        # NIST Cybersecurity Framework
 For vendors with multiple systems, let the ID pattern disambiguate:
 
 ```
-secid:advisory/redhat/CVE-2024-1234      # Routes to CVE database
-secid:advisory/redhat/RHSA-2024:1234     # Routes to advisory database
+secid:advisory/redhat/cve#CVE-2024-1234      # Routes to CVE database
+secid:advisory/redhat/errata#RHSA-2024:1234     # Routes to advisory database
 secid:advisory/redhat/2045678            # Routes to Bugzilla
 ```
 

@@ -83,8 +83,8 @@ This is purely illustrative - not a design:
 
 ```json
 {
-  "from": "secid:advisory/ghsa/GHSA-xxxx-yyyy",
-  "to": "secid:advisory/cve/CVE-2024-1234",
+  "from": "secid:advisory/github/ghsa#GHSA-xxxx-yyyy",
+  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
   "relationship": "aliases",
   "asserted_by": "github",
   "confidence": "high",

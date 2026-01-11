@@ -1,7 +1,8 @@
 ---
-namespace: microsoft
-full_name: "Microsoft Security Response Center"
 type: advisory
+namespace: microsoft
+name: msrc
+full_name: "Microsoft Security Response Center"
 operator: "secid:entity/microsoft/msrc"
 
 urls:
@@ -10,40 +11,39 @@ urls:
   lookup_cve: "https://msrc.microsoft.com/update-guide/vulnerability/{id}"
   lookup_advisory: "https://msrc.microsoft.com/update-guide/advisory/{id}"
 
-id_routing:
-  - pattern: "CVE-\\d{4}-\\d{4,}"
-    system: "MSRC Vulnerability Database"
+databases:
+  - name: msrc
+    id_pattern: "CVE-\\d{4}-\\d{4,}"
+    description: "MSRC Vulnerability Database"
     url: "https://msrc.microsoft.com/update-guide/vulnerability/{id}"
-  - pattern: "ADV\\d{6}"
-    system: "MSRC Security Advisory"
+  - name: advisory
+    id_pattern: "ADV\\d{6}"
+    description: "MSRC Security Advisory"
     url: "https://msrc.microsoft.com/update-guide/advisory/{id}"
-  - pattern: "KB\\d+"
-    system: "Knowledge Base"
+  - name: kb
+    id_pattern: "KB\\d+"
+    description: "Knowledge Base"
     url: "https://support.microsoft.com/kb/{id}"
 
 examples:
-  - "CVE-2024-1234"
-  - "ADV240001"
-  - "KB5001234"
+  - "secid:advisory/microsoft/msrc#CVE-2024-1234"
+  - "secid:advisory/microsoft/advisory#ADV240001"
+  - "secid:advisory/microsoft/kb#KB5001234"
 
 status: active
 ---
 
-# Microsoft Namespace
+# Microsoft MSRC
 
 Microsoft Security Response Center content.
 
 ## Format
 
 ```
-secid:advisory/microsoft/{id}
+secid:advisory/microsoft/msrc#CVE-YYYY-NNNN    # Vulnerability details
+secid:advisory/microsoft/advisory#ADV240001   # Security advisories
+secid:advisory/microsoft/kb#KB5001234         # Knowledge base articles
 ```
-
-## ID Types
-
-- `CVE-*` → Vulnerability details
-- `ADV*` → Security advisories (may not have CVE)
-- `KB*` → Knowledge base articles (patches)
 
 ## Resolution
 

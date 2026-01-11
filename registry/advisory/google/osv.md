@@ -1,7 +1,8 @@
 ---
-namespace: osv
-full_name: "Open Source Vulnerabilities"
 type: advisory
+namespace: google
+name: osv
+full_name: "Open Source Vulnerabilities"
 operator: "secid:entity/google/osv"
 
 urls:
@@ -21,21 +22,21 @@ id_patterns:
     ecosystem: "GitHub"
 
 examples:
-  - "PYSEC-2024-1"
-  - "RUSTSEC-2024-0001"
-  - "GO-2024-0001"
+  - "secid:advisory/google/osv#PYSEC-2024-1"
+  - "secid:advisory/google/osv#RUSTSEC-2024-0001"
+  - "secid:advisory/google/osv#GO-2024-0001"
 
 status: active
 ---
 
-# OSV Namespace
+# OSV (Google)
 
 Google's aggregated open source vulnerability database.
 
 ## Format
 
 ```
-secid:advisory/osv/{ecosystem-id}
+secid:advisory/google/osv#{ecosystem-id}
 ```
 
 ## Resolution

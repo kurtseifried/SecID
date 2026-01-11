@@ -1,7 +1,8 @@
 ---
-namespace: attack
-full_name: "MITRE ATT&CK"
 type: ttp
+namespace: mitre
+name: attack
+full_name: "MITRE ATT&CK"
 operator: "secid:entity/mitre/attack"
 
 urls:
@@ -22,23 +23,23 @@ id_patterns:
     type: "software"
 
 examples:
-  - "T1059"
-  - "T1059.003"
-  - "TA0001"
+  - "secid:ttp/mitre/attack#T1059"
+  - "secid:ttp/mitre/attack#T1059.003"
+  - "secid:ttp/mitre/attack#TA0001"
 
 status: active
 ---
 
-# ATT&CK Namespace
+# ATT&CK (MITRE)
 
-Adversarial tactics, techniques, and common knowledge.
+Adversarial tactics, techniques, and common knowledge, operated by MITRE.
 
 ## Format
 
 ```
-secid:ttp/attack/TNNNN          # Technique
-secid:ttp/attack/TNNNN.NNN      # Sub-technique
-secid:ttp/attack/TANNNN         # Tactic
+secid:ttp/mitre/attack#TNNNN          # Technique
+secid:ttp/mitre/attack#TNNNN.NNN      # Sub-technique
+secid:ttp/mitre/attack#TANNNN         # Tactic
 ```
 
 ## Matrices
@@ -59,14 +60,17 @@ secid:ttp/attack/TANNNN         # Tactic
 
 ## Subpaths
 
+Reference sections within a technique:
+
 ```
-secid:ttp/attack/T1059#detection
-secid:ttp/attack/T1059#mitigation
-secid:ttp/attack/T1059#procedure-examples
+secid:ttp/mitre/attack#T1059/detection
+secid:ttp/mitre/attack#T1059/mitigation
+secid:ttp/mitre/attack#T1059/procedure-examples
 ```
 
 ## Notes
 
-- Sub-techniques use `.NNN` suffix (not subpath)
+- Sub-techniques use `.NNN` suffix (part of the ID, not a subpath)
 - Updated quarterly
 - Maps to mitigations (M*) and detection (CAR)
+

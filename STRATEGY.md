@@ -24,7 +24,7 @@ PURL succeeded because:
 - **Community governance**: Not owned by one company
 - **Incremental adoption**: Use it for one package, then more
 
-We're deliberately copying this playbook.
+We're deliberately copying this playbook. **SecID uses PURL grammar with `secid:` as the scheme** - just as PURL uses `pkg:`, SecID uses `secid:`. We use the exact same proven format, just for security knowledge instead of packages.
 
 ## Learning from CVE's Success
 

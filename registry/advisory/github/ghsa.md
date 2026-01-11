@@ -1,7 +1,8 @@
 ---
-namespace: ghsa
-full_name: "GitHub Security Advisories"
 type: advisory
+namespace: github
+name: ghsa
+full_name: "GitHub Security Advisories"
 operator: "secid:entity/github/ghsa"
 
 urls:
@@ -12,20 +13,20 @@ urls:
 
 id_pattern: "GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}"
 examples:
-  - "GHSA-jfh8-c2jp-5v3q"
-  - "GHSA-p6xc-xr62-6r2g"
+  - "secid:advisory/github/ghsa#GHSA-jfh8-c2jp-5v3q"
+  - "secid:advisory/github/ghsa#GHSA-p6xc-xr62-6r2g"
 
 status: active
 ---
 
-# GHSA Namespace
+# GHSA (GitHub)
 
 GitHub's security advisory database, focused on package ecosystems.
 
 ## Format
 
 ```
-secid:advisory/ghsa/GHSA-xxxx-yyyy-zzzz
+secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz
 ```
 
 ## Resolution
@@ -44,5 +45,5 @@ https://github.com/advisories/{id}
 ## Relationships
 
 ```
-advisory/ghsa/GHSA-xxxx-yyyy → aliases → advisory/cve/CVE-YYYY-NNNN
+secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz → aliases → secid:advisory/mitre/cve#CVE-YYYY-NNNN
 ```

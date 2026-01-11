@@ -52,15 +52,15 @@ OWASP is a nonprofit foundation focused on improving software security. Key proj
 
 | Name | Full Name | Type |
 |------|-----------|------|
-| `top-10` | OWASP Top 10 | Issues `weakness/owasp-top10/*` |
-| `llm-top-10` | OWASP Top 10 for LLM Applications | Issues `weakness/owasp-llm/*` |
+| `top10` | OWASP Top 10 | Issues `secid:weakness/owasp/top10#*` |
+| `llm-top10` | OWASP Top 10 for LLM Applications | Issues `secid:weakness/owasp/llm-top10#*` |
 | `aivss` | AI Vulnerability Scoring System | Scoring standard (no string format yet) |
 
 ## Examples
 
 ```
-secid:entity/owasp/top-10       # OWASP Top 10 project
-secid:entity/owasp/llm-top-10   # OWASP LLM Top 10 project
+secid:entity/owasp/top10        # OWASP Top 10 project
+secid:entity/owasp/llm-top10    # OWASP LLM Top 10 project
 secid:entity/owasp/aivss        # AIVSS project generally
 secid:entity/owasp/aivss@0.5    # AIVSS version 0.5 specification
 ```

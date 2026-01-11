@@ -1,8 +1,9 @@
 ---
-namespace: owasp-llm
-full_name: "OWASP Top 10 for LLM Applications"
 type: weakness
-operator: "secid:entity/owasp/llm-top-10"
+namespace: owasp
+name: llm-top10
+full_name: "OWASP Top 10 for LLM Applications"
+operator: "secid:entity/owasp"
 
 urls:
   website: "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -10,13 +11,13 @@ urls:
 
 id_pattern: "LLM\\d{2}"
 versions:
-  - "2025"
-  - "2023"
+  - "2.0"
+  - "1.0"
 
 examples:
-  - "LLM01"
-  - "LLM02"
-  - "LLM09"
+  - "secid:weakness/owasp/llm-top10@2.0#LLM01"
+  - "secid:weakness/owasp/llm-top10@2.0#LLM02"
+  - "secid:weakness/owasp/llm-top10#LLM01"
 
 status: active
 ---
@@ -28,11 +29,12 @@ Security risks specific to Large Language Model applications.
 ## Format
 
 ```
-secid:weakness/owasp-llm/LLM0N@VERSION
-secid:weakness/owasp-llm/LLM01           # Current version
+secid:weakness/owasp/llm-top10[@VERSION]#ITEM
+secid:weakness/owasp/llm-top10@2.0#LLM01
+secid:weakness/owasp/llm-top10#LLM01           # Current version
 ```
 
-## 2025 Edition
+## 2025 Edition (v2.0)
 
 | ID | Name |
 |----|------|
@@ -50,8 +52,8 @@ secid:weakness/owasp-llm/LLM01           # Current version
 ## Relationships
 
 ```
-weakness/owasp-llm/LLM01 → maps_to → weakness/cwe/CWE-1427
-weakness/owasp-llm/LLM01 → exploitedBy → ttp/atlas/AML.T0043
+secid:weakness/owasp/llm-top10#LLM01 → maps_to → secid:weakness/mitre/cwe#CWE-1427
+secid:weakness/owasp/llm-top10#LLM01 → exploitedBy → secid:ttp/mitre/atlas#AML.T0043
 ```
 
 ## Notes
@@ -59,3 +61,4 @@ weakness/owasp-llm/LLM01 → exploitedBy → ttp/atlas/AML.T0043
 - AI/ML specific weakness categories
 - Maps to CWE and ATLAS
 - Updated more frequently than traditional OWASP Top 10
+

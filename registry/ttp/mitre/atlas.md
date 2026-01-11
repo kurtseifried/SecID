@@ -1,7 +1,8 @@
 ---
-namespace: atlas
-full_name: "MITRE ATLAS"
 type: ttp
+namespace: mitre
+name: atlas
+full_name: "MITRE ATLAS"
 operator: "secid:entity/mitre/atlas"
 
 urls:
@@ -18,22 +19,22 @@ id_patterns:
     type: "case-study"
 
 examples:
-  - "AML.T0043"
-  - "AML.T0051"
-  - "AML.TA0001"
+  - "secid:ttp/mitre/atlas#AML.T0043"
+  - "secid:ttp/mitre/atlas#AML.T0051"
+  - "secid:ttp/mitre/atlas#AML.TA0001"
 
 status: active
 ---
 
-# ATLAS Namespace
+# ATLAS (MITRE)
 
 Adversarial Threat Landscape for AI Systems.
 
 ## Format
 
 ```
-secid:ttp/atlas/AML.TNNNN       # Technique
-secid:ttp/atlas/AML.TANNNN      # Tactic
+secid:ttp/mitre/atlas#AML.TNNNN       # Technique
+secid:ttp/mitre/atlas#AML.TANNNN      # Tactic
 ```
 
 ## Key Techniques
@@ -49,8 +50,8 @@ secid:ttp/atlas/AML.TANNNN      # Tactic
 ## Relationships
 
 ```
-ttp/atlas/AML.T0043 → exploits → weakness/cwe/CWE-1427
-ttp/atlas/AML.T0043 → exploits → weakness/owasp-llm/LLM01
+secid:ttp/mitre/atlas#AML.T0043 → exploits → secid:weakness/mitre/cwe#CWE-1427
+secid:ttp/mitre/atlas#AML.T0043 → exploits → secid:weakness/owasp/llm-top10#LLM01
 ```
 
 ## Notes

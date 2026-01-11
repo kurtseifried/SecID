@@ -83,7 +83,7 @@ CTI connects to TTPs (how they attack):
 ```json
 {
   "from": "secid:cti/actor/apt29",
-  "to": "secid:ttp/attack/T1566.001",
+  "to": "secid:ttp/mitre/attack#T1566.001",
   "type": "uses",
   "description": "APT29 uses spearphishing attachments"
 }
@@ -94,7 +94,7 @@ CTI connects to advisories (what they exploit):
 ```json
 {
   "from": "secid:cti/campaign/apt29-solarwinds",
-  "to": "secid:advisory/cve/CVE-2020-10148",
+  "to": "secid:advisory/mitre/cve#CVE-2020-10148",
   "type": "exploits",
   "description": "Campaign exploited SolarWinds Orion vulnerability"
 }
@@ -121,7 +121,7 @@ STIX (Structured Threat Information Expression) is the standard format for CTI. 
 ```json
 {
   "from": "secid:cti/stix/attack-pattern--xxx",
-  "to": "secid:ttp/attack/T1566",
+  "to": "secid:ttp/mitre/attack#T1566",
   "type": "represents",
   "description": "STIX object representing ATT&CK technique"
 }

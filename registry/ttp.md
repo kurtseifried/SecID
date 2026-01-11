@@ -12,22 +12,22 @@ Track and reference attack methodologies - the "how attackers do this":
 ## Identifier Format
 
 ```
-secid:ttp/<namespace>/<id>
+secid:ttp/<namespace>/<name>[#subpath]
 
-secid:ttp/attack/T1566
-secid:ttp/attack/T1566.001
-secid:ttp/attack/TA0001
-secid:ttp/atlas/AML.T0043
-secid:ttp/capec/CAPEC-66
+secid:ttp/mitre/attack#T1566
+secid:ttp/mitre/attack#T1566.001
+secid:ttp/mitre/attack#TA0001
+secid:ttp/mitre/atlas#AML.T0043
+secid:ttp/mitre/capec#CAPEC-66
 ```
 
 ## Namespaces
 
-| Namespace | Framework | Description |
-|-----------|-----------|-------------|
-| `attack` | ATT&CK | Enterprise/Mobile/ICS attack techniques |
-| `atlas` | ATLAS | AI/ML attack techniques |
-| `capec` | CAPEC | Common Attack Pattern Enumeration |
+| Namespace | Name | Framework | Description |
+|-----------|------|-----------|-------------|
+| `mitre` | `attack` | ATT&CK | Enterprise/Mobile/ICS attack techniques |
+| `mitre` | `atlas` | ATLAS | AI/ML attack techniques |
+| `mitre` | `capec` | CAPEC | Common Attack Pattern Enumeration |
 
 ## ATT&CK ID Format
 
@@ -48,8 +48,8 @@ TTPs relate to weaknesses they exploit:
 
 ```json
 {
-  "from": "secid:ttp/capec/CAPEC-66",
-  "to": "secid:weakness/cwe/CWE-89",
+  "from": "secid:ttp/mitre/capec#CAPEC-66",
+  "to": "secid:weakness/mitre/cwe#CWE-89",
   "type": "exploits",
   "description": "SQL Injection attack exploits CWE-89"
 }
@@ -57,8 +57,8 @@ TTPs relate to weaknesses they exploit:
 
 ```json
 {
-  "from": "secid:ttp/atlas/AML.T0043",
-  "to": "secid:weakness/cwe/CWE-1427",
+  "from": "secid:ttp/mitre/atlas#AML.T0043",
+  "to": "secid:weakness/mitre/cwe#CWE-1427",
   "type": "exploits",
   "description": "Prompt injection attack"
 }
@@ -68,8 +68,8 @@ TTPs can be mitigated by controls:
 
 ```json
 {
-  "from": "secid:control/csa-aicm/INP-01",
-  "to": "secid:ttp/atlas/AML.T0043",
+  "from": "secid:control/csa/aicm#INP-01",
+  "to": "secid:ttp/mitre/atlas#AML.T0043",
   "type": "mitigates",
   "description": "Input validation mitigates prompt injection"
 }

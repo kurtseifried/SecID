@@ -56,8 +56,8 @@ secid:reference/arxiv/2303.08774#appendix-a
 ## Relationships
 
 ```
-reference/arxiv/2307.03109 → about → weakness/owasp-llm/LLM01
-reference/arxiv/2402.05369 → about → ttp/atlas/AML.T0051
+secid:reference/arxiv/2307.03109 → about → secid:weakness/owasp/llm-top10#LLM01
+secid:reference/arxiv/2402.05369 → about → secid:ttp/mitre/atlas#AML.T0051
 ```
 
 ## Notes

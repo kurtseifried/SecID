@@ -1,20 +1,28 @@
 # SecID Registry
 
-Namespace definitions for all SecID types.
+Namespace definitions for all SecID types. The directory structure mirrors SecID identifiers.
 
 ## Structure
 
 ```
 registry/
-├── <type>.md              # Type description (e.g., advisory.md)
-├── <type>/                # Namespace files for that type
-│   └── <namespace>.md     # Namespace definition
+├── <type>.md                    # Type description (e.g., advisory.md)
+├── <type>/                      # Namespaces for that type
+│   └── <namespace>/             # Organization namespace
+│       └── <name>.md            # Database/framework definition
 ...
+
+# Examples:
+registry/advisory/mitre/cve.md   → secid:advisory/mitre/cve
+registry/weakness/mitre/cwe.md   → secid:weakness/mitre/cwe
+registry/ttp/mitre/attack.md     → secid:ttp/mitre/attack
+registry/control/nist/csf.md     → secid:control/nist/csf
 ```
 
 Each type has:
 - A **type.md** file at the root describing the type
-- A **type/** directory containing namespace definition files
+- A **type/** directory containing namespace subdirectories
+- Each namespace directory contains **name.md** files for databases/frameworks
 
 ## Types
 
@@ -34,35 +42,45 @@ Namespace files use YAML frontmatter + Markdown body:
 
 ```yaml
 ---
-type: "advisory"
-namespace: "redhat"
-common_name: "Red Hat Security"
+type: "weakness"
+namespace: "mitre"
+name: "cwe"
+full_name: "Common Weakness Enumeration"
+operator: "secid:entity/mitre/cwe"
 
 urls:
-  website: "https://access.redhat.com/security/"
-  api: "https://access.redhat.com/hydra/rest/securitydata"
+  website: "https://cwe.mitre.org"
+  lookup: "https://cwe.mitre.org/data/definitions/{num}.html"
 
-id_routing:
-  - pattern: "CVE-\\d{4}-\\d{4,}"
-    system: "Red Hat CVE Database"
-    url_template: "https://access.redhat.com/security/cve/{id}"
-  - pattern: "RHSA-\\d{4}:\\d+"
-    system: "Red Hat Security Advisory"
-    url_template: "https://access.redhat.com/errata/{id}"
+id_pattern: "CWE-\\d+"
+examples:
+  - "secid:weakness/mitre/cwe#CWE-79"
+  - "secid:weakness/mitre/cwe#CWE-89"
 
 status: "active"
 ---
 
-# Red Hat Security
+# CWE (MITRE)
 
-[Description and details...]
+The canonical software weakness taxonomy...
+
+## Format
+
+secid:weakness/mitre/cwe#CWE-NNN
+
+## Resolution
+
+https://cwe.mitre.org/data/definitions/{num}.html
 ```
+
+The file location `registry/weakness/mitre/cwe.md` corresponds to `secid:weakness/mitre/cwe`.
 
 ## Contributing
 
 To add a new namespace:
 1. Determine which type it belongs to
-2. Create `<type>/<namespace>.md`
-3. Fill in the frontmatter with resolution info
-4. Add context in the markdown body
+2. Identify the organization (namespace) and what they publish (name)
+3. Create `registry/<type>/<namespace>/<name>.md`
+4. Fill in the frontmatter with resolution info (urls, id_pattern, examples)
+5. Add context in the markdown body (format, resolution rules, notes)
 

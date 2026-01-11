@@ -68,11 +68,11 @@ MITRE is a US-based not-for-profit organization that operates federally funded r
 
 | Name | Full Name | Identifier Type |
 |------|-----------|-----------------|
-| `cve` | Common Vulnerabilities and Exposures | `advisory/cve/*` |
-| `cwe` | Common Weakness Enumeration | `weakness/cwe/*` |
-| `attack` | MITRE ATT&CK | `ttp/attack/*` |
-| `atlas` | Adversarial Threat Landscape for AI Systems | `ttp/atlas/*` |
-| `capec` | Common Attack Pattern Enumeration and Classification | `ttp/capec/*` |
+| `cve` | Common Vulnerabilities and Exposures | `secid:advisory/mitre/cve#*` |
+| `cwe` | Common Weakness Enumeration | `secid:weakness/mitre/cwe#*` |
+| `attack` | MITRE ATT&CK | `secid:ttp/mitre/attack#*` |
+| `atlas` | Adversarial Threat Landscape for AI Systems | `secid:ttp/mitre/atlas#*` |
+| `capec` | Common Attack Pattern Enumeration and Classification | `secid:ttp/mitre/capec#*` |
 
 ## Examples
 

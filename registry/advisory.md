@@ -14,29 +14,29 @@ Track and coordinate vulnerability information across multiple advisory sources:
 ## Identifier Format
 
 ```
-secid:advisory/<namespace>/<id>
+secid:advisory/<namespace>/<name>[#subpath]
 
-secid:advisory/cve/CVE-2024-1234
-secid:advisory/nvd/CVE-2024-1234
-secid:advisory/ghsa/GHSA-xxxx-yyyy-zzzz
-secid:advisory/osv/PYSEC-2024-1
-secid:advisory/redhat/RHSA-2024:1234
-secid:advisory/debian/DSA-5678-1
+secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/nist/nvd#CVE-2024-1234
+secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz
+secid:advisory/google/osv#PYSEC-2024-1
+secid:advisory/redhat/errata#RHSA-2024:1234
+secid:advisory/debian/dsa#DSA-5678-1
 ```
 
 ## Namespaces
 
-| Namespace | Source | Description |
-|-----------|--------|-------------|
-| `cve` | MITRE CVE | Canonical vulnerability identifiers |
-| `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
-| `ghsa` | GitHub | Package security advisories |
-| `osv` | Google OSV | Type vulnerability database |
-| `redhat` | Red Hat | RHSA, RHBA, CVE pages |
-| `debian` | Debian | DSA, DLA advisories |
-| `ubuntu` | Ubuntu | USN advisories |
-| `cnvd` | China CNVD | Chinese vulnerability database |
-| `euvd` | EU EUVD | European vulnerability database |
+| Namespace | Name | Source | Description |
+|-----------|------|--------|-------------|
+| `mitre` | `cve` | MITRE CVE | Canonical vulnerability identifiers |
+| `nist` | `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
+| `github` | `ghsa` | GitHub | Package security advisories |
+| `google` | `osv` | Google OSV | Ecosystem vulnerability database |
+| `redhat` | `cve`, `errata` | Red Hat | RHSA, RHBA, CVE pages |
+| `debian` | `dsa`, `dla` | Debian | DSA, DLA advisories |
+| `ubuntu` | `usn` | Ubuntu | USN advisories |
+| `cnvd` | `cnvd` | China CNVD | Chinese vulnerability database |
+| `eu` | `euvd` | EU EUVD | European vulnerability database |
 
 ## Why "Advisory" (Not "Vulnerability")?
 
@@ -72,8 +72,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/ghsa/GHSA-xxxx-yyyy",
-  "to": "secid:advisory/cve/CVE-2024-1234",
+  "from": "secid:advisory/github/ghsa#GHSA-xxxx-yyyy",
+  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
   "type": "aliases",
   "asserted_by": "github"
 }
@@ -81,8 +81,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/nvd/CVE-2024-1234",
-  "to": "secid:advisory/cve/CVE-2024-1234",
+  "from": "secid:advisory/nist/nvd#CVE-2024-1234",
+  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
   "type": "enriches",
   "description": "NVD adds CVSS, CPE, CWE to CVE records"
 }
@@ -90,8 +90,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/redhat/RHSA-2024:1234",
-  "to": "secid:advisory/cve/CVE-2024-1234",
+  "from": "secid:advisory/redhat/errata#RHSA-2024:1234",
+  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
   "type": "about",
   "description": "RHSA addresses this CVE"
 }
@@ -99,8 +99,8 @@ Advisories connect through aliasing and enrichment:
 
 ## Notes
 
-- CVE IDs always use `cve` namespace (not `mitre/cve`)
-- NVD enriches CVE but doesn't issue IDs - the CVE itself is `advisory/cve/...`
+- CVE is a MITRE project: `secid:advisory/mitre/cve#CVE-2024-1234`
+- NVD enriches CVE but doesn't issue IDs - it's NIST's view: `secid:advisory/nist/nvd#CVE-2024-1234`
 - Different databases may have the same vulnerability with different IDs
 - Use `aliases` relationship to connect equivalent advisories
 

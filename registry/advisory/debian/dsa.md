@@ -1,7 +1,8 @@
 ---
-namespace: debian
-full_name: "Debian Security"
 type: advisory
+namespace: debian
+name: dsa
+full_name: "Debian Security"
 operator: "secid:entity/debian"
 
 urls:
@@ -10,40 +11,39 @@ urls:
   lookup_dsa: "https://www.debian.org/security/{year}/dsa-{num}"
   lookup_dla: "https://www.debian.org/lts/security/{year}/dla-{num}"
 
-id_routing:
-  - pattern: "DSA-\\d+-\\d+"
-    system: "Debian Security Advisory"
+databases:
+  - name: dsa
+    id_pattern: "DSA-\\d+-\\d+"
+    description: "Debian Security Advisory"
     url: "https://www.debian.org/security/{year}/dsa-{num}"
-  - pattern: "DLA-\\d+-\\d+"
-    system: "Debian LTS Advisory"
+  - name: dla
+    id_pattern: "DLA-\\d+-\\d+"
+    description: "Debian LTS Advisory"
     url: "https://www.debian.org/lts/security/{year}/dla-{num}"
-  - pattern: "CVE-\\d{4}-\\d{4,}"
-    system: "Debian Security Tracker"
+  - name: tracker
+    id_pattern: "CVE-\\d{4}-\\d{4,}"
+    description: "Debian Security Tracker"
     url: "https://security-tracker.debian.org/tracker/{id}"
 
 examples:
-  - "DSA-5678-1"
-  - "DLA-1234-1"
-  - "CVE-2024-1234"
+  - "secid:advisory/debian/dsa#DSA-5678-1"
+  - "secid:advisory/debian/dla#DLA-1234-1"
+  - "secid:advisory/debian/tracker#CVE-2024-1234"
 
 status: active
 ---
 
-# Debian Namespace
+# Debian Security
 
 Debian's security advisory system.
 
 ## Format
 
 ```
-secid:advisory/debian/{id}
+secid:advisory/debian/dsa#DSA-NNNN-N        # Debian Security Advisory (stable)
+secid:advisory/debian/dla#DLA-NNNN-N        # Debian LTS Advisory
+secid:advisory/debian/tracker#CVE-YYYY-NNNN # Security Tracker entries
 ```
-
-## ID Types
-
-- `DSA-NNNN-N` → Debian Security Advisory (stable)
-- `DLA-NNNN-N` → Debian LTS Advisory
-- `CVE-*` → Security Tracker entries
 
 ## Notes
 

@@ -85,7 +85,7 @@ Controls satisfy regulatory requirements:
 
 ```json
 {
-  "from": "secid:control/iso27001/A.8.1@2022",
+  "from": "secid:control/iso/27001@2022#A.8.1",
   "to": "secid:regulation/eu/gdpr#art-32",
   "type": "satisfies",
   "description": "Asset management addresses GDPR security requirements"
