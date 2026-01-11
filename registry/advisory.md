@@ -26,17 +26,20 @@ secid:advisory/debian/dsa#DSA-5678-1
 
 ## Namespaces
 
-| Namespace | Name | Source | Description |
-|-----------|------|--------|-------------|
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
 | `mitre` | `cve` | MITRE CVE | Canonical vulnerability identifiers |
 | `nist` | `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
 | `github` | `ghsa` | GitHub | Package security advisories |
 | `google` | `osv` | Google OSV | Ecosystem vulnerability database |
 | `redhat` | `cve`, `errata`, `bugzilla` | Red Hat | CVE pages, RHSA/RHBA/RHEA, Bugzilla bugs |
-| `microsoft` | `msrc`, `advisory`, `kb` | Microsoft | MSRC CVEs, ADV advisories, KB articles |
-| `debian` | `dsa`, `dla`, `tracker` | Debian | DSA, DLA advisories, CVE tracker |
-| `ubuntu` | `usn` | Ubuntu | USN advisories |
-| `cisco` | `psirt` | Cisco | PSIRT advisories |
+| `microsoft` | `msrc`, `advisory`, `kb`, `bulletin` | Microsoft | MSRC, ADV, KB, legacy MS bulletins |
+| `debian` | `dsa`, `dla`, `tracker`, `bts` | Debian | DSA, DLA, CVE tracker, bug tracking |
+| `ubuntu` | `usn`, `launchpad`, `cve-tracker` | Ubuntu | USN, Launchpad bugs, CVE tracker |
+| `cisco` | `psirt`, `bug` | Cisco | PSIRT advisories, CSC bug IDs |
+| `mozilla` | `mfsa`, `bugzilla` | Mozilla | MFSA advisories, Bugzilla bugs |
+| `apache` | `security`, `jira` | Apache | Security pages, Jira issues |
+| `oracle` | `cpu`, `alert` | Oracle | Critical Patch Updates, Security Alerts |
 | `cnvd` | `cnvd` | China CNVD | Chinese vulnerability database |
 | `eu` | `euvd` | EU EUVD | European vulnerability database |
 
