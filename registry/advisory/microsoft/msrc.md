@@ -3,54 +3,42 @@ type: advisory
 namespace: microsoft
 name: msrc
 full_name: "Microsoft Security Response Center"
-operator: "secid:entity/microsoft/msrc"
+operator: "secid:entity/microsoft"
 
 urls:
   website: "https://msrc.microsoft.com"
   api: "https://api.msrc.microsoft.com/cvrf/v2.0"
-  lookup_cve: "https://msrc.microsoft.com/update-guide/vulnerability/{id}"
-  lookup_advisory: "https://msrc.microsoft.com/update-guide/advisory/{id}"
+  lookup: "https://msrc.microsoft.com/update-guide/vulnerability/{id}"
 
-databases:
-  - name: msrc
-    id_pattern: "CVE-\\d{4}-\\d{4,}"
-    description: "MSRC Vulnerability Database"
-    url: "https://msrc.microsoft.com/update-guide/vulnerability/{id}"
-  - name: advisory
-    id_pattern: "ADV\\d{6}"
-    description: "MSRC Security Advisory"
-    url: "https://msrc.microsoft.com/update-guide/advisory/{id}"
-  - name: kb
-    id_pattern: "KB\\d+"
-    description: "Knowledge Base"
-    url: "https://support.microsoft.com/kb/{id}"
+id_pattern: "CVE-\\d{4}-\\d{4,}"
 
 examples:
   - "secid:advisory/microsoft/msrc#CVE-2024-1234"
-  - "secid:advisory/microsoft/advisory#ADV240001"
-  - "secid:advisory/microsoft/kb#KB5001234"
+  - "secid:advisory/microsoft/msrc#CVE-2023-44487"
 
 status: active
 ---
 
 # Microsoft MSRC
 
-Microsoft Security Response Center content.
+Microsoft Security Response Center vulnerability database.
 
 ## Format
 
 ```
-secid:advisory/microsoft/msrc#CVE-YYYY-NNNN    # Vulnerability details
-secid:advisory/microsoft/advisory#ADV240001   # Security advisories
-secid:advisory/microsoft/kb#KB5001234         # Knowledge base articles
+secid:advisory/microsoft/msrc#CVE-YYYY-NNNN
 ```
 
 ## Resolution
 
-Depends on ID pattern - see id_routing above.
+```
+secid:advisory/microsoft/msrc#CVE-2024-1234
+  → https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-1234
+```
 
 ## Notes
 
-- Patch Tuesday releases monthly
-- ADV advisories for defense-in-depth updates
-- KB articles link patches to CVEs
+- MSRC provides Microsoft's view of CVEs affecting their products
+- Patch Tuesday releases monthly security updates
+- For security advisories (ADV), see `secid:advisory/microsoft/advisory`
+- For KB articles, see `secid:advisory/microsoft/kb`

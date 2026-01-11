@@ -33,8 +33,10 @@ secid:advisory/debian/dsa#DSA-5678-1
 | `github` | `ghsa` | GitHub | Package security advisories |
 | `google` | `osv` | Google OSV | Ecosystem vulnerability database |
 | `redhat` | `cve`, `errata` | Red Hat | RHSA, RHBA, CVE pages |
-| `debian` | `dsa`, `dla` | Debian | DSA, DLA advisories |
+| `microsoft` | `msrc`, `advisory`, `kb` | Microsoft | MSRC CVEs, ADV advisories, KB articles |
+| `debian` | `dsa`, `dla`, `tracker` | Debian | DSA, DLA advisories, CVE tracker |
 | `ubuntu` | `usn` | Ubuntu | USN advisories |
+| `cisco` | `psirt` | Cisco | PSIRT advisories |
 | `cnvd` | `cnvd` | China CNVD | Chinese vulnerability database |
 | `eu` | `euvd` | EU EUVD | European vulnerability database |
 
@@ -48,22 +50,35 @@ A vulnerability doesn't exist without a description. The CVE Record IS what defi
 
 Canonical sources (CVE, OSV) are distinguished through **relationships**, not separate types.
 
-## Vendor ID Routing
+## Vendors with Multiple Advisory Systems
 
-For vendors with multiple systems, the ID pattern determines routing:
+Some vendors have multiple advisory systems, each with its own `name`:
 
-```yaml
-# Entity definition for advisory/redhat namespace
-namespace: redhat
-id_routing:
-  - pattern: "CVE-*"
-    system: "Red Hat CVE Database"
-  - pattern: "RHSA-*"
-    system: "Red Hat Security Advisory"
-  - pattern: "RHBA-*"
-    system: "Red Hat Bug Advisory"
-  - pattern: "RHEA-*"
-    system: "Red Hat Enhancement Advisory"
+**Red Hat example:**
+
+```
+secid:advisory/redhat/cve#CVE-2024-1234      # Red Hat CVE Database (vulnerability info)
+secid:advisory/redhat/errata#RHSA-2024:1234  # Red Hat Security Advisory (the fix)
+secid:advisory/redhat/errata#RHBA-2024:5678  # Red Hat Bug Advisory
+secid:advisory/redhat/errata#RHEA-2024:9012  # Red Hat Enhancement Advisory
+```
+
+The `name` distinguishes the system (`cve` vs `errata`), and the subpath prefix (`RHSA-`, `RHBA-`, `RHEA-`) distinguishes the advisory type within errata.
+
+**Microsoft example:**
+
+```
+secid:advisory/microsoft/msrc#CVE-2024-1234      # MSRC CVE database
+secid:advisory/microsoft/advisory#ADV240001      # Security Advisory (defense-in-depth)
+secid:advisory/microsoft/kb#KB5001234            # Knowledge Base article (patch)
+```
+
+**Debian example:**
+
+```
+secid:advisory/debian/dsa#DSA-5678-1         # Debian Security Advisory (stable)
+secid:advisory/debian/dla#DLA-3456-1         # Debian LTS Advisory (extended support)
+secid:advisory/debian/tracker#CVE-2024-1234  # Debian Security Tracker (CVE status)
 ```
 
 ## Relationships

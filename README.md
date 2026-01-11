@@ -77,6 +77,75 @@ secid:control/csa/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
 
 Tools should render these human-friendly for display while storing the encoded form.
 
+## Divergences from PURL
+
+SecID uses PURL grammar but diverges in three specific ways:
+
+### 1. Scheme: `secid:` instead of `pkg:`
+
+PURL uses `pkg:` to identify packages. SecID uses `secid:` to identify security knowledge. This is the expected way to use PURL grammar for a different domain - you change the scheme.
+
+### 2. Type: Security domains instead of package ecosystems
+
+PURL types are package ecosystems: `npm`, `pypi`, `maven`, `cargo`, `nuget`, etc.
+
+SecID types are security domains: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`.
+
+This is semantic, not structural - the grammar is identical, just the vocabulary differs.
+
+### 3. Subpath: Identifier references instead of file paths
+
+**This is the significant divergence.**
+
+In PURL, `#subpath` is defined as:
+> "a subpath within the package, relative to the package root"
+
+It's meant for file paths: `pkg:npm/lodash@4.17.21#lib/fp.js`
+
+In SecID, `#subpath` identifies **specific items within a database or framework**:
+
+```
+secid:advisory/mitre/cve#CVE-2024-1234       # A specific CVE
+secid:weakness/mitre/cwe#CWE-79              # A specific weakness
+secid:ttp/mitre/attack#T1059.003             # A specific technique
+secid:control/nist/800-53@r5#AC-1            # A specific control
+secid:control/iso/27001@2022#A.8.1           # An ISO Annex control
+secid:advisory/redhat/errata#RHSA-2024:1234  # A Red Hat advisory
+```
+
+**Why this divergence is necessary:**
+
+Security databases aren't packages with files - they're registries of identifiers. CVE-2024-1234 isn't a file path; it's an identifier within the CVE database. CWE-79 isn't a directory; it's an entry in the weakness enumeration.
+
+The subpath lets us say "this specific item within that database" using PURL-compatible syntax.
+
+**Extended subpath semantics:**
+
+Because security knowledge is often hierarchical, SecID subpaths support:
+
+1. **Identifier prefixes** - Different item types within one namespace:
+   ```
+   secid:advisory/redhat/errata#RHSA-2024:1234  # Security Advisory
+   secid:advisory/redhat/errata#RHBA-2024:5678  # Bug Advisory
+   secid:advisory/redhat/errata#RHEA-2024:9012  # Enhancement Advisory
+   ```
+
+2. **Hierarchical references** using `/`:
+   ```
+   secid:control/csa/ccm@4.0#IAM-12/audit           # Audit section of control
+   secid:regulation/eu/gdpr#art-32/1/a              # Article 32(1)(a)
+   secid:weakness/mitre/cwe#CWE-79/mitigations      # Mitigations for CWE-79
+   ```
+
+3. **Framework-specific patterns**:
+   ```
+   secid:ttp/mitre/attack#T1059.003    # Sub-technique (ATT&CK uses dots)
+   secid:control/iso/27001@2022#A.8.1  # Annex control (ISO uses dots)
+   secid:control/nist/800-53@r5#AC-1   # Control family-number format
+   ```
+
+Each registry file documents its subpath patterns and how to resolve them to URLs.
+
 **Registry file mapping:** The registry directory structure mirrors the SecID structure:
 
 ```
