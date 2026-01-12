@@ -351,6 +351,7 @@ This learning feeds back into spec refinement and overlay priorities.
 | Deliverable | Status | Success Criteria |
 |-------------|--------|------------------|
 | Registry data (500+ namespaces) | In progress | Every namespace has URL resolution rules + description |
+| AI-assisted validation | In progress | Every registry entry verified to resolve correctly |
 | Python library (`secid`) | Planned | `pip install secid` enables parsing and resolution |
 | npm/TypeScript library (`secid`) | Planned | `npm install secid` enables parsing and resolution |
 | REST API | Planned | Any language can resolve SecIDs via HTTP |
@@ -358,6 +359,31 @@ This learning feeds back into spec refinement and overlay priorities.
 | Rust library | Planned | Native Rust support for systems tools |
 | Java library | Planned | Native Java support for enterprise tools |
 | C#/.NET library | Planned | Native .NET support for Windows ecosystem |
+
+### Validation Strategy: AI-Assisted
+
+Registry quality depends on validation. Our approach uses AI as a first-class participant in the validation process.
+
+**The workflow:**
+
+1. **Goal discovery** - Given a SecID like `secid:advisory/redhat/errata#RHSA-2024:1234`, ask AI: "What would you typically want to do with this?" The most likely answer: "Find the URL for this RHSA."
+
+2. **Codify the goal** - That answer becomes the success criterion: resolution must produce a working URL.
+
+3. **Add resolution rules** - Create/update the registry entry with URL templates and patterns.
+
+4. **Verify it works** - AI tests the resolution against real identifiers, confirms URLs resolve.
+
+5. **Iterate** - If edge cases fail, refine the rules.
+
+**Why AI-assisted?**
+
+- **Scale**: 500+ namespaces can't be manually validated continuously
+- **Consistency**: AI applies the same verification logic everywhere
+- **Discovery**: AI can identify what users would expect before we build it
+- **Maintenance**: AI can detect URL rot and resolution failures over time
+
+This isn't "AI does everything" - it's AI as a team member that handles the tedious verification work that humans would skip or do inconsistently.
 
 ### Version 1.x: Raw Content
 

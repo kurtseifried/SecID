@@ -187,6 +187,68 @@ UUIDs solve a real problem (name stability) but in a way that doesn't match how 
 
 ---
 
+## Namespace Transitions: Case by Case
+
+### The Problem
+
+What happens when organizations change? Companies get acquired, rebrand, merge, or shut down:
+- Red Hat acquired by IBM
+- VMware acquired by Broadcom
+- Sun Microsystems absorbed into Oracle
+
+If someone wrote `secid:advisory/redhat/errata#RHSA-2024:1234`, what happens when Red Hat's organizational structure changes?
+
+### Why We Don't Pre-Design This
+
+The temptation is to design a comprehensive namespace transition system upfront. But real-world transitions are messy and unpredictable:
+
+**Example: IBM acquires Red Hat**
+
+IBM acquired Red Hat, but:
+- Red Hat brand continues
+- Red Hat security infrastructure unchanged
+- RHSA/RHBA/RHEA identifiers still work
+- CVE database still at access.redhat.com
+
+Nothing needed to change in SecID. If we'd pre-built a transition system, we'd have built for a problem that didn't materialize.
+
+**Contrast: If IBM fully absorbed Red Hat**
+
+If IBM killed the Red Hat brand and migrated everything to IBM infrastructure:
+- Old `secid:advisory/redhat/*` identifiers stay valid forever (like old URLs)
+- New advisories use `secid:advisory/ibm/*`
+- Relationship layer records: `ibm/errata renamedFrom redhat/errata`
+- Resolvers follow the chain
+
+### The Approach
+
+**Handle transitions when they happen, not before.**
+
+1. **Old identifiers are forever** - Once a SecID exists, it exists. We don't break existing references.
+
+2. **New structure gets new identifiers** - If an organization fundamentally changes, new namespaces reflect the new reality.
+
+3. **Relationships connect old and new** - The relationship layer (when built) handles `renamedFrom`, `succeeds`, `aliases`.
+
+4. **Case by case decisions** - Each transition is unique. We evaluate when it happens, with real information, not hypotheticals.
+
+### What About Retired Standards?
+
+A standard being retired is enrichment data, not a namespace change:
+- The namespace still exists (historical references remain valid)
+- The enrichment layer notes: "retired as of 2024, superseded by X"
+- We might also note: "still widely used despite retirement" or "effectively replaced by Y even though not officially retired"
+
+This is metadata about the thing, not a change to its identity.
+
+### Why This Works
+
+This approach mirrors how the internet handles domain changes and URL transitions. Old URLs don't disappear - they redirect, return 404, or keep working. The web is littered with historical references that still resolve.
+
+SecID follows the same philosophy: identifiers are stable, context is layered on top.
+
+---
+
 ## Entity Naming: Follow the Source
 
 ### The Principle
