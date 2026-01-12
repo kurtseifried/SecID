@@ -1,111 +1,144 @@
 # Documentation Gap Analysis
 
-This document provides a gap analysis of the SecID project documentation based on a review of all `.md` files in the repository. It focuses on four key areas: Governance, Registry Maintenance, Tooling, and Future Layers.
+This document tracks gaps identified in SecID project documentation and their resolution status.
 
 ---
 
+## Status Summary
+
+### Resolved ✅
+
+| Gap | Resolution | Where Documented |
+|-----|------------|------------------|
+| Undefined BDFL | Kurt Seifried named as BDFL | `STRATEGY.md` |
+| PURL governance constraint | Documented as intentional constraint that inherits PURL decisions | `STRATEGY.md` |
+| Deprecation/archival process | Case-by-case approach; old identifiers forever; retired standards are enrichment data | `DESIGN-DECISIONS.md` |
+| Data validation strategy | AI-assisted validation workflow | `ROADMAP.md` |
+| API/distribution model | REST API + libraries in priority order; self-hostable design | `ROADMAP.md` |
+
+### Intentionally Deferred ⏸️
+
+| Gap | Rationale | Trigger to Address |
+|-----|-----------|-------------------|
+| Working group charter | Premature governance complexity kills projects | When community interest warrants formal input |
+| Formal dispute resolution | BDFL decides for now | When disputes actually arise that need process |
+| SLOs for PR review | Early stage, small team | When contributor volume requires predictability |
+| Path to community curation | Need core team experience first | When registry is stable and patterns are clear |
+| Future layers design (relationships, overlays) | Intentionally deferred to learn from usage | When v1.0 has real adoption and concrete use cases |
+
+### Still Open 🔴
+
+| Gap | Priority | What's Needed |
+|-----|----------|---------------|
+| Compliance test suite | High | Canonical test cases before libraries ship to prevent implementation drift |
+| Registry file validation requirement | Medium | SPEC.md or CONTRIBUTING.md should require `id_pattern` in all registry files |
+| Central discovery hub | Low | "awesome-secid" list or similar for community tools |
+| URL rot mitigation details | Low | Content caching strategy (addressed conceptually by v1.x raw content phase) |
+
+---
+
+## Detailed Analysis
+
 ### 1. Governance
 
-#### What the Documentation Says
-*   **Stewardship:** The project is explicitly a "project of the Cloud Security Alliance" (`README.md`), and `STRATEGY.md` names the CSA as the steward, chosen for its non-profit status and global scope.
-*   **Governance Model:** `STRATEGY.md` names the model as "Benevolent Dictator" and mentions a "SecID Working Group."
-*   **Philosophy:** `RATIONALE.md` states a philosophy of "Guidelines, not rules" to remain flexible and avoid getting bogged down.
-*   **Contributions:** `CONTRIBUTING.md` outlines the standard GitHub process (Issues, Forks, PRs) for proposing changes.
+#### Current State
+- **BDFL**: Kurt Seifried (documented in `STRATEGY.md`)
+- **Stewardship**: Cloud Security Alliance
+- **Philosophy**: "Guidelines, not rules" for agility
+- **PURL Constraint**: We inherit PURL's decisions on identifier syntax, focusing governance energy on security-specific questions
 
-#### Identified Gaps
+#### Resolved
+- ✅ BDFL named explicitly
+- ✅ PURL compatibility framed as governance mechanism
 
-*   **~~Undefined "Benevolent Dictator"~~** ✅ **RESOLVED**: Kurt Seifried is named as BDFL in `STRATEGY.md`. Succession planning deferred until community growth warrants it.
-*   **Vague Working Group Charter:** The "SecID Working Group" is mentioned, but its charter, membership criteria, meeting cadence, and decision-making processes are not defined. *Accepted: Working group will be established when community interest warrants it.*
-*   **No Formal Dispute Resolution Process:** The "Guidelines, not rules" philosophy is excellent for agility but does not provide a mechanism for resolving conflicts. *Accepted for now: BDFL decides. Formal process when needed.*
-*   **Lack of a Formal Change Control Process:** While `CONTRIBUTING.md` describes how to submit a PR, there is no formal process described for how changes to the core `SPEC.md` are evaluated, approved, and versioned. *Accepted: BDFL approves spec changes. Formal RFC process when community grows.*
+#### Deferred (Acceptable)
+- ⏸️ Working group charter - establish when needed
+- ⏸️ Formal dispute resolution - BDFL decides for now
+- ⏸️ Change control process for SPEC.md - BDFL approves, formal RFC when community grows
 
 ---
 
 ### 2. Registry Maintenance
 
-#### What the Documentation Says
-*   **How to Contribute:** `CONTRIBUTING.md` explains that new registry additions and corrections should be submitted via GitHub pull requests.
-*   **Curation Strategy:** `STRATEGY.md` mentions an initial plan: "Curation: Initially by core team, eventually by community."
-*   **Seeding Plan:** `ROADMAP.md` has a detailed "Registry Seeding Strategy," showing a clear plan to populate the registry with thousands of entities in phases.
+#### Current State
+- Contribution via GitHub PRs (`CONTRIBUTING.md`)
+- Seeding strategy documented (`ROADMAP.md`)
+- AI-assisted validation workflow defined
 
-#### Identified Gaps
-*   **Undefined Path to Community Curation:** The transition from a "core team" to "community" curation is a critical step for long-term health, but the process, criteria for community curators, and timeline are not defined. *Accepted: Will define when community grows.*
-*   **No Service Level Objectives (SLOs):** There are no stated goals or expected timelines for how quickly new proposals (like a new namespace) will be reviewed or merged. *Accepted: Early stage project, best-effort response times.*
-*   **~~No Deprecation or Archival Process~~** ✅ **RESOLVED**: Documented in `DESIGN-DECISIONS.md` under "Namespace Transitions: Case by Case". Key decisions: (1) Old identifiers are forever, (2) Retired standards are enrichment data not namespace changes, (3) Handle transitions when they happen with real information.
+#### Resolved
+- ✅ Deprecation/archival: "Namespace Transitions: Case by Case" in `DESIGN-DECISIONS.md`
+  - Old identifiers are forever
+  - Retired standards = enrichment data, not namespace changes
+  - Handle transitions when they happen with real information
+- ✅ Validation strategy: AI-assisted workflow in `ROADMAP.md`
+
+#### Deferred (Acceptable)
+- ⏸️ Path to community curation - define when community grows
+- ⏸️ SLOs for PR review - best-effort at early stage
 
 ---
 
 ### 3. Tooling Ecosystem
 
-#### What the Documentation Says
-*   **Explicitly Out of Scope for v1.0:** `STRATEGY.md` is very clear: "Reference implementations are out of scope for v1.0." The strategy is to focus on a solid specification and let the community build tools.
-*   **Library Roadmap:** `ROADMAP.md` lists a clear priority order for official libraries they *plan* to build after v1.0 is complete (Python first, then JS/TS, then a REST API, etc.).
-*   **PURL Parity:** `RATIONALE.md` suggests that existing PURL libraries can be adapted, lowering the barrier for developers.
+#### Current State
+- Library roadmap defined: Python → npm → REST API → Go → Rust → Java → C#/.NET
+- PURL library adaptation possible (lowers barrier)
 
-#### Identified Gaps
-*   **No Central Discovery Hub:** There is no file or plan mentioned for creating a central place (like an "awesome-secid" list) to track community-built tools. This makes it hard for new adopters to find implementations.
-*   **No Compliance or Testing Suite:** The documentation does not mention the creation of an official test suite. Without a set of canonical test cases, different implementations might have subtle inconsistencies in how they parse or handle edge cases (like complex percent-encoding or subpath interpretation). This could lead to fragmentation.
+#### Still Open
+- 🔴 **Compliance test suite** (HIGH PRIORITY)
+  - Without canonical test cases, implementations may handle edge cases differently
+  - Needed before v1.0 libraries ship
+  - Should cover: percent-encoding, subpath parsing, version handling, qualifier parsing
 
----
-
-### 4. Complexity of Future Layers (Relationships & Overlays)
-
-#### What the Documentation Says
-*   **Explicitly Deferred:** This is the most clearly communicated point. `RELATIONSHIPS.md`, `OVERLAYS.md`, `DESIGN-DECISIONS.md`, and `ROADMAP.md` all state that these layers are **intentionally not designed yet**.
-*   **Reasoning is Clear:** The rationale is to "avoid premature complexity" and let real-world usage of the v1.0 spec inform the design of these more complex layers.
-*   **Exploratory Ideas:** The `RELATIONSHIPS.md` and `OVERLAYS.md` files serve as public sketches of the problems to be solved, including potential relationship types (`aliases`, `mitigates`) and the key unsolved challenges (conflict resolution, provenance, trust).
-
-#### Identified Gaps
-*   **The Entire Design is the Gap:** The project is transparent that this is a "known unknown." The documentation contains high-level ideas but does not yet tackle the difficult questions it raises (e.g., how to resolve conflicting overlay data from two trusted sources).
-*   **No Trigger Criteria for Starting Design:** The documents state that design will begin "when we have concrete use cases," but this is not defined with specific metrics. It's unclear what level of adoption or what specific events will trigger the formal design and implementation of these critical future layers.
+- 🔴 **Central discovery hub** (LOW PRIORITY)
+  - No "awesome-secid" list planned
+  - Would help adopters find community tools
+  - Can add when there are tools to list
 
 ---
 
-## Tactical and Technical Gaps (and Resolutions)
+### 4. Future Layers (Relationships & Overlays)
 
-This section details lower-level technical and implementation concerns identified during review, along with the strategic decisions made for each. It is intended to provide context for future development.
+#### Current State
+- Explicitly deferred - documented in `RELATIONSHIPS.md`, `OVERLAYS.md`, `DESIGN-DECISIONS.md`
+- Exploratory ideas captured but not committed
+- Rationale: avoid premature complexity, let usage inform design
 
-### 1. Parsing and Subpath Interpretation
-*   **Initial Concern:** The flexibility of percent-encoding and subpath structures could lead to inconsistent parser implementations. A generic parser cannot know how to validate a subpath without context.
-*   **Discussion & Decision:** This is a valid concern. The decision is that the system must be self-describing.
-*   **Actionable Gap:** The `SPEC.md` or `CONTRIBUTING.md` must be updated to make it a formal requirement that any registry file defining a `name` (e.g., `cve.md`, `ccm.md`) **must** also define the validation rules (`id_pattern`) and parsing logic for its corresponding subpaths.
+#### Deferred (Intentional)
+- ⏸️ Entire relationship layer design
+- ⏸️ Entire overlay layer design
+- ⏸️ Trigger criteria for starting design
 
-### 2. URL Rot and Data Availability
-*   **Initial Concern:** The resolution system depends on `url_template` links that will inevitably break over time as external websites change.
-*   **Discussion & Decision:** This is a critical long-term problem. The strategy to mitigate this is to not rely on the live URL forever. The project will endeavor to cache/store a point-in-time copy of the data that a URL resolves to, making the system more resilient.
-*   **Actionable Gap:** The `ROADMAP.md` or `STRATEGY.md` does not currently include this data preservation and caching strategy. This should be documented to clarify the long-term vision.
-
-### 3. Data and Tooling Validation
-*   **Initial Concern:** There is no documented process for validating the quality of seed data or for testing the compliance of third-party tools.
-*   **Discussion & Decision:** This was confirmed as a critical gap. Data quality and implementation consistency are paramount. The plan is to use AI for validating seed data and the resulting generated files. Furthermore, a testing framework is needed for the ecosystem.
-*   ✅ **RESOLVED:** AI-assisted validation strategy documented in `ROADMAP.md`. Workflow: (1) Ask AI what users would do with a SecID, (2) Codify that as the goal, (3) Add resolution rules, (4) AI verifies it works. AI is a first-class team member for validation at scale.
-
-### 4. API and Data Distribution Model
-*   **Initial Concern:** The default Git-based model is too heavy for simple tools, and a REST API creates a central dependency.
-*   **Discussion & Decision:** The scalability model will be twofold. (1) To mitigate the "heavy repo" problem, the project will generate and provide a single, consolidated data file (e.g., a SQLite database or a comprehensive JSON file) for easy download. (2) The future REST API will be designed to be self-hostable, so users are not dependent on a single central service.
-*   **Actionable Gap:** The `ROADMAP.md` and `STRATEGY.md` should be updated to explicitly mention these two key distribution mechanisms.
-
-### 5. Short-Term Accepted Trade-offs
-Several other technical concerns were deemed to be acceptable trade-offs for the initial, file-system-based version of the project. The long-term solution for these is a move to a more robust data storage system. These are noted here for context but are not considered immediate gaps to be fixed.
-*   **Percent-Encoding Complexity:** Acknowledged as a "necessary evil" for now to support a wide range of identifiers on standard filesystems.
-*   **Filesystem Path Length Limits:** A known limitation of the current approach that will be resolved by a future database/storage solution.
-*   **Database Indexing Strategy:** Not a concern at the current scale. Will be addressed when a formal storage solution is designed.
+This is the correct approach. Designing these layers before v1.0 adoption would be guessing.
 
 ---
 
-### Summary
+### 5. Technical Gaps
 
-The project documentation is exceptionally transparent about what it is and what it isn't. The most significant strategic gaps are not accidental omissions but rather deliberate, documented decisions to defer complexity.
+#### Resolved
+- ✅ **Data validation**: AI-assisted workflow documented
+- ✅ **API distribution**: REST API + self-hostable in roadmap
 
-**Resolved since initial analysis:**
-- ✅ Governance: Kurt Seifried named as BDFL in `STRATEGY.md`
-- ✅ PURL constraint documented as governance mechanism
-- ✅ Namespace transitions: Case-by-case approach documented in `DESIGN-DECISIONS.md`
-- ✅ Validation strategy: AI-assisted workflow documented in `ROADMAP.md`
+#### Still Open
+- 🔴 **Registry file validation requirement** (MEDIUM PRIORITY)
+  - Registry files should be required to include `id_pattern` for subpath validation
+  - Should be added to SPEC.md or CONTRIBUTING.md
 
-**Remaining gaps (intentionally deferred):**
-- Working group charter (establish when community grows)
-- Formal dispute resolution (BDFL decides for now)
-- SLOs for PR review (best-effort at early stage)
-- URL rot mitigation (future content caching addresses this)
-- Compliance test suite (needed before v1.0 libraries ship)
+- 🔴 **URL rot mitigation** (LOW PRIORITY)
+  - Conceptually addressed by v1.x raw content caching
+  - Detailed strategy not yet documented
+  - Will become clearer as content ingestion begins
+
+#### Accepted Trade-offs
+- Percent-encoding complexity (necessary evil)
+- Filesystem path length limits (future database solves)
+- Database indexing (not a concern at current scale)
+
+---
+
+## Next Actions
+
+1. **Before v1.0 libraries ship**: Create compliance test suite with canonical test cases
+2. **During registry buildout**: Ensure all registry files include `id_pattern`
+3. **When community grows**: Establish working group, formalize processes
+4. **When v1.0 has adoption**: Begin relationship/overlay layer design with real use cases
