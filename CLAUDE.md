@@ -14,13 +14,15 @@ Examples:
 - `secid:ttp/mitre/attack#T1059.003` - ATT&CK technique
 - `secid:control/nist/csf@2.0#PR.AC-1` - NIST CSF control
 
-## Current Focus: v1.0 (URL Resolution)
+## Current Status: v0.9 (Public Draft)
 
-**Goal**: Given a SecID string, return the URL(s) where that resource can be found.
+The specification and registry are open for public comment. Working toward v1.0 (URL Resolution).
+
+**v1.0 Goal**: Given a SecID string, return the URL(s) where that resource can be found.
 
 **Priority order**: Registry data → Python library → npm/TypeScript → REST API → Go → Rust → Java → C#/.NET
 
-See ROADMAP.md for details on why this order.
+See ROADMAP.md for details.
 
 ## Repository Structure
 
