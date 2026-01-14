@@ -21,7 +21,20 @@ secid:entity/redhat/rhel            # RHEL operating system
 secid:entity/aws/s3                 # S3 storage service
 secid:entity/aws/lambda             # Lambda compute service
 secid:entity/microsoft/azure        # Azure cloud platform
+
+# AI vendors and models
 secid:entity/openai/gpt-4           # GPT-4 model
+secid:entity/openai/gpt-4o          # GPT-4o model
+secid:entity/anthropic/claude       # Claude model family
+secid:entity/anthropic/claude-3-5   # Claude 3.5 Sonnet
+secid:entity/google/gemini          # Gemini model family
+secid:entity/meta/llama             # Llama model family
+secid:entity/mistral/mistral        # Mistral models
+
+# AI infrastructure and tools
+secid:entity/langchain/langchain    # LangChain framework
+secid:entity/huggingface/hub        # HuggingFace model hub
+secid:entity/huggingface/transformers # Transformers library
 
 # Organizations that operate security systems
 secid:entity/mitre/cve              # CVE program (operated by MITRE)
@@ -92,17 +105,36 @@ Each namespace file (`entity/<namespace>.md`) describes:
 
 ## Current Namespaces
 
+### Security Organizations
+
 | Namespace | Vendor/Organization | Key Products/Services |
 |-----------|---------------------|----------------------|
 | `mitre` | MITRE Corporation | cve, cwe, attack, atlas, capec |
-| `nist` | NIST | nvd |
-| `github` | GitHub | ghsa |
-| `google` | Google | osv |
+| `nist` | NIST | nvd, csf, 800-53 |
+| `cisa` | CISA | kev, vulnrichment |
 | `first` | FIRST | cvss, epss |
-| `owasp` | OWASP | top-10, llm-top-10 |
+| `owasp` | OWASP | top-10, llm-top-10, asvs |
 | `csa` | Cloud Security Alliance | ccm, aicm |
+
+### AI Vendors
+
+| Namespace | Vendor/Organization | Key Products/Services |
+|-----------|---------------------|----------------------|
+| `openai` | OpenAI | gpt-4, gpt-4o, chatgpt |
+| `anthropic` | Anthropic | claude, claude-3-5 |
+| `google` | Google | gemini, bard, osv |
+| `meta` | Meta | llama |
+| `mistral` | Mistral AI | mistral, mixtral |
+| `huggingface` | HuggingFace | hub, transformers |
+
+### Infrastructure Vendors
+
+| Namespace | Vendor/Organization | Key Products/Services |
+|-----------|---------------------|----------------------|
+| `aws` | Amazon Web Services | s3, lambda, ec2, alas |
+| `microsoft` | Microsoft | azure, msrc, windows |
 | `redhat` | Red Hat | openshift, rhel, ansible |
-| `microsoft` | Microsoft | msrc, azure, windows |
-| `debian` | Debian Project | debian |
+| `github` | GitHub | ghsa, actions |
 | `cisco` | Cisco | psirt, ios |
+| `debian` | Debian Project | debian |
 

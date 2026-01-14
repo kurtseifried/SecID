@@ -26,29 +26,68 @@ secid:advisory/debian/dsa#DSA-5678-1
 
 ## Namespaces
 
+### Core Vulnerability Databases
+
 | Namespace | Names | Source | Description |
 |-----------|-------|--------|-------------|
 | `mitre` | `cve` | MITRE CVE | Canonical vulnerability identifiers |
 | `nist` | `nvd` | NIST NVD | CVE enrichment (CVSS, CWE, CPE) |
+| `cisa` | `kev`, `vulnrichment` | CISA | Known Exploited Vulnerabilities, CVE enrichment |
 | `github` | `ghsa` | GitHub | Package security advisories |
-| `google` | `osv`, `chrome`, `android`, `project-zero` | Google | OSV, Chrome, Android bulletins, P0 |
+| `google` | `osv`, `chrome`, `android`, `gcp-bulletins`, `project-zero` | Google | OSV, Chrome, Android, GCP bulletins, P0 |
+| `cert` | `vu` | CERT/CC | VU# vulnerability notes |
+
+### Ecosystem-Specific
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
+| `pypi` | `advisory-db` | PyPA | Python package vulnerabilities (PYSEC) |
+| `go` | `vulndb` | Go Team | Go module vulnerabilities (GO-) |
+| `rustsec` | `advisories` | RustSec | Rust crate vulnerabilities (RUSTSEC-) |
+
+### AI Security
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
+| `avid` | `avid` | AVID | AI Vulnerability Database (AVID-YYYY-VNNN) |
+| `partnershiponai` | `aiid` | Partnership on AI | AI Incident Database |
+
+### Linux Distributions
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
 | `redhat` | `cve`, `errata`, `bugzilla` | Red Hat | CVE pages, RHSA/RHBA/RHEA, Bugzilla |
-| `microsoft` | `msrc`, `advisory`, `kb`, `bulletin` | Microsoft | MSRC, ADV, KB, legacy MS bulletins |
 | `debian` | `dsa`, `dla`, `tracker`, `bts` | Debian | DSA, DLA, CVE tracker, bug tracking |
 | `ubuntu` | `usn`, `launchpad`, `cve-tracker` | Ubuntu | USN, Launchpad bugs, CVE tracker |
 | `suse` | `suse-su`, `bugzilla` | SUSE | Security updates, Bugzilla |
+| `aws` | `alas` | AWS | Amazon Linux Security Advisories |
+
+### Major Vendors
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
+| `microsoft` | `msrc`, `advisory`, `kb`, `bulletin` | Microsoft | MSRC, ADV, KB, legacy MS bulletins |
 | `cisco` | `psirt`, `bug` | Cisco | PSIRT advisories, CSC bug IDs |
-| `vmware` | `vmsa` | VMware | VMSA advisories |
+| `vmware` | `vmsa` | VMware/Broadcom | VMSA advisories |
 | `fortinet` | `fsa` | Fortinet | FG-IR advisories |
 | `paloalto` | `pan-sa` | Palo Alto | PAN-SA advisories |
+| `oracle` | `cpu`, `alert` | Oracle | Critical Patch Updates, Security Alerts |
+| `apple` | `ht` | Apple | HT security articles |
+
+### Open Source Projects
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
 | `mozilla` | `mfsa`, `bugzilla` | Mozilla | MFSA advisories, Bugzilla bugs |
 | `apache` | `security`, `jira` | Apache | Security pages, Jira issues |
-| `oracle` | `cpu`, `alert` | Oracle | Critical Patch Updates, Security Alerts |
-| `atlassian` | `jira-security` | Atlassian | Confluence, Jira, Bitbucket advisories |
-| `apple` | `ht` | Apple | HT security articles |
 | `linux` | `kernel` | Linux | Kernel CVEs |
 | `openssl` | `secadv` | OpenSSL | Security advisories |
-| `cert` | `vu` | CERT/CC | VU# vulnerability notes |
+| `atlassian` | `jira-security` | Atlassian | Confluence, Jira, Bitbucket advisories |
+
+### National/Regional
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
 | `cnvd` | `cnvd` | China CNVD | Chinese vulnerability database |
 | `eu` | `euvd` | EU EUVD | European vulnerability database |
 

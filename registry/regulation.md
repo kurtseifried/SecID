@@ -79,6 +79,51 @@ secid:regulation/us/hipaa#164.312.a.1   # Security Rule citation
 |----|------|--------------|
 | `eu/ai-act` | EU Artificial Intelligence Act | EU |
 
+## EU AI Act Detail
+
+The EU AI Act (entered into force August 2024) is the first comprehensive AI regulation. It uses a risk-based approach:
+
+### Risk Categories
+
+| Risk Level | Examples | Requirements |
+|------------|----------|--------------|
+| **Unacceptable** | Social scoring, real-time biometric ID | Prohibited |
+| **High-risk** | Critical infrastructure, employment, credit | Conformity assessment, registration |
+| **Limited** | Chatbots, deepfakes | Transparency obligations |
+| **Minimal** | Spam filters, games | No requirements |
+
+### Key Articles
+
+```
+secid:regulation/eu/ai-act#art-5      # Prohibited AI practices
+secid:regulation/eu/ai-act#art-6      # High-risk classification
+secid:regulation/eu/ai-act#art-9      # Risk management system
+secid:regulation/eu/ai-act#art-10     # Data governance
+secid:regulation/eu/ai-act#art-13     # Transparency
+secid:regulation/eu/ai-act#art-14     # Human oversight
+secid:regulation/eu/ai-act#art-52     # Transparency for certain AI systems
+```
+
+### Timeline
+
+- **August 2024**: Entry into force
+- **February 2025**: Prohibited practices apply
+- **August 2025**: GPAI (general-purpose AI) rules apply
+- **August 2026**: High-risk AI system rules apply
+
+### Relationship to Controls
+
+The AI Act creates demand for AI-specific controls:
+
+```json
+{
+  "from": "secid:control/csa/aicm@1.0#GOV-01",
+  "to": "secid:regulation/eu/ai-act#art-9",
+  "type": "satisfies",
+  "description": "AI governance controls address AI Act risk management requirements"
+}
+```
+
 ## Relationships
 
 Controls satisfy regulatory requirements:
