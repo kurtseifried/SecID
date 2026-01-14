@@ -361,15 +361,25 @@ Resolution URLs are defined in each namespace's registry file.
 
 ## Current Status
 
-**Phase 1: Specification + Registry** (Current)
+**Version 0.9 - Public Draft**
+
+This specification is open for public comment. We welcome feedback, questions, and suggestions via [GitHub Issues](https://github.com/kurtseifried/SecID/issues).
+
+**What's Ready:**
 - Identifier grammar defined
 - Seven types established
-- Registry structure in place
-- Seed data for major types
+- Registry structure with 100+ namespace definitions
+- Documentation for spec, rationale, design decisions, and strategy
 
-**Future Work** (Not yet designed)
-- Relationship layer - will be designed based on usage
-- Overlay layer - will be designed based on usage
+**What's In Progress:**
+- Registry expansion (targeting broader coverage)
+- Reference implementations (Python library first)
+- Compliance test suite
+
+**What's Planned (Post-1.0):**
+- REST API for resolution
+- Relationship layer
+- Overlay layer
 
 ## License
 

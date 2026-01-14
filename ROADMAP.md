@@ -1,5 +1,7 @@
 # SecID Implementation Roadmap
 
+**Current Version: 0.9 (Public Draft)**
+
 This document describes what we're building, in what order, and why.
 
 ## Version 1.0 Goal: URL Resolution
@@ -346,19 +348,29 @@ This learning feeds back into spec refinement and overlay priorities.
 
 ## Concrete Deliverables
 
-### Version 1.0: URL + Description
+### Version 0.9: Public Draft (Current)
+
+| Deliverable | Status | Notes |
+|-------------|--------|-------|
+| Specification (SPEC.md) | ✅ Complete | Open for public comment |
+| Registry structure | ✅ Complete | 100+ namespace definitions |
+| Type documentation | ✅ Complete | All 7 types documented |
+| Design documentation | ✅ Complete | RATIONALE, DESIGN-DECISIONS, STRATEGY |
+| Namespace documentation | ✅ Complete | _index.md files for advisory namespaces |
+
+### Version 1.0: URL Resolution
 
 | Deliverable | Status | Success Criteria |
 |-------------|--------|------------------|
 | Registry data (500+ namespaces) | In progress | Every namespace has URL resolution rules + description |
-| AI-assisted validation | In progress | Every registry entry verified to resolve correctly |
-| Python library (`secid`) | Planned | `pip install secid` enables parsing and resolution |
-| npm/TypeScript library (`secid`) | Planned | `npm install secid` enables parsing and resolution |
-| REST API | Planned | Any language can resolve SecIDs via HTTP |
-| Go library | Planned | Native Go support for cloud-native tools |
-| Rust library | Planned | Native Rust support for systems tools |
-| Java library | Planned | Native Java support for enterprise tools |
-| C#/.NET library | Planned | Native .NET support for Windows ecosystem |
+| Compliance test suite | Not started | Canonical test cases for implementations |
+| Python library (`secid`) | Not started | `pip install secid` enables parsing and resolution |
+| npm/TypeScript library (`secid`) | Not started | `npm install secid` enables parsing and resolution |
+| REST API | Not started | Any language can resolve SecIDs via HTTP |
+| Go library | Not started | Native Go support for cloud-native tools |
+| Rust library | Not started | Native Rust support for systems tools |
+| Java library | Not started | Native Java support for enterprise tools |
+| C#/.NET library | Not started | Native .NET support for Windows ecosystem |
 
 ### Validation Strategy: AI-Assisted
 
