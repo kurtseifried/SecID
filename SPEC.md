@@ -813,40 +813,98 @@ The body contains human/AI-readable context:
 
 ### 8.2 Percent Encoding
 
-SecID must support a wide variety of upstream identifiers and names - including those with spaces, special characters, and Unicode. Files must work across all operating systems (Windows, macOS, Linux). The approach: percent-encode special characters for safe storage and transport, then render human-friendly for display.
+SecID must support a wide variety of upstream identifiers and names - including those with spaces, special characters, and Unicode. Files must work across all operating systems (Windows, macOS, Linux) and be safe in shell environments. The approach: percent-encode special characters for safe storage and transport, then render human-friendly for display.
 
 **Unicode support:** SecID names and filenames support full Unicode. Non-ASCII characters are percent-encoded as UTF-8 bytes (e.g., `é` → `%C3%A9`). This ensures cross-platform filesystem compatibility while preserving international characters.
 
-Names use percent encoding (URL encoding) for special characters:
+#### Characters That Must Be Encoded
+
+**SecID Structural Characters** - These have special meaning in SecID syntax and must always be encoded when used literally in names or subpaths:
+
+| Character | Encoded | SecID Meaning |
+|-----------|---------|---------------|
+| `:` | `%3A` | Scheme separator (`secid:`) |
+| `/` | `%2F` | Path separator (type/namespace/name) |
+| `@` | `%40` | Version prefix |
+| `?` | `%3F` | Qualifier prefix |
+| `#` | `%23` | Subpath prefix |
+| `%` | `%25` | Encoding escape character |
+
+**URL Reserved Characters** - Per RFC 3986, these have special meaning in URLs and should be encoded:
 
 | Character | Encoded | Notes |
 |-----------|---------|-------|
-| `%` | `%25` | Escape character itself |
-| Space | `%20` | |
-| `&` | `%26` | |
-| `(` | `%28` | |
-| `)` | `%29` | |
-| `:` | `%3A` | SecID scheme separator; invalid in Windows filenames |
-| `/` | `%2F` | SecID path separator; macOS/Linux path separator |
-| `?` | `%3F` | SecID qualifier prefix |
-| `#` | `%23` | SecID subpath prefix |
-| `@` | `%40` | SecID version prefix |
-| `\` | `%5C` | Windows path separator |
-| `*` | `%2A` | Invalid in Windows filenames |
-| `"` | `%22` | Invalid in Windows filenames |
-| `<` | `%3C` | Invalid in Windows filenames |
-| `>` | `%3E` | Invalid in Windows filenames |
-| `\|` | `%7C` | Invalid in Windows filenames |
+| `&` | `%26` | Query parameter separator |
+| `=` | `%3D` | Query key-value separator |
+| `+` | `%2B` | Sometimes interpreted as space |
+| `;` | `%3B` | Parameter separator |
+| `[` | `%5B` | IPv6 address delimiter |
+| `]` | `%5D` | IPv6 address delimiter |
+| `{` | `%7B` | URI template syntax |
+| `}` | `%7D` | URI template syntax |
+| `!` | `%21` | Sub-delimiter |
+| `'` | `%27` | Sub-delimiter |
+| `(` | `%28` | Sub-delimiter |
+| `)` | `%29` | Sub-delimiter |
+| `*` | `%2A` | Sub-delimiter |
+| `,` | `%2C` | Sub-delimiter |
 
-**Examples:**
+**Filesystem Invalid Characters** - These are invalid in filenames on one or more operating systems:
+
+| Character | Encoded | Invalid On |
+|-----------|---------|------------|
+| `\` | `%5C` | Path separator on Windows |
+| `<` | `%3C` | Windows |
+| `>` | `%3E` | Windows |
+| `"` | `%22` | Windows |
+| `\|` | `%7C` | Windows |
+| `*` | `%2A` | Windows |
+| `?` | `%3F` | Windows |
+| `:` | `%3A` | Windows (except after drive letter) |
+
+**Shell-Sensitive Characters** - These have special meaning in shell environments and should be encoded to prevent unexpected behavior:
+
+| Character | Encoded | Shell Risk |
+|-----------|---------|------------|
+| `$` | `%24` | Variable expansion |
+| `` ` `` | `%60` | Command substitution |
+| `!` | `%21` | History expansion (bash) |
+| `~` | `%7E` | Home directory expansion |
+| `^` | `%5E` | History substitution, regex |
+| Space | `%20` | Argument separator |
+| Tab | `%09` | Whitespace |
+| Newline | `%0A` | Command separator |
+
+**Other Characters to Encode:**
+
+| Character | Encoded | Notes |
+|-----------|---------|-------|
+| `\`` | `%5C%60` | Backtick (command substitution) |
+| `"` | `%22` | Quote character |
+| `'` | `%27` | Quote character |
+
+#### Examples
+
 ```
 A&A-01                    → A%26A-01
 INP-01 (Draft)            → INP-01%20%28Draft%29
+Price: $100               → Price%3A%20%24100
+File[1]                   → File%5B1%5D
+{template}                → %7Btemplate%7D
 ```
 
-Reserved characters (`/`, `?`, `#`, `@`) must always be encoded in names since they have structural meaning in SecID syntax. Tools should render identifiers human-friendly for display while storing the encoded form.
+#### Summary: Always Encode These
 
-**Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/mitre/cve#CVE-2024-1234` becomes `secid%3Aadvisory%2Fcve%2FCVE-2024-1234` as a filename.
+For maximum compatibility across URLs, filesystems, and shells, encode these characters in names and subpaths:
+
+```
+Space  &  =  +  ;  [  ]  {  }  !  '  (  )  *  ,
+:  /  @  ?  #  %  \  <  >  "  |  $  `  ~  ^
+```
+
+Tools should render identifiers human-friendly for display while storing the encoded form.
+
+**Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/mitre/cve#CVE-2024-1234` becomes `secid%3Aadvisory%2Fmitre%2Fcve%23CVE-2024-1234` as a filename.
 
 ### 8.3 Canonical Form
 

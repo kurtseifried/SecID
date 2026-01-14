@@ -103,13 +103,18 @@ secid:regulation/eu/gdpr#art-32/1/a                     # Article 32(1)(a)
 secid:weakness/mitre/cwe#CWE-79/potential-mitigations   # Mitigations section
 ```
 
-**Percent encoding:** Special characters in names and subpaths are percent-encoded (URL encoding):
+**Percent encoding:** Special characters in names and subpaths are percent-encoded (URL encoding) for compatibility across URLs, filesystems, and shells:
 
 | Character | Encoded | Example |
 |-----------|---------|---------|
 | Space | `%20` | `Auditing Guidelines` → `Auditing%20Guidelines` |
 | `&` | `%26` | `A&A-01` → `A%26A-01` |
-| `(` `)` | `%28` `%29` | `(Draft)` → `%28Draft%29` |
+| `$` | `%24` | `$variable` → `%24variable` |
+| `[` `]` | `%5B` `%5D` | `File[1]` → `File%5B1%5D` |
+
+Many other characters require encoding: `: / @ ? # % \ < > " | { } ! ' ( ) * , + ; = ~ ^ `` ` ``
+
+See [SPEC.md Section 8.2](SPEC.md#82-percent-encoding) for the complete encoding reference.
 
 ```
 secid:control/csa/aicm@1.0#A%26A-01                     # A&A-01 control
