@@ -41,12 +41,19 @@ The namespace is the organization, the name is the framework/document, and the s
 
 | Namespace | Name | Framework | Description |
 |-----------|------|-----------|-------------|
-| `csa` | `aicm` | CSA AI Controls Matrix | AI-specific security controls |
-| `csa` | `ccm` | CSA Cloud Controls Matrix | Cloud security controls |
 | `nist` | `csf` | NIST Cybersecurity Framework | Cybersecurity framework |
 | `cis` | `controls` | CIS Controls | Center for Internet Security |
 | `iso` | `27001` | ISO 27001 | Information security standard |
 | `owasp` | `asvs` | OWASP ASVS | Application security controls |
+| `csa` | `ccm` | CSA Cloud Controls Matrix | Cloud security controls |
+
+### AI-Specific Control Frameworks
+
+| Namespace | Name | Framework | Description |
+|-----------|------|-----------|-------------|
+| `csa` | `aicm` | CSA AI Controls Matrix | AI-specific security controls |
+| `owasp` | `ai-exchange` | OWASP AI Exchange | AI controls mapped to threats |
+| `nist` | `ai-rmf` | NIST AI RMF | AI Risk Management Framework |
 
 ### Control Capabilities (Guidance)
 
