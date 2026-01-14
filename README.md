@@ -14,7 +14,9 @@ Security knowledge is fragmented across dozens of databases, each with its own i
 
 There's no standard way to say "this CVE is related to this CWE, which is exploited by this ATT&CK technique, and mitigated by this control." Tools can't easily cross-reference. AI agents can't navigate. Humans spend hours on manual lookup.
 
-**SecID solves this** by providing a single, consistent identifier format for all security knowledge - a "phone book" that tells you where things are and how they connect.
+And if you want to build your own security database - tracking incidents, internal vulnerabilities, or emerging threats - there's no standard way to reference external knowledge. You end up with ad-hoc links, broken URLs, and no interoperability.
+
+**SecID solves this** by providing a single, consistent identifier format for all security knowledge. Like DNS for domain names or PURL for packages, SecID is the "phone book" that tells you where things are and how they connect. Anyone can use it, anyone can extend it, and everything stays interoperable.
 
 ## What Is SecID?
 
