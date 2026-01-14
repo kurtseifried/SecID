@@ -2,6 +2,20 @@
 
 A federated identifier system for security knowledge, using [Package URL (PURL)](https://github.com/package-url/purl-spec) grammar with `secid:` as the scheme.
 
+## The Problem
+
+Security knowledge is fragmented across dozens of databases, each with its own identifier format, API, and data model:
+
+- **CVE-2024-1234** lives in MITRE's CVE database
+- **GHSA-xxxx-yyyy-zzzz** lives in GitHub's advisory database
+- **CWE-79** lives in MITRE's weakness taxonomy
+- **T1059.003** lives in MITRE ATT&CK
+- **AC-1** lives in NIST 800-53
+
+There's no standard way to say "this CVE is related to this CWE, which is exploited by this ATT&CK technique, and mitigated by this control." Tools can't easily cross-reference. AI agents can't navigate. Humans spend hours on manual lookup.
+
+**SecID solves this** by providing a single, consistent identifier format for all security knowledge - a "phone book" that tells you where things are and how they connect.
+
 ## What Is SecID?
 
 [Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents.
