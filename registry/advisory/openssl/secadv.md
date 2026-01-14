@@ -6,8 +6,9 @@ full_name: "OpenSSL Security Advisory"
 operator: "secid:entity/openssl"
 
 urls:
-  website: "https://www.openssl.org/news/secadv/"
-  lookup: "https://www.openssl.org/news/secadv/{date}.txt"
+  website: "https://openssl-library.org/news/secadv/"
+  lookup: "https://openssl-library.org/news/secadv/{date}.txt"
+  legacy: "https://www.openssl.org/news/secadv/"
 
 id_patterns:
   - pattern: "CVE-\\d{4}-\\d{4,}"

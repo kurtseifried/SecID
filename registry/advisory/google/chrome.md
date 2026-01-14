@@ -6,7 +6,7 @@ full_name: "Chrome Security Release"
 operator: "secid:entity/google"
 
 urls:
-  website: "https://chromereleases.googleblog.com/"
+  website: "https://chromereleases.googleblog.com/search/label/Stable%20updates"
   release_notes: "https://chromereleases.googleblog.com/"
 
 id_pattern: "CVE-\\d{4}-\\d{4,}"
@@ -41,7 +41,8 @@ secid:advisory/google/chrome#CVE-2024-0519
 ## Notes
 
 - Chrome releases frequently with security fixes
-- Many CVEs per release
+- Many CVEs per release (listed in "Stable channel update" posts)
 - Chromium bugs often restricted until fix ships
 - `crbug.com` redirects to Chromium bug tracker
 - Chrome vulnerabilities often exploited in the wild
+- Security fixes documented in "Stable updates" labeled posts on the blog

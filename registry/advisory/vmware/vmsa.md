@@ -6,8 +6,9 @@ full_name: "VMware Security Advisory"
 operator: "secid:entity/vmware"
 
 urls:
-  website: "https://www.vmware.com/security/advisories.html"
+  website: "https://www.broadcom.com/support/vmware-security-advisories"
   lookup: "https://www.vmware.com/security/advisories/{id}.html"
+  legacy: "https://www.vmware.com/security/advisories.html"
 
 id_pattern: "VMSA-\\d{4}-\\d{4}"
 
@@ -39,4 +40,5 @@ secid:advisory/vmware/vmsa#VMSA-2021-0028
 
 - VMSA advisories cover all VMware products (vSphere, ESXi, vCenter, etc.)
 - Often bundle multiple CVEs per advisory
-- VMware is now part of Broadcom (as of 2023)
+- VMware was acquired by Broadcom (November 2023)
+- Main advisory listing now at Broadcom site, individual VMSA URLs still work
