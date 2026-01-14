@@ -23,11 +23,25 @@ secid:weakness/owasp/llm-top10@2.0#LLM01
 
 ## Namespaces
 
+### Core Weakness Taxonomies
+
 | Namespace | Name | Taxonomy | Description |
 |-----------|------|----------|-------------|
-| `mitre` | `cwe` | CWE | MITRE Common Weakness Enumeration |
+| `mitre` | `cwe` | CWE | MITRE Common Weakness Enumeration (900+ weaknesses) |
 | `owasp` | `top10` | OWASP Top 10 | Web application security risks |
+
+### AI/ML Weakness Taxonomies
+
+| Namespace | Name | Taxonomy | Description |
+|-----------|------|----------|-------------|
 | `owasp` | `llm-top10` | OWASP LLM Top 10 | LLM application security risks |
+| `owasp` | `ml-top10` | OWASP ML Top 10 | Machine learning security risks |
+| `owasp` | `ai-exchange` | OWASP AI Exchange | Comprehensive AI security framework |
+| `owasp` | `agentic-top10` | OWASP Agentic AI Top 10 | AI agent security risks |
+| `nist` | `ai-100-2` | NIST AML Taxonomy | Adversarial ML attack taxonomy |
+| `biml` | `ml-risks` | BIML ML Risks | 78 architectural ML risks |
+| `biml` | `llm-risks` | BIML LLM Risks | 81 LLM-specific risks |
+| `mit` | `ai-risk-repository` | MIT AI Risks | 1,700+ AI risks across 7 domains |
 
 ## Weakness vs Advisory
 
@@ -62,7 +76,7 @@ Weaknesses can be related to attack techniques:
 
 ## AI-Specific Weaknesses
 
-CWE has added AI-specific entries:
+### CWE AI Entries (CWE-1400 series)
 
 | CWE | Name |
 |-----|------|
@@ -70,15 +84,45 @@ CWE has added AI-specific entries:
 | CWE-1427 | Improper Neutralization of Input for LLM Prompting |
 | CWE-1434 | Insecure ML Model Inference Parameters |
 
-OWASP LLM Top 10 provides broader AI risk categories:
+### OWASP LLM Top 10 v2.0 (2025)
 
 | ID | Name |
 |----|------|
 | LLM01 | Prompt Injection |
-| LLM02 | Insecure Output Handling |
-| LLM03 | Training Data Poisoning |
-| LLM04 | Model Denial of Service |
-| LLM05 | Supply Chain Vulnerabilities |
+| LLM02 | Sensitive Information Disclosure |
+| LLM03 | Supply Chain Vulnerabilities |
+| LLM04 | Data and Model Poisoning |
+| LLM05 | Insecure Output Handling |
+| LLM06 | Excessive Agency |
+| LLM07 | System Prompt Leakage |
+| LLM08 | Vector and Embedding Weaknesses |
+| LLM09 | Misinformation |
+| LLM10 | Unbounded Consumption |
 
-Coverage is incomplete - many AI attack patterns lack CWE assignments.
+### OWASP ML Top 10 (Machine Learning)
+
+| ID | Name |
+|----|------|
+| ML01 | Input Manipulation Attack |
+| ML02 | Data Poisoning Attack |
+| ML03 | Model Inversion Attack |
+| ML04 | Membership Inference Attack |
+| ML05 | Model Theft |
+| ML06 | AI Supply Chain Attacks |
+| ML07 | Transfer Learning Attack |
+| ML08 | Model Skewing |
+| ML09 | Output Integrity Attack |
+| ML10 | Model Poisoning |
+
+### Comprehensive AI Risk Coverage
+
+For deeper AI risk analysis beyond Top 10 lists:
+
+| Source | Scope |
+|--------|-------|
+| NIST AI 100-2 | Official US government AML taxonomy |
+| BIML ML Risks | 78 architectural ML security risks |
+| BIML LLM Risks | 81 LLM-specific risks |
+| MIT AI Risk Repository | 1,700+ risks across 7 domains |
+| OWASP AI Exchange | Comprehensive AI security knowledge base |
 
