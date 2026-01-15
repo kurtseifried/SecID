@@ -7,8 +7,11 @@ operator: "secid:entity/mit"
 
 urls:
   website: "https://airisk.mit.edu"
-  database: "https://airisk.mit.edu"
-  lookup: "https://airisk.mit.edu"
+  index: "https://airisk.mit.edu/"
+  database: "https://airisk.mit.edu/risks"
+  causal_taxonomy: "https://airisk.mit.edu/causal-taxonomy"
+  domain_taxonomy: "https://airisk.mit.edu/domain-taxonomy"
+  lookup: "https://airisk.mit.edu/risks"
 
 id_pattern: ".*"
 versions:
@@ -24,7 +27,7 @@ status: active
 
 # MIT AI Risk Repository
 
-The most comprehensive AI risk taxonomy, containing 1,700+ risks organized across 7 domains and 23 subdomains. Curated from 74 existing frameworks by MIT FutureTech.
+The most comprehensive AI risk taxonomy, containing 1,700+ risks organized across 7 domains and 24 subdomains. Curated from 74 existing frameworks by MIT FutureTech.
 
 ## Format
 
