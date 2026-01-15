@@ -7,6 +7,8 @@ operator: "secid:entity/biml"
 
 urls:
   website: "https://berryvilleiml.com/results/"
+  index: "https://berryvilleiml.com/results/#checks"
+  paper: "https://berryvilleiml.com/docs/BIML-LLM81.pdf"
   lookup: "https://berryvilleiml.com/results/"
 
 id_pattern: "BIML-LLM-\\d+"

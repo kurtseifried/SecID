@@ -7,6 +7,8 @@ operator: "secid:entity/biml"
 
 urls:
   website: "https://berryvilleiml.com/results/"
+  index: "https://berryvilleiml.com/interactive/"
+  taxonomy: "https://berryvilleiml.com/taxonomy/"
   interactive: "https://berryvilleiml.com/interactive/"
   lookup: "https://berryvilleiml.com/interactive/"
 
