@@ -7,15 +7,15 @@ operator: "secid:entity/owasp"
 
 urls:
   website: "https://owaspai.org"
-  controls: "https://owaspai.org/docs/ai_security_overview/"
-  periodic_table: "https://owaspai.org/docs/ai_security_overview/#periodic-table-of-ai-security"
+  index: "https://owaspai.org/docs/ai_security_overview/#periodic-table-of-ai-security"
+  controls: "https://owaspai.org/docs/ai_security_overview/#how-to-address-ai-security"
   lookup: "https://owaspai.org/goto/{id}/"
 
-id_pattern: "[A-Z]+\\d*"
+id_pattern: "[A-Z]+"
 
 examples:
-  - "secid:control/owasp/ai-exchange#INPUTFILTERING"
-  - "secid:control/owasp/ai-exchange#RATELIMITING"
+  - "secid:control/owasp/ai-exchange#RATELIMIT"
+  - "secid:control/owasp/ai-exchange#INPUTDISTORTION"
   - "secid:control/owasp/ai-exchange#MODELACCESSCONTROL"
 
 status: active
@@ -23,77 +23,145 @@ status: active
 
 # OWASP AI Exchange Controls
 
-The OWASP AI Exchange provides security controls mapped directly to AI threats. The "Periodic Table of AI Security" organizes both threats and their corresponding mitigations.
+Security controls from the OWASP AI Exchange "Periodic Table of AI Security" - mapped directly to AI threats.
 
 ## Format
 
 ```
-secid:control/owasp/ai-exchange#CONTROL
-secid:control/owasp/ai-exchange#INPUTFILTERING
-secid:control/owasp/ai-exchange#OUTPUTENCODING
+secid:control/owasp/ai-exchange#CONTROLID
+secid:control/owasp/ai-exchange#RATELIMIT
+secid:control/owasp/ai-exchange#MODELACCESSCONTROL
 ```
 
-## Relationship to Weaknesses
+## Resolution
 
-The OWASP AI Exchange exists in both namespaces because it covers both sides:
-
-| Type | Namespace | Purpose |
-|------|-----------|---------|
-| `weakness` | `secid:weakness/owasp/ai-exchange#...` | AI threats and vulnerabilities |
-| `control` | `secid:control/owasp/ai-exchange#...` | Mitigations and controls |
-
-This enables direct linkage:
-```
-secid:weakness/owasp/ai-exchange#PROMPTINJECTION
-  → mitigated_by →
-secid:control/owasp/ai-exchange#INPUTFILTERING
-```
+The lookup URL `https://owaspai.org/goto/{id}/` redirects to the detailed page for each control.
 
 ## Control Categories
 
-### Input Controls
-| Control | Description |
-|---------|-------------|
-| INPUTFILTERING | Filter malicious input patterns |
-| INPUTVALIDATION | Validate input format and content |
-| RATELIMITING | Limit request frequency |
+### Governance Controls
 
-### Output Controls
-| Control | Description |
-|---------|-------------|
-| OUTPUTENCODING | Encode outputs safely |
-| OUTPUTFILTERING | Filter sensitive information |
-| CONTENTMODERATION | Moderate generated content |
+| ID | Name |
+|----|------|
+| AIPROGRAM | AI security program |
+| SECPROGRAM | Security program |
+| DEVPROGRAM | Development program |
+| SECDEVPROGRAM | Secure development program |
+| CHECKCOMPLIANCE | Compliance checking |
+| SECEDUCATE | Security education |
 
-### Model Controls
-| Control | Description |
-|---------|-------------|
-| MODELACCESSCONTROL | Restrict model access |
-| MODELMONITORING | Monitor model behavior |
-| MODELHARDENING | Harden model against attacks |
+### Data Protection Controls
 
-### Data Controls
-| Control | Description |
-|---------|-------------|
-| DATAVALIDATION | Validate training data |
-| DATAMINIMIZATION | Minimize data exposure |
-| DATASANITIZATION | Sanitize sensitive data |
+| ID | Name |
+|----|------|
+| DATAMINIMIZE | Data minimization |
+| ALLOWEDDATA | Allowed data policy |
+| SHORTRETAIN | Short retention periods |
+| OBFUSCATETRAININGDATA | Obfuscate training data |
+| SEGREGATEDATA | Segregate data |
 
-## The Periodic Table
+### Development Security Controls
 
-The OWASP AI Exchange organizes AI security as a "periodic table" showing:
-- **Threats** (what can go wrong)
-- **Controls** (how to prevent it)
-- **Mappings** (which controls address which threats)
+| ID | Name |
+|----|------|
+| DEVSECURITY | Development security |
+| DISCRETE | Discrete processing |
+| FEDERATEDLEARNING | Federated learning |
+| SUPPLYCHAINMANAGE | Supply chain management |
 
-This structure enables:
-1. Identify a threat → Find applicable controls
-2. Select a control → See which threats it addresses
-3. Gap analysis → Find threats without adequate controls
+### Runtime Protection Controls
+
+| ID | Name |
+|----|------|
+| RUNTIMEMODELINTEGRITY | Runtime model integrity |
+| RUNTIMEMODELIOINTEGRITY | Runtime model I/O integrity |
+| RUNTIMEMODELCONFIDENTIALITY | Runtime model confidentiality |
+| MODELINPUTCONFIDENTIALITY | Model input confidentiality |
+| ENCODEMODELOUTPUT | Encode model output |
+| LIMITRESOURCES | Limit resources |
+
+### Monitoring & Access Controls
+
+| ID | Name |
+|----|------|
+| MONITORUSE | Monitor use |
+| MODELACCESSCONTROL | Model access control |
+| RATELIMIT | Rate limiting |
+
+### Advanced Controls
+
+| ID | Name |
+|----|------|
+| CONFCOMPUTE | Confidential compute |
+| MODELOBFUSCATION | Model obfuscation |
+| INPUTSEGREGATION | Input segregation |
+
+### AI Engineering - Data/Model Controls
+
+| ID | Name |
+|----|------|
+| CONTINUOUSVALIDATION | Continuous validation |
+| UNWANTEDBIASTESTING | Unwanted bias testing |
+| EVASIONROBUSTMODEL | Evasion-robust model |
+| POISONROBUSTMODEL | Poison-robust model |
+| TRAINADVERSARIAL | Adversarial training |
+| TRAINDATADISTORTION | Training data distortion |
+| ADVERSARIALROBUSTDISTILLATION | Adversarial robust distillation |
+| MODELENSEMBLE | Model ensemble |
+| MORETRAINDATA | More training data |
+| SMALLMODEL | Small model |
+| DATAQUALITYCONTROL | Data quality control |
+| MODELALIGNMENT | Model alignment |
+
+### AI Engineering - I/O Handling Controls
+
+| ID | Name |
+|----|------|
+| ANOMALOUSINPUTHANDLING | Anomalous input handling |
+| EVASIONINPUTHANDLING | Evasion input handling |
+| UNWANTEDINPUTSERIESHANDLING | Unwanted input series handling |
+| PROMPTINJECTIONIOHANDLING | Prompt injection I/O handling |
+| DOSINPUTVALIDATION | DoS input validation |
+| INPUTDISTORTION | Input distortion |
+| FILTERSENSITIVEMODELOUTPUT | Filter sensitive model output |
+| OBSCURECONFIDENCE | Obscure confidence scores |
+
+### Behavior Limitation Controls
+
+| ID | Name |
+|----|------|
+| OVERSIGHT | Human oversight |
+| LEASTMODELPRIVILEGE | Least model privilege |
+| AITRANSPARENCY | AI transparency |
+| EXPLAINABILITY | Explainability |
+
+## Complete Control List (48 controls)
+
+| Category | Controls |
+|----------|----------|
+| Governance | AIPROGRAM, SECPROGRAM, DEVPROGRAM, SECDEVPROGRAM, CHECKCOMPLIANCE, SECEDUCATE |
+| Data Protection | DATAMINIMIZE, ALLOWEDDATA, SHORTRETAIN, OBFUSCATETRAININGDATA, SEGREGATEDATA |
+| Development | DEVSECURITY, DISCRETE, FEDERATEDLEARNING, SUPPLYCHAINMANAGE |
+| Runtime | RUNTIMEMODELINTEGRITY, RUNTIMEMODELIOINTEGRITY, RUNTIMEMODELCONFIDENTIALITY, MODELINPUTCONFIDENTIALITY, ENCODEMODELOUTPUT, LIMITRESOURCES |
+| Monitoring | MONITORUSE, MODELACCESSCONTROL, RATELIMIT |
+| Advanced | CONFCOMPUTE, MODELOBFUSCATION, INPUTSEGREGATION |
+| AI Data/Model | CONTINUOUSVALIDATION, UNWANTEDBIASTESTING, EVASIONROBUSTMODEL, POISONROBUSTMODEL, TRAINADVERSARIAL, TRAINDATADISTORTION, ADVERSARIALROBUSTDISTILLATION, MODELENSEMBLE, MORETRAINDATA, SMALLMODEL, DATAQUALITYCONTROL, MODELALIGNMENT |
+| AI I/O | ANOMALOUSINPUTHANDLING, EVASIONINPUTHANDLING, UNWANTEDINPUTSERIESHANDLING, PROMPTINJECTIONIOHANDLING, DOSINPUTVALIDATION, INPUTDISTORTION, FILTERSENSITIVEMODELOUTPUT, OBSCURECONFIDENCE |
+| Behavior | OVERSIGHT, LEASTMODELPRIVILEGE, AITRANSPARENCY, EXPLAINABILITY |
+
+## Relationship to Threats
+
+Each control maps to threats in `secid:weakness/owasp/ai-exchange`. Example:
+
+```
+secid:control/owasp/ai-exchange#PROMPTINJECTIONIOHANDLING
+  → mitigates →
+secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION
+```
 
 ## Notes
 
-- Comprehensive threat-to-control mapping
-- Continuously updated with emerging threats
-- Maps to CWE, MITRE ATLAS, and other frameworks
-- Useful for AI security architecture and compliance
+- Part of the "Periodic Table of AI Security"
+- 48 controls across 9 categories
+- Direct mapping to threat IDs
+- Threats documented in weakness/owasp/ai-exchange

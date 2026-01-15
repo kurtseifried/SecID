@@ -7,7 +7,9 @@ operator: "secid:entity/owasp"
 
 urls:
   website: "https://owasp.org/www-project-machine-learning-security-top-10/"
-  lookup: "https://mltop10.info/#{id}"
+  index: "https://mltop10.info/"
+  github: "https://github.com/OWASP/www-project-machine-learning-security-top-10"
+  lookup: "https://mltop10.info/#{id}/"
 
 id_pattern: "ML\\d{2}"
 versions:

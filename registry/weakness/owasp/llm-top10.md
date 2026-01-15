@@ -7,7 +7,10 @@ operator: "secid:entity/owasp"
 
 urls:
   website: "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
-  lookup: "https://genai.owasp.org/"
+  index: "https://genai.owasp.org/llm-top-10/"
+  v2_list: "https://genai.owasp.org/llm-top-10/"
+  v1_list: "https://owasp.org/www-project-top-10-for-large-language-model-applications/Archive/0_1_vulns/"
+  lookup: "https://genai.owasp.org/llmrisk/{id}/"
 
 id_pattern: "LLM\\d{2}"
 versions:
