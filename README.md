@@ -12,11 +12,30 @@ Security knowledge is fragmented across dozens of databases, each with its own i
 - **T1059.003** lives in MITRE ATT&CK
 - **AC-1** lives in NIST 800-53
 
-There's no standard way to say "this CVE is related to this CWE, which is exploited by this ATT&CK technique, and mitigated by this control." Tools can't easily cross-reference. AI agents can't navigate. Humans spend hours on manual lookup.
+**This fragmentation exists for legitimate reasons.** Each database serves a different mission: CVE tracks vulnerabilities, CWE catalogs weakness patterns, ATT&CK documents adversary behavior, NIST provides compliance controls. Different organizations built these systems at different times, with different governance structures, legal constraints, and funding models. No one set out to create a fragmented landscape - it emerged from decades of independent, valuable work.
+
+**But the consequences are real.** There's no standard way to say "this CVE is related to this CWE, which is exploited by this ATT&CK technique, and mitigated by this control." Tools can't easily cross-reference. AI agents can't navigate. Humans spend hours on manual lookup.
 
 And if you want to build your own security database - tracking incidents, internal vulnerabilities, or emerging threats - there's no standard way to reference external knowledge. You end up with ad-hoc links, broken URLs, and no interoperability.
 
 **SecID solves this** by providing a single, consistent identifier format for all security knowledge. Like DNS for domain names or PURL for packages, SecID is the "phone book" that tells you where things are and how they connect. Anyone can use it, anyone can extend it, and everything stays interoperable.
+
+## Relationship to Existing Standards
+
+**SecID does not replace CVE, CWE, ATT&CK, NIST, ISO, or any other authority.** These organizations remain the authoritative sources for vulnerability data, weakness taxonomies, attack techniques, and security controls within their respective domains.
+
+SecID is a **cross-reference and resolution convention**:
+
+| What SecID Does | What SecID Does NOT Do |
+|-----------------|------------------------|
+| Provides stable identifiers for referencing security knowledge | Decide what is a "valid" vulnerability or weakness |
+| Tells you where to find the authoritative source | Adjudicate disputes between sources |
+| Enables cross-references between different systems | Replace the governance of existing programs |
+| Gives AI and tools a consistent navigation format | Claim authority over any security domain |
+
+When you write `secid:advisory/mitre/cve#CVE-2024-1234`, you're saying "the CVE record identified as CVE-2024-1234, as published by MITRE's CVE program." The authority remains with MITRE. SecID just gives you a consistent way to reference it alongside CWEs, ATT&CK techniques, and controls.
+
+**Authority boundaries are explicit.** If MITRE says something is a CVE, it's a CVE. If NIST publishes a CVSS score in NVD, that's NIST's assessment. SecID doesn't resolve disagreements - it makes them navigable. Different sources can have different perspectives on the same vulnerability; that's not a bug, it's reality.
 
 ## What Is SecID?
 
@@ -41,7 +60,17 @@ SecID changes this. When you have a SecID, you can:
 5. **Use it** - Know what to do with this data
 6. **Connect it** - See related concepts, mitigations, and examples
 
-**This is AI-first infrastructure.** The primary consumer is AI agents that need to navigate security knowledge autonomously. When an agent receives a SecID response, it should be self-describing - the agent knows what it has, how to interpret it, and what to do with it.
+**This is AI-first infrastructure** - but not AI-only. The primary consumer is AI agents that need to navigate security knowledge autonomously. When an agent receives a SecID response, it should be self-describing - the agent knows what it has, how to interpret it, and what to do with it.
+
+**Traditional tools are first-class consumers too.** SecID identifiers work in:
+- **SIEMs and SOC platforms** - Correlate alerts across vulnerability, weakness, and technique taxonomies
+- **GRC tools** - Map controls to regulations to compliance evidence
+- **Vulnerability scanners** - Link findings to weaknesses, techniques, and remediations
+- **SBOMs and VEX documents** - Reference advisories with consistent identifiers
+- **Asset inventories** - Tag systems with applicable controls and regulations
+- **Policy automation** - Define rules that reference specific controls or requirements
+
+AI agents accelerate adoption because they can consume SecID immediately without organizational buy-in. But the long-term value is infrastructure that humans, traditional tools, and AI all use together.
 
 We're building this in layers:
 - **v1.0**: URL resolution + descriptions (where to find it, what it is)
@@ -372,6 +401,29 @@ Resolution URLs are defined in each namespace's registry file.
 4. **Identity ≠ authority** - Identifiers don't imply trust or correctness
 5. **PURL compatibility** - Same mental model, similar grammar
 6. **Guidelines, not rules** - Human/AI readable, some messiness OK
+
+## Non-Goals
+
+Being explicit about scope helps set expectations. SecID is deliberately limited:
+
+| Non-Goal | Why Not |
+|----------|---------|
+| **Not a vulnerability disclosure program** | CVE, vendors, and coordinated disclosure programs handle this. SecID references their work. |
+| **Not an authority on severity or truth** | CVSS scores, exploitability assessments, and validity judgments are the domain of NVD, vendors, and security researchers. SecID points to their assessments without adjudicating. |
+| **Not a replacement for CVE/CWE/ATT&CK/NIST** | These are authoritative within their domains. SecID is a coordination layer that makes them easier to reference together. |
+| **Not a universal content mirror** | Licensing, copyright, and data ownership vary. SecID provides resolution (where to find things), not redistribution. |
+| **Not a policy engine** | "Should we patch this?" is a business decision. SecID helps you find the information; it doesn't make the call. |
+| **Not a knowledge graph (yet)** | Relationships and enrichment are future layers, deliberately deferred until we understand real usage patterns. |
+
+**Why these boundaries matter:** Scope creep kills standards. By being explicit about what SecID won't do, we can focus on doing the identifier and resolution job well. Organizations considering adoption can evaluate SecID for what it is, not what it might become.
+
+## Governance
+
+SecID currently uses a **Benevolent Dictator For Life (BDFL)** model for rapid early-stage decision making. This is a pragmatic choice - premature governance complexity kills more projects than it saves.
+
+**Long-term intent:** We are explicitly working toward a sustainable, vendor-neutral, multi-stakeholder governance structure appropriate for industry infrastructure. The spec and registry content are separable governance artifacts - the identifier format can stabilize while registry policies continue to evolve.
+
+See [STRATEGY.md](STRATEGY.md) for detailed governance philosophy, funding approach, and organizational strategy.
 
 ## Getting Started
 
