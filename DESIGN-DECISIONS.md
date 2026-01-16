@@ -302,6 +302,76 @@ If a source genuinely has no usable names (see next section), we may need to cre
 
 ---
 
+## Security Tools: Entity + Control Pattern
+
+### The Principle
+
+Security tools that provide security checks should be documented in **both** entity and control:
+
+| Type | What it documents | Example content |
+|------|-------------------|-----------------|
+| `entity` | What the tool IS | Product description, capabilities, access methods |
+| `control` | What security checks it PROVIDES | Specific checks, detections, mappings |
+
+### Why Two Files?
+
+A security scanner is both a **thing** (software you can install, an API you can call) and a **source of security checks** (detections, validations, tests).
+
+Consider MCPShark Smart Scan:
+- As an **entity**: It's a security scanner with CLI, API, and dashboard access methods
+- As a **control source**: It provides specific security checks like `agent-analysis`, `privilege-escalation-detection`, `owasp-mapping`
+
+Users might want to:
+1. Reference the tool itself → `secid:entity/mcpshark/smart`
+2. Reference a specific security check the tool provides → `secid:control/mcpshark/smart#agent-analysis`
+
+Both are valid, different use cases.
+
+### How It Works
+
+**Entity file** (`registry/entity/<vendor>/<tool>.md`):
+- What the tool is and does
+- Access methods (CLI, API, dashboard)
+- Integration capabilities (CI/CD, webhooks)
+- What it scans (targets, formats)
+
+**Control file** (`registry/control/<vendor>/<tool>.md`):
+- Security checks as `#subpath` identifiers
+- Check descriptions and categories
+- Mappings to standards (OWASP, CIS, etc.)
+- Severity levels and remediation guidance
+
+### Example: MCPShark Smart Scan
+
+```
+secid:entity/mcpshark/smart                        → The Smart Scan tool itself
+secid:control/mcpshark/smart#agent-analysis        → Agent security assessment check
+secid:control/mcpshark/smart#owasp-mapping         → OWASP LLM Top 10 mapping check
+secid:control/mcpshark/smart#privilege-escalation-detection → Privilege escalation detector
+```
+
+### This Pattern Applies To
+
+Any security tool with defined checks:
+- **Vulnerability scanners**: Trivy, Grype, Snyk
+- **SAST tools**: Semgrep, CodeQL
+- **Cloud security**: Prowler, ScoutSuite
+- **AI/MCP scanners**: MCPShark Smart Scan
+- **Compliance scanners**: OpenSCAP, InSpec
+
+### Related Pattern: Weakness + Control Pairing
+
+Some frameworks define both weaknesses AND controls (like OWASP AI Exchange):
+
+```
+secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION     → The threat
+secid:control/owasp/ai-exchange#PROMPTINJECTIONIOHANDLING  → The mitigation
+```
+
+Document in both types when the source provides both perspectives.
+
+---
+
 ## Open Question: Sources Without Native Identifiers
 
 ### The Problem
