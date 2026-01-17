@@ -425,6 +425,36 @@ SecID currently uses a **Benevolent Dictator For Life (BDFL)** model for rapid e
 
 See [STRATEGY.md](STRATEGY.md) for detailed governance philosophy, funding approach, and organizational strategy.
 
+## Ecosystem Architecture
+
+SecID is designed as a federated ecosystem with multiple independent components:
+
+| Component | What It Is | Can Be Multiple? |
+|-----------|------------|------------------|
+| **SecID Standard** | The identifier specification (`secid:type/namespace/name#subpath`) | One canonical spec, versioned |
+| **SecID Registries** | Namespace definitions, resolution rules | Yes - private registries, organizational overlays |
+| **Relationship Databases** | Connections between identifiers | Yes - different sources, perspectives |
+| **Enrichment Databases** | Metadata, annotations, context | Yes - organizational data, private enrichments |
+| **SecID APIs** | Services that resolve and query | Yes - different providers, implementations |
+
+**Federation means:** Organizations can run their own registries, databases, and APIs that overlay or extend the canonical data. A company might maintain private namespace definitions, internal relationship mappings, or proprietary enrichments - all compatible with the public ecosystem.
+
+### Arbitrary URL Support
+
+SecID identifiers are for **structured security knowledge with defined namespaces**. Arbitrary URLs are explicitly NOT part of the identifier specification (no `secid:url/...` type). However, APIs and databases can support URL queries:
+
+| Component | SecID Identifiers | Arbitrary URLs |
+|-----------|-------------------|----------------|
+| **SecID Standard** | ✅ Defines these | ❌ Explicitly excluded |
+| **SecID Registry** | ✅ Contains these | ❌ Not applicable |
+| **Our API** | ✅ Must support | ✅ Probably will support |
+| **Our Relationship DB** | ✅ Must include | ✅ Probably will include |
+| **Our Enrichment DB** | ✅ Must include | ✅ Probably will include |
+
+**Why this separation?** URLs are already globally unique identifiers - wrapping them in `secid:url/...` adds complexity without value. But APIs and databases can accept URLs as query inputs and store relationships/enrichments for arbitrary web content. This keeps the spec clean while enabling practical use cases like "what do we know about this Stack Overflow answer?"
+
+See [SPEC.md Section 1.3](SPEC.md#13-scope-what-secid-identifies-and-what-it-doesnt) for the full rationale.
+
 ## Getting Started
 
 - **Read the spec:** [SPEC.md](SPEC.md)

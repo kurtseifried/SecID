@@ -243,6 +243,47 @@ Because security knowledge is often hierarchical, SecID subpaths support:
 
 Each registry file documents its subpath patterns and how to resolve them to URLs.
 
+### 1.3 Scope: What SecID Identifies (and What It Doesn't)
+
+**SecID identifies structured security knowledge with defined namespaces.** This includes:
+- Advisories from known sources (CVE, GHSA, vendor advisories)
+- Weakness taxonomies (CWE, OWASP Top 10)
+- Attack techniques (ATT&CK, ATLAS, CAPEC)
+- Security controls (NIST CSF, ISO 27001, CIS Controls)
+- Regulations (GDPR, HIPAA)
+- Entities (organizations, products, services)
+- Reference documents (standards, research papers, executive orders)
+
+**SecID does NOT provide identifiers for arbitrary URLs.** There is no `secid:url/...` type.
+
+| What | In Scope? | Reason |
+|------|-----------|--------|
+| `secid:advisory/mitre/cve#CVE-2024-1234` | ✅ Yes | Structured security knowledge with namespace |
+| `secid:weakness/mitre/cwe#CWE-79` | ✅ Yes | Structured security knowledge with namespace |
+| `secid:url/https://example.com/...` | ❌ No | URLs are already identifiers; no need to wrap them |
+| `https://stackoverflow.com/a/12345678` | ❌ No | Not a SecID - just a URL |
+
+**Why exclude arbitrary URLs?**
+
+1. **URLs are already identifiers** - Wrapping a URL in `secid:url/...` adds no value; the URL itself is globally unique
+2. **Encoding nightmare** - URLs contain `:`, `/`, `?`, `#` which are reserved in SecID, requiring ugly percent-encoding
+3. **Breaks the namespace model** - SecID's value comes from `type/namespace/name` structure; arbitrary URLs have no namespace
+4. **Redundant resolution** - `secid:url/X` would just resolve to `X`
+
+**What about referencing arbitrary web content?**
+
+SecID APIs and relationship/enrichment databases MAY support arbitrary URLs as query inputs and relationship targets. This is an API/database feature, not part of the identifier specification.
+
+For example, a SecID API might accept:
+```
+GET /api/v1/lookup?secid=secid:weakness/mitre/cwe%23CWE-732
+GET /api/v1/lookup?url=https://stackoverflow.com/a/12345678
+```
+
+Both are valid queries to the API. The URL query returns any relationship/enrichment data associated with that URL in the database. But the URL itself is not a SecID - it's a URL that the API happens to support.
+
+This separation keeps the identifier specification focused while allowing implementations flexibility.
+
 ## 2. Grammar
 
 SecID follows PURL's grammar exactly, with `secid:` as the scheme:
