@@ -19,7 +19,10 @@ Everyone knows how to reference `CVE-2024-1234`. But what about:
 
 The Red Hat examples show a key pattern: **the same CVE can be referenced in multiple contexts**, and each context has different data. MITRE's CVE record has MITRE's severity rating; Red Hat's CVE page has Red Hat's severity rating (which may differ based on their analysis); and the RHSA tells you which packages fix it. These are all valuable, distinct pieces of information about the same underlying vulnerability.
 
-Some things have well-known identifiers. Others require a sentence of prose or a URL (if one even exists). Paywalled standards like ISO have no direct URLs to specific controls. SecID gives everything a consistent handle.
+**SecID helps at both ends of the popularity spectrum:**
+
+- **Popular things** (like CVEs) exist in many places—MITRE, NVD, Red Hat, Ubuntu, GitHub, vendor advisories. SecID lets you reference exactly which source you mean.
+- **Obscure things** (like a specific ISO control or a niche framework) become findable. Without SecID, you need a sentence of prose or a URL (if one even exists). With SecID, `secid:control/iso/27001@2022#A.5.1` is as easy to reference as a CVE.
 
 ## Why Fragmentation Exists (And Why It's Not Going Away)
 
