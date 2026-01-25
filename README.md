@@ -10,12 +10,14 @@ Everyone knows how to reference `CVE-2024-1234`. But what about:
 
 | What you want to reference | Without SecID | With SecID |
 |---------------------------|---------------|------------|
-| A CVE record | `CVE-2024-1234` (easy, well-known) | `secid:advisory/mitre/cve#CVE-2024-1234` |
-| Red Hat's advisory for that CVE | "Red Hat's RHSA for CVE-2024-1234" or a URL | `secid:advisory/redhat/rhsa#RHSA-2024-1234` |
+| A CVE record (MITRE) | `CVE-2025-10725` (easy, well-known) | `secid:advisory/mitre/cve#CVE-2025-10725` |
+| Red Hat's page for that CVE | "Red Hat's CVE page for CVE-2025-10725" or a URL | `secid:advisory/redhat/cve#CVE-2025-10725` |
+| That CVE within a specific RHSA | "CVE-2025-10725 as addressed in RHSA-2025:16981" | `secid:advisory/redhat/rhsa#RHSA-2025:16981/CVE-2025-10725` |
 | A specific ISO 27001 control | "Control A.5.1 in ISO 27001:2022" (no URL exists) | `secid:control/iso/27001@2022#A.5.1` |
 | An ATT&CK technique | `T1059.003` (different format, different system) | `secid:ttp/mitre/attack#T1059.003` |
-| A specific NIST CSF control | "PR.AC-1 in NIST CSF 2.0" | `secid:control/nist/csf@2.0#PR.AC-1` |
 | A CWE weakness | `CWE-79` (easy) | `secid:weakness/mitre/cwe#CWE-79` |
+
+The Red Hat examples show a key pattern: **the same CVE can be referenced in multiple contexts**. MITRE's CVE record, Red Hat's analysis page, and Red Hat's specific advisory that fixes it are all different things worth referencing separately.
 
 Some things have well-known identifiers. Others require a sentence of prose or a URL (if one even exists). Paywalled standards like ISO have no direct URLs to specific controls. SecID gives everything a consistent handle.
 
