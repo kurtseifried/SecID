@@ -17,7 +17,7 @@ Everyone knows how to reference `CVE-2024-1234`. But what about:
 | An ATT&CK technique | `T1059.003` (different format, different system) | `secid:ttp/mitre/attack#T1059.003` |
 | A CWE weakness | `CWE-79` (easy) | `secid:weakness/mitre/cwe#CWE-79` |
 
-The Red Hat examples show a key pattern: **the same CVE can be referenced in multiple contexts**. MITRE's CVE record, Red Hat's analysis page, and Red Hat's specific advisory that fixes it are all different things worth referencing separately.
+The Red Hat examples show a key pattern: **the same CVE can be referenced in multiple contexts**, and each context has different data. MITRE's CVE record has MITRE's severity rating; Red Hat's CVE page has Red Hat's severity rating (which may differ based on their analysis); and the RHSA tells you which packages fix it. These are all valuable, distinct pieces of information about the same underlying vulnerability.
 
 Some things have well-known identifiers. Others require a sentence of prose or a URL (if one even exists). Paywalled standards like ISO have no direct URLs to specific controls. SecID gives everything a consistent handle.
 
