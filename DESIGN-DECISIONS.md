@@ -604,3 +604,165 @@ Security knowledge is complex, fragmented, and constantly evolving. Humans strug
 
 AI can do both - but only if we give it the context it needs. SecID is building the foundation for AI agents that genuinely understand security, not just process security data.
 
+---
+
+## Unified `secid:` Scheme
+
+### The Decision
+
+SecID uses a single scheme (`secid:`) with multiple types, rather than separate schemes per type.
+
+We chose:
+```
+secid:advisory/mitre/cve#CVE-2024-1234
+secid:weakness/mitre/cwe#CWE-79
+secid:control/nist/csf@2.0#PR.AC-1
+```
+
+Over alternatives like:
+```
+advisory:mitre/cve#CVE-2024-1234
+weakness:mitre/cwe#CWE-79
+control:nist/csf@2.0#PR.AC-1
+```
+
+### Why Unified?
+
+**PURL grammar compatibility.** PURL uses `pkg:type/namespace/name`. We use `secid:type/namespace/name`. Same grammar, different scheme. This means existing PURL tooling and mental models transfer directly.
+
+**Branding and searchability.** `secid:` is a consistent prefix. You can search a codebase for `secid:` and find all security identifier references. With type-as-scheme, you'd need to know all the schemes.
+
+**No premature fragmentation.** We don't know yet which types will grow large enough to warrant their own scheme. Starting unified means we can split later with data, not speculation.
+
+**Simpler tooling.** One scheme to parse, validate, and resolve. One regex pattern. One URL handler.
+
+### Options Considered
+
+| Option | Pros | Cons |
+|--------|------|------|
+| **Unified `secid:`** (chosen) | PURL compatibility, searchable, simple | Less type-specific |
+| **Type-as-scheme** (`advisory:`, `weakness:`) | Shorter identifiers | Fragments tooling, multiple schemes to register |
+| **Hybrid** (split later) | Flexibility | Complexity when/if we split |
+| **Registry-as-scheme** (`corpid:`, `secid:`) | Federation | Loses unified search |
+
+### Future Flexibility
+
+If a type grows significantly beyond security scope (e.g., a generic `conference:` scheme), we can split it off. Criteria for splitting:
+
+- Type becomes >50% non-security content
+- Clear community that doesn't need security context
+- Branding confusion ("why is my conference talk a security ID?")
+
+Until then, we stay unified.
+
+### What About Aliases?
+
+If someone wants `advisory:mitre/cve#CVE-2024-1234` to work alongside `secid:advisory/mitre/cve#CVE-2024-1234`, that's an **enrichment layer concern**, not a spec concern. The enrichment database can store:
+
+```yaml
+secid:advisory/mitre/cve#CVE-2024-1234:
+  sameAs:
+    - advisory:mitre/cve#CVE-2024-1234
+    - cve:CVE-2024-1234
+    - https://cve.org/CVERecord?id=CVE-2024-1234
+```
+
+The spec defines one canonical form. Aliases are data.
+
+---
+
+## Qualifiers Are for Disambiguation, Not Metadata
+
+### The Principle
+
+PURL qualifiers (`?key=value`) exist for **disambiguation**—distinguishing between two otherwise-identical things. They are not a general-purpose metadata store.
+
+### Appropriate Use
+
+```
+pkg:npm/lodash@4.17.21?arch=x86_64       # Same package, different architecture
+secid:advisory/vendor/product?lang=ja    # Same advisory, Japanese translation
+```
+
+The qualifier changes *which specific thing* you're identifying.
+
+### Anti-Pattern: Metadata in Qualifiers
+
+```
+# DON'T DO THIS
+secid:talk/defcon/32#hacking-iot?speaker=John%20Smith&time=2026-08-05T14:00&room=101&rating=5
+```
+
+This is tempting but wrong:
+
+**1. Identifiers become unstable.** Speaker name spelled wrong? Time changed? Now your identifier changed.
+
+**2. No canonical form.** Is it `speaker` or `presenter` or `talk_giver`? Everyone picks differently.
+
+**3. Encoding nightmare.** `"Dr. José O'Brien-Smith, PhD"` in a URL qualifier is painful.
+
+**4. Defeats the purpose.** If the identifier contains all the data, why have a data layer?
+
+**5. Bloated identifiers.** URLs become unreadable, uncopyable, unloggable.
+
+### The Rule
+
+**The identifier is the minimal unique handle. Everything else goes in the data layer.**
+
+```
+# The identifier
+secid:talk/defcon/32#smith-hacking-iot
+
+# The data layer
+secid:talk/defcon/32#smith-hacking-iot:
+  speaker: "John Smith"
+  title: "Hacking IoT: A Deep Dive"
+  scheduled: "2026-08-05T14:00Z"
+  room: "Mandalay Bay L"
+```
+
+The identifier doesn't change when metadata is corrected. The data layer can be updated, enriched, and queried without touching the identifier.
+
+---
+
+## Follow the Source for Subpaths
+
+### The Principle
+
+When referencing specific items within a database or framework, **use whatever identifier the source uses**.
+
+### How It Works
+
+If BlackHat's schedule uses `talk-2847`:
+```
+secid:talk/blackhat/2026#talk-2847
+```
+
+If their website uses URL slugs like `/briefings/smith-hacking-iot`:
+```
+secid:talk/blackhat/2026#smith-hacking-iot
+```
+
+If CVE uses `CVE-2024-1234`:
+```
+secid:advisory/mitre/cve#CVE-2024-1234
+```
+
+### Why This Matters
+
+**Stability.** The source's identifiers are stable (or at least, the source is responsible for stability, not us).
+
+**Traceability.** You can look at the identifier and find the source directly.
+
+**No governance burden.** We're not inventing and maintaining a parallel ID system.
+
+**Recognition.** Users familiar with the source recognize the identifiers.
+
+### What If There's No Good ID?
+
+Some sources don't have clean identifiers. See "Open Question: Sources Without Native Identifiers" above. The short answer: prefer sources with IDs, use the most stable natural key when forced, and document the scheme.
+
+### Don't Invent When You Don't Need To
+
+The temptation is to create our own cleaner, shorter, more consistent IDs. Resist it. The source's messy IDs are the source's problem. Our job is to point to them reliably.
+

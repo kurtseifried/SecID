@@ -1,24 +1,29 @@
 # SecID - Security Identifiers
 
-A federated identifier system for security knowledge, using [Package URL (PURL)](https://github.com/package-url/purl-spec) grammar with `secid:` as the scheme.
+**SecID is a labeling system for security knowledge.** It provides consistent identifiers that make data easier to find and reference.
 
-## The Problem
+**SecID doesn't replace CVE, CWE, ATT&CK, or any other database—it references them.** Think of SecID as a catalog system: `secid:advisory/mitre/cve#CVE-2024-1234` refers to a CVE record, it doesn't create a new one.
 
-Security knowledge is fragmented across dozens of databases, each with its own identifier format, API, and data model:
+## The Problem: Some Things Are Easy to Reference, Others Aren't
 
-- **CVE-2024-1234** lives in MITRE's CVE database
-- **GHSA-xxxx-yyyy-zzzz** lives in GitHub's advisory database
-- **CWE-79** lives in MITRE's weakness taxonomy
-- **T1059.003** lives in MITRE ATT&CK
-- **AC-1** lives in NIST 800-53
+Everyone knows how to reference `CVE-2024-1234`. But what about:
 
-**This fragmentation exists for legitimate reasons.** Each database serves a different mission: CVE tracks vulnerabilities, CWE catalogs weakness patterns, ATT&CK documents adversary behavior, NIST provides compliance controls. Different organizations built these systems at different times, with different governance structures, legal constraints, and funding models. No one set out to create a fragmented landscape - it emerged from decades of independent, valuable work.
+| What you want to reference | Without SecID | With SecID |
+|---------------------------|---------------|------------|
+| A CVE record | `CVE-2024-1234` (easy, well-known) | `secid:advisory/mitre/cve#CVE-2024-1234` |
+| Red Hat's advisory for that CVE | "Red Hat's RHSA for CVE-2024-1234" or a URL | `secid:advisory/redhat/rhsa#RHSA-2024-1234` |
+| A specific ISO 27001 control | "Control A.5.1 in ISO 27001:2022" (no URL exists) | `secid:control/iso/27001@2022#A.5.1` |
+| An ATT&CK technique | `T1059.003` (different format, different system) | `secid:ttp/mitre/attack#T1059.003` |
+| A specific NIST CSF control | "PR.AC-1 in NIST CSF 2.0" | `secid:control/nist/csf@2.0#PR.AC-1` |
+| A CWE weakness | `CWE-79` (easy) | `secid:weakness/mitre/cwe#CWE-79` |
 
-**But the consequences are real.** There's no standard way to say "this CVE is related to this CWE, which is exploited by this ATT&CK technique, and mitigated by this control." Tools can't easily cross-reference. AI agents can't navigate. Humans spend hours on manual lookup.
+Some things have well-known identifiers. Others require a sentence of prose or a URL (if one even exists). Paywalled standards like ISO have no direct URLs to specific controls. SecID gives everything a consistent handle.
 
-And if you want to build your own security database - tracking incidents, internal vulnerabilities, or emerging threats - there's no standard way to reference external knowledge. You end up with ad-hoc links, broken URLs, and no interoperability.
+## Why Fragmentation Exists (And Why It's Not Going Away)
 
-**SecID solves this** by providing a single, consistent identifier format for all security knowledge. Like DNS for domain names or PURL for packages, SecID is the "phone book" that tells you where things are and how they connect. Anyone can use it, anyone can extend it, and everything stays interoperable.
+Security knowledge is fragmented across dozens of databases, each with its own identifier format, API, and data model. **This fragmentation exists for legitimate reasons.** Each database serves a different mission: CVE tracks vulnerabilities, CWE catalogs weakness patterns, ATT&CK documents adversary behavior, NIST provides compliance controls. Different organizations built these systems at different times, with different governance structures, legal constraints, and funding models.
+
+**SecID doesn't try to unify or replace these systems.** They will continue to exist, evolve independently, and serve their communities. SecID provides a coordination layer—a consistent way to reference any of them, alongside each other, in the same format.
 
 ## Relationship to Existing Standards
 
@@ -39,9 +44,21 @@ When you write `secid:advisory/mitre/cve#CVE-2024-1234`, you're saying "the CVE 
 
 ## What Is SecID?
 
-[Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents.
+SecID is a **meta-identifier system**—it identifies things that already have identifiers (or should).
+
+[Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents. These live in different databases, with different formats, maintained by different organizations.
 
 **SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath]`.
+
+**What SecID does:**
+- Gives you a consistent way to reference CVE-2024-1234, CWE-79, T1059.003, and ISO 27001 A.5.1 in the same format
+- Tells you where to find things (URL resolution)
+- Works for things that don't have URLs (paywalled standards, specific controls within frameworks)
+
+**What SecID doesn't do:**
+- Replace CVE, CWE, ATT&CK, or any other database
+- Claim authority over vulnerability data
+- Store the actual content (it points to it)
 
 SecID is **explicitly scoped to identifiers only**. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
 

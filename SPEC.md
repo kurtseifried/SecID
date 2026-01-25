@@ -7,7 +7,9 @@ Status: Public Draft - Open for Comment
 
 ## 1. Overview
 
-SecID (Security Identifier) is an identifier system for security knowledge, directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec). It provides stable, canonical identifiers for security-relevant concepts including advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents.
+SecID (Security Identifier) is a **meta-identifier system** for security knowledge—it provides a consistent way to reference existing databases like CVE, CWE, ATT&CK, and ISO standards. SecID is directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec).
+
+**SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one.
 
 **SecID identifies things. It does not imply authority, truth, severity, or correctness.**
 
