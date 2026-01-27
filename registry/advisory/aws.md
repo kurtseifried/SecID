@@ -7,6 +7,14 @@ website: "https://aws.amazon.com"
 status: active
 
 sources:
+  security-bulletins:
+    full_name: "AWS Security Bulletins"
+    urls:
+      website: "https://aws.amazon.com/security/security-bulletins/"
+      rss: "https://aws.amazon.com/security/security-bulletins/feed/"
+    examples:
+      - "secid:advisory/aws/security-bulletins#AWS-2024-001"
+
   alas:
     full_name: "Amazon Linux Security Advisories"
     urls:
@@ -67,6 +75,50 @@ AWS security bulletins cover AWS's responsibility; customers must handle their o
 - Amazon Linux is optimized for EC2 but runs elsewhere
 - AWS Inspector provides vulnerability scanning for EC2/containers
 - Many "AWS vulnerabilities" are actually customer misconfigurations
+
+---
+
+## security-bulletins
+
+AWS Security Bulletins cover security issues affecting AWS services and infrastructure.
+
+### Format
+
+```
+secid:advisory/aws/security-bulletins#<bulletin-id>
+```
+
+### Coverage
+
+| Category | Examples |
+|----------|----------|
+| **Service vulnerabilities** | S3, EC2, Lambda issues |
+| **Infrastructure** | Underlying AWS platform |
+| **Third-party components** | Log4j, OpenSSL in AWS services |
+| **Cross-service issues** | Shared component vulnerabilities |
+
+### Why AWS Security Bulletins Matter
+
+Bulletins cover AWS's responsibility in the shared model:
+- **Service-level CVEs** - Vulnerabilities in AWS services
+- **Patch notifications** - When AWS has patched infrastructure
+- **Customer action required** - When customers need to update
+- **Mitigation guidance** - Workarounds and recommendations
+
+### Notable Bulletins
+
+| Issue | Impact |
+|-------|--------|
+| Log4Shell | AWS services using Log4j |
+| OpenSSL | Services with affected versions |
+| Container escapes | EKS, ECS implications |
+
+### Notes
+
+- Covers AWS services, not customer workloads
+- May reference CVEs but includes AWS-specific context
+- RSS feed available for notifications
+- Different from ALAS (Amazon Linux advisories)
 
 ---
 

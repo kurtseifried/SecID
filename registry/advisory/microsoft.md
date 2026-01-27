@@ -47,6 +47,16 @@ sources:
     examples:
       - "secid:advisory/microsoft/bulletin#MS17-010"
       - "secid:advisory/microsoft/bulletin#MS08-067"
+
+  threat-intel:
+    full_name: "Microsoft Threat Intelligence"
+    urls:
+      website: "https://www.microsoft.com/en-us/security/blog/threat-intelligence/"
+      vulnerabilities: "https://www.microsoft.com/en-us/security/blog/threat-intelligence/vulnerabilities-and-exploits/"
+      rss: "https://www.microsoft.com/en-us/security/blog/feed/"
+    examples:
+      - "secid:advisory/microsoft/threat-intel#vulnerabilities"
+      - "secid:advisory/microsoft/threat-intel#exploits"
 ---
 
 # Microsoft Advisory Sources
@@ -190,3 +200,57 @@ secid:advisory/microsoft/bulletin#MS08-067
 - Still widely referenced (MS17-010 = EternalBlue, MS08-067 = Conficker)
 - Historical bulletins remain accessible
 - For current advisories, use `secid:advisory/microsoft/msrc`
+
+---
+
+## threat-intel
+
+Microsoft Threat Intelligence blog covering vulnerabilities, exploits, and threat actor activity.
+
+### Format
+
+```
+secid:advisory/microsoft/threat-intel#<topic>
+```
+
+### Coverage
+
+| Category | Description |
+|----------|-------------|
+| **Vulnerabilities** | Deep dives on specific CVEs |
+| **Exploits** | Exploitation analysis and trends |
+| **Threat actors** | Nation-state and criminal groups |
+| **Attack techniques** | TTPs observed in the wild |
+
+### Why Threat Intel Matters
+
+Goes beyond MSRC patch notes:
+- **Exploitation context** - How vulns are being used in attacks
+- **Threat actor attribution** - Who's exploiting what
+- **Detection guidance** - Hunting queries, indicators
+- **Broader ecosystem** - Not just Microsoft products
+
+### Content Types
+
+| Type | Examples |
+|------|----------|
+| CVE deep dives | Detailed vulnerability analysis |
+| Campaign reports | Active threat campaigns |
+| Tool analysis | Malware and exploit kits |
+| Trend reports | Quarterly threat summaries |
+
+### Relationship to MSRC
+
+| MSRC | Threat Intel Blog |
+|------|-------------------|
+| Patch availability | Exploitation analysis |
+| Technical details | Attack context |
+| Affected products | Threat actor attribution |
+| CVSS scores | Real-world impact |
+
+### Notes
+
+- Published by Microsoft Threat Intelligence team
+- Covers Microsoft and third-party vulnerabilities
+- Includes IoCs and detection guidance
+- RSS feed available
