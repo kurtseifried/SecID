@@ -4,7 +4,7 @@ namespace: alibaba
 full_name: "Alibaba Cloud"
 operator: "secid:entity/alibaba"
 website: "https://www.alibabacloud.com"
-status: limited
+status: active
 
 sources:
   security:

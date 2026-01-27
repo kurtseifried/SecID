@@ -4,7 +4,7 @@ namespace: ovh
 full_name: "OVHcloud"
 operator: "secid:entity/ovh"
 website: "https://www.ovhcloud.com"
-status: limited
+status: active
 
 sources:
   security:

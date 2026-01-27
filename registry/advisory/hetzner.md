@@ -4,7 +4,7 @@ namespace: hetzner
 full_name: "Hetzner Online"
 operator: "secid:entity/hetzner"
 website: "https://www.hetzner.com"
-status: limited
+status: active
 
 sources:
   status:

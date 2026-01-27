@@ -4,7 +4,7 @@ namespace: baidu
 full_name: "Baidu"
 operator: "secid:entity/baidu"
 website: "https://www.baidu.com"
-status: limited
+status: active
 
 sources:
   security:

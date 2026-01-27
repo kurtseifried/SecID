@@ -4,7 +4,7 @@ namespace: digitalocean
 full_name: "DigitalOcean"
 operator: "secid:entity/digitalocean"
 website: "https://www.digitalocean.com"
-status: limited
+status: active
 
 sources:
   security:
