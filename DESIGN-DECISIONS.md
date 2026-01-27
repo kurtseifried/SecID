@@ -766,3 +766,66 @@ Some sources don't have clean identifiers. See "Open Question: Sources Without N
 
 The temptation is to create our own cleaner, shorter, more consistent IDs. Resist it. The source's messy IDs are the source's problem. Our job is to point to them reliably.
 
+---
+
+## Reference System, Not Numbering Authority
+
+### The Principle
+
+**SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
+
+This is a deliberate, foundational constraint.
+
+### What This Means
+
+| SecID Does | SecID Does NOT Do |
+|------------|-------------------|
+| Provide a grammar (`secid:type/namespace/name#subpath`) | Assign CVE-2024-1234 (MITRE does that) |
+| Maintain a registry of identifier *systems* | Assign GHSA-xxxx-yyyy (GitHub does that) |
+| Define how to reference existing identifiers | Assign CWE-79 (MITRE does that) |
+| Resolve identifiers to URLs | Assign AVID-2025-V001 (AVID does that) |
+
+### The PURL Analogy
+
+This mirrors how Package URL (PURL) works:
+- PURL doesn't assign `lodash@4.17.21` — npm does
+- PURL provides `pkg:npm/lodash@4.17.21` as a consistent reference
+
+Similarly:
+- SecID doesn't assign `CVE-2024-1234` — MITRE does
+- SecID provides `secid:advisory/mitre/cve#CVE-2024-1234` as a consistent reference
+
+### "I Have a Vulnerability and Need an ID"
+
+If someone asks SecID to assign an identifier for their vulnerability, the answer is:
+
+> "SecID can't help with that directly. You need to get an identifier from an appropriate authority:
+> - **CVE**: Request from MITRE or a CNA
+> - **GHSA**: Report through GitHub Security Advisories
+> - **AVID**: Submit to the AI Vulnerability Database
+> - **Your own system**: Create your own advisory namespace with your own IDs
+>
+> Once your advisory has an identifier from an authority, SecID provides a consistent way to reference it. If you create 'FooSec Advisories' with ID 'FSA-2025-001', we can add your namespace to the registry, and `secid:advisory/foosec/fsa#FSA-2025-001` becomes a valid reference."
+
+### Why This Constraint?
+
+**1. Separation of concerns.** Assigning identifiers and referencing identifiers are different jobs requiring different governance structures. Mixing them creates conflicts.
+
+**2. Respect for authorities.** MITRE, NIST, OWASP, and others have earned authority in their domains through years of work. SecID complements them, not competes.
+
+**3. Avoiding scope creep.** If SecID assigned IDs, we'd need:
+   - Policies for what qualifies
+   - Dispute resolution processes
+   - Editorial review
+   - Long-term maintenance commitments
+
+   That's a different project.
+
+**4. Enabling trust.** Organizations can adopt SecID knowing it won't try to become a competing authority in their domain.
+
+### What If We Need an AI Vulnerability Database?
+
+If the security community needs a new identifier system (e.g., for AI vulnerabilities not covered by existing authorities), that should be a separate project with its own governance. SecID would then reference it, just like we reference CVE, GHSA, and AVID.
+
+The clean separation: SecID is the grammar and registry for referencing. Identifier assignment is someone else's job.
+

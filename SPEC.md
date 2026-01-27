@@ -7,9 +7,11 @@ Status: Public Draft - Open for Comment
 
 ## 1. Overview
 
-SecID (Security Identifier) is a **meta-identifier system** for security knowledge—it provides a consistent way to reference existing databases like CVE, CWE, ATT&CK, and ISO standards. SecID is directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec).
+**SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
 
-**SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one.
+SecID is directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec). It provides a consistent way to reference existing databases like CVE, CWE, ATT&CK, and ISO standards.
+
+**SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one. CVE-2024-1234 is assigned by MITRE—SecID provides a consistent way to reference it.
 
 **SecID identifies things. It does not imply authority, truth, severity, or correctness.**
 
@@ -255,6 +257,8 @@ Each registry file documents its subpath patterns and how to resolve them to URL
 - Regulations (GDPR, HIPAA)
 - Entities (organizations, products, services)
 - Reference documents (standards, research papers, executive orders)
+
+**SecID does not assign identifiers.** SecID maintains a registry of identifier *systems* (CVE, GHSA, CWE, etc.) and provides a grammar to reference identifiers within those systems. The identifiers themselves (CVE-2024-1234, CWE-79, T1059) are assigned by their respective authorities (MITRE, GitHub, NIST, etc.).
 
 **SecID does NOT provide identifiers for arbitrary URLs.** There is no `secid:url/...` type.
 

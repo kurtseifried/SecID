@@ -1,8 +1,8 @@
 # SecID - Security Identifiers
 
-**SecID is a labeling system for security knowledge.** It provides consistent identifiers that make data easier to find and reference.
+**SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
 
-**SecID doesn't replace CVE, CWE, ATT&CK, or any other database—it references them.** Think of SecID as a catalog system: `secid:advisory/mitre/cve#CVE-2024-1234` refers to a CVE record, it doesn't create a new one.
+`secid:advisory/mitre/cve#CVE-2024-1234` refers to a CVE record published by MITRE. SecID doesn't create CVEs, assign CWE numbers, or issue ATT&CK technique IDs—it provides a consistent way to reference them all.
 
 ## The Problem: Some Things Are Easy to Reference, Others Aren't
 
@@ -38,10 +38,10 @@ SecID is a **cross-reference and resolution convention**:
 
 | What SecID Does | What SecID Does NOT Do |
 |-----------------|------------------------|
-| Provides stable identifiers for referencing security knowledge | Decide what is a "valid" vulnerability or weakness |
-| Tells you where to find the authoritative source | Adjudicate disputes between sources |
-| Enables cross-references between different systems | Replace the governance of existing programs |
-| Gives AI and tools a consistent navigation format | Claim authority over any security domain |
+| Provides a grammar and registry for referencing security knowledge | Assign identifiers (CVE-2024-1234 comes from MITRE, not SecID) |
+| Tells you where to find the authoritative source | Decide what is a "valid" vulnerability or weakness |
+| Enables cross-references between different systems | Adjudicate disputes between sources |
+| Gives AI and tools a consistent navigation format | Replace the governance of existing programs |
 
 When you write `secid:advisory/mitre/cve#CVE-2024-1234`, you're saying "the CVE record identified as CVE-2024-1234, as published by MITRE's CVE program." The authority remains with MITRE. SecID just gives you a consistent way to reference it alongside CWEs, ATT&CK techniques, and controls.
 
@@ -61,9 +61,12 @@ SecID is a **meta-identifier system**—it identifies things that already have i
 - Works for things that don't have URLs (paywalled standards, specific controls within frameworks)
 
 **What SecID doesn't do:**
+- Assign identifiers (those come from their respective authorities)
 - Replace CVE, CWE, ATT&CK, or any other database
 - Claim authority over vulnerability data
 - Store the actual content (it points to it)
+
+**If you need an identifier assigned:** SecID can't help with that directly. Get a CVE from MITRE, a GHSA from GitHub, or publish through AVID for AI vulnerabilities. Once your advisory has an identifier from an authority, SecID provides a consistent way to reference it.
 
 SecID is **explicitly scoped to identifiers only**. On its own, a naming system is useful but limited. The real value comes from what you build on top: relationship graphs, enrichment layers, tooling, and integrations. SecID is foundational infrastructure.
 
@@ -430,6 +433,7 @@ Being explicit about scope helps set expectations. SecID is deliberately limited
 
 | Non-Goal | Why Not |
 |----------|---------|
+| **Not a numbering authority** | SecID doesn't assign CVE-2024-1234, GHSA-xxxx, or any individual identifiers. Those come from their respective authorities (MITRE, GitHub, AVID, etc.). SecID references what they assign. |
 | **Not a vulnerability disclosure program** | CVE, vendors, and coordinated disclosure programs handle this. SecID references their work. |
 | **Not an authority on severity or truth** | CVSS scores, exploitability assessments, and validity judgments are the domain of NVD, vendors, and security researchers. SecID points to their assessments without adjudicating. |
 | **Not a replacement for CVE/CWE/ATT&CK/NIST** | These are authoritative within their domains. SecID is a coordination layer that makes them easier to reference together. |
