@@ -965,11 +965,36 @@ Request: secid:advisory
 
 ### Regex Patterns: PCRE2 Safe Subset
 
-ID patterns use **PCRE2** syntax with a safe subset for compatibility:
+ID patterns use **PCRE2** syntax with a safe subset for compatibility.
 
-- Works in: Python `re`, JavaScript, Go `regexp`, Rust `regex`, Java `Pattern`
-- Avoid: lookahead/lookbehind, backreferences, possessive quantifiers
-- Goal: Simple patterns that work everywhere, no regex DoS risk
+#### Why PCRE2, Not PCRE (PCRE1)?
+
+PCRE2 is the successor to the original PCRE library. We chose PCRE2 because:
+
+| Aspect | PCRE1 | PCRE2 |
+|--------|-------|-------|
+| **Maintenance** | Deprecated since 2017 | Actively maintained |
+| **Security** | Had various CVEs over time | Improved security, better fuzzing |
+| **API** | Complex, inconsistent | Cleaner, more consistent API |
+| **Unicode** | Bolt-on support | Native Unicode support (UTF-8/16/32) |
+| **JIT** | Optional, separate | Built-in JIT compiler |
+| **Memory** | Static limits | Dynamic memory management |
+| **Backtracking** | Harder to control | Better ReDoS protection |
+
+**Key reasons for SecID:**
+
+1. **Industry convergence** - Python 3.11+ uses PCRE2 internally, PHP 7.3+ uses PCRE2, many modern tools default to it
+2. **ReDoS protection** - Better backtracking limits prevent regex denial-of-service attacks
+3. **Future-proof** - PCRE1 is end-of-life; specifying PCRE2 aligns with where implementations are going
+4. **Unicode-native** - Security identifiers increasingly include international characters
+
+#### The Safe Subset
+
+We use a **safe subset** of PCRE2 for maximum compatibility:
+
+- **Works in**: Python `re`, JavaScript, Go `regexp`, Rust `regex`, Java `Pattern`
+- **Avoid**: lookahead/lookbehind, backreferences, possessive quantifiers, recursive patterns
+- **Goal**: Simple patterns that work everywhere, no regex DoS risk
 
 Most patterns are straightforward:
 ```
@@ -980,7 +1005,7 @@ RH[SBEA]A-\d{4}:\d+
 GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}
 ```
 
-The safe subset will be formally defined after stress-testing with real-world patterns.
+The safe subset will be formally defined after stress-testing with real-world patterns. The principle: if a pattern requires advanced PCRE2 features, it's probably too complex for an ID pattern.
 
 ### Enrichment and Relationship Data
 
