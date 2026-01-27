@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
+**SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
+
 SecID is a federated identifier system for security knowledge using PURL grammar with `secid:` as the scheme. It provides canonical identifiers for security concepts: advisories, weaknesses, TTPs, controls, regulations, entities, and references.
 
 Format: `secid:type/namespace/name[@version][?qualifiers][#subpath]`
@@ -32,13 +34,13 @@ secid/
 ├── RATIONALE.md         # Why SecID exists
 ├── DESIGN-DECISIONS.md  # Key decisions (no UUIDs, AI-first design)
 ├── ROADMAP.md           # v1.0 scope and deliverables
-├── registry/            # Namespace definitions (mirrors SecID structure)
-│   ├── <type>.md        # Type description
-│   └── <type>/<namespace>/<name>.md  # Database/framework definition
+├── registry/            # Namespace definitions (one file per namespace)
+│   ├── <type>.md        # Type description (advisory.md, weakness.md, etc.)
+│   └── <type>/<namespace>.md  # All sources from that namespace in one file
 └── seed/                # Bulk import data (CSV)
 ```
 
-Registry path mirrors SecID: `registry/advisory/mitre/cve.md` → `secid:advisory/mitre/cve`
+Registry uses one file per namespace: `registry/advisory/redhat.md` contains all Red Hat sources (cve, errata, bugzilla). Each source is a section within that file, not a separate subdirectory.
 
 ## Development Commands
 
@@ -55,33 +57,42 @@ column -t -s, seed/seed-controls.csv | head
 
 ## Registry File Format
 
-All registry files use YAML frontmatter + Markdown (Obsidian-compatible):
+All registry files use YAML frontmatter + Markdown (Obsidian-compatible). Each namespace file contains all sources from that organization:
 
 ```yaml
 ---
 type: advisory
-namespace: mitre
-name: cve
-full_name: "Common Vulnerabilities and Exposures"
-operator: "secid:entity/mitre/cve"
-
-urls:
-  website: "https://www.cve.org"
-  lookup: "https://www.cve.org/CVERecord?id={id}"
-
-id_pattern: "CVE-\\d{4}-\\d{4,}"
-examples:
-  - "secid:advisory/mitre/cve#CVE-2024-1234"
-
+namespace: redhat
+full_name: "Red Hat Security"
+operator: "secid:entity/redhat"
 status: active
+
+sources:
+  cve:
+    full_name: "Red Hat CVE Database"
+    urls:
+      website: "https://access.redhat.com/security/cve"
+      lookup: "https://access.redhat.com/security/cve/{id}"
+    id_pattern: "CVE-\\d{4}-\\d{4,}"
+    examples:
+      - "secid:advisory/redhat/cve#CVE-2024-1234"
+
+  errata:
+    full_name: "Red Hat Security Errata"
+    urls:
+      website: "https://access.redhat.com/errata"
+      lookup: "https://access.redhat.com/errata/{id}"
+    id_pattern: "RH[SBE]A-\\d{4}:\\d+"
+    examples:
+      - "secid:advisory/redhat/errata#RHSA-2024:1234"
 ---
 
-# CVE (MITRE)
+# Red Hat Security Advisories
 
-[Narrative content for AI/human consumption]
+[Narrative content for AI/human consumption covering all Red Hat sources]
 ```
 
-Required frontmatter: `type`, `namespace`, `name`, title
+Required frontmatter: `type`, `namespace`, `full_name`, `status`, `sources` (with at least one source)
 
 ## Key Design Principles
 
@@ -126,10 +137,13 @@ Special characters in names and subpaths are percent-encoded:
 ## Adding New Namespaces
 
 1. Determine type (advisory, weakness, ttp, control, regulation, entity, reference)
-2. Identify namespace (organization) and name (what they publish)
-3. Create `registry/<type>/<namespace>/<name>.md`
-4. Include: frontmatter with urls/id_pattern/examples + markdown body with format/resolution/notes
-5. Use `registry/_deferred/` for partially researched systems
+2. Identify namespace (organization that publishes the identifiers)
+3. Check if `registry/<type>/<namespace>.md` exists:
+   - **If yes**: Add a new source section to the existing file's `sources:` block
+   - **If no**: Create the namespace file with frontmatter and all known sources
+4. Include for each source: urls, id_pattern (PCRE2 safe subset), examples
+5. Add narrative markdown explaining the namespace and its sources
+6. Use `registry/_deferred/` for partially researched systems
 
 ## Peer Schemes (Don't Duplicate)
 

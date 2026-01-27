@@ -5,12 +5,64 @@ Identifiers for **vendors, products, and services** - stable anchors when PURL/S
 ## Identifier Format
 
 ```
-secid:entity/<namespace>/<name>
+secid:entity/<namespace>[/<name>]
 ```
 
 Where:
 - `<namespace>` is the vendor/organization (redhat, aws, microsoft, mitre, etc.)
-- `<name>` is the product or service within that vendor (openshift, s3, azure, cve, etc.)
+- `<name>` (optional) is the product or service within that vendor (openshift, s3, azure, cve, etc.)
+
+## Bare vs. Full Identifiers
+
+SecID supports **bare namespace identifiers** for referencing organizations themselves:
+
+```
+secid:entity/redhat           # Red Hat as an organization
+secid:entity/redhat/rhel      # RHEL operating system (product)
+secid:entity/redhat/openshift # OpenShift platform (product)
+```
+
+### When to Use Bare Identifiers
+
+Use `secid:entity/<namespace>` (no name) when:
+- Referring to the **organization itself**, not a specific product
+- The organization **is** the relevant entity (e.g., as an `operator` reference)
+- Discussing vendor-level concerns (security practices, trust, policies)
+
+Examples:
+```
+secid:entity/mitre      # MITRE Corporation (the organization)
+secid:entity/nist       # NIST (the organization)
+secid:entity/owasp      # OWASP Foundation (the organization)
+```
+
+### When to Use Full Identifiers
+
+Use `secid:entity/<namespace>/<name>` when:
+- Referring to a **specific product, service, or system**
+- The product has its own security surface distinct from the vendor
+- You need precision about what's affected
+
+Examples:
+```
+secid:entity/mitre/cve      # CVE program (operated by MITRE)
+secid:entity/nist/nvd       # NVD (operated by NIST)
+secid:entity/redhat/rhel    # RHEL (product from Red Hat)
+```
+
+### Operator References
+
+The `operator` field in registry files typically uses bare identifiers:
+
+```yaml
+# In registry/advisory/mitre.md
+operator: "secid:entity/mitre"    # MITRE operates the CVE program
+
+# In registry/advisory/nist.md
+operator: "secid:entity/nist"     # NIST operates the NVD
+```
+
+This indicates which organization is responsible for the advisory source, not which specific product.
 
 ## Examples
 

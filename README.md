@@ -287,51 +287,39 @@ Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Subpaths c
 secid/
 ├── SPEC.md              # Identifier specification
 ├── RATIONALE.md         # Why SecID exists
-├── DESIGN-DECISIONS.md  # Key decisions (e.g., why no UUIDs)
+├── DESIGN-DECISIONS.md  # Key decisions and architecture
 ├── STRATEGY.md          # Adoption and governance
 ├── ROADMAP.md           # Implementation phases
 ├── USE-CASES.md         # Concrete examples
 ├── RELATIONSHIPS.md     # Future: relationship layer (exploratory)
 ├── OVERLAYS.md          # Future: overlay layer (exploratory)
-├── registry/            # Namespace definitions (mirrors SecID structure)
-│   ├── advisory.md      # Advisory type description
-│   ├── advisory/        # Advisory namespaces
-│   │   ├── mitre/       # MITRE advisories
-│   │   │   └── cve.md   # secid:advisory/mitre/cve
-│   │   ├── nist/
-│   │   │   └── nvd.md   # secid:advisory/nist/nvd
-│   │   ├── github/
-│   │   │   └── ghsa.md  # secid:advisory/github/ghsa
-│   │   └── ...
-│   ├── weakness.md      # Weakness type description
+├── registry/            # Namespace definitions
+│   ├── advisory.md      # Type definition (what is an advisory?)
+│   ├── advisory/        # Advisory namespaces (ONE FILE PER NAMESPACE)
+│   │   ├── mitre.md     # MITRE: cve
+│   │   ├── nist.md      # NIST: nvd
+│   │   ├── github.md    # GitHub: ghsa
+│   │   └── redhat.md    # Red Hat: cve, errata, bugzilla (all sources in one file)
+│   ├── weakness.md      # Type definition
 │   ├── weakness/
-│   │   ├── mitre/
-│   │   │   └── cwe.md   # secid:weakness/mitre/cwe
-│   │   └── owasp/
-│   │       ├── top10.md # secid:weakness/owasp/top10
-│   │       └── llm-top10.md
-│   ├── ttp.md           # TTP type description
+│   │   ├── mitre.md     # MITRE: cwe
+│   │   └── owasp.md     # OWASP: top10, llm-top10, etc. (all in one file)
+│   ├── ttp.md           # Type definition
 │   ├── ttp/
-│   │   └── mitre/
-│   │       ├── attack.md # secid:ttp/mitre/attack
-│   │       ├── atlas.md  # secid:ttp/mitre/atlas
-│   │       └── capec.md  # secid:ttp/mitre/capec
-│   ├── control.md       # Control type description
+│   │   └── mitre.md     # MITRE: attack, atlas, capec (all in one file)
+│   ├── control.md       # Type definition
 │   ├── control/
-│   │   ├── nist/
-│   │   │   ├── csf.md   # secid:control/nist/csf
-│   │   │   └── 800-53.md
-│   │   └── cis/
-│   │       └── controls.md
-│   ├── entity.md        # Entity type description
-│   ├── entity/          # Entity namespaces (org descriptions)
-│   │   ├── mitre.md
-│   │   └── nist.md
+│   │   ├── nist.md      # NIST: csf, 800-53, ai-rmf
+│   │   └── iso.md       # ISO: 27001, 27002
+│   ├── entity.md        # Type definition
+│   ├── entity/
+│   │   ├── mitre.md     # MITRE organization
+│   │   └── redhat.md    # Red Hat organization
 │   └── ...
 └── seed/                # Seed data for bulk import
 ```
 
-The registry directory structure mirrors SecID identifiers: `registry/<type>/<namespace>/<name>.md`
+**One file per namespace.** Each namespace file (e.g., `registry/advisory/redhat.md`) contains ALL sources for that namespace with ID patterns and URL templates. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) for the full architecture.
 
 ## File Format
 

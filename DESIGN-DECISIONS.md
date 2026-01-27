@@ -829,3 +829,182 @@ If the security community needs a new identifier system (e.g., for AI vulnerabil
 
 The clean separation: SecID is the grammar and registry for referencing. Identifier assignment is someone else's job.
 
+---
+
+## Registry Architecture: Hierarchical, One File Per Namespace
+
+### The Principle
+
+The registry uses a flat, hierarchical structure where **every level is queryable** and **each namespace is a single file** containing all its sources.
+
+### The Hierarchy
+
+```
+secid:advisory                          → registry/advisory.md
+secid:advisory/redhat                   → registry/advisory/redhat.md
+secid:advisory/redhat/cve               → section within redhat.md
+secid:advisory/redhat/cve#CVE-2026-1234 → resolved URL from rules in redhat.md
+```
+
+Every level returns useful information:
+
+| Query | Returns |
+|-------|---------|
+| `secid:advisory` | Type definition — what advisories are |
+| `secid:advisory/redhat` | Namespace definition — what Red Hat publishes |
+| `secid:advisory/redhat/cve` | Source definition — Red Hat CVE pages, root URL |
+| `secid:advisory/redhat/cve#CVE-2026-1234` | Resolved URL to specific entry |
+
+### File Structure
+
+```
+registry/
+  advisory.md                 ← Type definition (what is an advisory?)
+  advisory/
+    redhat.md                 ← Namespace: ALL Red Hat sources in ONE file
+    mitre.md                  ← Namespace: MITRE CVE
+    github.md                 ← Namespace: GHSA
+  weakness.md                 ← Type definition (what is a weakness?)
+  weakness/
+    mitre.md                  ← Namespace: CWE
+    owasp.md                  ← Namespace: ALL OWASP taxonomies in ONE file
+  control.md                  ← Type definition
+  control/
+    nist.md                   ← Namespace: ALL NIST frameworks in ONE file
+    iso.md                    ← Namespace: ALL ISO standards in ONE file
+  entity.md                   ← Type definition
+  entity/
+    redhat.md                 ← Organization definition
+    mitre.md                  ← Organization definition
+```
+
+### Why One File Per Namespace (No Subdirectories)
+
+**Rejected alternative:**
+```
+registry/advisory/redhat/_index.md
+registry/advisory/redhat/cve.md
+registry/advisory/redhat/errata.md
+```
+
+**Why we don't do this:**
+
+1. **Most namespaces have few sources.** Red Hat has ~4 (cve, errata, bugzilla). MITRE has ~1 (cve). Splitting into multiple files adds complexity without benefit.
+
+2. **KV store simplicity.** The API uses a key-value store. One namespace = one key = one file. No need to reassemble multiple files.
+
+3. **All rules in one place.** When maintaining a namespace, everything is in one file — no hunting across subdirectories.
+
+4. **Future scaling.** If the directory gets too full, use alphabetical subdirectories (`registry/advisory/r/redhat.md`), not per-source files.
+
+### Namespace File Format
+
+Each namespace file contains:
+- Frontmatter with namespace metadata
+- Sections for each source with ID patterns and URL templates
+- Narrative documentation
+
+```yaml
+---
+namespace: redhat
+full_name: "Red Hat"
+website: "https://redhat.com"
+type: vendor
+status: active
+---
+
+# Red Hat (Advisory Namespace)
+
+Red Hat provides multiple advisory and vulnerability tracking systems.
+
+## Sources
+
+### cve
+
+Red Hat CVE pages with Red Hat-specific severity analysis.
+
+| Field | Value |
+|-------|-------|
+| id_pattern | `CVE-\d{4}-\d{4,}` |
+| url_template | `https://access.redhat.com/security/cve/{id}` |
+| example | `secid:advisory/redhat/cve#CVE-2025-10725` |
+
+### errata
+
+Red Hat Errata advisories (RHSA, RHBA, RHEA).
+
+| Field | Value |
+|-------|-------|
+| id_pattern | `RH[SBEA]A-\d{4}:\d+` |
+| url_template | `https://access.redhat.com/errata/{id}` |
+| example | `secid:advisory/redhat/errata#RHSA-2025:1234` |
+```
+
+### KV Store Design
+
+The API uses a simple key-value lookup:
+
+```
+Request: secid:advisory/redhat/cve#CVE-2025-1234
+
+1. Parse: type=advisory, namespace=redhat, name=cve, subpath=CVE-2025-1234
+2. KV lookup: key="advisory/redhat" → returns redhat.md content
+3. Find "cve" section, get id_pattern and url_template
+4. Validate subpath against id_pattern
+5. Apply url_template: https://access.redhat.com/security/cve/CVE-2025-1234
+```
+
+For type queries:
+```
+Request: secid:advisory
+
+1. Parse: type=advisory (no namespace)
+2. KV lookup: key="advisory" → returns advisory.md content
+3. Return type definition
+```
+
+### Regex Patterns: PCRE2 Safe Subset
+
+ID patterns use **PCRE2** syntax with a safe subset for compatibility:
+
+- Works in: Python `re`, JavaScript, Go `regexp`, Rust `regex`, Java `Pattern`
+- Avoid: lookahead/lookbehind, backreferences, possessive quantifiers
+- Goal: Simple patterns that work everywhere, no regex DoS risk
+
+Most patterns are straightforward:
+```
+CVE-\d{4}-\d{4,}
+CWE-\d+
+T\d{4}(\.\d{3})?
+RH[SBEA]A-\d{4}:\d+
+GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}
+```
+
+The safe subset will be formally defined after stress-testing with real-world patterns.
+
+### Enrichment and Relationship Data
+
+Enrichment and relationship data live in **separate repositories**, not in the SecID registry:
+
+```
+secid-registry/           ← This repo: identifiers and resolution
+  registry/
+    advisory/redhat.md
+
+secid-data/               ← Separate repo: enrichment data
+  advisory/
+    redhat/
+      cve/
+        CVE-2025-1234.md  ← Enrichment for specific CVE
+
+secid-relationships/      ← Separate repo: relationship data
+  ...
+```
+
+**Why separate?**
+
+1. **Different update cadences.** Registry changes rarely; enrichment data changes constantly.
+2. **Different governance.** Registry is curated; enrichment may be community-contributed.
+3. **Different sizes.** Registry is small (~hundreds of files); enrichment could be millions.
+4. **Clean separation.** Follows "identifiers are just identifiers" principle.
+

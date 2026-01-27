@@ -114,43 +114,56 @@ secid:control/nist/800-53#AC-1/Control%20Enhancements  # Section with space
 
 Tools should render identifiers human-friendly for display while storing the encoded form. See Section 8.2 for complete encoding rules.
 
-**Registry file mapping:** The registry directory structure mirrors the SecID structure exactly:
+**Registry file mapping:** Every level of the SecID hierarchy maps to a registry file:
 
 ```
 SecID:                          Registry File:
-secid:weakness/mitre/cwe        → registry/weakness/mitre/cwe.md
-secid:advisory/mitre/cve        → registry/advisory/mitre/cve.md
-secid:advisory/nist/nvd         → registry/advisory/nist/nvd.md
-secid:ttp/mitre/attack          → registry/ttp/mitre/attack.md
-secid:control/csa/ccm           → registry/control/csa/ccm.md
-secid:control/nist/csf          → registry/control/nist/csf.md
-secid:regulation/eu/gdpr        → registry/regulation/eu/gdpr.md
+secid:advisory                  → registry/advisory.md (type definition)
+secid:advisory/redhat           → registry/advisory/redhat.md (namespace, all sources)
+secid:advisory/redhat/cve       → section within registry/advisory/redhat.md
+secid:weakness                  → registry/weakness.md (type definition)
+secid:weakness/mitre            → registry/weakness/mitre.md (namespace, all sources)
+secid:control/nist              → registry/control/nist.md (namespace, all sources)
 ```
 
+**One file per namespace.** Each namespace file contains ALL sources for that namespace. For example, `registry/advisory/redhat.md` contains rules for `cve`, `errata`, and `bugzilla`—not separate files for each.
+
 Each registry file contains:
-- Metadata (type, namespace, name, URLs)
-- ID patterns for validation
-- Resolution rules for converting subpaths to URLs
+- Metadata (namespace, full name, website, status)
+- Sections for each source with ID patterns and URL templates
 - Examples and documentation
 
-For example, `registry/weakness/mitre/cwe.md` contains the rules for resolving `#CWE-123`:
+For example, `registry/weakness/mitre.md` contains the rules for resolving CWE:
 
 ```yaml
-# In registry/weakness/mitre/cwe.md frontmatter
-type: weakness
+# In registry/weakness/mitre.md
+---
 namespace: mitre
-name: cwe
-urls:
-  lookup: "https://cwe.mitre.org/data/definitions/{num}.html"
-id_pattern: "CWE-\\d+"
+full_name: "MITRE Corporation"
+website: "https://mitre.org"
+status: active
+---
+
+# MITRE (Weakness Namespace)
+
+## Sources
+
+### cwe
+
+| Field | Value |
+|-------|-------|
+| id_pattern | `CWE-\d+` |
+| url_template | `https://cwe.mitre.org/data/definitions/{num}.html` |
+| example | `secid:weakness/mitre/cwe#CWE-79` |
 ```
 
 Resolution process:
 ```
 secid:weakness/mitre/cwe#CWE-123
-  → Find registry/weakness/mitre/cwe.md
+  → Find registry/weakness/mitre.md
+  → Find "cwe" section, get id_pattern and url_template
   → Extract "123" from "CWE-123" using id_pattern
-  → Apply to lookup template: https://cwe.mitre.org/data/definitions/123.html
+  → Apply to url_template: https://cwe.mitre.org/data/definitions/123.html
 ```
 
 **More examples showing the pattern:**
@@ -506,28 +519,28 @@ Namespaces identify the system that issued the identifier.
 
 ### 4.0 Namespaces and the Registry
 
-Each type has a directory in the registry. The structure mirrors SecID identifiers: `registry/<type>/<namespace>/<name>.md`
+Each type has a directory in the registry. **One file per namespace** contains all sources for that namespace:
 
 ```
 registry/
-├── advisory.md              # Describes the advisory type
+├── advisory.md              # Type definition (what is an advisory?)
 ├── advisory/                # Advisory namespaces
-│   ├── mitre/
-│   │   └── cve.md           # secid:advisory/mitre/cve
-│   ├── nist/
-│   │   └── nvd.md           # secid:advisory/nist/nvd
-│   ├── github/
-│   │   └── ghsa.md          # secid:advisory/github/ghsa
-│   └── redhat/
-│       └── cve.md           # secid:advisory/redhat/cve
-├── entity.md                # Describes the entity type
-├── entity/                  # Entity namespaces (org descriptions)
+│   ├── mitre.md             # MITRE: cve source
+│   ├── nist.md              # NIST: nvd source
+│   ├── github.md            # GitHub: ghsa source
+│   └── redhat.md            # Red Hat: cve, errata, bugzilla sources (ALL IN ONE FILE)
+├── weakness.md              # Type definition (what is a weakness?)
+├── weakness/
+│   ├── mitre.md             # MITRE: cwe source
+│   └── owasp.md             # OWASP: top10, llm-top10, etc. (ALL IN ONE FILE)
+├── entity.md                # Type definition (what is an entity?)
+├── entity/
 │   ├── mitre.md             # MITRE organization
-│   └── nist.md              # NIST organization
+│   └── redhat.md            # Red Hat organization
 ...
 ```
 
-The namespace file (e.g., `registry/advisory/redhat/cve.md`) contains all the rules for parsing and resolving the `#subpath` component (e.g., `#CVE-2024-1234`).
+The namespace file (e.g., `registry/advisory/redhat.md`) contains sections for each source with rules for parsing and resolving `#subpath` (e.g., `#CVE-2024-1234` or `#RHSA-2025:1234`).
 
 ### 4.1 Naming Conventions
 
@@ -984,57 +997,48 @@ The registry is definitional: "what identifiers exist and how to resolve them." 
 
 ## 10. Repository Structure
 
-SecID is a single repository containing specification and registry. The registry directory structure mirrors SecID identifiers: `registry/<type>/<namespace>/<name>.md`
+SecID is a single repository containing specification and registry. **One file per namespace** contains all sources for that namespace:
 
 ```
 secid/
 ├── README.md              # Project overview
 ├── SPEC.md                # This specification
-├── RATIONALE.md           # Design decisions
+├── DESIGN-DECISIONS.md    # Key decisions and rationale
 ├── STRATEGY.md            # Adoption and governance
 ├── ROADMAP.md             # Implementation phases
 ├── USE-CASES.md           # Concrete examples
 ├── RELATIONSHIPS.md       # Future layer (exploratory)
 ├── OVERLAYS.md            # Future layer (exploratory)
-├── registry/              # Namespace definitions (mirrors SecID structure)
-│   ├── advisory.md        # Advisory type description
+├── registry/              # Namespace definitions
+│   ├── advisory.md        # Type definition (what is an advisory?)
 │   ├── advisory/          # Advisory namespaces
-│   │   ├── mitre/
-│   │   │   └── cve.md     # secid:advisory/mitre/cve
-│   │   ├── nist/
-│   │   │   └── nvd.md     # secid:advisory/nist/nvd
-│   │   ├── github/
-│   │   │   └── ghsa.md    # secid:advisory/github/ghsa
-│   │   └── redhat/
-│   │       └── cve.md     # secid:advisory/redhat/cve
-│   ├── weakness.md        # Weakness type description
+│   │   ├── mitre.md       # MITRE: cve
+│   │   ├── nist.md        # NIST: nvd
+│   │   ├── github.md      # GitHub: ghsa
+│   │   └── redhat.md      # Red Hat: cve, errata, bugzilla (ALL IN ONE)
+│   ├── weakness.md        # Type definition (what is a weakness?)
 │   ├── weakness/
-│   │   ├── mitre/
-│   │   │   └── cwe.md     # secid:weakness/mitre/cwe
-│   │   └── owasp/
-│   │       ├── top10.md   # secid:weakness/owasp/top10
-│   │       └── llm-top10.md
-│   ├── ttp.md             # TTP type description
+│   │   ├── mitre.md       # MITRE: cwe
+│   │   └── owasp.md       # OWASP: top10, llm-top10, etc. (ALL IN ONE)
+│   ├── ttp.md             # Type definition
 │   ├── ttp/
-│   │   └── mitre/
-│   │       ├── attack.md  # secid:ttp/mitre/attack
-│   │       ├── atlas.md   # secid:ttp/mitre/atlas
-│   │       └── capec.md   # secid:ttp/mitre/capec
-│   ├── control.md         # Control type description
+│   │   └── mitre.md       # MITRE: attack, atlas, capec (ALL IN ONE)
+│   ├── control.md         # Type definition
 │   ├── control/
-│   │   ├── nist/
-│   │   │   ├── csf.md     # secid:control/nist/csf
-│   │   │   └── 800-53.md  # secid:control/nist/800-53
-│   │   └── cis/
-│   │       └── controls.md
-│   ├── entity.md          # Entity type description
-│   ├── entity/            # Entity namespaces (org descriptions)
-│   │   ├── mitre.md       # Describes MITRE organization
-│   │   └── nist.md        # Describes NIST organization
-│   ├── regulation.md
+│   │   ├── nist.md        # NIST: csf, 800-53, ai-rmf (ALL IN ONE)
+│   │   ├── iso.md         # ISO: 27001, 27002 (ALL IN ONE)
+│   │   └── cis.md         # CIS: controls, benchmarks
+│   ├── entity.md          # Type definition
+│   ├── entity/
+│   │   ├── mitre.md       # MITRE organization
+│   │   ├── nist.md        # NIST organization
+│   │   └── redhat.md      # Red Hat organization
+│   ├── regulation.md      # Type definition
 │   ├── regulation/
-│   ├── reference.md
+│   │   └── eu.md          # EU: gdpr, ai-act, nis2 (ALL IN ONE)
+│   ├── reference.md       # Type definition
 │   └── reference/
+│       └── whitehouse.md  # White House: executive orders
 └── seed/                  # Seed data for bulk import
     └── *.csv
 ```
