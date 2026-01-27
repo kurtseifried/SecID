@@ -94,6 +94,17 @@ sources:
 
 Required frontmatter: `type`, `namespace`, `full_name`, `status`, `sources` (with at least one source)
 
+### Status Field
+
+The `status` field indicates the state of the **registry entry itself**, not the external source it documents:
+
+| Status | Meaning |
+|--------|---------|
+| `active` | Entry is current and maintained |
+| `draft` | Entry is work-in-progress |
+| `superseded` | Entry replaced by another (use `superseded_by` to indicate replacement) |
+| `historical` | Kept for reference; source may no longer exist |
+
 ## Key Design Principles
 
 1. **Identifiers are just identifiers** - Relationships and enrichment are separate future layers (see RELATIONSHIPS.md, OVERLAYS.md)
