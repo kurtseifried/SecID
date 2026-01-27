@@ -26,6 +26,24 @@ sources:
     examples:
       - "secid:advisory/oracle/alert#CVE-2024-1234"
       - "secid:advisory/oracle/alert#CVE-2021-44228"
+
+  linux:
+    full_name: "Oracle Linux Security Advisories"
+    urls:
+      website: "https://linux.oracle.com/security/"
+      errata: "https://linux.oracle.com/errata/"
+      lookup: "https://linux.oracle.com/errata/{id}.html"
+    id_pattern: "ELSA-\\d{4}-\\d+"
+    examples:
+      - "secid:advisory/oracle/linux#ELSA-2024-1234"
+
+  vm:
+    full_name: "Oracle VM Security Advisories"
+    urls:
+      website: "https://www.oracle.com/security-alerts/"
+    id_pattern: "OVMSA-\\d{4}-\\d+"
+    examples:
+      - "secid:advisory/oracle/vm#OVMSA-2024-0001"
 ---
 
 # Oracle Advisory Sources
@@ -124,3 +142,67 @@ secid:advisory/oracle/alert#CVE-2021-44228
 - Security Alerts are issued outside the regular CPU schedule
 - Used for critical vulnerabilities requiring immediate attention
 - For quarterly updates, see `secid:advisory/oracle/cpu`
+
+---
+
+## linux
+
+Oracle Linux Security Advisories (ELSA) cover the Oracle Linux distribution.
+
+### Format
+
+```
+secid:advisory/oracle/linux#ELSA-YYYY-NNNN
+```
+
+### Resolution
+
+```
+secid:advisory/oracle/linux#ELSA-2024-1234
+  -> https://linux.oracle.com/errata/ELSA-2024-1234.html
+```
+
+### Coverage
+
+| Version | Status |
+|---------|--------|
+| Oracle Linux 9 | Current |
+| Oracle Linux 8 | Current |
+| Oracle Linux 7 | Extended support |
+
+### Relationship to RHEL
+
+Oracle Linux is binary-compatible with Red Hat Enterprise Linux:
+- Security fixes often mirror RHEL advisories
+- May include Oracle-specific additions
+- Ksplice provides rebootless kernel patching
+
+### Notes
+
+- Published same day as CPUs for relevant issues
+- Monthly bulletins aggregate CVEs
+- RSS feeds available at linux.oracle.com
+
+---
+
+## vm
+
+Oracle VM Server security advisories (OVMSA).
+
+### Format
+
+```
+secid:advisory/oracle/vm#OVMSA-YYYY-NNNN
+```
+
+### Coverage
+
+- Oracle VM Server for x86
+- Virtualization-specific vulnerabilities
+- Hypervisor security issues
+
+### Notes
+
+- Published with quarterly CPUs
+- Covers previous month's fixes
+- Important for virtualized Oracle workloads
