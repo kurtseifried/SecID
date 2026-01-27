@@ -81,6 +81,16 @@ sources:
       - "secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION"
       - "secid:weakness/owasp/ai-exchange#DATAPOISON"
       - "secid:weakness/owasp/ai-exchange#MODELTHEFTUSE"
+
+  aivss:
+    full_name: "AI Vulnerability Scoring System"
+    urls:
+      website: "https://owasp.org/www-project-ai-vulnerability-scoring-system/"
+      github: "https://github.com/OWASP/www-project-ai-vulnerability-scoring-system"
+    versions:
+      - "1.0"
+    examples:
+      - "secid:weakness/owasp/aivss@1.0"
 ---
 
 # OWASP Weakness Taxonomies
@@ -414,3 +424,51 @@ secid:control/owasp/ai-exchange#PROMPTINJECTIONIOHANDLING
 - Maps to MITRE ATLAS, CWE, and other frameworks
 - Continuously updated with emerging threats
 - Controls documented in control/owasp/ai-exchange
+
+---
+
+## aivss
+
+The AI Vulnerability Scoring System (AIVSS) extends CVSS concepts to score AI/ML-specific vulnerabilities.
+
+### Format
+
+```
+secid:weakness/owasp/aivss@1.0
+```
+
+### Why AIVSS Exists
+
+Traditional CVSS doesn't capture AI-specific risk factors:
+
+| CVSS Limitation | AI Reality |
+|-----------------|------------|
+| Binary exploitability | AI attacks have probabilistic success |
+| Static attack vector | AI attacks adapt and evolve |
+| Single impact type | AI failures cascade across systems |
+| Fixed temporal metrics | AI vulnerabilities change with model updates |
+
+### AIVSS Metric Groups
+
+| Group | Metrics |
+|-------|---------|
+| **Base** | Attack complexity, privilege required, user interaction |
+| **AI-Specific** | Model access level, attack transferability |
+| **Impact** | Confidentiality, integrity, availability, safety |
+| **Temporal** | Exploit maturity, remediation level |
+
+### AI-Specific Factors
+
+| Factor | Description |
+|--------|-------------|
+| **Model Access** | Black-box, gray-box, white-box |
+| **Transferability** | Does attack work across models? |
+| **Detectability** | How easily can attack be detected? |
+| **Reversibility** | Can the impact be undone? |
+
+### Notes
+
+- Under active development
+- Complements CVSS for AI vulnerabilities
+- Used by security teams assessing AI risks
+- Maps to OWASP AI Top 10 risks

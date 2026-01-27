@@ -33,6 +33,42 @@ sources:
     examples:
       - "secid:control/iso/27002@2022#5.1"
       - "secid:control/iso/27002@2022#8.2"
+
+  42001:
+    full_name: "ISO/IEC 42001 AI Management System"
+    urls:
+      website: "https://www.iso.org/standard/81230.html"
+    versions:
+      - "2023"
+    examples:
+      - "secid:control/iso/42001@2023"
+
+  23894:
+    full_name: "ISO/IEC 23894 AI Risk Management"
+    urls:
+      website: "https://www.iso.org/standard/77304.html"
+    versions:
+      - "2023"
+    examples:
+      - "secid:control/iso/23894@2023"
+
+  24028:
+    full_name: "ISO/IEC 24028 AI Trustworthiness"
+    urls:
+      website: "https://www.iso.org/standard/77608.html"
+    versions:
+      - "2020"
+    examples:
+      - "secid:control/iso/24028@2020"
+
+  24029:
+    full_name: "ISO/IEC 24029 AI Robustness"
+    urls:
+      website: "https://www.iso.org/standard/77609.html"
+    versions:
+      - "2021"
+    examples:
+      - "secid:control/iso/24029@2021"
 ---
 
 # ISO Information Security Standards
