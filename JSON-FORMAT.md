@@ -99,11 +99,13 @@ For arrays:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `wikidata` | string \| null | Wikidata Q-number for entity disambiguation (e.g., "Q1116236") |
-| `wikipedia` | string \| null | Wikipedia article URL for direct access |
+| `wikidata` | string[] | Wikidata Q-numbers for entity disambiguation (e.g., ["Q1116236"]) |
+| `wikipedia` | string[] | Wikipedia article URLs for direct access |
 
-**Why both?**
-- `wikidata` - Stable, language-neutral identifier. Links to all Wikipedia versions. Preferred for disambiguation.
+**Why arrays?** Entities can map to multiple Wikidata entries (mergers, name changes, historical entries) or have multiple relevant Wikipedia articles (different languages, related topics). Arrays handle 0, 1, or more consistently.
+
+**Why both fields?**
+- `wikidata` - Stable, language-neutral identifiers. Links to all Wikipedia versions. Preferred for disambiguation.
 - `wikipedia` - Direct access to human-readable context. Convenience for AI/humans without extra lookup. Fallback when no Wikidata exists.
 
 #### Lifecycle Fields (optional)
@@ -308,8 +310,8 @@ Entity files describe organizations rather than data sources. They use a `names`
   "type": "entity",
   "official_name": "The MITRE Corporation",
   "common_name": "MITRE",
-  "wikidata": "Q1116236",
-  "wikipedia": "https://en.wikipedia.org/wiki/Mitre_Corporation",
+  "wikidata": ["Q1116236"],
+  "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
   "names": {
     "cve": {
@@ -341,8 +343,8 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
   "alternate_names": ["The MITRE Corporation"],
-  "wikidata": "Q1116236",
-  "wikipedia": "https://en.wikipedia.org/wiki/Mitre_Corporation",
+  "wikidata": ["Q1116236"],
+  "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
   "website": "https://www.mitre.org",
 
