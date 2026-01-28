@@ -309,7 +309,7 @@ Simple string array showing valid ID formats. Helps humans and AI understand wha
 
 ## Reference Type Fields
 
-For `type: reference` (documents, papers, standards), additional identifier fields help with finding and disambiguation:
+For `type: reference` (documents, papers, standards), additional fields help with identity:
 
 ```json
 {
@@ -319,11 +319,6 @@ For `type: reference` (documents, papers, standards), additional identifier fiel
   "title": "AI RMF",
   "full_title": "Artificial Intelligence Risk Management Framework",
 
-  "doi": "10.6028/NIST.AI.100-1",
-  "isbn": null,
-  "issn": null,
-  "asin": null,
-
   "sources": { ... }
 }
 ```
@@ -332,14 +327,17 @@ For `type: reference` (documents, papers, standards), additional identifier fiel
 |-------|------|-------------|
 | `title` | string | Short/common title |
 | `full_title` | string \| null | Complete formal title |
-| `doi` | string \| null | Digital Object Identifier |
-| `isbn` | string \| null | Book ISBN |
-| `issn` | string \| null | Journal/series ISSN |
-| `asin` | string \| null | Amazon Standard Identification Number |
 
-**Why these fields?** They are identifiers that help find the document. Metadata like authors, publication date, and category belong in an enrichment layer, not the registry.
+**Note:** Standard identifier systems (DOI, ISBN, ISSN, arXiv, etc.) are **namespaces**, not fields:
 
-**Note:** For references accessed via specific systems (arXiv, RFC), the identifier is typically part of the SecID itself (e.g., `secid:reference/arxiv/2303.08774` or `secid:reference/ietf/rfc9110`).
+```
+secid:reference/doi/10.6028/NIST.AI.100-1
+secid:reference/isbn/978-0-123456-78-9
+secid:reference/arxiv/2303.08774
+secid:reference/ietf/rfc9110
+```
+
+If a document has both a human-readable reference (`secid:reference/nist/ai-rmf`) and a DOI (`secid:reference/doi/10.6028/NIST.AI.100-1`), the equivalence relationship between them belongs in the **relationship layer**, not the registry.
 
 ## Entity Type Differences
 

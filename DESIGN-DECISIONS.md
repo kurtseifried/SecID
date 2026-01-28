@@ -1315,6 +1315,9 @@ During JSON schema design, we considered and rejected:
 **Catalog data:**
 - `versions[]` (as simple list) - Replaced by `version_patterns[]` for resolution. A catalog of "what versions exist" is enrichment; resolution routing is identity.
 
+**Cross-reference identifiers:**
+- `doi`, `isbn`, `issn`, `asin` - These are identifier systems, not fields. They become namespaces (`secid:reference/doi/...`). Equivalence between identifiers belongs in the relationship layer.
+
 **Other enrichment:**
 - `authors` - Enrichment layer.
 - `category` - Enrichment layer (too detailed).
@@ -1412,4 +1415,75 @@ Most sources don't need `version_patterns`. Use the `{version}` placeholder in r
 ```
 
 Only add `version_patterns` when major versions have incompatible URL structures.
+
+---
+
+## Identifier Systems Are Namespaces, Not Fields
+
+### The Problem
+
+Documents often have multiple identifiers: a DOI, an ISBN, an arXiv ID. How do we handle this in the registry?
+
+### Initial Approach (Rejected)
+
+Early drafts had identifier fields on reference entries:
+
+```json
+{
+  "type": "reference",
+  "namespace": "nist",
+  "title": "AI RMF",
+  "doi": "10.6028/NIST.AI.100-1",
+  "isbn": "978-0-...",
+  "issn": null,
+  "asin": null
+}
+```
+
+Problems:
+1. **Doesn't scale** - Why DOI/ISBN but not arXiv ID, OCLC number, Library of Congress number?
+2. **Cross-references** - "This SecID also has DOI X" is a relationship
+3. **Wrong model** - DOI, ISBN, etc. are identifier systems with their own resolution
+
+### The Insight
+
+DOI, ISBN, ISSN, arXiv, IETF RFCs are **identifier systems** - they assign IDs and provide resolution. They're peers to SecID, not fields within it.
+
+### The Solution: Namespaces
+
+Standard identifier systems become namespaces in the `reference` type:
+
+```
+secid:reference/doi/10.6028/NIST.AI.100-1
+secid:reference/isbn/978-0-13-468599-1
+secid:reference/arxiv/2303.08774
+secid:reference/ietf/9110
+```
+
+The registry has namespace definitions (`registry/reference/doi.md`) that define:
+- How to recognize IDs (id_pattern)
+- How to resolve them (urls)
+
+### Equivalence Is a Relationship
+
+If a document has both a DOI and a human-readable reference:
+```
+secid:reference/nist/ai-rmf
+secid:reference/doi/10.6028/NIST.AI.100-1
+```
+
+The fact that these point to the same document is an **equivalence relationship**, belonging in the relationship layer:
+```
+secid:reference/nist/ai-rmf  sameAs  secid:reference/doi/10.6028/NIST.AI.100-1
+```
+
+### Layers Clarified
+
+| Layer | Contains | Example |
+|-------|----------|---------|
+| **Registry** | Identity, resolution, disambiguation | Namespace definitions, URL templates |
+| **Relationship** | Equivalence, succession, hierarchy | "A sameAs B", "A supersedes B" |
+| **Data** | Enrichment, metadata, attributes | "A is about topic X", "A has author Y" |
+
+This keeps the registry focused on its core job: labeling and finding things.
 
