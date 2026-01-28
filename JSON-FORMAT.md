@@ -74,7 +74,9 @@ For arrays:
   "common_name": "MITRE",
   "alternate_names": ["MITRE Corp"],
 
-  "website": "https://www.mitre.org",
+  "urls": [
+    {"type": "website", "url": "https://www.mitre.org"}
+  ],
 
   "operators": [
     {"ref": "secid:entity/mitre", "role": "operator"}
@@ -125,6 +127,19 @@ When a namespace is superseded (e.g., an organization merges or renames), this f
 | `alternate_names` | string[] \| null | Other names for search/matching |
 
 **Why separate fields?** Fixed, small set of name categories. Named fields are self-documenting and easier for AI to generate correctly.
+
+#### URLs (top-level)
+
+Top-level `urls[]` array for the namespace/organization. Same structure as source-level URLs:
+
+```json
+"urls": [
+  {"type": "website", "url": "https://www.mitre.org"},
+  {"type": "website", "url": "https://www.cve.org", "note": "CVE Program site"}
+]
+```
+
+See source-level URLs section for full field definitions.
 
 #### Operators (array with context)
 
@@ -193,7 +208,7 @@ Sources within a namespace can be deprecated independently (e.g., an old API ver
 | `type` | string | yes | URL category (see below) |
 | `url` | string | yes | The URL, may contain `{placeholder}` templates |
 | `format` | string | no | Response format: json, html, xml, csv, pdf |
-| `note` | string | no | Context for AI about when/why to use this URL |
+| `note` | string | no | Context for AI: when/why to use, access instructions, auth requirements, download hints |
 
 **Common URL types:**
 - `website` - Main website for humans
@@ -313,6 +328,10 @@ Entity files describe organizations rather than data sources. They use a `names`
   "wikidata": ["Q1116236"],
   "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
+  "urls": [
+    {"type": "website", "url": "https://www.mitre.org"}
+  ],
+
   "names": {
     "cve": {
       "official_name": "Common Vulnerabilities and Exposures",
@@ -346,7 +365,9 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   "wikidata": ["Q1116236"],
   "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
-  "website": "https://www.mitre.org",
+  "urls": [
+    {"type": "website", "url": "https://www.mitre.org"}
+  ],
 
   "operators": [
     {"ref": "secid:entity/mitre", "role": "operator"},
@@ -389,11 +410,14 @@ The current YAML frontmatter maps to JSON as follows:
 |------------|------------|-------|
 | `full_name` | `official_name` | Renamed for clarity |
 | `operator` | `operators[].ref` | Now array with roles |
+| `website` | `urls[] where type=website` | Now array with context |
 | `id_pattern` | `id_patterns[].pattern` | Now always array |
 | `id_routing` | `id_patterns[].url` | Merged into id_patterns |
 | `urls.lookup` | `urls[] where type=lookup` | Now array with context |
-| `wikidata` | `wikidata` | Unchanged |
+| `wikidata` | `wikidata[]` | Now array |
+| `wikipedia` | `wikipedia[]` | New field, array |
 | `superseded_by` | `superseded_by` | Unchanged |
+| `established` | (removed) | Enrichment layer, not registry |
 
 The Markdown body content (narrative documentation) will be handled separately - either as a companion `.md` file or a `description` field. Decision pending.
 
