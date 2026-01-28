@@ -1301,11 +1301,24 @@ Enrichment and relationships belong in separate data layers that reference SecID
 ### What We Explicitly Excluded
 
 During JSON schema design, we considered and rejected:
-- `authors` - Enrichment layer
-- `publication_date` - Enrichment layer
-- `category` - Enrichment layer (too detailed)
-- `established` (when source was created) - Enrichment layer
-- `issues_type`, `issues_namespace` - Enrichment layer
+
+**Relationship fields:**
+- `operators[]` - Who operates this source is a relationship, not identity. You don't need to know who operates CVE to find or use CVE.
+- `superseded_by` - "X was replaced by Y" is a relationship and a judgment. Belongs in data layer.
+- `deprecated_by` - Same as superseded_by, at source level.
+
+**Temporal enrichment:**
+- `deprecated_date` - When something happened is enrichment.
+- `established` - When source was created is enrichment.
+- `publication_date` - Enrichment layer.
+
+**Catalog data:**
+- `versions[]` (as simple list) - Replaced by `version_patterns[]` for resolution. A catalog of "what versions exist" is enrichment; resolution routing is identity.
+
+**Other enrichment:**
+- `authors` - Enrichment layer.
+- `category` - Enrichment layer (too detailed).
+- `issues_type`, `issues_namespace` - Enrichment layer.
 
 ### What We Kept for Disambiguation
 
@@ -1346,4 +1359,57 @@ Both fields are arrays because entities can map to multiple entries:
 ### Not Every Wikipedia Has Wikidata
 
 Some Wikipedia articles lack corresponding Wikidata entries. Some Wikidata entries have minimal Wikipedia coverage. Having both fields handles these gaps.
+
+---
+
+## Version Resolution: Patterns Over Catalogs
+
+### The Problem
+
+Some sources have different URL structures for different versions. CSA CCM v4.0 might be at one URL, CCM v3.0.1 at another. How do we handle this?
+
+### Options Considered
+
+**Option A: Simple version list**
+```json
+"versions": ["4.0", "3.0.1", "2.1"]
+```
+Problem: This catalogs what exists but doesn't help with resolution. It's enrichment, not identity.
+
+**Option B: Structured versions with per-version URLs**
+```json
+"versions": [
+  {"version": "4.0", "url": "https://example.com/v4"},
+  {"version": "3.0.1", "url": "https://example.com/legacy/v3.0.1"}
+]
+```
+Problem: Still a catalog. Needs updating every time a new version releases.
+
+**Option C: Version patterns with regex routing (chosen)**
+```json
+"version_patterns": [
+  {"pattern": "4\\..*", "url": "https://example.com/v{version}"},
+  {"pattern": "3\\..*", "url": "https://example.com/legacy/v{version}"}
+]
+```
+This routes based on the version in the SecID itself (`@4.0.1` → matches `4\..*`).
+
+### Why Patterns?
+
+The version is already in the SecID: `secid:control/csa/ccm@4.0.1#IAM-12`
+
+Using regex patterns:
+1. **Resolution, not catalog** - Routes to the right URL without maintaining a list
+2. **Handles future versions** - Pattern `4\..*` works for 4.0, 4.1, 4.2... without updates
+3. **Explicit routing** - Clear which URL structure applies to which version range
+4. **Consistent with id_patterns** - Same pattern-based routing concept
+
+### When to Use
+
+Most sources don't need `version_patterns`. Use the `{version}` placeholder in regular URLs when the pattern is predictable:
+```json
+"urls": [{"type": "bulk_data", "url": "https://example.com/releases/v{version}"}]
+```
+
+Only add `version_patterns` when major versions have incompatible URL structures.
 

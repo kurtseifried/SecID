@@ -68,7 +68,7 @@ For arrays:
   "schema_version": "1.0",
   "namespace": "mitre",
   "type": "advisory",
-  "status": "active",
+  "status": "published",
 
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
@@ -76,10 +76,6 @@ For arrays:
 
   "urls": [
     {"type": "website", "url": "https://www.mitre.org"}
-  ],
-
-  "operators": [
-    {"ref": "secid:entity/mitre", "role": "operator"}
   ],
 
   "sources": {
@@ -135,14 +131,6 @@ Registry entry status reflects documentation completeness and review state:
 - `wikidata` - Stable, language-neutral identifiers. Links to all Wikipedia versions. Preferred for disambiguation.
 - `wikipedia` - Direct access to human-readable context. Convenience for AI/humans without extra lookup. Fallback when no Wikidata exists.
 
-#### Lifecycle Fields (optional)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `superseded_by` | string \| null | SecID of replacement when status=superseded |
-
-When a namespace is superseded (e.g., an organization merges or renames), this field points to where to look instead.
-
 #### Name Fields (singular/array)
 
 | Field | Type | Description |
@@ -166,22 +154,6 @@ Top-level `urls[]` array for the namespace/organization. Same structure as sourc
 
 See source-level URLs section for full field definitions.
 
-#### Operators (array with context)
-
-```json
-"operators": [
-  {"ref": "secid:entity/mitre", "role": "operator"},
-  {"ref": "secid:entity/cisa", "role": "sponsor"}
-]
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `ref` | string | SecID reference to the operating entity |
-| `role` | string | Role: operator, sponsor, maintainer, contributor |
-
-**Why an array?** Joint operations exist (e.g., Azure Red Hat OpenShift). Context about roles helps AI understand relationships.
-
 ### Sources Block
 
 The `sources` block contains one or more data sources published by this namespace:
@@ -195,8 +167,8 @@ The `sources` block contains one or more data sources published by this namespac
 
     "urls": [ ... ],
     "id_patterns": [ ... ],
-    "examples": [ ... ],
-    "versions": [ ... ]
+    "version_patterns": [ ... ],
+    "examples": [ ... ]
   }
 }
 ```
@@ -206,15 +178,6 @@ The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advi
 #### Source Name Fields
 
 Same pattern as top-level: `official_name`, `common_name`, `alternate_names`.
-
-#### Source Lifecycle Fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `deprecated_by` | string \| null | What replaces this source |
-| `deprecated_date` | string \| null | ISO date when deprecated (YYYY-MM-DD) |
-
-Sources within a namespace can be deprecated independently (e.g., an old API version).
 
 #### URLs (array with context)
 
@@ -252,9 +215,10 @@ URLs may contain placeholders for dynamic resolution:
 
 | Placeholder | Description | Example |
 |-------------|-------------|---------|
-| `{id}` | Full identifier | `CVE-2024-1234` |
-| `{num}` | Numeric portion | `1234` |
-| `{year}` | Year component | `2024` |
+| `{id}` | Full identifier from subpath | `CVE-2024-1234` |
+| `{num}` | Numeric portion of identifier | `1234` |
+| `{year}` | Year component of identifier | `2024` |
+| `{version}` | Version from `@version` component | `4.0` |
 
 #### ID Patterns (array with context)
 
@@ -299,14 +263,49 @@ For sources where different ID patterns need different lookup URLs:
 
 **Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
 
-#### Examples and Versions
+#### Version Patterns (array, optional)
+
+For sources where different versions have different URL structures, use `version_patterns` to route based on the `@version` component:
 
 ```json
-"examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"],
-"versions": ["5.1", "5.0", "4.0"]
+"version_patterns": [
+  {
+    "pattern": "4\\..*",
+    "description": "Version 4.x",
+    "url": "https://example.com/v4/resource/{id}"
+  },
+  {
+    "pattern": "3\\..*",
+    "description": "Version 3.x and earlier",
+    "url": "https://example.com/legacy/v{version}/{id}"
+  }
+]
 ```
 
-Simple string arrays. Examples show valid ID formats. Versions list known versions (newest first).
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `pattern` | string | yes | PCRE2-compatible regex to match version string |
+| `description` | string | no | Human/AI-readable description |
+| `url` | string | yes | URL template for this version range |
+
+**Resolution example:** `secid:control/csa/ccm@4.0.1#IAM-12`
+1. Extract version = `4.0.1`, id = `IAM-12`
+2. Match version against patterns → `4\..*` matches
+3. Use that pattern's URL template with `{version}` and `{id}` substitution
+
+**When not needed:** Most sources don't need `version_patterns`. Use when:
+- Different major versions have incompatible URL structures
+- Legacy versions are hosted on different infrastructure
+
+If URLs are predictable (just substitute `{version}`), use the placeholder in the main `urls[]` instead.
+
+#### Examples
+
+```json
+"examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"]
+```
+
+Simple string array showing valid ID formats. Helps humans and AI understand what identifiers look like.
 
 ## Reference Type Fields
 
@@ -385,7 +384,6 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   "type": "advisory",
   "status": "published",
   "status_notes": null,
-  "superseded_by": null,
 
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
@@ -397,18 +395,11 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
     {"type": "website", "url": "https://www.mitre.org"}
   ],
 
-  "operators": [
-    {"ref": "secid:entity/mitre", "role": "operator"},
-    {"ref": "secid:entity/cisa", "role": "sponsor"}
-  ],
-
   "sources": {
     "cve": {
       "official_name": "Common Vulnerabilities and Exposures",
       "common_name": "CVE",
       "alternate_names": null,
-      "deprecated_by": null,
-      "deprecated_date": null,
 
       "urls": [
         {"type": "website", "url": "https://cve.org"},
@@ -422,9 +413,7 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
         {"pattern": "CVE-\\d{4}-\\d{4,}", "description": "Standard CVE ID format"}
       ],
 
-      "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"],
-
-      "versions": ["5.1", "5.0", "4.0"]
+      "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"]
     }
   }
 }
@@ -437,7 +426,6 @@ The current YAML frontmatter maps to JSON as follows:
 | YAML Field | JSON Field | Notes |
 |------------|------------|-------|
 | `full_name` | `official_name` | Renamed for clarity |
-| `operator` | `operators[].ref` | Now array with roles |
 | `website` | `urls[] where type=website` | Now array with context |
 | `id_pattern` | `id_patterns[].pattern` | Now always array |
 | `id_routing` | `id_patterns[].url` | Merged into id_patterns |
@@ -446,8 +434,21 @@ The current YAML frontmatter maps to JSON as follows:
 | `wikipedia` | `wikipedia[]` | New field, array |
 | `status` | `status` | New values: proposed, draft, pending, published |
 | `status_notes` | `status_notes` | New field |
-| `superseded_by` | `superseded_by` | Unchanged |
-| `established` | (removed) | Enrichment layer, not registry |
+
+### Fields Moved to Data Layer
+
+The following fields were considered but belong in the enrichment/relationship data layer, not the registry:
+
+| Field | Reason |
+|-------|--------|
+| `operator` | Relationship (who operates what) |
+| `superseded_by` | Relationship + judgment (X replaced Y) |
+| `deprecated_by` | Relationship (source X replaced by Y) |
+| `deprecated_date` | Temporal enrichment |
+| `established` | Temporal enrichment |
+| `versions[]` | Replaced by `version_patterns[]` for resolution; version catalog is enrichment |
+
+The registry focuses on identity, resolution, and disambiguation. Relationships and lifecycle metadata belong in separate data layers that reference SecIDs.
 
 The Markdown body content (narrative documentation) will be handled separately - either as a companion `.md` file or a `description` field. Decision pending.
 
