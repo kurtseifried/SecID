@@ -8,6 +8,8 @@ This is a non-code project that defines the **SecID (Security Identifier)** spec
 
 The project is "AI-first," designed to be easily parsed and understood by AI agents to enable autonomous navigation and correlation of security information.
 
+**Type overloading:** Some types intentionally contain related concepts to allow evolution based on real usage. For example, `advisory` includes incident reports (AIID, NHTSA, FDA adverse events) and `control` includes prescriptive benchmarks (HarmBench, WMDP) and documentation standards (Model Cards). If these diverge enough in practice, they may become separate types later.
+
 The repository contains the specification documents and a central `registry` of all supported SecID namespaces.
 
 ## Key Files
@@ -20,7 +22,7 @@ The project is composed of Markdown files that define the specification and the 
 *   **`USE-CASES.md`**: Contains concrete examples of how SecID can be used to solve real-world security problems, such as correlating vulnerability data or mapping controls to standards.
 *   **`registry/`**: This directory is the functional heart of the project. It contains a hierarchy of Markdown files that define all valid SecID types and namespaces.
     *   **`registry/<type>.md`**: Describes a top-level type (e.g., `advisory.md`, `weakness.md`).
-    *   **`registry/<type>/<namespace>/<name>.md`**: Defines a specific namespace, including its resolution rules, ID patterns, and relevant URLs. For example, `registry/advisory/mitre/cve.md` defines how to handle `secid:advisory/mitre/cve#...` identifiers.
+    *   **`registry/<type>/<namespace>.md`**: Defines a specific namespace, including its resolution rules, ID patterns, and relevant URLs. For example, `registry/advisory/mitre.md` defines how to handle `secid:advisory/mitre/cve#...` and other MITRE advisory identifiers.
 
 Each file in the `registry/` uses a consistent format of **YAML frontmatter** for structured, machine-readable data (like URLs and ID patterns) and a **Markdown body** for human- and AI-readable context and documentation.
 

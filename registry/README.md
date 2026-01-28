@@ -8,33 +8,34 @@ Namespace definitions for all SecID types. The directory structure mirrors SecID
 registry/
 ├── <type>.md                    # Type description (e.g., advisory.md)
 ├── <type>/                      # Namespaces for that type
-│   └── <namespace>/             # Organization namespace
-│       └── <name>.md            # Database/framework definition
+│   └── <namespace>.md           # Organization namespace definition
 ...
 
 # Examples:
-registry/advisory/mitre/cve.md   → secid:advisory/mitre/cve
-registry/weakness/mitre/cwe.md   → secid:weakness/mitre/cwe
-registry/ttp/mitre/attack.md     → secid:ttp/mitre/attack
-registry/control/nist/csf.md     → secid:control/nist/csf
+registry/advisory/mitre.md   → secid:advisory/mitre/cve, secid:advisory/mitre/nvd
+registry/weakness/mitre.md   → secid:weakness/mitre/cwe
+registry/ttp/mitre.md        → secid:ttp/mitre/attack, secid:ttp/mitre/atlas
+registry/control/nist.md     → secid:control/nist/csf, secid:control/nist/800-53
 ```
 
 Each type has:
 - A **type.md** file at the root describing the type
-- A **type/** directory containing namespace subdirectories
-- Each namespace directory contains **name.md** files for databases/frameworks
+- A **type/** directory containing namespace files
+- Each namespace file defines all databases/frameworks from that organization
 
 ## Types
 
-| Type | Description |
-|------|-------------|
-| `advisory` | Publications/records about vulnerabilities |
-| `weakness` | Abstract flaw patterns |
-| `ttp` | Adversary techniques and behaviors |
-| `control` | Security requirements and capabilities that implement them |
-| `regulation` | Laws and binding legal requirements |
-| `entity` | Organizations, products, services, platforms |
-| `reference` | Documents, publications, research |
+| Type | Description | Also Contains |
+|------|-------------|---------------|
+| `advisory` | Publications/records about vulnerabilities | Incident reports (AIID, NHTSA, FDA adverse events) |
+| `weakness` | Abstract flaw patterns | |
+| `ttp` | Adversary techniques and behaviors | |
+| `control` | Security requirements and capabilities | Prescriptive benchmarks, documentation standards |
+| `regulation` | Laws and binding legal requirements | |
+| `entity` | Organizations, products, services, platforms | |
+| `reference` | Documents, publications, research | |
+
+**Note:** Some types intentionally contain related concepts (see "Also Contains" column). This allows the spec to evolve based on real usage patterns rather than premature categorization. See DESIGN-DECISIONS.md for the rationale.
 
 ## Namespace File Format
 
@@ -73,7 +74,7 @@ secid:weakness/mitre/cwe#CWE-NNN
 https://cwe.mitre.org/data/definitions/{num}.html
 ```
 
-The file location `registry/weakness/mitre/cwe.md` corresponds to `secid:weakness/mitre/cwe`.
+The file location `registry/weakness/mitre.md` corresponds to `secid:weakness/mitre/*` (all MITRE weakness namespaces like CWE).
 
 ## Patterns
 
@@ -125,8 +126,8 @@ Document in both types when the source provides both perspectives.
 
 To add a new namespace:
 1. Determine which type it belongs to
-2. Identify the organization (namespace) and what they publish (name)
-3. Create `registry/<type>/<namespace>/<name>.md`
+2. Identify the organization (namespace)
+3. Create or update `registry/<type>/<namespace>.md`
 4. Fill in the frontmatter with resolution info (urls, id_pattern, examples)
 5. Add context in the markdown body (format, resolution rules, notes)
 
