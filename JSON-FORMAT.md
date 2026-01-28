@@ -95,7 +95,32 @@ For arrays:
 | `schema_version` | string | JSON schema version for this file |
 | `namespace` | string | Organization identifier (used in SecIDs) |
 | `type` | string | SecID type: advisory, weakness, ttp, control, regulation, entity, reference |
-| `status` | string | Registry entry status: active, draft, deprecated, historical |
+| `status` | string | Registry entry status (see below) |
+| `status_notes` | string \| null | Optional context about status (blockers, gaps, guidance for contributors) |
+
+#### Status Values
+
+Registry entry status reflects documentation completeness and review state:
+
+| Status | Meaning | Field Requirements |
+|--------|---------|-------------------|
+| `proposed` | Suggested, minimal info | namespace, type, status, official_name required |
+| `draft` | Being worked on | Any fields, actively researching |
+| `pending` | Awaiting review | All fields present (value, `null`, or `[]`) - nothing absent |
+| `published` | Reviewed and approved | Same as pending, but reviewed |
+
+**Key principle:** `published` doesn't mean "complete" - it means "reviewed." Empty arrays and `null` values are valid and valuable - they show we looked and couldn't find anything, which exposes gaps and invites contribution.
+
+**Examples:**
+```json
+"status": "published",
+"status_notes": "Vendor has no public security page - urls intentionally empty"
+```
+
+```json
+"status": "draft",
+"status_notes": "Waiting for vendor response about official URL"
+```
 
 #### Disambiguation Fields (optional)
 
@@ -272,6 +297,8 @@ For sources where different ID patterns need different lookup URLs:
 
 **Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
 
+**Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
+
 #### Examples and Versions
 
 ```json
@@ -356,7 +383,8 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   "schema_version": "1.0",
   "namespace": "mitre",
   "type": "advisory",
-  "status": "active",
+  "status": "published",
+  "status_notes": null,
   "superseded_by": null,
 
   "official_name": "MITRE Corporation",
@@ -416,6 +444,8 @@ The current YAML frontmatter maps to JSON as follows:
 | `urls.lookup` | `urls[] where type=lookup` | Now array with context |
 | `wikidata` | `wikidata[]` | Now array |
 | `wikipedia` | `wikipedia[]` | New field, array |
+| `status` | `status` | New values: proposed, draft, pending, published |
+| `status_notes` | `status_notes` | New field |
 | `superseded_by` | `superseded_by` | Unchanged |
 | `established` | (removed) | Enrichment layer, not registry |
 
