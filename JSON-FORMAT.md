@@ -2,6 +2,22 @@
 
 This document defines the JSON format for SecID registry files. The registry currently uses YAML+Markdown (see REGISTRY-FORMAT.md) for flexibility during exploration. This document specifies the target JSON format for v1.0+.
 
+## Scope: Labeling and Finding
+
+**SecID is about labeling and finding things. That's it.**
+
+The registry contains:
+- **Identity** - What is this thing called?
+- **Resolution** - How do I find/access it?
+- **Disambiguation** - How do I tell similar things apart?
+
+The registry does NOT contain:
+- **Enrichment** - Metadata about the thing (authors, categories, relationships)
+- **Judgments** - Quality assessments, trust scores, recommendations
+- **Relationships** - How things connect to each other
+
+Enrichment and relationships belong in separate data layers that reference SecIDs.
+
 ## Design Principles
 
 ### AI-First Data Modeling
@@ -79,6 +95,22 @@ For arrays:
 | `type` | string | SecID type: advisory, weakness, ttp, control, regulation, entity, reference |
 | `status` | string | Registry entry status: active, draft, deprecated, historical |
 
+#### Disambiguation Fields (optional)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `wikidata` | string \| null | Wikidata Q-number for entity disambiguation (e.g., "Q1116236") |
+
+**Why Wikidata?** Organizations can have similar names. Wikidata provides a universal, stable identifier for disambiguation. An AI can use this to confirm "which MITRE?" or link to additional context.
+
+#### Lifecycle Fields (optional)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `superseded_by` | string \| null | SecID of replacement when status=superseded |
+
+When a namespace is superseded (e.g., an organization merges or renames), this field points to where to look instead.
+
 #### Name Fields (singular/array)
 
 | Field | Type | Description |
@@ -129,6 +161,15 @@ The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advi
 #### Source Name Fields
 
 Same pattern as top-level: `official_name`, `common_name`, `alternate_names`.
+
+#### Source Lifecycle Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `deprecated_by` | string \| null | What replaces this source |
+| `deprecated_date` | string \| null | ISO date when deprecated (YYYY-MM-DD) |
+
+Sources within a namespace can be deprecated independently (e.g., an old API version).
 
 #### URLs (array with context)
 
@@ -189,14 +230,27 @@ For sources with multiple ID types:
 ]
 ```
 
+For sources where different ID patterns need different lookup URLs:
+
+```json
+"id_patterns": [
+  {"pattern": "ALAS-\\d{4}-\\d+", "type": "al1", "description": "Amazon Linux 1", "url": "https://alas.aws.amazon.com/{id}.html"},
+  {"pattern": "ALAS2-\\d{4}-\\d+", "type": "al2", "description": "Amazon Linux 2", "url": "https://alas.aws.amazon.com/AL2/{id}.html"},
+  {"pattern": "ALAS2023-\\d{4}-\\d+", "type": "al2023", "description": "Amazon Linux 2023", "url": "https://alas.aws.amazon.com/AL2023/{id}.html"}
+]
+```
+
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `pattern` | string | yes | PCRE2-compatible regular expression |
 | `type` | string | no | Category when source has multiple ID types |
 | `description` | string | no | Human/AI-readable description |
 | `ecosystem` | string | no | For ecosystem-specific patterns (e.g., PyPI, Go) |
+| `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
 
 **Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
+
+**Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
 
 #### Examples and Versions
 
@@ -207,9 +261,43 @@ For sources with multiple ID types:
 
 Simple string arrays. Examples show valid ID formats. Versions list known versions (newest first).
 
+## Reference Type Fields
+
+For `type: reference` (documents, papers, standards), additional identifier fields help with finding and disambiguation:
+
+```json
+{
+  "type": "reference",
+  "namespace": "nist",
+
+  "title": "AI RMF",
+  "full_title": "Artificial Intelligence Risk Management Framework",
+
+  "doi": "10.6028/NIST.AI.100-1",
+  "isbn": null,
+  "issn": null,
+  "asin": null,
+
+  "sources": { ... }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `title` | string | Short/common title |
+| `full_title` | string \| null | Complete formal title |
+| `doi` | string \| null | Digital Object Identifier |
+| `isbn` | string \| null | Book ISBN |
+| `issn` | string \| null | Journal/series ISSN |
+| `asin` | string \| null | Amazon Standard Identification Number |
+
+**Why these fields?** They are identifiers that help find the document. Metadata like authors, publication date, and category belong in an enrichment layer, not the registry.
+
+**Note:** For references accessed via specific systems (arXiv, RFC), the identifier is typically part of the SecID itself (e.g., `secid:reference/arxiv/2303.08774` or `secid:reference/ietf/rfc9110`).
+
 ## Entity Type Differences
 
-Entity files describe organizations rather than data sources. They use a `names` block instead of `sources`:
+Entity files describe organizations rather than data sources. They use a `names` block instead of `sources` to document products/projects the entity is known for:
 
 ```json
 {
@@ -217,27 +305,24 @@ Entity files describe organizations rather than data sources. They use a `names`
   "type": "entity",
   "official_name": "The MITRE Corporation",
   "common_name": "MITRE",
+  "wikidata": "Q1116236",
 
   "names": {
     "cve": {
       "official_name": "Common Vulnerabilities and Exposures",
-      "description": "Canonical vulnerability identifier system",
-      "issues_type": "advisory",
-      "issues_namespace": "mitre",
+      "common_name": "CVE",
       "urls": [ ... ]
     },
     "attack": {
       "official_name": "MITRE ATT&CK",
-      "description": "Adversary tactics and techniques knowledge base",
-      "issues_type": "ttp",
-      "issues_namespace": "mitre",
+      "common_name": "ATT&CK",
       "urls": [ ... ]
     }
   }
 }
 ```
 
-The `names` block documents what the entity publishes, with cross-references to where those publications live in the SecID namespace.
+The `names` block helps with disambiguation and finding - "What does MITRE publish?" These are labels and access points, not relationship data. Cross-references between entities and their publications belong in an enrichment layer.
 
 ## Complete Example
 
@@ -247,10 +332,12 @@ The `names` block documents what the entity publishes, with cross-references to 
   "namespace": "mitre",
   "type": "advisory",
   "status": "active",
+  "superseded_by": null,
 
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
   "alternate_names": ["The MITRE Corporation"],
+  "wikidata": "Q1116236",
 
   "website": "https://www.mitre.org",
 
@@ -264,6 +351,8 @@ The `names` block documents what the entity publishes, with cross-references to 
       "official_name": "Common Vulnerabilities and Exposures",
       "common_name": "CVE",
       "alternate_names": null,
+      "deprecated_by": null,
+      "deprecated_date": null,
 
       "urls": [
         {"type": "website", "url": "https://cve.org"},
@@ -294,7 +383,10 @@ The current YAML frontmatter maps to JSON as follows:
 | `full_name` | `official_name` | Renamed for clarity |
 | `operator` | `operators[].ref` | Now array with roles |
 | `id_pattern` | `id_patterns[].pattern` | Now always array |
+| `id_routing` | `id_patterns[].url` | Merged into id_patterns |
 | `urls.lookup` | `urls[] where type=lookup` | Now array with context |
+| `wikidata` | `wikidata` | Unchanged |
+| `superseded_by` | `superseded_by` | Unchanged |
 
 The Markdown body content (narrative documentation) will be handled separately - either as a companion `.md` file or a `description` field. Decision pending.
 
