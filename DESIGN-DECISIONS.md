@@ -1081,3 +1081,269 @@ secid-relationships/      ← Separate repo: relationship data
 3. **Different sizes.** Registry is small (~hundreds of files); enrichment could be millions.
 4. **Clean separation.** Follows "identifiers are just identifiers" principle.
 
+---
+
+## JSON Schema: AI-First Data Modeling
+
+### The Principle
+
+Traditional data formats optimized for software that needed deterministic, single values. The JSON schema for SecID takes an AI-first approach:
+
+- **Provide options with context** rather than forcing single "canonical" choices
+- **Let AI reason** about which option fits the current need
+- **Include metadata** that aids decision-making
+
+### Example: Multiple URLs with Context
+
+Instead of one lookup URL:
+```json
+"lookup_url": "https://cve.org/CVERecord?id={id}"
+```
+
+We provide multiple with context:
+```json
+"urls": [
+  {"type": "lookup", "url": "https://cve.org/CVERecord?id={id}", "note": "Human-readable page"},
+  {"type": "lookup", "url": "https://cveawg.mitre.org/api/cve/{id}", "format": "json", "note": "API, richer data"}
+]
+```
+
+An AI can now reason: "Need machine-readable data? Use the JSON API. Building a link for a human? Use the HTML page."
+
+### Pattern Selection Rules
+
+We use different patterns based on data characteristics:
+
+| Situation | Pattern | Example |
+|-----------|---------|---------|
+| Fixed, small set of categories | Named fields | `official_name`, `common_name`, `alternate_names` |
+| Open-ended, numerous categories | Arrays with type/context | `urls`, `id_patterns` |
+| Identity/classification | Singular values | `namespace`, `type`, `status` |
+
+**Why named fields for names?** An AI reads `official_name` and immediately knows what it is. Arrays with type (like `{"type": "official", "value": "..."}`) require understanding a schema to interpret. Named fields are self-documenting.
+
+**Why arrays for URLs?** 70+ URL types exist. Multiple URLs of the same type are common (primary and fallback endpoints). Context helps AI choose appropriately.
+
+---
+
+## JSON Schema: Null vs Absent Convention
+
+### The Principle
+
+Distinguish between "no data exists" and "not yet researched" to track completeness:
+
+| State | Representation | Meaning |
+|-------|----------------|---------|
+| Has data | `"field": "value"` | We have the information |
+| No data exists | `"field": null` | We looked, nothing to find |
+| Not researched | field absent | We haven't looked yet |
+
+For arrays:
+- `[]` (empty array) = we looked, there are none
+- `null` = we looked, not applicable to this source
+- absent = not yet researched
+
+### Why This Matters
+
+This convention enables:
+
+1. **Completeness tracking** - An absent field signals work to be done
+2. **Contribution guidance** - Contributors know what needs research
+3. **Quality assessment** - Systems can calculate how complete an entry is
+4. **Honest representation** - We don't pretend to have data we don't have
+
+### Example
+
+```json
+{
+  "official_name": "Example Corporation",
+  "common_name": null,
+  "alternate_names": [],
+  "wikidata": null,
+  "wikipedia": []
+}
+```
+
+This says: "The official name is 'Example Corporation'. We looked for a common name but they don't have one. We searched for alternate names and found none. We checked Wikidata - not applicable. We checked Wikipedia - no articles exist."
+
+Compare to all fields being absent - that would mean "we haven't researched this entity at all."
+
+---
+
+## JSON Schema: Status Values and Progression
+
+### The Principle
+
+Registry entry status reflects **documentation completeness and review state**, not the state of the external source.
+
+### Status Values
+
+| Status | Meaning | Field Requirements |
+|--------|---------|-------------------|
+| `proposed` | Suggested, minimal info | namespace, type, status, official_name required |
+| `draft` | Being worked on | Any fields, actively researching |
+| `pending` | Awaiting review | All fields present (value, `null`, or `[]`) - nothing absent |
+| `published` | Reviewed and approved | Same as pending, but reviewed |
+
+### Key Insight: "Published" Means "Reviewed"
+
+`published` doesn't mean "complete" - it means "reviewed." Empty arrays and `null` values are valid and valuable:
+
+```json
+{
+  "status": "published",
+  "status_notes": "Vendor has no public security page - urls intentionally empty",
+  "urls": []
+}
+```
+
+This is a **feature, not a bug**. Empty values show:
+- We looked and couldn't find anything
+- This exposes gaps in the security ecosystem
+- It invites contribution ("want to add this vendor's security page when they create one?")
+
+### Status Notes
+
+The optional `status_notes` field provides context:
+
+```json
+"status": "draft",
+"status_notes": "Waiting for vendor response about official URL"
+```
+
+```json
+"status": "pending",
+"status_notes": "All fields complete, ready for maintainer review"
+```
+
+### Why This Progression?
+
+1. **proposed → draft**: Encourages early contribution without quality gates
+2. **draft → pending**: Self-service; contributor ensures all fields addressed
+3. **pending → published**: Quality gate; maintainer review required
+
+This balances open contribution with quality control.
+
+---
+
+## JSON Schema: ID Patterns Design
+
+### The Principle
+
+`id_patterns` is **always an array**, even for single patterns. This provides consistency and avoids having both `id_pattern` (string) and `id_patterns` (array) fields.
+
+### Basic Pattern
+
+```json
+"id_patterns": [
+  {"pattern": "CVE-\\d{4}-\\d{4,}", "description": "Standard CVE ID format"}
+]
+```
+
+### Multiple ID Types
+
+Sources with multiple ID types use the `type` field:
+
+```json
+"id_patterns": [
+  {"pattern": "T\\d{4}(\\.\\d{3})?", "type": "technique", "description": "ATT&CK technique"},
+  {"pattern": "TA\\d{4}", "type": "tactic", "description": "ATT&CK tactic"},
+  {"pattern": "M\\d{4}", "type": "mitigation", "description": "ATT&CK mitigation"}
+]
+```
+
+### Pattern-Specific URLs
+
+When different ID patterns need different lookup URLs, include `url` in the pattern:
+
+```json
+"id_patterns": [
+  {"pattern": "ALAS-\\d{4}-\\d+", "type": "al1", "description": "Amazon Linux 1", "url": "https://alas.aws.amazon.com/{id}.html"},
+  {"pattern": "ALAS2-\\d{4}-\\d+", "type": "al2", "description": "Amazon Linux 2", "url": "https://alas.aws.amazon.com/AL2/{id}.html"}
+]
+```
+
+This merged the earlier `id_routing` concept into `id_patterns` - simpler than having two separate structures.
+
+### Format Patterns, Not Validity Checks
+
+These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
+
+We never know if an ID is valid; we only know if it has a valid format.
+
+---
+
+## Scope: Labeling and Finding
+
+### The Principle
+
+**SecID is about labeling and finding things. That's it.**
+
+The registry contains:
+- **Identity** - What is this thing called?
+- **Resolution** - How do I find/access it?
+- **Disambiguation** - How do I tell similar things apart?
+
+The registry does NOT contain:
+- **Enrichment** - Metadata about the thing (authors, categories, relationships)
+- **Judgments** - Quality assessments, trust scores, recommendations
+- **Relationships** - How things connect to each other
+
+### Why This Constraint?
+
+Enrichment and relationships belong in separate data layers that reference SecIDs:
+
+1. **Different governance** - Who decides what's "high quality"? Different stakeholders have different opinions
+2. **Different update cadences** - Labels change rarely; enrichment data changes constantly
+3. **Different controversiality** - "This is called X" is factual; "This is good/bad" is judgment
+4. **Scope creep prevention** - Without this constraint, everything becomes registry data
+
+### What We Explicitly Excluded
+
+During JSON schema design, we considered and rejected:
+- `authors` - Enrichment layer
+- `publication_date` - Enrichment layer
+- `category` - Enrichment layer (too detailed)
+- `established` (when source was created) - Enrichment layer
+- `issues_type`, `issues_namespace` - Enrichment layer
+
+### What We Kept for Disambiguation
+
+Some fields walk the line between "finding" and "enrichment." We kept:
+- `wikidata[]` - Stable identifiers that help disambiguate entities with similar names
+- `wikipedia[]` - Direct access to context that aids disambiguation
+
+These help answer "which MITRE do you mean?" - a finding/disambiguation question, not enrichment.
+
+---
+
+## Disambiguation: Wikidata and Wikipedia
+
+### The Principle
+
+Entities can be ambiguous. "MITRE" could mean the corporation, the MITRE ATT&CK project, or historical organizations. We use external identifiers for disambiguation.
+
+### Why Both Wikidata and Wikipedia?
+
+| Field | Purpose | Characteristics |
+|-------|---------|-----------------|
+| `wikidata` | Stable disambiguation | Language-neutral, stable Q-numbers, links to all Wikipedia versions |
+| `wikipedia` | Direct human context | Human-readable, immediate access, fallback when no Wikidata exists |
+
+### Why Arrays?
+
+Both fields are arrays because entities can map to multiple entries:
+- **Mergers** - A merged company might have both old and new Wikidata entries
+- **Multiple aspects** - MITRE has entries for the corporation and for specific projects
+- **Historical** - Name changes create multiple relevant entries
+- **Languages** - Wikipedia pages in different languages can be substantially different
+
+```json
+"wikidata": ["Q1116236"],
+"wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"]
+```
+
+### Not Every Wikipedia Has Wikidata
+
+Some Wikipedia articles lack corresponding Wikidata entries. Some Wikidata entries have minimal Wikipedia coverage. Having both fields handles these gaps.
+

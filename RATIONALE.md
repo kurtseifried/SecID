@@ -267,6 +267,43 @@ We removed these because AI figures this out from context. If the description sa
 
 The test: "Does AI need this field to be structured, or can it derive it from text?"
 
+## JSON Schema: Options Over Answers
+
+The target JSON format (see [JSON-FORMAT.md](JSON-FORMAT.md)) embodies the AI-first philosophy in its structure.
+
+### Traditional vs AI-First
+
+Traditional schemas force single values because old software needed deterministic answers:
+
+```json
+"lookup_url": "https://example.com/{id}"
+```
+
+AI-first schemas provide options with context:
+
+```json
+"urls": [
+  {"type": "lookup", "url": "https://example.com/{id}", "note": "Human-readable"},
+  {"type": "lookup", "url": "https://api.example.com/{id}", "format": "json", "note": "Machine-readable"}
+]
+```
+
+**Why?** AI can reason about which option fits the current task. Forcing a single "canonical" choice means the schema designer has to guess what users need. Providing options lets the AI adapt.
+
+### Exposing Gaps, Not Hiding Them
+
+The null vs absent convention makes incompleteness visible:
+- Absent field = "we haven't researched this"
+- `null` = "we looked, nothing exists"
+- `[]` = "we looked, list is empty"
+
+This is the opposite of traditional approaches that default missing values to empty strings or zero. Visible gaps:
+1. Signal where contribution is needed
+2. Expose problems in the security ecosystem
+3. Let AI honestly say "I don't have that information"
+
+See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) for detailed JSON schema design decisions.
+
 ## Future: Relationships and Enrichment
 
 The real value of SecID will come from connecting identifiers - but we're deliberately deferring this.
