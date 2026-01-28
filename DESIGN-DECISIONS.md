@@ -93,6 +93,54 @@ This keeps the core spec simple and lets us learn before committing to complexit
 
 ---
 
+## Type Evolution
+
+### The Principle
+
+Start with fewer types. Overload them with related concepts. Split only when real-world usage proves it necessary.
+
+### Why Overload?
+
+Creating a new type has costs:
+- Documentation in multiple places
+- Tooling updates (parsers, validators, resolvers)
+- User mental overhead ("is this an advisory or an incident?")
+- Governance decisions about edge cases
+
+These costs are worth paying when a type is genuinely needed. They're waste when we could have used an existing type.
+
+### Current Overloading
+
+| Type | Core Purpose | Also Contains |
+|------|--------------|---------------|
+| `advisory` | Vulnerability publications | Incident reports (AIID, NHTSA, FDA adverse events) |
+| `control` | Security requirements | Prescriptive benchmarks, documentation standards |
+
+**Advisory + Incidents**: Both are publications about "something happened." Vulnerability advisories say "this software has a flaw." Incident reports say "this AI system caused harm." The resolution pattern is similar (look up by ID, get details). The consumers overlap. So incidents live in `advisory` until/unless they diverge enough to warrant separation.
+
+**Control + Benchmarks**: A prescriptive benchmark ("test for these behaviors") is semantically a requirement. "Your model should pass HarmBench" is the same kind of statement as "your system should implement PR.AC-1." So benchmarks that define what to test live in `control`.
+
+### When to Split
+
+Create a new type when:
+
+1. **Resolution patterns diverge** - Different URL structures, different APIs, different metadata
+2. **Consumers diverge** - Different tools need to filter them separately
+3. **Semantics drift** - The "question answered" becomes meaningfully different
+4. **Volume justifies it** - Enough examples exist to define clear boundaries
+
+### The Process
+
+1. Put related concepts in the closest existing type
+2. Document what's overloaded and why (in registry files)
+3. Watch for friction - are users confused? Do tools struggle?
+4. When friction exceeds the cost of a new type, split
+5. Use the accumulated examples to define the new type precisely
+
+This is data-driven type design. We let usage teach us what needs separation rather than speculating upfront.
+
+---
+
 ## Why No UUIDs?
 
 ### The Problem

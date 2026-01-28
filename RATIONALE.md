@@ -168,6 +168,32 @@ The `reference` type was added specifically for documents that don't fit elsewhe
 
 Add types only when existing ones can't handle the semantics.
 
+### Intentional Overloading
+
+We deliberately overload types with related concepts to learn what actually needs separation:
+
+| Type | Also Contains | Rationale |
+|------|---------------|-----------|
+| `advisory` | Incident reports (AIID, NHTSA, FDA) | Both are "something happened" publications |
+| `control` | Prescriptive benchmarks (HarmBench, WMDP) | Benchmarks define what to test = requirements |
+| `control` | Documentation standards (Model Cards) | Define what information to provide = requirements |
+
+**Why overload instead of creating new types?**
+
+1. **Data-driven decisions** - We don't know what needs separation until we have enough examples
+2. **Avoid premature fragmentation** - New types have real costs (documentation, tooling, mental overhead)
+3. **Semantic proximity** - If something fits ~80% in an existing type, put it there
+4. **Easy to split later** - Moving things out is easier than merging types
+
+**When to create a new type:**
+
+- The overloaded concept has fundamentally different resolution patterns
+- Users consistently need to filter it separately
+- The semantic overlap drops below ~50%
+- We have enough examples to know the new type's boundaries
+
+For example, if incident databases grow significantly different from vulnerability advisories (different ID patterns, different metadata needs, different consumers), we'd consider an `incident` type. Until then, they live in `advisory`.
+
 ## Namespace Conventions
 
 ### Short Names When Unambiguous

@@ -1,10 +1,10 @@
 # Controls Type (`control`)
 
-This type contains references to security controls, frameworks, and guidance documents.
+This type contains references to security controls, frameworks, benchmarks, and documentation standards.
 
 ## Purpose
 
-Track and reference security controls - both **requirements** (what you need to do) and **capabilities** (how to do it):
+Track and reference things that define security requirements - what you need to do, test, or document:
 
 **Control Requirements** (frameworks that define what to implement):
 - NIST Cybersecurity Framework (CSF)
@@ -63,6 +63,34 @@ The namespace is the organization, the name is the framework/document, and the s
 | `nist` | `800-61` | NIST SP 800-61 | Incident Response guidance |
 | `nist` | `800-86` | NIST SP 800-86 | Forensics guidance |
 | `cis` | `benchmark` | CIS Benchmarks | Platform hardening guides |
+
+### Prescriptive Benchmarks
+
+Benchmarks that define **what to test** are semantically requirements - "your model should pass these tests." They live in `control` rather than a separate type.
+
+| Namespace | Name | Benchmark | Description |
+|-----------|------|-----------|-------------|
+| `cais` | `harmbench`, `wmdp` | CAIS | Harmful behavior and dangerous knowledge benchmarks |
+| `ai2` | `decodingtrust`, `realtoxicityprompts` | AI2 | Trustworthiness and toxicity benchmarks |
+| `mlcommons` | `ailuminate` | MLCommons | AI safety benchmark (12 hazard categories) |
+| `jailbreakbench` | `jbb` | JailbreakBench | Jailbreak robustness evaluation |
+| `trustllm` | `benchmark` | TrustLLM | Comprehensive LLM trustworthiness benchmark |
+| `safetybench` | `benchmark` | SafetyBench | Chinese LLM safety evaluation |
+| `advbench` | `benchmark` | AdvBench | Adversarial behavior benchmark |
+| `arc` | `evals` | ARC | Dangerous capability evaluations |
+| `metr` | `task-standard` | METR | AI evaluation task standard |
+
+**Why benchmarks in `control`?** A prescriptive benchmark ("test for X") is functionally a requirement. Results/leaderboards are different - they're data about how models performed, not requirements to meet. If benchmarks diverge enough from traditional controls, we'll split them.
+
+### Documentation Standards
+
+Standards that define **what information to provide** about AI systems - these are disclosure and transparency requirements.
+
+| Namespace | Name | Standard | Description |
+|-----------|------|----------|-------------|
+| `documentation` | `model-cards`, `datasheets`, `system-cards` | Various | AI documentation standards |
+
+**Why documentation standards in `control`?** "You must document X about your model" is a requirement, similar to "you must implement control Y." The implementation is documentation rather than code, but it's still a compliance requirement.
 
 ## Versioning
 

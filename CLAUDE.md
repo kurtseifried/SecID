@@ -138,6 +138,12 @@ Documentation that explains "why" helps readers (human and AI) understand when t
 | `entity` | Organizations, products, services |
 | `reference` | Documents and research (Executive Orders, arXiv papers) |
 
+**Note:** Types are intentionally overloaded with related concepts:
+- `advisory` also contains incident reports (AIID, NHTSA, FDA) - both are "something happened" publications
+- `control` also contains prescriptive benchmarks (HarmBench, WMDP) and documentation standards (Model Cards)
+
+Split into new types only when usage proves it necessary.
+
 ## Encoding Rules
 
 Special characters in names and subpaths are percent-encoded:

@@ -281,6 +281,15 @@ Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Subpaths c
 | `entity` | Organizations, products, services, platforms |
 | `reference` | Documents, publications, research |
 
+Types are intentionally broad. We overload related concepts into existing types:
+
+| Type | Also Contains | Why |
+|------|---------------|-----|
+| `advisory` | Incident reports (AIID, NHTSA, FDA) | Both are "something happened" publications |
+| `control` | Prescriptive benchmarks, documentation standards | Define requirements (what to test, what to document) |
+
+Split into new types only when usage demonstrates the need. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md#type-evolution).
+
 ## Repository Structure
 
 ```

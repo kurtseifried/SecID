@@ -1,10 +1,12 @@
 # Advisory Type (`advisory`)
 
-This type contains references to vulnerability advisories, publications, and records.
+This type contains references to vulnerability advisories, incident reports, and safety publications.
 
 ## Purpose
 
-Track and coordinate vulnerability information across multiple advisory sources:
+Track and coordinate security and safety publications - anything that documents "something happened":
+
+**Vulnerability Advisories** (traditional security):
 - CVE (MITRE) - canonical vulnerability identifier
 - NVD (NIST) - CVE enrichment with CVSS, CWE, CPE
 - GHSA (GitHub) - package-level advisories
@@ -50,7 +52,22 @@ secid:advisory/debian/dsa#DSA-5678-1
 | Namespace | Names | Source | Description |
 |-----------|-------|--------|-------------|
 | `avid` | `avid` | AVID | AI Vulnerability Database (AVID-YYYY-VNNN) |
+| `protectai` | `huntr`, `sightline` | Protect AI | AI/ML vulnerability tracking |
+| `embracethered` | `moaib` | Embrace The Red | Month of AI Bugs disclosures |
+
+### Incident Reports
+
+Incident databases track "something happened" events - safety failures, AI harms, autonomous system accidents. These share the `advisory` type because they're structurally similar to vulnerability advisories (publication about an event).
+
+| Namespace | Names | Source | Description |
+|-----------|-------|--------|-------------|
 | `partnershiponai` | `aiid` | Partnership on AI | AI Incident Database |
+| `aiaaic` | `repository` | AIAAIC | AI/Algorithmic Incidents & Controversies |
+| `nhtsa` | `av-safety` | NHTSA | Autonomous vehicle safety data |
+| `cadmv` | `av-reports` | California DMV | AV collision/disengagement reports |
+| `fda` | `maude`, `recalls` | FDA | Medical device adverse events and recalls |
+
+**Why incidents in `advisory`?** Both vulnerability disclosures and incident reports are publications documenting that something went wrong. The resolution pattern is similar (look up by ID, get event details). If incidents grow distinct enough to need different handling, we'll split them into a separate type.
 
 ### Linux Distributions
 

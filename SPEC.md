@@ -352,21 +352,29 @@ secid:reference/arxiv/2303.08774
 
 ## 3. Types
 
-SecID defines seven types. No type overlaps another - each answers a different question.
+SecID defines seven types. Each answers a different question. Types are intentionally broad - we overload existing types with related concepts (e.g., incidents in `advisory`) and only create new types when real-world usage demonstrates the need. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md#type-evolution) for the rationale.
 
 | Type | What it identifies | Question it answers |
 |------|-------------------|---------------------|
-| `advisory` | Publications/records about vulnerabilities | "What's known about this vulnerability?" |
+| `advisory` | Publications/records about vulnerabilities and incidents | "What's known about this event?" |
 | `weakness` | Abstract flaw patterns | "What kind of mistake is this?" |
 | `ttp` | Adversary techniques and behaviors | "How do attackers do this?" |
-| `control` | Security requirements and capabilities that implement them | "How do we prevent/detect this?" |
+| `control` | Security requirements, benchmarks, and documentation standards | "How do we prevent/detect/document this?" |
 | `regulation` | Laws and binding legal requirements | "What does the law require?" |
 | `entity` | Vendors, products, services, platforms | "What/who is this?" |
 | `reference` | Documents, publications, research | "What source supports this?" |
 
+**Current type overloading:**
+
+| Type | Also Contains | Why |
+|------|---------------|-----|
+| `advisory` | Incident reports (AIID, NHTSA, FDA) | Both are "something happened" publications |
+| `control` | Prescriptive benchmarks (HarmBench, WMDP) | "Test for X" is a requirement |
+| `control` | Documentation standards (Model Cards) | "Document X" is a requirement |
+
 ### 3.1 Advisory
 
-Publications, records, or analyses about vulnerabilities.
+Publications, records, or analyses about vulnerabilities **and incidents**.
 
 ```
 secid:advisory/mitre/cve#CVE-2024-1234        # CVE record (canonical)
