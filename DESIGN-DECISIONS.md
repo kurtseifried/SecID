@@ -1273,6 +1273,88 @@ We never know if an ID is valid; we only know if it has a valid format.
 
 ---
 
+## JSON Schema: Descriptions and Known Values
+
+### The Principle
+
+**Describe classes of objects, not instances.** The registry explains what kinds of things exist, not every individual thing.
+
+### The Rule of Thumb
+
+Ask: "Is this an object or a class of objects?"
+
+- **Classes of objects** → Always describe (what is RHSA vs RHBA vs RHEA?)
+- **Unique/important individual objects** → Sometimes describe (ISO 27001 vs 42001 deserve titles as hints)
+- **Every instance** → Never describe (not every CVE or RHSA)
+
+### Why This Matters
+
+Descriptions answer the disambiguation question: "I see `IAM-12` in a SecID - what is IAM?" Without this, users need external knowledge or extra lookups.
+
+This is different from enrichment. Enrichment tells you *about* a specific thing ("CVE-2024-1234 affects Linux kernel"). Descriptions tell you *what kind of thing* you're looking at ("IAM means Identity & Access Management, a control domain").
+
+### Source-Level Description
+
+Sources have a `description` field explaining what they contain:
+
+```json
+"sources": {
+  "errata": {
+    "official_name": "Red Hat Security Advisories",
+    "description": "Red Hat publishes three types of errata: RHSA (Security Advisory) for security fixes, RHBA (Bug Advisory) for bug fixes, and RHEA (Enhancement Advisory) for new features. Most security work focuses on RHSA."
+  }
+}
+```
+
+This explains the class structure within the source - critical for understanding what you're referencing.
+
+### Pattern-Level Known Values
+
+For patterns with finite, stable value sets, `known_values` enumerates them:
+
+```json
+"id_patterns": [
+  {
+    "pattern": "[A-Z]{2,3}",
+    "type": "domain",
+    "description": "Control domain. Contains multiple controls.",
+    "known_values": {
+      "IAM": "Identity & Access Management",
+      "DSP": "Data Security & Privacy Lifecycle Management",
+      "GRC": "Governance, Risk & Compliance"
+    }
+  }
+]
+```
+
+This answers: "I see `#IAM` - what does IAM mean?"
+
+### When to Use Known Values
+
+**Good candidates:**
+- Control framework domains (IAM, DSP, GRC)
+- Advisory type prefixes (RHSA, RHBA, RHEA)
+- ISO standard numbers with their titles (27001, 42001)
+- Finite category codes
+
+**Not good candidates:**
+- Open-ended sets (individual CVEs)
+- Growing sets (specific controls like IAM-01, IAM-02...)
+- Self-explanatory values (years, sequential numbers)
+
+### Why This Is Registry Data, Not Enrichment
+
+This walks a line. Technically, "what is IAM" could be considered enrichment. We include it because:
+
+1. **Critical for finding** - You can't effectively use `secid:control/csa/ccm@4.0#IAM-12` without knowing what IAM means
+2. **Class-level, not instance-level** - We describe the category (IAM domain), not every control (IAM-12 details)
+3. **Stable** - These category names rarely change; they're not dynamic enrichment
+4. **Aids disambiguation** - Helps distinguish IAM (controls) from IAM (cloud services) from IAM (other)
+
+The test: "Does someone need this to understand what a SecID points to, before they even try to resolve it?" If yes, it belongs in the registry.
+
+---
+
 ## Scope: Labeling and Finding
 
 ### The Principle

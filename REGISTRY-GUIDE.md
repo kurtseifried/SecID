@@ -77,7 +77,11 @@ Each granularity level should have its own pattern with a description:
   {
     "pattern": "[A-Z]{2,3}",
     "type": "domain",
-    "description": "Control domain (e.g., IAM). Contains multiple controls."
+    "description": "Control domain (e.g., IAM). Contains multiple controls.",
+    "known_values": {
+      "IAM": "Identity & Access Management",
+      "DSP": "Data Security & Privacy Lifecycle Management"
+    }
   },
   {
     "pattern": "[A-Z]{2,3}-\\d{2}",
@@ -86,6 +90,8 @@ Each granularity level should have its own pattern with a description:
   }
 ]
 ```
+
+Use `known_values` for the domain/category level (finite set) but not for individual controls (open-ended set).
 
 Not every granularity level needs to resolve to a URL. An identifier can be valid for reference purposes even without direct resolution.
 
@@ -233,6 +239,50 @@ Explain what and why:
 - What kind of thing is this?
 - When would someone use it vs alternatives?
 - Any quirks or gotchas?
+
+**The rule of thumb:** Is it an object or a class of objects?
+
+- **Describe classes** - Always explain what categories, types, or domains mean (RHSA vs RHBA vs RHEA)
+- **Sometimes describe unique objects** - Include hints for important individual items (ISO 27001 vs 42001 deserve titles)
+- **Never describe every instance** - Don't describe individual CVEs or advisories
+
+### When to Use known_values
+
+Use `known_values` to enumerate finite, stable value sets:
+
+```json
+"id_patterns": [
+  {
+    "pattern": "[A-Z]{2,3}",
+    "type": "domain",
+    "description": "Control domain. Contains multiple controls.",
+    "known_values": {
+      "IAM": "Identity & Access Management",
+      "DSP": "Data Security & Privacy Lifecycle Management"
+    }
+  }
+]
+```
+
+**Good candidates for known_values:**
+- Control framework domains (IAM, DSP, GRC)
+- Advisory type prefixes (RHSA, RHBA, RHEA)
+- ISO standard numbers with titles (27001, 42001)
+- Small, stable category codes
+
+**Not good candidates:**
+- Growing or open-ended sets (individual CVEs)
+- Self-explanatory values (years, sequential numbers)
+- Instance data (specific controls within a domain)
+
+### Why This Isn't Enrichment
+
+Descriptions and known_values walk a line - technically "what is IAM" could be enrichment. We include it because:
+
+1. **Critical for finding** - You can't use `secid:control/csa/ccm@4.0#IAM-12` without knowing what IAM means
+2. **Class-level** - We describe categories, not instances
+3. **Stable** - Category names rarely change
+4. **Aids disambiguation** - Helps distinguish IAM (controls) from IAM (cloud services)
 
 ## See Also
 

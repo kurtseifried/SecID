@@ -179,6 +179,31 @@ The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advi
 
 Same pattern as top-level: `official_name`, `common_name`, `alternate_names`.
 
+#### Source Description
+
+The `description` field provides context about what this source is and when to use it:
+
+```json
+"sources": {
+  "errata": {
+    "official_name": "Red Hat Security Advisories",
+    "description": "Red Hat publishes three types of errata: RHSA (Security Advisory) for security fixes, RHBA (Bug Advisory) for bug fixes, and RHEA (Enhancement Advisory) for new features. Most security work focuses on RHSA.",
+    ...
+  }
+}
+```
+
+**What to describe:**
+- Classes of objects the source contains (what is an RHSA vs RHBA vs RHEA?)
+- When to use this source vs similar ones
+- Important quirks or exceptions (e.g., numbering restarts annually)
+
+**What NOT to describe:**
+- Every individual instance (don't describe CVE-2024-1234)
+- Data enrichment (severity, affected products, authors)
+
+**Rule of thumb:** Is it an object or a class of objects? Describe classes. For individual objects, only describe when unique/important (like ISO standards or NIST special publications).
+
 #### URLs (array with context)
 
 ```json
@@ -253,15 +278,80 @@ For sources where different ID patterns need different lookup URLs:
 |-------|------|----------|-------------|
 | `pattern` | string | yes | PCRE2-compatible regular expression |
 | `type` | string | no | Category when source has multiple ID types |
-| `description` | string | no | Human/AI-readable description |
+| `description` | string | no | Human/AI-readable description of what this pattern represents |
 | `ecosystem` | string | no | For ecosystem-specific patterns (e.g., PyPI, Go) |
 | `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
+| `known_values` | object | no | Enumeration of finite, stable values (see below) |
 
 **Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
 
 **Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
 
 **Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
+
+#### Known Values
+
+For patterns with finite, stable value sets, use `known_values` to enumerate them with descriptions:
+
+```json
+"id_patterns": [
+  {
+    "pattern": "[A-Z]{2,3}",
+    "type": "domain",
+    "description": "Control domain. Contains multiple controls.",
+    "known_values": {
+      "IAM": "Identity & Access Management",
+      "DSP": "Data Security & Privacy Lifecycle Management",
+      "GRC": "Governance, Risk & Compliance",
+      "SEF": "Security Incident Management, E-Discovery & Forensics"
+    }
+  },
+  {
+    "pattern": "[A-Z]{2,3}-\\d{2}",
+    "type": "control",
+    "description": "Specific control (e.g., IAM-12). Belongs to a domain."
+  }
+]
+```
+
+**When to use `known_values`:**
+- Finite, stable sets (control domains, advisory types, document categories)
+- Classes that need disambiguation (what is IAM vs DSP vs GRC?)
+- Important individual items worth enumerating (ISO standard numbers with their titles)
+
+**When NOT to use:**
+- Open-ended or growing sets (individual CVEs, specific controls)
+- Values that are obvious from context (years, sequential numbers)
+
+**Examples of good candidates:**
+
+Control framework domains:
+```json
+"known_values": {
+  "IAM": "Identity & Access Management",
+  "DSP": "Data Security & Privacy Lifecycle Management"
+}
+```
+
+Advisory types (Red Hat errata):
+```json
+"known_values": {
+  "RHSA": "Security Advisory - security fixes, most commonly referenced",
+  "RHBA": "Bug Advisory - non-security bug fixes",
+  "RHEA": "Enhancement Advisory - new features"
+}
+```
+
+ISO standard numbers with titles:
+```json
+"known_values": {
+  "27001": "Information security management systems — Requirements",
+  "27002": "Information security controls",
+  "42001": "Artificial intelligence — Management system"
+}
+```
+
+**Rule of thumb:** Ask "is this a class of objects?" If yes, describe it. For individual instances, only include in `known_values` when they're distinct enough to need disambiguation (ISO 27001 vs 42001) or when the set is small and stable.
 
 #### Version Patterns (array, optional)
 
