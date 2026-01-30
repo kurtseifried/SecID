@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
+**SecID is about labeling and finding security knowledge. That's it.**
 
-SecID is a federated identifier system for security knowledge using PURL grammar with `secid:` as the scheme. It provides canonical identifiers for security concepts: advisories, weaknesses, TTPs, controls, regulations, entities, and references.
+SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities (MITRE, NIST, etc.).
 
 Format: `secid:type/namespace/name[@version][?qualifiers][#subpath]`
 
@@ -15,153 +15,120 @@ Examples:
 - `secid:weakness/mitre/cwe#CWE-79` - CWE weakness
 - `secid:ttp/mitre/attack#T1059.003` - ATT&CK technique
 - `secid:control/nist/csf@2.0#PR.AC-1` - NIST CSF control
+- `secid:reference/arxiv/2303.08774` - arXiv paper
 
 ## Current Status: v0.9 (Public Draft)
 
-The specification and registry are open for public comment. Working toward v1.0 (URL Resolution).
-
-**v1.0 Goal**: Given a SecID string, return the URL(s) where that resource can be found.
-
-**Priority order**: Registry data → Python library → npm/TypeScript → REST API → Go → Rust → Java → C#/.NET
+Working toward v1.0: Given a SecID string, return the URL(s) where that resource can be found.
 
 See ROADMAP.md for details.
+
+## Three Layers
+
+SecID separates concerns:
+
+| Layer | Contains | Example |
+|-------|----------|---------|
+| **Registry** | Identity, resolution, disambiguation | "CVE IDs look like CVE-YYYY-NNNNN, resolve at cve.org" |
+| **Relationship** | Equivalence, succession | "This DOI = this arXiv paper" |
+| **Data** | Enrichment, metadata | "This CVE affects Linux, severity high" |
+
+The registry (this repo) only handles identity, resolution, and disambiguation.
 
 ## Repository Structure
 
 ```
 secid/
-├── SPEC.md              # Full technical specification
-├── RATIONALE.md         # Why SecID exists
-├── DESIGN-DECISIONS.md  # Key decisions (no UUIDs, AI-first design)
-├── ROADMAP.md           # v1.0 scope and deliverables
-├── registry/            # Namespace definitions (one file per namespace)
-│   ├── <type>.md        # Type description (advisory.md, weakness.md, etc.)
-│   └── <type>/<namespace>.md  # All sources from that namespace in one file
-└── seed/                # Bulk import data (CSV)
-```
-
-Registry uses one file per namespace: `registry/advisory/redhat.md` contains all Red Hat sources (cve, errata, bugzilla). Each source is a section within that file, not a separate subdirectory.
-
-## Development Commands
-
-```bash
-# Audit registry files have required metadata
-rg -n '^type:' registry/**/*.md
-
-# Lint markdown before PRs
-markdownlint **/*.md
-
-# Validate CSV structure
-column -t -s, seed/seed-controls.csv | head
+├── SPEC.md                  # Full technical specification
+├── RATIONALE.md             # Why SecID exists
+├── DESIGN-DECISIONS.md      # Key design decisions and rationale
+├── REGISTRY-GUIDE.md        # Principles and patterns for registry contributions
+├── REGISTRY-JSON-FORMAT.md  # Target JSON schema specification
+├── REGISTRY-FORMAT.md       # Current YAML+Markdown format
+├── ROADMAP.md               # v1.0 scope and deliverables
+├── registry/                # Namespace definitions (one file per namespace)
+│   ├── <type>.md            # Type description
+│   └── <type>/<namespace>.md
+└── seed/                    # Bulk import data (CSV)
 ```
 
 ## Registry File Format
 
-All registry files use YAML frontmatter + Markdown (Obsidian-compatible). Each namespace file contains all sources from that organization:
+Registry files use YAML frontmatter + Markdown (Obsidian-compatible). One file per namespace containing all sources from that organization.
 
-```yaml
----
-type: advisory
-namespace: redhat
-full_name: "Red Hat Security"
-operator: "secid:entity/redhat"
-status: active
+See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for contribution principles and [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the target JSON schema.
 
-sources:
-  cve:
-    full_name: "Red Hat CVE Database"
-    urls:
-      website: "https://access.redhat.com/security/cve"
-      lookup: "https://access.redhat.com/security/cve/{id}"
-    id_pattern: "CVE-\\d{4}-\\d{4,}"
-    examples:
-      - "secid:advisory/redhat/cve#CVE-2024-1234"
-
-  errata:
-    full_name: "Red Hat Security Errata"
-    urls:
-      website: "https://access.redhat.com/errata"
-      lookup: "https://access.redhat.com/errata/{id}"
-    id_pattern: "RH[SBE]A-\\d{4}:\\d+"
-    examples:
-      - "secid:advisory/redhat/errata#RHSA-2024:1234"
----
-
-# Red Hat Security Advisories
-
-[Narrative content for AI/human consumption covering all Red Hat sources]
-```
-
-Required frontmatter: `type`, `namespace`, `full_name`, `status`, `sources` (with at least one source)
-
-### Status Field
-
-The `status` field indicates the state of the **registry entry itself**, not the external source it documents:
+### Status Values
 
 | Status | Meaning |
 |--------|---------|
-| `active` | Entry is current and maintained |
-| `draft` | Entry is work-in-progress |
-| `superseded` | Entry replaced by another (use `superseded_by` to indicate replacement) |
-| `historical` | Kept for reference; source may no longer exist |
+| `proposed` | Suggested, minimal info |
+| `draft` | Being worked on |
+| `pending` | Awaiting review (all fields present) |
+| `published` | Reviewed and approved |
+
+`published` means "reviewed", not "complete". Empty arrays and `null` values are valid—they show we looked and found nothing.
 
 ## Key Design Principles
 
-1. **Identifiers are just identifiers** - Relationships and enrichment are separate future layers (see RELATIONSHIPS.md, OVERLAYS.md)
-2. **AI-first** - Primary consumer is AI agents; registry content includes context and parsing hints
-3. **Follow the source** - Use names the owner/vendor uses (e.g., "ROSA" not "openshift-aws-managed-service")
+1. **Scope: labeling and finding** - Identity, resolution, disambiguation only. Enrichment and relationships are separate layers.
+2. **Follow the source** - Use names and ID structures the source uses
+3. **AI-first** - Primary consumer is AI agents; include context and parsing hints
 4. **PURL compatibility** - Same grammar as Package URL, different scheme
-
-## Writing Principle: Explain the Why
-
-When writing documentation or registry content, always explain **why**, not just **what** or **how**.
-
-- **Bad**: "SecID uses `#subpath` for specific items instead of file paths"
-- **Good**: "SecID uses `#subpath` for specific items because security knowledge is databases of identifiers, not packages with files. This precision enables cross-referencing vulnerabilities to weaknesses to controls."
-
-The "why" connects features to value:
-- Why does this difference from PURL matter? → It enables relationship graphs and compliance mapping
-- Why use this namespace structure? → It lets you reference specific controls in frameworks, not just the framework itself
-- Why is SecID AI-first? → AI agents need precise handles to fetch, compare, and reason about security knowledge
-
-Documentation that explains "why" helps readers (human and AI) understand when to use something, not just how to use it.
 
 ## SecID Types
 
 | Type | Identifies |
 |------|------------|
-| `advisory` | Publications about vulnerabilities (CVE, GHSA, vendor advisories) |
+| `advisory` | Publications about vulnerabilities (CVE, GHSA, vendor advisories, incident reports) |
 | `weakness` | Abstract flaw patterns (CWE, OWASP Top 10) |
 | `ttp` | Adversary techniques (ATT&CK, ATLAS, CAPEC) |
-| `control` | Security requirements (NIST CSF, ISO 27001, CIS Controls) |
+| `control` | Security requirements (NIST CSF, ISO 27001, benchmarks) |
 | `regulation` | Laws and legal requirements (GDPR, HIPAA) |
 | `entity` | Organizations, products, services |
-| `reference` | Documents and research (Executive Orders, arXiv papers) |
+| `reference` | Documents, research, identifier systems (arXiv, DOI, ISBN, RFCs) |
 
-**Note:** Types are intentionally overloaded with related concepts:
-- `advisory` also contains incident reports (AIID, NHTSA, FDA) - both are "something happened" publications
-- `control` also contains prescriptive benchmarks (HarmBench, WMDP) and documentation standards (Model Cards)
+Types are intentionally overloaded. Split only when usage proves it necessary.
 
-Split into new types only when usage proves it necessary.
+## Granularity
 
-## Encoding Rules
+Use the hierarchy levels the source provides:
 
-Special characters in names and subpaths are percent-encoded:
-- `&` → `%26` (e.g., `A&A-01` → `A%26A-01`)
-- Space → `%20`
-- Reserved chars (`/`, `?`, `#`, `@`) must be encoded when literal
+```
+secid:control/csa/ccm@4.0           → Whole framework
+secid:control/csa/ccm@4.0#IAM       → Domain (group of controls)
+secid:control/csa/ccm@4.0#IAM-12    → Specific control
+```
+
+Document each level with its own `id_pattern` and description.
 
 ## Adding New Namespaces
 
 1. Determine type (advisory, weakness, ttp, control, regulation, entity, reference)
-2. Identify namespace (organization that publishes the identifiers)
-3. Check if `registry/<type>/<namespace>.md` exists:
-   - **If yes**: Add a new source section to the existing file's `sources:` block
-   - **If no**: Create the namespace file with frontmatter and all known sources
-4. Include for each source: urls, id_pattern (PCRE2 safe subset), examples
-5. Add narrative markdown explaining the namespace and its sources
-6. Use `registry/_deferred/` for partially researched systems
+2. Check if `registry/<type>/<namespace>.md` exists
+3. Add source to existing file OR create new namespace file
+4. Include: urls, id_patterns (with descriptions), examples
+5. Use `registry/_deferred/` for incomplete research
 
-## Peer Schemes (Don't Duplicate)
+See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for detailed patterns.
 
-SecID complements, not replaces: `pkg:` (PURL), `CVSS:`, `spdx:`, `doi:`, `swh:`
+## Development Commands
+
+```bash
+# Check registry files have required metadata
+rg -n '^type:' registry/**/*.md
+
+# Lint markdown
+markdownlint **/*.md
+```
+
+## Encoding Rules
+
+Special characters in names and subpaths are percent-encoded:
+- `&` → `%26` (e.g., `A&A` → `A%26A`)
+- Space → `%20`
+- Reserved chars (`/`, `?`, `#`, `@`) must be encoded when literal
+
+## Writing Principle
+
+Explain **why**, not just what. "SecID uses `#subpath` because security knowledge is databases of identifiers, not packages with files" is better than just "SecID uses `#subpath` for specific items."

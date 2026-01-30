@@ -269,7 +269,7 @@ The test: "Does AI need this field to be structured, or can it derive it from te
 
 ## JSON Schema: Options Over Answers
 
-The target JSON format (see [JSON-FORMAT.md](JSON-FORMAT.md)) embodies the AI-first philosophy in its structure.
+The target JSON format (see [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md)) embodies the AI-first philosophy in its structure.
 
 ### Traditional vs AI-First
 
