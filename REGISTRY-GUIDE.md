@@ -127,7 +127,30 @@ Document in both types when the source provides both perspectives.
 
 ## Adding to the Registry
 
-### Decision Tree
+### Step 1: Understand the Source
+
+Before adding anything, study how the source is **presented** and how people **use** it:
+
+**Examine the structure:**
+- How is the document/framework organized? (chapters, sections, domains, categories)
+- What identifier system does it use? (numeric, alphanumeric, hierarchical)
+- Are there multiple levels of granularity? (framework → domain → control)
+- Does the source have an official ID scheme, or just titles/descriptions?
+
+**Observe real-world usage:**
+- How do practitioners actually reference it? ("GDPR Article 17" vs "GDPR Art. 17" vs "right to erasure")
+- What granularity levels do people cite? (whole framework, sections, specific items)
+- Are there common abbreviations or shorthand? (CCM, CSF, 800-53)
+- Do other tools/databases reference it, and how?
+
+**Check for existing patterns:**
+- Does the source provide lookup URLs for specific items?
+- Is there an API or structured data export?
+- Are there official ID patterns documented?
+
+**Document what you find** - this research informs every field in the registry entry.
+
+### Step 2: Decision Tree
 
 1. **Is this security knowledge?** If not, it doesn't belong in SecID.
 
@@ -146,7 +169,7 @@ Document in both types when the source provides both perspectives.
 
 4. **What granularity levels exist?** Document each with an id_pattern.
 
-### Namespace File Location
+### Step 3: Namespace File Location
 
 ```
 registry/<type>/<namespace>.md
@@ -156,7 +179,7 @@ One file per namespace containing all sources from that organization:
 - `registry/advisory/redhat.md` → Red Hat CVE, errata, bugzilla
 - `registry/control/nist.md` → NIST CSF, 800-53, AI RMF
 
-### Required Information
+### Step 4: Required Information
 
 For each source, you need:
 - **Name**: `official_name`, `common_name` (if different)
