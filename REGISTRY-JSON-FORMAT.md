@@ -18,6 +18,110 @@ The registry does NOT contain:
 
 Enrichment and relationships belong in separate data layers that reference SecIDs.
 
+## Resolution Pipeline
+
+This section explains how a SecID string is resolved to URLs using registry data.
+
+### Step 1: Parse the SecID String
+
+Following PURL grammar, extract components from the full SecID string:
+
+```
+secid:advisory/mitre/cve#CVE-2024-1234
+      ├──────────────────┤├────────────┤
+           path portion      subpath
+```
+
+| Component | Value | Description |
+|-----------|-------|-------------|
+| scheme | `secid` | Always "secid" |
+| type | `advisory` | First path segment |
+| namespace | `mitre` | Second path segment |
+| name | `cve` | Third path segment |
+| version | (none) | From `@version` if present |
+| qualifiers | (none) | From `?key=value` if present |
+| subpath | `CVE-2024-1234` | Everything after `#` |
+
+### Step 2: Lookup the Source
+
+Using type, namespace, and name, find the source definition:
+
+```
+registry[type][namespace][name] → registry["advisory"]["mitre"]["cve"]
+```
+
+### Step 3: Match Patterns Against Subpath
+
+The subpath is tested against each `id_patterns[].pattern`. Patterns should be anchored (`^...$`) to match the complete subpath:
+
+```json
+"id_patterns": [
+  {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
+]
+```
+
+**Important:** Patterns match the **complete subpath**, not a substring. This means:
+- `secid:advisory/mitre/cve#CVE-2024-1234` → subpath `CVE-2024-1234` → matches
+- `secid:advisory/mitre/cve#CVE-2024-1234/extra` → subpath `CVE-2024-1234/extra` → **no match**
+
+Invalid subpaths simply don't match any pattern. This is intentional - CVE IDs don't have path suffixes, so such a SecID would be malformed.
+
+### Step 4: Extract Variables (if needed)
+
+For simple cases, the subpath is used directly as `{id}` in the URL template:
+
+```json
+{"type": "lookup", "url": "https://cve.org/CVERecord?id={id}"}
+```
+
+For complex URL structures where parts of the ID need transformation, patterns can specify a `variables` object:
+
+```json
+{
+  "pattern": "^CWE-\\d+$",
+  "url": "https://cwe.mitre.org/data/definitions/{number}.html",
+  "variables": {
+    "number": "^CWE-(\\d+)$"
+  }
+}
+```
+
+The `variables` object maps placeholder names to extraction regexes. Each regex is applied to the subpath, and the first capture group becomes the variable value.
+
+### Step 5: Build URL
+
+Substitute variables into the URL template:
+
+| Placeholder | Source | Example |
+|-------------|--------|---------|
+| `{id}` | Full subpath | `CVE-2024-1234` |
+| `{version}` | From `@version` component | `4.0` |
+| `{year}` | Extracted from subpath (if in variables) | `2024` |
+| `{number}` | Extracted from subpath (if in variables) | `1234` |
+
+**Result:** `https://cve.org/CVERecord?id=CVE-2024-1234`
+
+### Variable Extraction Example
+
+For CWE, the lookup URL needs just the number, not the full ID:
+
+```json
+{
+  "pattern": "^CWE-\\d+$",
+  "description": "CWE weakness ID",
+  "url": "https://cwe.mitre.org/data/definitions/{number}.html",
+  "variables": {
+    "number": "^CWE-(\\d+)$"
+  }
+}
+```
+
+Resolution of `secid:weakness/mitre/cwe#CWE-79`:
+1. Subpath: `CWE-79`
+2. Pattern matches: `^CWE-\d+$` ✓
+3. Extract variables: `number` regex `^CWE-(\d+)$` captures `79`
+4. Build URL: `https://cwe.mitre.org/data/definitions/79.html`
+
 ## Design Principles
 
 ### AI-First Data Modeling
@@ -223,16 +327,22 @@ The `description` field provides context about what this source is and when to u
 | `format` | string | no | Response format: json, html, xml, csv, pdf |
 | `note` | string | no | Context for AI: when/why to use, access instructions, auth requirements, download hints |
 
-**Common URL types:**
-- `website` - Main website for humans
-- `lookup` - Resolution URL with `{id}` placeholder
-- `api` - API endpoint
-- `bulk_data` - Bulk download location
-- `github` - GitHub repository
-- `paper` - Academic paper
-- `docs` - Documentation
+**URL type vocabulary:**
 
-**Why an array?** 70+ URL types exist. Multiple URLs of the same type are common (e.g., primary and fallback lookup endpoints). Context helps AI choose appropriately.
+| Type | Description |
+|------|-------------|
+| `website` | Main website for humans |
+| `docs` | Documentation pages |
+| `search` | Search interface (human or programmatic) |
+| `lookup` | Resolution URL with `{id}` placeholder |
+| `api` | API endpoint |
+| `bulk_data` | Bulk download location |
+| `github` | GitHub repository |
+| `paper` | Academic paper |
+| `secid_api` | SecID REST API for this source (if different from main) |
+| `secid_mcp` | SecID MCP endpoint for this source (if different from main) |
+
+**Why an array?** Multiple URLs of the same type are common (e.g., primary and fallback lookup endpoints, multiple mirrors). The `note` field provides context to help AI choose appropriately.
 
 #### URL Template Placeholders
 
@@ -249,7 +359,7 @@ URLs may contain placeholders for dynamic resolution:
 
 ```json
 "id_patterns": [
-  {"pattern": "CVE-\\d{4}-\\d{4,}", "description": "Standard CVE ID format"}
+  {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
 ]
 ```
 
@@ -257,10 +367,10 @@ For sources with multiple ID types:
 
 ```json
 "id_patterns": [
-  {"pattern": "T\\d{4}(\\.\\d{3})?", "type": "technique", "description": "ATT&CK technique"},
-  {"pattern": "TA\\d{4}", "type": "tactic", "description": "ATT&CK tactic"},
-  {"pattern": "M\\d{4}", "type": "mitigation", "description": "ATT&CK mitigation"},
-  {"pattern": "G\\d{4}", "type": "group", "description": "Threat group"}
+  {"pattern": "^T\\d{4}(\\.\\d{3})?$", "type": "technique", "description": "ATT&CK technique"},
+  {"pattern": "^TA\\d{4}$", "type": "tactic", "description": "ATT&CK tactic"},
+  {"pattern": "^M\\d{4}$", "type": "mitigation", "description": "ATT&CK mitigation"},
+  {"pattern": "^G\\d{4}$", "type": "group", "description": "Threat group"}
 ]
 ```
 
@@ -268,22 +378,25 @@ For sources where different ID patterns need different lookup URLs:
 
 ```json
 "id_patterns": [
-  {"pattern": "ALAS-\\d{4}-\\d+", "type": "al1", "description": "Amazon Linux 1", "url": "https://alas.aws.amazon.com/{id}.html"},
-  {"pattern": "ALAS2-\\d{4}-\\d+", "type": "al2", "description": "Amazon Linux 2", "url": "https://alas.aws.amazon.com/AL2/{id}.html"},
-  {"pattern": "ALAS2023-\\d{4}-\\d+", "type": "al2023", "description": "Amazon Linux 2023", "url": "https://alas.aws.amazon.com/AL2023/{id}.html"}
+  {"pattern": "^ALAS-\\d{4}-\\d+$", "type": "al1", "description": "Amazon Linux 1", "url": "https://alas.aws.amazon.com/{id}.html"},
+  {"pattern": "^ALAS2-\\d{4}-\\d+$", "type": "al2", "description": "Amazon Linux 2", "url": "https://alas.aws.amazon.com/AL2/{id}.html"},
+  {"pattern": "^ALAS2023-\\d{4}-\\d+$", "type": "al2023", "description": "Amazon Linux 2023", "url": "https://alas.aws.amazon.com/AL2023/{id}.html"}
 ]
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `pattern` | string | yes | PCRE2-compatible regular expression |
+| `pattern` | string | yes | PCRE2-compatible regular expression (should be anchored with `^...$`) |
 | `type` | string | no | Category when source has multiple ID types |
 | `description` | string | no | Human/AI-readable description of what this pattern represents |
 | `ecosystem` | string | no | For ecosystem-specific patterns (e.g., PyPI, Go) |
 | `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
+| `variables` | object | no | Map of placeholder names to extraction regexes (see Resolution Pipeline) |
 | `known_values` | object | no | Enumeration of finite, stable values (see below) |
 
 **Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
+
+**Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire subpath must match, rejecting malformed SecIDs like `secid:advisory/mitre/cve#CVE-2024-1234/garbage`. Unanchored patterns would match substrings, allowing invalid input.
 
 **Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
 
@@ -296,7 +409,7 @@ For patterns with finite, stable value sets, use `known_values` to enumerate the
 ```json
 "id_patterns": [
   {
-    "pattern": "[A-Z]{2,3}",
+    "pattern": "^[A-Z]{2,3}$",
     "type": "domain",
     "description": "Control domain. Contains multiple controls.",
     "known_values": {
@@ -307,7 +420,7 @@ For patterns with finite, stable value sets, use `known_values` to enumerate the
     }
   },
   {
-    "pattern": "[A-Z]{2,3}-\\d{2}",
+    "pattern": "^[A-Z]{2,3}-\\d{2}$",
     "type": "control",
     "description": "Specific control (e.g., IAM-12). Belongs to a domain."
   }
@@ -360,12 +473,12 @@ For sources where different versions have different URL structures, use `version
 ```json
 "version_patterns": [
   {
-    "pattern": "4\\..*",
+    "pattern": "^4\\..*$",
     "description": "Version 4.x",
     "url": "https://example.com/v4/resource/{id}"
   },
   {
-    "pattern": "3\\..*",
+    "pattern": "^3\\..*$",
     "description": "Version 3.x and earlier",
     "url": "https://example.com/legacy/v{version}/{id}"
   }
@@ -374,13 +487,13 @@ For sources where different versions have different URL structures, use `version
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `pattern` | string | yes | PCRE2-compatible regex to match version string |
+| `pattern` | string | yes | PCRE2-compatible regex to match version string (should be anchored) |
 | `description` | string | no | Human/AI-readable description |
 | `url` | string | yes | URL template for this version range |
 
 **Resolution example:** `secid:control/csa/ccm@4.0.1#IAM-12`
 1. Extract version = `4.0.1`, id = `IAM-12`
-2. Match version against patterns → `4\..*` matches
+2. Match version against patterns → `^4\..*$` matches
 3. Use that pattern's URL template with `{version}` and `{id}` substitution
 
 **When not needed:** Most sources don't need `version_patterns`. Use when:
@@ -498,7 +611,7 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
       ],
 
       "id_patterns": [
-        {"pattern": "CVE-\\d{4}-\\d{4,}", "description": "Standard CVE ID format"}
+        {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
       ],
 
       "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"]
@@ -539,6 +652,105 @@ The following fields were considered but belong in the enrichment/relationship d
 The registry focuses on identity, resolution, and disambiguation. Relationships and lifecycle metadata belong in separate data layers that reference SecIDs.
 
 The Markdown body content (narrative documentation) will be handled separately - either as a companion `.md` file or a `description` field. Decision pending.
+
+## Multi-Level Pattern Example
+
+For sources with hierarchical identifiers (domain → control → section), define patterns for each level:
+
+```json
+{
+  "schema_version": "1.0",
+  "namespace": "csa",
+  "type": "control",
+  "status": "published",
+
+  "official_name": "Cloud Security Alliance",
+  "common_name": "CSA",
+  "wikidata": ["Q5135329"],
+
+  "urls": [
+    {"type": "website", "url": "https://cloudsecurityalliance.org"}
+  ],
+
+  "sources": {
+    "ccm": {
+      "official_name": "Cloud Controls Matrix",
+      "common_name": "CCM",
+      "description": "Security controls framework organized by domains. Domains contain controls, controls may have implementation sections.",
+
+      "urls": [
+        {"type": "website", "url": "https://cloudsecurityalliance.org/research/cloud-controls-matrix"},
+        {"type": "docs", "url": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4"}
+      ],
+
+      "id_patterns": [
+        {
+          "pattern": "^[A-Z]{2,3}$",
+          "type": "domain",
+          "description": "Control domain (e.g., IAM). Contains multiple controls.",
+          "known_values": {
+            "A&A": "Audit & Assurance",
+            "AIS": "Application & Interface Security",
+            "BCR": "Business Continuity Management & Operational Resilience",
+            "CCC": "Change Control & Configuration Management",
+            "CEK": "Cryptography, Encryption & Key Management",
+            "DCS": "Datacenter Security",
+            "DSP": "Data Security & Privacy Lifecycle Management",
+            "GRC": "Governance, Risk & Compliance",
+            "HRS": "Human Resources",
+            "IAM": "Identity & Access Management",
+            "IPY": "Interoperability & Portability",
+            "IVS": "Infrastructure & Virtualization Security",
+            "LOG": "Logging & Monitoring",
+            "SEF": "Security Incident Management, E-Discovery & Forensics",
+            "STA": "Supply Chain Management, Transparency & Accountability",
+            "TVM": "Threat & Vulnerability Management",
+            "UEM": "Universal Endpoint Management"
+          }
+        },
+        {
+          "pattern": "^[A-Z]{2,3}-\\d{2}$",
+          "type": "control",
+          "description": "Specific control (e.g., IAM-12). Belongs to a domain.",
+          "url": "https://ccm.cloudsecurityalliance.org/control/{id}"
+        },
+        {
+          "pattern": "^[A-Z]{2,3}-\\d{2}\\.\\d{1,2}$",
+          "type": "section",
+          "description": "Control section (e.g., IAM-12.1). Implementation detail within a control."
+        }
+      ],
+
+      "version_patterns": [
+        {
+          "pattern": "^4\\..*$",
+          "description": "Version 4.x",
+          "url": "https://ccm.cloudsecurityalliance.org/v4/control/{id}"
+        },
+        {
+          "pattern": "^3\\..*$",
+          "description": "Version 3.x (legacy)",
+          "url": "https://cloudsecurityalliance.org/artifacts/ccm-v3/{id}"
+        }
+      ],
+
+      "examples": [
+        "secid:control/csa/ccm#IAM",
+        "secid:control/csa/ccm#IAM-12",
+        "secid:control/csa/ccm@4.0#IAM-12",
+        "secid:control/csa/ccm#IAM-12.1"
+      ]
+    }
+  }
+}
+```
+
+**Key points:**
+- Three pattern levels: domain, control, section
+- `known_values` only on domain level (finite, stable set)
+- Pattern-specific URLs for controls (different from domain lookups)
+- Version patterns for major version routing
+- Not every level needs a lookup URL (domain-level has none)
 
 ## Schema Versioning
 
