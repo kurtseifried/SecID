@@ -108,6 +108,15 @@ GET /v1/registry/{type}/{namespace}/{source}
     → Returns details for a specific source
 ```
 
+**Core principle: Format validation, not existence checking.**
+SecID validates that an identifier matches a known pattern - it does NOT check if the thing exists. `secid:advisory/mitre/cve#CVE-2099-99999` is valid (fits pattern) even if that CVE doesn't exist yet. Existence is for the relationship/enrichment layers.
+
+**Discovery mode:** Partial or bare identifiers return ALL matching patterns:
+- `CVE-2024-1234` (bare) → Returns matches from mitre/cve, nist/nvd, redhat/cve, etc.
+- `secid:advisory/cve#...` (missing namespace) → Returns all advisory namespaces with matching patterns
+
+**Invalid format handling:** If input doesn't match any pattern for the specified namespace, return suggestions ("did you mean...") with valid options.
+
 **Response format:** JSON (JSON-LD under consideration)
 
 **Response modes:**
