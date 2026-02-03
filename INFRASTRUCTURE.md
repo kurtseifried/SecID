@@ -108,7 +108,18 @@ GET /v1/registry/{type}/{namespace}/{source}
     → Returns details for a specific source
 ```
 
-**Response format:** JSON
+**Response format:** JSON (JSON-LD under consideration)
+
+**Response modes:**
+| Mode | Parameter | Contains | Use Case |
+|------|-----------|----------|----------|
+| `full` | `?mode=full` | Rule matched, source data, derivation, verifiable | Debugging, transparency, auditing |
+| `answers` | `?mode=answers` (default) | Just URLs/instructions | Production, minimal bandwidth |
+
+**Hierarchical lookup:** Responses aggregate data from three levels:
+1. **Pattern level** - Specific regex match with resolution URL
+2. **Namespace level** - Namespace-wide hints (e.g., alternate services)
+3. **Type level** - Type-wide hints (e.g., aggregator services)
 
 **Authentication:** Public/no auth initially. Future: API key via header.
 
@@ -338,3 +349,7 @@ These items need decisions before production deployment. Pinned for later discus
 - **Batch operations** - Resolve multiple SecIDs in one request?
 - **GraphQL** - Offer GraphQL alongside REST?
 - **SDK generation** - Auto-generate client SDKs from OpenAPI?
+
+### Documentation Pending
+
+- **API-RESPONSE-FORMAT.md** - Formal spec for API/MCP response format. Natural extension of REGISTRY-JSON-FORMAT.md wrapped in a lightweight container. Will define response envelope, hierarchical lookup results, error format, and mode differences (full vs answers).
