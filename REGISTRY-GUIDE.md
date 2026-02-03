@@ -1,6 +1,10 @@
 # Registry Guide
 
-This document explains the principles, patterns, and process for contributing to the SecID registry. For technical schema details, see [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md).
+This document explains the principles, patterns, and process for contributing to the SecID registry.
+
+For technical details, see:
+- [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - JSON schema, resolution pipeline, variable extraction
+- [SPEC.md](SPEC.md) - Full SecID specification
 
 ## Scope: Labeling and Finding
 
@@ -75,7 +79,7 @@ Each granularity level should have its own pattern with a description:
 ```json
 "id_patterns": [
   {
-    "pattern": "[A-Z]{2,3}",
+    "pattern": "^[A-Z]{2,3}$",
     "type": "domain",
     "description": "Control domain (e.g., IAM). Contains multiple controls.",
     "known_values": {
@@ -84,12 +88,14 @@ Each granularity level should have its own pattern with a description:
     }
   },
   {
-    "pattern": "[A-Z]{2,3}-\\d{2}",
+    "pattern": "^[A-Z]{2,3}-\\d{2}$",
     "type": "control",
     "description": "Specific control (e.g., IAM-12). Belongs to a domain."
   }
 ]
 ```
+
+**Note:** Patterns should be anchored (`^...$`) to match the complete subpath. This ensures malformed identifiers are rejected.
 
 Use `known_values` for the domain/category level (finite set) but not for individual controls (open-ended set).
 
@@ -228,10 +234,12 @@ This lets us track completeness. An absent field signals work to be done.
 
 ### Good id_patterns
 
+- **Anchor patterns** with `^...$` to match the complete subpath (rejects malformed IDs)
 - Use PCRE2-compatible regex (safe subset for cross-platform compatibility)
 - Include `description` explaining what the pattern matches
 - Include `type` for multi-level hierarchies
 - Patterns are **format checks**, not validity checks—they recognize structure, not existence
+- Use `variables` with `extract` and `format` for complex URL building (see REGISTRY-JSON-FORMAT.md)
 
 ### Good Descriptions
 
@@ -253,7 +261,7 @@ Use `known_values` to enumerate finite, stable value sets:
 ```json
 "id_patterns": [
   {
-    "pattern": "[A-Z]{2,3}",
+    "pattern": "^[A-Z]{2,3}$",
     "type": "domain",
     "description": "Control domain. Contains multiple controls.",
     "known_values": {

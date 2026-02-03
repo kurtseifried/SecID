@@ -157,14 +157,34 @@ status: active
 | example | `secid:weakness/mitre/cwe#CWE-79` |
 ```
 
-Resolution process:
+**Resolution process (5 steps):**
+
 ```
 secid:weakness/mitre/cwe#CWE-123
-  → Find registry/weakness/mitre.md
-  → Find "cwe" section, get id_pattern and url_template
-  → Extract "123" from "CWE-123" using id_pattern
-  → Apply to url_template: https://cwe.mitre.org/data/definitions/123.html
+
+1. Parse SecID → type=weakness, namespace=mitre, name=cwe, subpath=CWE-123
+2. Lookup source → registry["weakness"]["mitre"]["cwe"]
+3. Match patterns → subpath "CWE-123" matches pattern "^CWE-\d+$"
+4. Extract variables → "number" regex captures "123" from "CWE-123"
+5. Build URL → https://cwe.mitre.org/data/definitions/123.html
 ```
+
+For complex URLs, patterns define variables that extract parts of the ID:
+
+```json
+{
+  "pattern": "^CWE-\\d+$",
+  "url": "https://cwe.mitre.org/data/definitions/{number}.html",
+  "variables": {
+    "number": {
+      "extract": "^CWE-(\\d+)$",
+      "description": "Numeric ID portion"
+    }
+  }
+}
+```
+
+See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the complete schema.
 
 **More examples showing the pattern:**
 
@@ -816,7 +836,9 @@ Rather than design these upfront, we're building the identifier system and regis
 
 ## 7. Namespace Definition Format
 
-Namespace files use Obsidian-style format: YAML frontmatter + Markdown body.
+**Note:** The registry is transitioning from YAML+Markdown to JSON. See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the canonical JSON schema, including the resolution pipeline, variable extraction, and pattern matching.
+
+The examples below show the legacy YAML format for reference. New contributions should use the JSON format.
 
 ### 7.1 Frontmatter (Structured Data)
 
