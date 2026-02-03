@@ -81,12 +81,17 @@ For complex URL structures where parts of the ID need transformation, patterns c
   "pattern": "^CWE-\\d+$",
   "url": "https://cwe.mitre.org/data/definitions/{number}.html",
   "variables": {
-    "number": "^CWE-(\\d+)$"
+    "number": {
+      "extract": "^CWE-(\\d+)$",
+      "description": "Numeric ID portion (e.g., '79' from 'CWE-79')"
+    }
   }
 }
 ```
 
-The `variables` object maps placeholder names to extraction regexes. Each regex is applied to the subpath, and the first capture group becomes the variable value.
+Each variable has:
+- `extract` - Regex applied to the subpath. The **first capture group `()`** becomes the value.
+- `description` - Explains what this variable represents and how it's derived.
 
 ### Step 5: Build URL
 
@@ -111,7 +116,10 @@ For CWE, the lookup URL needs just the number, not the full ID:
   "description": "CWE weakness ID",
   "url": "https://cwe.mitre.org/data/definitions/{number}.html",
   "variables": {
-    "number": "^CWE-(\\d+)$"
+    "number": {
+      "extract": "^CWE-(\\d+)$",
+      "description": "Numeric ID portion (e.g., '79' from 'CWE-79')"
+    }
   }
 }
 ```
@@ -119,8 +127,38 @@ For CWE, the lookup URL needs just the number, not the full ID:
 Resolution of `secid:weakness/mitre/cwe#CWE-79`:
 1. Subpath: `CWE-79`
 2. Pattern matches: `^CWE-\d+$` ✓
-3. Extract variables: `number` regex `^CWE-(\d+)$` captures `79`
+3. Extract variables: apply `number.extract` regex → first capture group `(\d+)` captures `79`
 4. Build URL: `https://cwe.mitre.org/data/definitions/79.html`
+
+### More Complex Variable Extraction
+
+For identifiers with multiple parts that need separate extraction:
+
+```json
+{
+  "pattern": "^CVE-\\d{4}-\\d{4,}$",
+  "description": "CVE identifier",
+  "url": "https://example.com/cve/{year}/{seq}",
+  "variables": {
+    "year": {
+      "extract": "^CVE-(\\d{4})-\\d+$",
+      "description": "4-digit year (e.g., '2024' from 'CVE-2024-1234')"
+    },
+    "seq": {
+      "extract": "^CVE-\\d{4}-(\\d+)$",
+      "description": "Sequence number (e.g., '1234' from 'CVE-2024-1234')"
+    }
+  }
+}
+```
+
+Resolution of `secid:advisory/example/cve#CVE-2024-1234`:
+1. Subpath: `CVE-2024-1234`
+2. Pattern matches ✓
+3. Extract variables:
+   - `year.extract` → captures `2024`
+   - `seq.extract` → captures `1234`
+4. Build URL: `https://example.com/cve/2024/1234`
 
 ## Design Principles
 
@@ -391,8 +429,27 @@ For sources where different ID patterns need different lookup URLs:
 | `description` | string | no | Human/AI-readable description of what this pattern represents |
 | `ecosystem` | string | no | For ecosystem-specific patterns (e.g., PyPI, Go) |
 | `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
-| `variables` | object | no | Map of placeholder names to extraction regexes (see Resolution Pipeline) |
+| `variables` | object | no | Map of placeholder names to extraction objects (see below) |
 | `known_values` | object | no | Enumeration of finite, stable values (see below) |
+
+**Variables structure:**
+
+Each key in `variables` is a placeholder name (e.g., `number`, `year`). The value is an object:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `extract` | string | yes | Regex with capture group. First `()` group becomes the value. |
+| `description` | string | yes | Explains what this variable is and how it's derived from the ID. |
+
+Example:
+```json
+"variables": {
+  "number": {
+    "extract": "^CWE-(\\d+)$",
+    "description": "Numeric ID portion (e.g., '79' from 'CWE-79')"
+  }
+}
+```
 
 **Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
 
