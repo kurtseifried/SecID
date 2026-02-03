@@ -116,10 +116,11 @@ GET /v1/registry/{type}/{namespace}/{source}
 | `full` | `?mode=full` | Rule matched, source data, derivation, verifiable | Debugging, transparency, auditing |
 | `answers` | `?mode=answers` (default) | Just URLs/instructions | Production, minimal bandwidth |
 
-**Hierarchical lookup:** Responses aggregate data from three levels:
-1. **Pattern level** - Specific regex match with resolution URL
-2. **Namespace level** - Namespace-wide hints (e.g., alternate services)
-3. **Type level** - Type-wide hints (e.g., aggregator services)
+**Hierarchical lookup:** Responses aggregate data from four levels:
+1. **Registry level** - System-wide announcements (e.g., "API keys required March 1", "Migrating to new domain")
+2. **Type level** - Type-wide hints (e.g., advisory aggregator services)
+3. **Namespace level** - Namespace-wide hints (e.g., "Also try secid.mitre.org")
+4. **Pattern level** - Specific regex match with resolution URL
 
 **Authentication:** Public/no auth initially. Future: API key via header.
 
