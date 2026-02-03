@@ -90,7 +90,8 @@ For complex URL structures where parts of the ID need transformation, patterns c
 ```
 
 Each variable has:
-- `extract` - Regex applied to the subpath. The **first capture group `()`** becomes the value.
+- `extract` - Regex applied to the subpath. Capture groups `()` are numbered `{1}`, `{2}`, etc.
+- `format` - (Optional) How to combine capture groups. Defaults to `{1}` (first group). Can include literals.
 - `description` - Explains what this variable represents and how it's derived.
 
 ### Step 5: Build URL
@@ -132,33 +133,39 @@ Resolution of `secid:weakness/mitre/cwe#CWE-79`:
 
 ### More Complex Variable Extraction
 
-For identifiers with multiple parts that need separate extraction:
+For the CVE GitHub repository, files are organized by year and a "bucket" (all but last 3 digits + `xxx`):
 
 ```json
 {
   "pattern": "^CVE-\\d{4}-\\d{4,}$",
-  "description": "CVE identifier",
-  "url": "https://example.com/cve/{year}/{seq}",
+  "description": "CVE JSON record on GitHub",
+  "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
   "variables": {
     "year": {
       "extract": "^CVE-(\\d{4})-\\d+$",
-      "description": "4-digit year (e.g., '2024' from 'CVE-2024-1234')"
+      "description": "4-digit year (e.g., '2026' from 'CVE-2026-25010')"
     },
-    "seq": {
-      "extract": "^CVE-\\d{4}-(\\d+)$",
-      "description": "Sequence number (e.g., '1234' from 'CVE-2024-1234')"
+    "bucket": {
+      "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+      "format": "{1}xxx",
+      "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
+    },
+    "id": {
+      "extract": "^(CVE-\\d{4}-\\d+)$",
+      "description": "Full CVE ID"
     }
   }
 }
 ```
 
-Resolution of `secid:advisory/example/cve#CVE-2024-1234`:
-1. Subpath: `CVE-2024-1234`
+Resolution of `secid:advisory/mitre/cve#CVE-2026-25010`:
+1. Subpath: `CVE-2026-25010`
 2. Pattern matches ✓
 3. Extract variables:
-   - `year.extract` → captures `2024`
-   - `seq.extract` → captures `1234`
-4. Build URL: `https://example.com/cve/2024/1234`
+   - `year`: extract `(2026)` → `2026`
+   - `bucket`: extract `(25)` from before last 3 digits, format `{1}xxx` → `25xxx`
+   - `id`: extract `(CVE-2026-25010)` → `CVE-2026-25010`
+4. Build URL: `https://github.com/CVEProject/cvelistV5/blob/main/cves/2026/25xxx/CVE-2026-25010.json`
 
 ## Design Principles
 
@@ -438,15 +445,27 @@ Each key in `variables` is a placeholder name (e.g., `number`, `year`). The valu
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `extract` | string | yes | Regex with capture group. First `()` group becomes the value. |
+| `extract` | string | yes | Regex with capture groups. Groups are numbered `{1}`, `{2}`, etc. |
+| `format` | string | no | How to assemble the value from capture groups. Defaults to `{1}`. Can include literals. |
 | `description` | string | yes | Explains what this variable is and how it's derived from the ID. |
 
-Example:
+Simple example (single capture group, default format):
 ```json
 "variables": {
   "number": {
     "extract": "^CWE-(\\d+)$",
     "description": "Numeric ID portion (e.g., '79' from 'CWE-79')"
+  }
+}
+```
+
+Example with format (appending literal text):
+```json
+"variables": {
+  "bucket": {
+    "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+    "format": "{1}xxx",
+    "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
   }
 }
 ```
@@ -661,17 +680,48 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
 
       "urls": [
         {"type": "website", "url": "https://cve.org"},
-        {"type": "lookup", "url": "https://cve.org/CVERecord?id={id}", "note": "Human-readable"},
-        {"type": "lookup", "url": "https://cveawg.mitre.org/api/cve/{id}", "format": "json", "note": "JSON API"},
-        {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5"},
-        {"type": "api", "url": "https://cveawg.mitre.org/api"}
+        {"type": "api", "url": "https://cveawg.mitre.org/api"},
+        {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5"}
       ],
 
       "id_patterns": [
-        {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
+        {
+          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "description": "Standard CVE ID format",
+          "url": "https://cve.org/CVERecord?id={id}"
+        },
+        {
+          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "description": "CVE JSON record on GitHub",
+          "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
+          "format": "json",
+          "note": "Raw CVE record from cvelistV5 repository",
+          "variables": {
+            "year": {
+              "extract": "^CVE-(\\d{4})-\\d+$",
+              "description": "4-digit year (e.g., '2026' from 'CVE-2026-25010')"
+            },
+            "bucket": {
+              "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+              "format": "{1}xxx",
+              "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
+            },
+            "id": {
+              "extract": "^(CVE-\\d{4}-\\d+)$",
+              "description": "Full CVE ID"
+            }
+          }
+        },
+        {
+          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "description": "CVE JSON via API",
+          "url": "https://cveawg.mitre.org/api/cve/{id}",
+          "format": "json",
+          "note": "JSON API, richer data"
+        }
       ],
 
-      "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2023-44487"]
+      "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2026-25010"]
     }
   }
 }
