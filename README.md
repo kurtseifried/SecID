@@ -507,6 +507,40 @@ This specification is open for public comment. We welcome feedback, questions, a
 - Relationship layer
 - Overlay layer
 
+## Future: Making SecID Easy to Consume
+
+Our goal is to make SecID as easy to consume as possible. We're building:
+
+| Repository | Purpose | Status |
+|------------|---------|--------|
+| **SecID** (this repo) | Spec + Registry | Active |
+| **SecID-Service** | Hosted API + MCP server | Planned |
+| **SecID-Website** | Documentation and registry browser | Planned |
+| **SecID-Client** | Official client libraries + Claude skills | Planned |
+
+### SecID-Service
+
+Cloudflare Worker providing:
+- REST API at `/v1/` for programmatic access
+- MCP server at `/mcp` for AI agent integration
+- Code snippets and prompts for generating implementations
+
+**Philosophy:** We assume you have capable AI tooling. The service includes prompts to generate clients in any language, not just pre-built libraries.
+
+### SecID-Client
+
+Official client libraries for production use:
+- Python (`pip install secid`)
+- npm/TypeScript (`npm install secid`)
+- Go, Rust, others over time
+- Claude skills for using SecID protocol and MCP server
+
+### LLM-Friendly
+
+We support the [llms.txt standard](https://llmstxt.org/) for AI-friendly content discovery. The website provides `/llms.txt` with structured links to key resources, enabling AI agents to efficiently understand SecID.
+
+See [INFRASTRUCTURE.md](INFRASTRUCTURE.md) for technical details on hosting and architecture
+
 ## License
 
 [CC0 1.0 Universal](LICENSE) - Public Domain Dedication

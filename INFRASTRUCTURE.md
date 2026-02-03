@@ -18,15 +18,43 @@ We may use other platforms and services where appropriate, but when we're in Clo
 - Access to latest features and optimizations
 - Supported upgrade path as platform evolves
 
+## Repository Structure
+
+SecID is split across multiple repositories for clear separation of concerns:
+
+| Repository | Purpose | Contents |
+|------------|---------|----------|
+| **SecID** (this repo) | Spec + Registry | Specification, registry data, design docs. Source of truth. |
+| **SecID-Service** | API + MCP | Cloudflare Worker code for `/v1/` and `/mcp`. Consumes registry. |
+| **SecID-Website** | Documentation site | Cloudflare Pages. Generated from other repos by Claude skill. |
+| **SecID-Client** | Official clients | Python, npm, Go libraries. Claude skills for using SecID. |
+
+**Why split?**
+- Different release cadences
+- Clear ownership and CI/CD
+- Service can be self-hosted by others
+- Website is derived content, not source
+- Clients are independent of service implementation
+
+**Registry curator:** CSA maintains the default registry data in the SecID repo.
+
 ## URL Structure
 
 ```
-https://secid.cloudsecurityalliance.org/
+https://secid.cloudsecurityalliance.org/  (provisional)
 ├── /              → Static website (Cloudflare Pages)
 ├── /mcp           → MCP endpoint (Cloudflare Worker)
 ├── /v1/           → REST API v1 (Cloudflare Worker)
-└── /v2/           → REST API v2 (future)
+├── /v2/           → REST API v2 (future)
+└── /llms.txt      → LLM-friendly site summary (llmstxt.org standard)
 ```
+
+### llms.txt Support
+
+We support the [llms.txt standard](https://llmstxt.org/) for LLM-friendly content discovery:
+- `/llms.txt` - Markdown summary of the site with links to key resources
+- Individual pages available as `.md` for direct LLM consumption
+- Enables AI agents to efficiently understand SecID without processing the entire site
 
 ## Components
 
