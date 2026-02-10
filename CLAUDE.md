@@ -54,9 +54,11 @@ secid/
 
 ## Registry File Format
 
-Registry files use YAML frontmatter + Markdown (Obsidian-compatible). One file per namespace containing all sources from that organization.
+Registry files use YAML frontmatter + Markdown (transitioning to JSON). One file per namespace containing all sources from that organization.
 
-See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for contribution principles and [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the target JSON schema.
+Key documents:
+- [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) - Contribution principles
+- [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - JSON schema, resolution pipeline, variable extraction
 
 ### Status Values
 
@@ -122,12 +124,27 @@ rg -n '^type:' registry/**/*.md
 markdownlint **/*.md
 ```
 
+## Parsing Rules
+
+**SecID parsing requires registry access.** The registry defines what's valid - no banned character list to memorize.
+
+**The one hardcoded rule:** Namespace cannot contain `/`. This is the parsing anchor.
+
+| Component | Character Rules |
+|-----------|-----------------|
+| `type` | Fixed list of 7 values |
+| `namespace` | No `/` allowed (filesystem + parsing anchor) |
+| `name` | **Anything** - resolved by registry lookup, longest match wins |
+| `subpath` | Anything (everything after `#`) |
+
+**Why registry-required?** Names can contain `#`, `@`, `?`, `:` - the registry lookup determines where name ends.
+
 ## Encoding Rules
 
-Special characters in names and subpaths are percent-encoded:
-- `&` → `%26` (e.g., `A&A` → `A%26A`)
-- Space → `%20`
-- Reserved chars (`/`, `?`, `#`, `@`) must be encoded when literal
+**In the SecID string:** No encoding needed. Write identifiers naturally: `RHSA-2024:1234`, `A&A-01`.
+
+**For storage/transport (filenames, URLs):** Percent-encode special characters:
+- `&` → `%26`, Space → `%20`, `:` → `%3A`, `/` → `%2F`, `#` → `%23`
 
 ## Writing Principle
 
