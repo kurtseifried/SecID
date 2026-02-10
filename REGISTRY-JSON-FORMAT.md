@@ -22,25 +22,41 @@ Enrichment and relationships belong in separate data layers that reference SecID
 
 This section explains how a SecID string is resolved to URLs using registry data.
 
-### Step 1: Parse the SecID String
+**Important:** SecID parsing requires registry access. The registry defines what types, namespaces, and names are valid. This eliminates the need for a complex "banned characters" list - if it's not in the registry, it's not valid.
 
-Following PURL grammar, extract components from the full SecID string:
+### Step 1: Parse the SecID String (Registry-Aware)
+
+Parsing uses the registry to identify components:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
-      ├──────────────────┤├────────────┤
-           path portion      subpath
+secid:advisory/mitre/some#name@1.0#CVE-2024-1234
+      ───┬─── ──┬── ────┬──── ─┬─ ──────┬──────
+         │      │       │      │        └─ subpath
+         │      │       │      └─ version
+         │      │       └─ name (registry lookup, longest match)
+         │      └─ namespace (no / allowed)
+         └─ type (known list)
 ```
 
-| Component | Value | Description |
-|-----------|-------|-------------|
-| scheme | `secid` | Always "secid" |
-| type | `advisory` | First path segment |
-| namespace | `mitre` | Second path segment |
-| name | `cve` | Third path segment |
-| version | (none) | From `@version` if present |
-| qualifiers | (none) | From `?key=value` if present |
-| subpath | `CVE-2024-1234` | Everything after `#` |
+| Step | Component | How to Parse |
+|------|-----------|--------------|
+| 1 | scheme | Literal `secid:` |
+| 2 | type | Match against 7 known values |
+| 3 | namespace | Until next `/`. **Only rule: no `/` in namespace.** |
+| 4 | name | Longest match against sources in `registry[type][namespace]` |
+| 5 | version | After name, parse `@...` until `?` or `#` |
+| 6 | qualifiers | Parse `?...` until `#` |
+| 7 | subpath | Everything after the `#` following version/qualifiers |
+
+**Why registry-aware?** Names can contain any characters (including `#`, `@`, `?`, `:`). The registry defines what names exist, and longest-match resolves ambiguity.
+
+**Example with special characters:**
+```
+secid:advisory/vendor/weird#name:here#ID-2024
+```
+If registry has source `weird#name:here` in `advisory/vendor`, then:
+- name = `weird#name:here`
+- subpath = `ID-2024`
 
 ### Step 2: Lookup the Source
 

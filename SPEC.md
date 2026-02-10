@@ -891,25 +891,82 @@ The body contains human/AI-readable context:
 - **Caveats** - Important gotchas, edge cases
 - **Recent Developments** - Current events, changes
 
-## 8. Normalization Rules
+## 8. Parsing and Normalization
+
+### 8.0 Registry-Required Parsing
+
+**SecID parsing requires access to the registry.** This is by design.
+
+Rather than defining a complex list of banned characters that users must memorize, the registry itself defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps the parser and registry always in sync.
+
+**Parsing flow:**
+
+```
+secid:advisory/mitre/some#name@1.0?lang=en#CVE-2024-1234
+      ───┬─── ──┬── ────┬──── ─┬─ ───┬──── ──────┬──────
+         │      │       │      │     │           └─ 6. subpath (after #)
+         │      │       │      │     └─ 5. qualifiers (after ?)
+         │      │       │      └─ 4. version (after @)
+         │      │       └─ 3. name (longest registry match)
+         │      └─ 2. namespace (until /, must exist in registry)
+         └─ 1. type (known list of 7)
+```
+
+1. **Type** - Match against known list: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`
+2. **Namespace** - Match until `/`, lookup in registry. **Only hard rule: namespace cannot contain `/`** (parsing anchor + filesystem safety)
+3. **Name** - Match remaining path against source names in `registry[type][namespace]`. **Longest match wins.** Names can contain any characters including `#`, `@`, `?`, `:`.
+4. **Version** - After name match, parse `@...` until `?` or `#`
+5. **Qualifiers** - Parse `?...` until `#`
+6. **Subpath** - Everything after the `#` that follows version/qualifiers
+
+**Why registry-required parsing?**
+
+- No banned character list to memorize
+- Registry is the single source of truth
+- Parser handles edge cases automatically
+- Human-friendly: names preserve original identifiers exactly
+
+**The one hardcoded rule:**
+
+> **Namespace cannot contain `/`**
+
+This is the only character restriction in SecID. We need one stable delimiter to locate where namespace ends and name begins. Since namespaces are assigned (not discovered), we simply don't assign namespaces with `/`. If an organization's name contains `/`, we use a slug (e.g., `ac-dc` not `ac/dc`).
+
+**Example with special characters in name:**
+
+```
+secid:advisory/vendor/some#weird:name#ID-2024-001
+```
+
+Registry lookup:
+1. Type: `advisory` ✓
+2. Namespace: `vendor` (lookup registry["advisory"]["vendor"]) ✓
+3. Name: Try sources in that namespace. If `some#weird:name` exists, match it.
+4. Subpath: `ID-2024-001`
 
 ### 8.1 String Normalization
 
 - Lowercase type and namespace: `secid:advisory/mitre/cve#...`
-- Preserve case in name when it's an upstream ID: `CVE-2024-1234` not `cve-2024-1234`
-- Remove special characters from namespaces: `ATT&CK` → `attack`
-- Hyphens allowed for multi-word names: `llm-top10`
-- Type and namespace use only lowercase letters, numbers, and hyphens
+- Preserve case in name and subpath: `CVE-2024-1234` not `cve-2024-1234`
+- Namespace uses only lowercase letters, numbers, and hyphens (no `/`)
+- Names can contain any characters (resolved by registry lookup)
 
 ### 8.2 Percent Encoding
 
-SecID must support a wide variety of upstream identifiers and names - including those with spaces, special characters, and Unicode. Files must work across all operating systems (Windows, macOS, Linux) and be safe in shell environments. The approach: percent-encode special characters for safe storage and transport, then render human-friendly for display.
+**Context matters:** The SecID *string* preserves identifiers as-is for human readability. Percent encoding applies when storing or transporting SecIDs in contexts with their own syntax requirements.
 
-**Unicode support:** SecID names and filenames support full Unicode. Non-ASCII characters are percent-encoded as UTF-8 bytes (e.g., `é` → `%C3%A9`). This ensures cross-platform filesystem compatibility while preserving international characters.
+| Context | Encoding needed? | Example |
+|---------|------------------|---------|
+| SecID string (canonical) | No | `secid:advisory/redhat/errata#RHSA-2024:1234` |
+| Filesystem (as filename) | Yes | `secid%3Aadvisory%2Fredhat%2Ferrata%23RHSA-2024%3A1234` |
+| URL query parameter | Yes | `?secid=secid%3Aadvisory%2Fredhat...` |
+| JSON value | No (JSON handles it) | `{"secid": "secid:advisory/redhat/errata#RHSA-2024:1234"}` |
 
-#### Characters That Must Be Encoded
+**Unicode support:** SecID supports full Unicode in names and subpaths. When encoding for filesystem/URL use, non-ASCII characters are percent-encoded as UTF-8 bytes (e.g., `é` → `%C3%A9`).
 
-**SecID Structural Characters** - These have special meaning in SecID syntax and must always be encoded when used literally in names or subpaths:
+#### Characters to Encode for Storage/Transport
+
+**SecID Structural Characters** - When embedding a SecID in a URL or filename, encode these:
 
 | Character | Encoded | SecID Meaning |
 |-----------|---------|---------------|
@@ -983,9 +1040,11 @@ File[1]                   → File%5B1%5D
 {template}                → %7Btemplate%7D
 ```
 
-#### Summary: Always Encode These
+#### Summary: When to Encode
 
-For maximum compatibility across URLs, filesystems, and shells, encode these characters in names and subpaths:
+**In the SecID string itself:** No encoding required. Write identifiers naturally: `RHSA-2024:1234`, `A&A-01`, `some#name`.
+
+**When storing as filename or embedding in URLs:** Encode these characters for compatibility:
 
 ```
 Space  &  =  +  ;  [  ]  {  }  !  '  (  )  *  ,

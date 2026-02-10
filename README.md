@@ -147,6 +147,14 @@ secid:control/iso/27001@2022#A.8.1
 
 **Key insight:** The namespace is always the **organization** (who publishes it), the name is the **thing they publish** (database, framework, standard), and the subpath is the **specific item within** that thing.
 
+### Parsing and Character Rules
+
+**SecID parsing requires the registry.** Rather than memorizing a list of banned characters, the registry defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps parsing simple and the registry authoritative.
+
+**The one hardcoded rule:** Namespace cannot contain `/`. We need one stable delimiter to separate namespace from name. Since we assign namespaces, we simply don't assign any with `/` (e.g., use `ac-dc` not `ac/dc`).
+
+**Names can contain any characters** (including `#`, `@`, `?`, `:`). The registry lookup determines where the name ends - longest match wins. This keeps identifiers human-friendly and preserves upstream naming exactly.
+
 **Subpath hierarchy:** Subpaths can use `/` to express hierarchy within a document:
 
 ```
@@ -358,8 +366,8 @@ Why this format:
 | **SecID** | A complete identifier string starting with `secid:` |
 | **Scheme** | The URL scheme - always `secid:` (like `pkg:` in PURL) |
 | **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
-| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`) |
-| **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`) |
+| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`). **Cannot contain `/`** - this is the only character restriction. |
+| **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
 | **Subpath** | The specific item within the document (e.g., `#CVE-2024-1234`, `#IAM-12`, `#T1059`); can use `/` for hierarchy |
