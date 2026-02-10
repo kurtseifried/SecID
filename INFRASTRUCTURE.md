@@ -277,39 +277,37 @@ const resources = {
 
 ## Deployment
 
-### Repository Structure
+**Note:** The API and website are in separate repositories. This section describes the planned structure for **SecID-Service** (not this repo).
+
+### SecID-Service Repository Structure (Planned)
 
 ```
-secid/
-├── worker/                 # Cloudflare Worker source
-│   ├── src/
-│   │   ├── index.ts        # Main entry, Hono app
-│   │   ├── mcp.ts          # MCP handlers
-│   │   ├── api.ts          # REST API handlers
-│   │   ├── resolve.ts      # Resolution logic
-│   │   └── registry.ts     # Generated registry data
-│   ├── wrangler.toml
-│   └── package.json
-├── site/                   # Static website source
-│   └── ...
-├── registry/               # Registry source files (JSON/YAML)
-│   └── ...
+secid-service/
+├── src/
+│   ├── index.ts        # Main entry, Hono app
+│   ├── mcp.ts          # MCP handlers
+│   ├── api.ts          # REST API handlers
+│   ├── resolve.ts      # Resolution logic
+│   └── registry.ts     # Generated from SecID repo registry/
+├── wrangler.toml
+├── package.json
 └── scripts/
-    └── build-registry.ts   # Compiles registry to registry.ts
+    └── build-registry.ts   # Fetches and compiles registry from SecID repo
 ```
 
-### Build & Deploy
+### Build & Deploy (SecID-Service)
 
 ```bash
-# Build registry
+# Build registry (fetches from SecID repo, compiles to registry.ts)
 npm run build:registry
 
 # Deploy worker
-cd worker && wrangler deploy
-
-# Deploy site
-cd site && wrangler pages deploy
+wrangler deploy
 ```
+
+### SecID-Website Repository (Planned)
+
+Separate Cloudflare Pages deployment. Structure TBD.
 
 ## Monitoring
 

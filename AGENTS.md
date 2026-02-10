@@ -1,22 +1,19 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Specification papers (`SPEC.md`, `RATIONALE.md`, `STRATEGY.md`, etc.) live at the root—skim them before touching the registry. Canonical namespaces sit under `registry/` and mirror SecID identifiers (`registry/<type>/<namespace>/<name>.md`). Each type (advisory, entity, control, weakness, ttp, regulation, reference) has a summary file plus namespaced Markdown with YAML frontmatter. Seed CSVs in `seed/` mirror that taxonomy, while `_deferred/` holds incomplete research to keep published namespaces stable.
+The repo is intentionally documentation-first. Root Markdown files (`README.md`, `SPEC.md`, `REGISTRY-GUIDE.md`, etc.) define the grammar, rationale, and contributor expectations. SecID namespaces live under `registry/<type>/<namespace>.md` and use YAML front matter plus narrative context—study existing entries such as `registry/advisory/mitre.md` before editing. Seed CSVs in `seed/*.csv` capture discovery lists (controls, references, vendors) that feed registry research; keep headers untouched and sorted alphabetically by name. Treat `TODO.md` and `ROADMAP.md` as authoritative for work in flight, and avoid creating parallel documents.
 
 ## Build, Test, and Development Commands
-- `rg -n '^type:' registry/**/*.md` verifies every registry entry keeps mandatory metadata blocks.
-- `markdownlint **/*.md` applies default lint rules so prose formatting remains predictable.
-- `git diff --stat && git diff --check` reviews scope and blocks stray whitespace before committing.
-- `column -t -s, seed/seed-controls.csv | head` spot-checks CSV column alignment without opening spreadsheets.
+This repository has no compiled artifacts; the goal is clean, reviewable text. Use the commands below to keep contributions consistent:
+- `rg -n "namespace: <name>" registry/<type>` — confirm you are not duplicating an existing namespace.
+- `npx markdownlint-cli '**/*.md'` — lint Markdown (installs on demand via npx).
+- `csvlint seed/seed-controls.csv` (or any edited CSV) — ensure seed files remain machine-consumable.
 
 ## Coding Style & Naming Conventions
-Keep Markdown concise with clear headings, fenced SecID examples, and tables for enumerations. Registry files must start with YAML frontmatter containing `type`, `namespace`, `name`, and a descriptive title, followed by narrative guidance and at least one `secid:` example. Filenames stay lowercase-with-hyphens; encode reserved identifier characters exactly as shown in `SPEC.md` (e.g., `A&A-01` → `A%26A-01`).
+Front matter fields are lower_snake_case with two-space indentation. Quote strings containing punctuation, and anchor `id_pattern` values (`^...$`) so they match complete identifiers. Body text uses sentence case headings, short paragraphs, and unordered lists to keep entries MIU (minimum interpretable unit). When referencing SecIDs, always use percent-encoding rules from `SPEC.md#82-percent-encoding` and mirror the source’s terminology—never invent alternative names or hierarchy.
 
 ## Testing Guidelines
-There is no automated harness yet. Manually review new namespaces for cross-links, examples, and resolution instructions. Validate CSV edits with the `column` preview or another validator to maintain column counts. Before pushing, rerun `rg`/`markdownlint` to ensure metadata blocks and headings remain consistent.
+Each registry addition needs: at least one example SecID, a lookup URL that returns the referenced item, and an `id_pattern` that validates actual IDs from the source. Before submitting, spot-check a handful of identifiers manually in the upstream site/API, verify that every example resolves, and ensure new CSV rows match the public spelling of the authority. Capture any edge cases or unresolved questions in `CONCERNS.md` so reviewers know what still needs validation.
 
 ## Commit & Pull Request Guidelines
-Follow the recent style of short, action-oriented commit subjects (e.g., "Add project housekeeping files") and keep each commit scoped to a single namespace or document. PRs should describe impacted identifiers, cite relevant spec sections, and link discussions before adding new identifier types. Call out data sources, attach screenshots only when visual review is necessary, and mention any manual validation performed.
-
-## Security & Data Handling Tips
-Restrict contributions to public identifiers; never add embargoed advisories. Cite authoritative registries (CVE, CWE, NIST, etc.) and include URLs so automated agents can verify provenance. Scrub sensitive columns from seed data and favor durable IDs over free-form personal details when importing external records.
+Follow the existing short, imperative commit style (`Update CLAUDE.md with registry-required parsing rules`). Reference the touched file or concept in the subject, and keep each commit focused on a single change. Pull requests must link to the discussion issue, summarize why the change is needed, call out affected namespaces or seed files, and note any manual validation performed (e.g., “CVE lookup URL verified on 2024-03-11”). Include screenshots only when reasoning about external UIs; otherwise Markdown snippets suffice.

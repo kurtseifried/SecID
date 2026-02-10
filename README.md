@@ -165,25 +165,19 @@ secid:regulation/eu/gdpr#art-32/1/a                     # Article 32(1)(a)
 secid:weakness/mitre/cwe#CWE-79/potential-mitigations   # Mitigations section
 ```
 
-**Percent encoding:** Special characters in names and subpaths are percent-encoded (URL encoding) for compatibility across URLs, filesystems, and shells:
-
-| Character | Encoded | Example |
-|-----------|---------|---------|
-| Space | `%20` | `Auditing Guidelines` → `Auditing%20Guidelines` |
-| `&` | `%26` | `A&A-01` → `A%26A-01` |
-| `$` | `%24` | `$variable` → `%24variable` |
-| `[` `]` | `%5B` `%5D` | `File[1]` → `File%5B1%5D` |
-
-Many other characters require encoding: `: / @ ? # % \ < > " | { } ! ' ( ) * , + ; = ~ ^ `` ` ``
-
-See [SPEC.md Section 8.2](SPEC.md#82-percent-encoding) for the complete encoding reference.
+**Encoding:** The SecID string is human-readable - no percent-encoding required:
 
 ```
-secid:control/csa/aicm@1.0#A%26A-01                     # A&A-01 control
-secid:control/csa/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
+secid:control/csa/aicm@1.0#A&A-01                       # A&A-01 control (no encoding)
+secid:control/csa/ccm@4.0#IAM-12/Auditing Guidelines    # Section with space (no encoding)
+secid:advisory/redhat/errata#RHSA-2024:1234             # Colon in ID (no encoding)
 ```
 
-Tools should render these human-friendly for display while storing the encoded form.
+**When to encode:** Only when storing SecIDs in contexts with their own syntax:
+- As filenames: `secid%3Aadvisory%2Fmitre%2Fcve%23CVE-2024-1234`
+- In URL query strings: `?secid=secid%3Aadvisory%2F...`
+
+See [SPEC.md Section 8.2](SPEC.md#82-percent-encoding) for encoding rules when storing/transporting.
 
 ## Relationship to PURL
 
@@ -244,18 +238,18 @@ Each registry file documents its subpath patterns and resolution rules.
 
 ### Registry File Mapping
 
-The registry directory structure mirrors SecID identifiers:
+**One file per namespace.** Each namespace file contains ALL sources for that organization:
 
 ```
 SecID:                          Registry File:
-secid:weakness/mitre/cwe        → registry/weakness/mitre/cwe.md
-secid:advisory/nist/nvd         → registry/advisory/nist/nvd.md
-secid:ttp/mitre/attack          → registry/ttp/mitre/attack.md
-secid:control/csa/ccm           → registry/control/csa/ccm.md
-secid:regulation/eu/gdpr        → registry/regulation/eu/gdpr.md
+secid:weakness/mitre/cwe        → registry/weakness/mitre.md (cwe source section)
+secid:advisory/nist/nvd         → registry/advisory/nist.md (nvd source section)
+secid:ttp/mitre/attack          → registry/ttp/mitre.md (attack source section)
+secid:control/csa/ccm           → registry/control/csa.md (ccm source section)
+secid:regulation/eu/gdpr        → registry/regulation/eu.md (gdpr source section)
 ```
 
-Each registry file contains resolution rules. For example, `registry/weakness/mitre/cwe.md` explains how `#CWE-123` resolves to `https://cwe.mitre.org/data/definitions/123.html`.
+Each registry file contains resolution rules for all sources in that namespace. For example, `registry/weakness/mitre.md` contains the `cwe` source section explaining how `#CWE-123` resolves to `https://cwe.mitre.org/data/definitions/123.html`.
 
 ## Identifier Format
 
@@ -268,14 +262,15 @@ secid:type/namespace/name[@version][?qualifiers][#subpath]
 secid:advisory/mitre/cve#CVE-2024-1234            # CVE record
 secid:weakness/mitre/cwe#CWE-79                   # CWE weakness
 secid:ttp/mitre/attack#T1059.003                  # ATT&CK technique
-secid:control/nist/csf@2.0#PR.AC-1          # NIST CSF control
-secid:control/csa/aicm@1.0#A%26A-01         # CSA AICM control (A&A-01)
-secid:regulation/eu/gdpr#art-32             # GDPR Article 32
-secid:entity/mitre/cve                      # CVE program
-secid:reference/whitehouse/eo-14110         # Reference document
+secid:control/nist/csf@2.0#PR.AC-1               # NIST CSF control
+secid:control/csa/aicm@1.0#A&A-01                # CSA AICM control
+secid:advisory/redhat/errata#RHSA-2024:1234      # Red Hat advisory (colon in ID)
+secid:regulation/eu/gdpr#art-32                  # GDPR Article 32
+secid:entity/mitre/cve                           # CVE program
+secid:reference/whitehouse/eo-14110              # Reference document
 ```
 
-Names are URL-encoded: `A&A-01` becomes `A%26A-01` in the identifier. Subpaths can use `/` for hierarchy. Tools render these human-friendly for display.
+SecID strings are human-readable - no encoding needed. Subpaths can use `/` for hierarchy.
 
 ## Types
 
@@ -333,7 +328,7 @@ secid/
 │   │   ├── mitre.md     # MITRE organization
 │   │   └── redhat.md    # Red Hat organization
 │   └── ...
-└── seed/                # Seed data for bulk import
+└── seed/                # Research data (CSV) - see seed/README.md
 ```
 
 **One file per namespace.** Each namespace file (e.g., `registry/advisory/redhat.md`) contains ALL sources for that namespace with ID patterns and URL templates. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) for the full architecture.
