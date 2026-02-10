@@ -254,10 +254,44 @@ For arrays:
 | Field | Type | Description |
 |-------|------|-------------|
 | `schema_version` | string | JSON schema version for this file |
-| `namespace` | string | Organization identifier (used in SecIDs) |
+| `namespace` | string | Organization identifier (used in SecIDs). See namespace validation below. |
 | `type` | string | SecID type: advisory, weakness, ttp, control, regulation, entity, reference |
 | `status` | string | Registry entry status (see below) |
 | `status_notes` | string \| null | Optional context about status (blockers, gaps, guidance for contributors) |
+
+#### Namespace Validation
+
+Namespaces must be safe for filesystems, shells, and URLs while supporting international names.
+
+**Allowed characters:**
+- `a-z` (lowercase ASCII letters)
+- `0-9` (ASCII digits)
+- `-` (hyphen, not at start/end of DNS labels)
+- `.` (period, as DNS label separator)
+- Unicode letters (`\p{L}`) and numbers (`\p{N}`)
+
+**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Not allowed:** Spaces, punctuation (except `-` and `.`), shell metacharacters, path separators.
+
+**Examples:**
+```
+mitre           ✓  Short, common name
+cloudsecurity   ✓  Concatenated words
+cloud-security  ✓  Hyphenated
+ibm.xyz         ✓  DNS-style for disambiguation
+字节跳动         ✓  Unicode (ByteDance in Chinese)
+red_hat         ✗  Underscore not allowed
+red/hat         ✗  Slash not allowed
+```
+
+**Why these rules:**
+
+1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+
+2. **DNS for disambiguation** - Domain names provide globally unique, authoritative identifiers. If two organizations share a name (e.g., multiple "IBM"s), DNS resolves ambiguity: `ibm` → the obvious one, `ibm.xyz` → some other IBM.
+
+3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories include all alphabets while excluding dangerous punctuation.
 
 #### Status Values
 
@@ -491,6 +525,8 @@ Example with format (appending literal text):
 **Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire subpath must match, rejecting malformed SecIDs like `secid:advisory/mitre/cve#CVE-2024-1234/garbage`. Unanchored patterns would match substrings, allowing invalid input.
 
 **Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
+
+**Patterns match the human-readable (unencoded) form.** Write patterns matching what you see in the source documentation. `^Auditing Guidelines$` with a literal space, not `^Auditing%20Guidelines$`. Resolvers are responsible for decoding percent-encoded input before matching against patterns (see SPEC.md Section 8.3).
 
 **Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
 

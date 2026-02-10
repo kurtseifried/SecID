@@ -606,14 +606,52 @@ secid:advisory/debian/dsa#DSA-5678-1         # Debian Security Advisory
 secid:advisory/debian/dla#DLA-1234-1         # Debian LTS Advisory
 ```
 
-### 4.2 Namespace Governance
+### 4.2 Namespace Character Rules
+
+Namespaces must be safe for filesystems, shells, and URLs while supporting international names.
+
+**Allowed characters:**
+- `a-z` (lowercase ASCII letters)
+- `0-9` (ASCII digits)
+- `-` (hyphen, not at start/end of DNS labels)
+- `.` (period, as DNS label separator)
+- Unicode letters (`\p{L}`) and numbers (`\p{N}`)
+
+**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Not allowed:** Spaces, punctuation (except `-` and `.`), shell metacharacters, path separators.
+
+**Examples:**
+```
+mitre           ✓  Short, common name
+cloudsecurity   ✓  Concatenated words
+cloud-security  ✓  Hyphenated
+ibm.xyz         ✓  DNS-style for disambiguation
+字节跳动         ✓  Unicode (ByteDance in Chinese)
+red_hat         ✗  Underscore not allowed
+red/hat         ✗  Slash not allowed
+```
+
+**Why these rules:**
+
+1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+
+2. **DNS for disambiguation** - Domain names provide globally unique, authoritative identifiers. If two organizations share a name (e.g., multiple "IBM"s), DNS resolves ambiguity:
+   - `ibm` → the obvious one (ibm.com)
+   - `ibm.xyz` → some other IBM
+   - No geographic suffixes or categorization schemes needed.
+
+3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories (`\p{L}`, `\p{N}`) include all alphabets while excluding dangerous punctuation and symbols.
+
+### 4.3 Namespace Governance
 
 - Namespaces are assigned, not discovered
 - Common systems get short names
+- When names collide, use DNS-style namespaces for disambiguation
 - Unknown or third-party systems may require longer names
 - Namespaces identify identifier systems, not trust
 
-### 4.3 Namespace Documentation
+### 4.4 Namespace Documentation
 
 Each namespace has a documentation file explaining:
 - What identifiers it issues
@@ -944,14 +982,93 @@ Registry lookup:
 3. Name: Try sources in that namespace. If `some#weird:name` exists, match it.
 4. Subpath: `ID-2024-001`
 
-### 8.1 String Normalization
+### 8.1 Preserve Source Identifiers
+
+**Names and subpaths preserve the source's exact identifier format.** This is a core principle.
+
+If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932` - not `RHSA-2026-0932` or any sanitized variant. If ATT&CK uses `T1059.003` with a dot, we use `T1059.003`. The identifier in SecID matches exactly what practitioners already know.
+
+**Why preserve exactly?**
+
+1. **Human readability** - Security practitioners recognize `RHSA-2026:0932` instantly. No translation layer needed.
+2. **No lossy transformation** - Sanitizing `:` to `-` loses information. What if a source legitimately uses both `RHSA-2026:0932` and `RHSA-2026-0932`?
+3. **Follow the source** - The issuing authority decided on the format. We defer to them.
+4. **Searchability** - Copy `RHSA-2026:0932` from SecID, paste into search - it works.
+
+**Examples of preserved formats:**
+
+| Source | Identifier Format | SecID |
+|--------|-------------------|-------|
+| Red Hat errata | `RHSA-2026:0932` (colon separator) | `secid:advisory/redhat/errata#RHSA-2026:0932` |
+| CVE | `CVE-2024-1234` (dash separator) | `secid:advisory/mitre/cve#CVE-2024-1234` |
+| ATT&CK | `T1059.003` (dot for sub-technique) | `secid:ttp/mitre/attack#T1059.003` |
+| ISO controls | `A.8.1` (dots in hierarchy) | `secid:control/iso/27001@2022#A.8.1` |
+| NIST CSF | `PR.AC-1` (dots and dashes) | `secid:control/nist/csf@2.0#PR.AC-1` |
+| Debian | `DSA-5678-1` (dashes) | `secid:advisory/debian/dsa#DSA-5678-1` |
+
+**What we normalize vs what we preserve:**
+
+| Component | Normalized? | Rule |
+|-----------|-------------|------|
+| `type` | Yes | Always lowercase (`advisory` not `Advisory`) |
+| `namespace` | Yes | Always lowercase (`mitre` not `MITRE`) |
+| `name` | Preserve | Keep source format (`cve` or `CVE` as registered) |
+| `subpath` | Preserve | Keep exact source format (`RHSA-2026:0932`) |
+
+### 8.2 String Normalization Summary
 
 - Lowercase type and namespace: `secid:advisory/mitre/cve#...`
 - Preserve case in name and subpath: `CVE-2024-1234` not `cve-2024-1234`
-- Namespace uses only lowercase letters, numbers, and hyphens (no `/`)
+- Preserve special characters in subpath: `RHSA-2026:0932` not `RHSA-2026-0932`
+- Namespace uses only allowed characters (see Section 4.2)
 - Names can contain any characters (resolved by registry lookup)
 
-### 8.2 Percent Encoding
+### 8.3 Flexible Input Resolution
+
+**Resolvers SHOULD try multiple interpretations of input to find a registry match.**
+
+In practice, users provide SecIDs in different forms. Someone might copy a URL-encoded string, type the human-readable form, or paste from a system that pre-encoded it. Rather than mandating one input format, resolvers try interpretations until one matches:
+
+**Resolution order:**
+
+1. **Try input as-is** - Most inputs are already in human-readable form
+2. **Try percent-decoded** (if input contains `%XX` sequences) - Handles URL-encoded input
+
+```
+Input: "secid:control/csa/ccm#IAM-12/Auditing%20Guidelines"
+  1. Try as-is:   "Auditing%20Guidelines" → no match
+  2. Try decoded: "Auditing Guidelines"   → match ✓ → return result
+
+Input: "secid:control/csa/ccm#IAM-12/Auditing Guidelines"
+  1. Try as-is:   "Auditing Guidelines"   → match ✓ → return result
+
+Input: "secid:advisory/redhat/errata#RHSA-2026:0932"
+  1. Try as-is:   "RHSA-2026:0932"        → match ✓ → return result
+
+Input: "secid:advisory/redhat/errata#RHSA-2026%3A0932"
+  1. Try as-is:   "RHSA-2026%3A0932"      → no match
+  2. Try decoded: "RHSA-2026:0932"        → match ✓ → return result
+```
+
+**Why this works:**
+
+- **Registry is the authority.** The registry patterns determine what matches - we're just trying different interpretations of the input.
+- **As-is first prevents false matches.** If a source literally uses `%20` in an identifier (unlikely but possible), the as-is match finds it before decoding could misinterpret it.
+- **Collision risk is negligible.** A false match would require the registry to have both `Foo Bar` and `Foo%20Bar` as distinct identifiers for different things - essentially impossible in practice.
+
+**Important: Do NOT strip or normalize input beyond decoding.** Quotes, backticks, and other characters might be part of the identifier. If `"Auditing Guidelines"` (with quotes) is the input, try matching it with the quotes first - the registry determines if those quotes are part of the identifier or not.
+
+**Backend storage is an implementation choice.** Since resolvers handle both forms, backends can store whichever is convenient:
+
+| Backend | Stores | Why |
+|---------|--------|-----|
+| Database | `Auditing Guidelines` (unencoded) | String fields handle spaces natively |
+| Filesystem | `Auditing%20Guidelines` (encoded) | Filenames may require encoding |
+| KV store | Either | Implementation preference |
+
+**Registry patterns match the human-readable form.** Pattern authors write what they see in the source documentation. A pattern like `^Auditing Guidelines$` matches the literal space. The resolver is responsible for getting input into the form that patterns expect.
+
+### 8.4 Percent Encoding
 
 **Context matters:** The SecID *string* preserves identifiers as-is for human readability. Percent encoding applies when storing or transporting SecIDs in contexts with their own syntax requirements.
 
@@ -1055,7 +1172,7 @@ Tools should render identifiers human-friendly for display while storing the enc
 
 **Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/mitre/cve#CVE-2024-1234` becomes `secid%3Aadvisory%2Fmitre%2Fcve%23CVE-2024-1234` as a filename.
 
-### 8.3 Canonical Form
+### 8.5 Canonical Form
 
 All SecIDs should normalize to:
 ```

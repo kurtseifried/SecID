@@ -361,7 +361,7 @@ Why this format:
 | **SecID** | A complete identifier string starting with `secid:` |
 | **Scheme** | The URL scheme - always `secid:` (like `pkg:` in PURL) |
 | **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
-| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`). **Cannot contain `/`** - this is the only character restriction. |
+| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`). Allowed: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. **Cannot contain `/`** (parsing anchor). |
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |

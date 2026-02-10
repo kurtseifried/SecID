@@ -350,6 +350,94 @@ If a source genuinely has no usable names (see next section), we may need to cre
 
 ---
 
+## Namespace Character Rules
+
+### The Principle
+
+Namespaces must be safe for filesystems, shells, and URLs while supporting international organizations.
+
+### Allowed Characters
+
+- `a-z` (lowercase ASCII letters)
+- `0-9` (ASCII digits)
+- `-` (hyphen, not at start/end of DNS labels)
+- `.` (period, as DNS label separator)
+- Unicode letters (`\p{L}`) and numbers (`\p{N}`)
+
+**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+### Why These Specific Rules?
+
+**1. Filesystem Safety**
+
+Registry files live in Git: `registry/advisory/mitre.md`. Namespaces become directory and file names. We need characters that work on:
+- Windows (no `:`, `<`, `>`, `|`, `*`, `?`, `"`, `\`)
+- macOS and Linux (no `/`)
+- All Git implementations
+
+Shell metacharacters like `$`, `` ` ``, `!`, `~`, `^`, `{`, `}`, `[`, `]` would cause problems when working with files in terminal environments.
+
+**2. DNS for Disambiguation**
+
+When two organizations share a name (rare, but it happens), DNS provides globally unique, authoritative resolution. Rather than inventing our own categorization (`ibm-mainframe-division`, `ibm-cloud-startup`), we use what already exists:
+- `ibm` → the obvious one (ibm.com)
+- `ibm.xyz` → some other IBM that owns ibm.xyz
+
+DNS eliminates the need for geographic suffixes (`-uk`, `-us`) or arbitrary categorization. The domain owner is, by definition, authoritative for that namespace.
+
+**3. Unicode for Internationalization**
+
+Security knowledge is global. Organizations worldwide should be able to use their native names:
+- `字节跳动` (ByteDance in Chinese)
+- `касперский` (Kaspersky in Russian, if needed)
+
+Unicode letter and number categories (`\p{L}`, `\p{N}`) include all alphabets and number systems while excluding:
+- Punctuation that could cause parsing issues
+- Symbols that are shell metacharacters
+- Whitespace
+
+**4. No Underscore**
+
+We explicitly excluded `_` even though it's filesystem-safe:
+- DNS doesn't allow underscores in labels
+- Hyphens serve the same purpose and are DNS-compatible
+- Keeping the character set minimal reduces edge cases
+
+### What We Considered and Rejected
+
+| Character | Rejected Because |
+|-----------|------------------|
+| `_` | Not DNS-compatible. Use `-` instead. |
+| `&` | Shell metacharacter, URL reserved character |
+| `@` | Reserved for version separator in SecID grammar |
+| `#` | Reserved for subpath separator in SecID grammar |
+| Space | Filesystem problems, URL encoding required |
+| `/` | Path separator in SecID grammar - the one hardcoded rule |
+
+### Examples
+
+```
+mitre           ✓  Short, common name
+cloudsecurity   ✓  Concatenated words
+cloud-security  ✓  Hyphenated
+ibm.xyz         ✓  DNS-style for disambiguation
+字节跳动         ✓  Unicode (ByteDance in Chinese)
+red_hat         ✗  Underscore not allowed
+red/hat         ✗  Slash not allowed (reserved)
+red&hat         ✗  Ampersand not allowed (shell metacharacter)
+```
+
+### Unresolved: GitHub Projects Without Domains
+
+Some projects exist primarily as GitHub repositories without associated domains (e.g., `github.com/username/security-tool`). We haven't designed the namespace assignment process for these cases yet. Options under consideration:
+- Use GitHub username as namespace (`username.github`)
+- Require projects to obtain a domain for SecID namespace
+- Case-by-case decisions
+
+This is deferred until we have concrete examples requiring resolution.
+
+---
+
 ## Security Tools: Entity + Control Pattern
 
 ### The Principle
@@ -813,6 +901,127 @@ Some sources don't have clean identifiers. See "Open Question: Sources Without N
 ### Don't Invent When You Don't Need To
 
 The temptation is to create our own cleaner, shorter, more consistent IDs. Resist it. The source's messy IDs are the source's problem. Our job is to point to them reliably.
+
+---
+
+## Preserve Source Identifier Formats
+
+### The Principle
+
+**Subpaths preserve the source's exact identifier format - including special characters like colons, dots, and dashes.**
+
+If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932` - not `RHSA-2026-0932`. If ATT&CK uses `T1059.003` with a dot, we use `T1059.003`. No sanitization, no normalization beyond what the source specifies.
+
+### Why This Matters
+
+**1. Human Recognition**
+
+Security practitioners have spent years learning identifier formats. `RHSA-2026:0932` is immediately recognizable to anyone who works with Red Hat systems. `RHSA-2026-0932` (with dash instead of colon) looks wrong - and it is wrong, because that's not what Red Hat uses.
+
+**2. No Translation Layer**
+
+If we sanitized identifiers, users would need to mentally translate:
+- "I see `RHSA-2026-0932` in SecID, but I need `RHSA-2026:0932` for Red Hat's website"
+- "The colon became a dash... or was it the other way around?"
+
+By preserving the source format, what you see in SecID is what you use everywhere else.
+
+**3. No Information Loss**
+
+What if a source legitimately uses both `FOO-2026:001` and `FOO-2026-001` for different things? Character substitution would create ambiguity. Preservation avoids this entirely.
+
+**4. Copy-Paste Workflow**
+
+Copy `RHSA-2026:0932` from a SecID, paste into:
+- Red Hat's website search → works
+- Google → works
+- Vulnerability databases → works
+
+No mental translation, no mistakes.
+
+### Examples
+
+| Source | Their Format | Why That Format |
+|--------|--------------|-----------------|
+| Red Hat errata | `RHSA-2026:0932` | Colon separates year from sequence number |
+| CVE | `CVE-2024-1234` | Industry standard since 1999 |
+| ATT&CK | `T1059.003` | Dot separates technique from sub-technique |
+| NIST CSF | `PR.AC-1` | Dot separates function.category, dash for number |
+| ISO 27001 | `A.8.1` | Annex.Section.Subsection hierarchy |
+
+Each format makes sense for its source. We don't judge or transform - we preserve.
+
+### What We Do Normalize
+
+Only these components are normalized:
+- **Type**: Always lowercase (`advisory` not `Advisory`)
+- **Namespace**: Always lowercase (`mitre` not `MITRE`)
+
+Names and subpaths preserve the source format exactly.
+
+### The Registry Documents Format
+
+Each registry file's `id_patterns` documents the expected format:
+
+```json
+"id_patterns": [
+  {"pattern": "^RHSA-\\d{4}:\\d+$", "description": "Red Hat Security Advisory (note colon separator)"},
+  {"pattern": "^RHBA-\\d{4}:\\d+$", "description": "Red Hat Bug Advisory"},
+  {"pattern": "^RHEA-\\d{4}:\\d+$", "description": "Red Hat Enhancement Advisory"}
+]
+```
+
+The pattern matches the exact format practitioners already know.
+
+---
+
+## Flexible Input Resolution: Try Multiple Interpretations
+
+### The Principle
+
+**Resolvers try the input as-is first, then try percent-decoded. The registry determines what matches.**
+
+Rather than mandating that users provide SecIDs in a specific encoding, we accept input in any form and try multiple interpretations against the registry.
+
+### Why Not Mandate One Form?
+
+In practice, people will provide SecIDs in different forms:
+- Copy-pasted from a URL: `IAM-12/Auditing%20Guidelines`
+- Typed by hand: `IAM-12/Auditing Guidelines`
+- From a system that pre-encoded: `RHSA-2026%3A0932`
+- From a system that didn't: `RHSA-2026:0932`
+
+Mandating one form means rejecting valid input. Users shouldn't need to know whether to encode or not.
+
+### The Resolution Strategy
+
+1. **Try as-is** - Most inputs are already in human-readable form
+2. **Try percent-decoded** (if input contains `%`) - Handles URL-encoded input
+
+The as-is check runs first so that if a source literally uses `%20` in an identifier (unlikely but possible), it matches before decoding could misinterpret it.
+
+### Why Not Strip Quotes or Backticks?
+
+Tempting, but dangerous. If someone provides `secid:control/csa/ccm#IAM-12/"Auditing Guidelines"`, those quotes might be:
+- Presentation delimiters (human wrapped it in quotes) → quotes aren't part of the ID
+- Part of the identifier (source actually uses quotes) → quotes ARE part of the ID
+
+We can't tell the difference. The registry can - if a pattern matches with quotes, they're part of the ID. If no match with quotes but a match without, the resolver doesn't find it. The user gets a "not found" and can try without quotes.
+
+Automatically stripping characters risks misidentifying things.
+
+### Backend Storage Is an Implementation Choice
+
+Since resolvers handle both encoded and unencoded forms, backends can store whichever is convenient:
+- **Database**: Store unencoded (string fields handle spaces)
+- **Filesystem**: Store encoded (filenames need it)
+- **KV store**: Either way
+
+The resolver bridges the gap between user input and stored form.
+
+### Registry Patterns Match Human-Readable Form
+
+Pattern authors write what they see in the source documentation. The registry stores `^Auditing Guidelines$` (with literal space), not `^Auditing%20Guidelines$`. The resolver is responsible for getting input into the form that patterns expect.
 
 ---
 

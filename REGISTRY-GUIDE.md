@@ -42,6 +42,57 @@ Use names and structures the source uses:
 
 Don't invent naming schemes. The source's identifiers are authoritative.
 
+### Preserve Source Identifier Formats
+
+**Subpaths preserve the source's exact identifier format - including special characters.**
+
+If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932`. If ATT&CK uses `T1059.003` with a dot, we use `T1059.003`. No sanitization, no transformation.
+
+| Source | Their Format | SecID Subpath |
+|--------|--------------|---------------|
+| Red Hat errata | `RHSA-2026:0932` | `#RHSA-2026:0932` ✓ (not `#RHSA-2026-0932`) |
+| ATT&CK | `T1059.003` | `#T1059.003` ✓ |
+| ISO 27001 | `A.8.1` | `#A.8.1` ✓ |
+| NIST CSF | `PR.AC-1` | `#PR.AC-1` ✓ |
+
+**Why this matters:**
+- Practitioners recognize `RHSA-2026:0932` instantly - no translation needed
+- Copy from SecID, paste into search engines - it works
+- No information loss from character substitution
+- The issuing authority chose the format; we defer to them
+
+## Namespace Character Rules
+
+Namespaces must be safe for filesystems, shells, and URLs while supporting international names.
+
+**Allowed characters:**
+- `a-z` (lowercase ASCII letters)
+- `0-9` (ASCII digits)
+- `-` (hyphen, not at start/end of DNS labels)
+- `.` (period, as DNS label separator)
+- Unicode letters (`\p{L}`) and numbers (`\p{N}`)
+
+**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Examples:**
+```
+mitre           ✓  Short, common name
+cloudsecurity   ✓  Concatenated words
+cloud-security  ✓  Hyphenated
+ibm.xyz         ✓  DNS-style for disambiguation
+字节跳动         ✓  Unicode (ByteDance in Chinese)
+red_hat         ✗  Underscore not allowed
+red/hat         ✗  Slash not allowed (reserved for path separator)
+```
+
+**Why these rules:**
+
+1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.md`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+
+2. **DNS for disambiguation** - When names collide, use DNS-style namespaces. If two organizations share a name, DNS resolves ambiguity: `ibm` → the obvious one (ibm.com), `ibm.xyz` → some other IBM.
+
+3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories include all alphabets while excluding dangerous punctuation.
+
 ## Granularity and Hierarchy
 
 Many sources have hierarchical structure. Use the granularity levels the source provides.

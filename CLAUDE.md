@@ -133,11 +133,30 @@ markdownlint **/*.md
 | Component | Character Rules |
 |-----------|-----------------|
 | `type` | Fixed list of 7 values |
-| `namespace` | No `/` allowed (filesystem + parsing anchor) |
+| `namespace` | `a-z`, `0-9`, `-`, `.`, Unicode `\p{L}\p{N}`. **No `/`** (parsing anchor). |
 | `name` | **Anything** - resolved by registry lookup, longest match wins |
 | `subpath` | Anything (everything after `#`) |
 
+**Namespace validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Why these namespace rules?**
+- **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`)
+- **DNS for disambiguation** - When names collide, use DNS-style (`ibm` vs `ibm.xyz`)
+- **Unicode for internationalization** - Native language names supported
+
 **Why registry-required?** Names can contain `#`, `@`, `?`, `:` - the registry lookup determines where name ends.
+
+## Preserve Source Identifiers
+
+**Subpaths preserve the source's exact format - including special characters.**
+
+| Source Format | SecID | NOT This |
+|---------------|-------|----------|
+| `RHSA-2026:0932` (colon) | `#RHSA-2026:0932` ✓ | `#RHSA-2026-0932` ✗ |
+| `T1059.003` (dot) | `#T1059.003` ✓ | `#T1059-003` ✗ |
+| `PR.AC-1` (dot+dash) | `#PR.AC-1` ✓ | Unchanged |
+
+**Why:** Human recognition, copy-paste workflow, no information loss. What practitioners know is what SecID uses.
 
 ## Encoding Rules
 
@@ -145,6 +164,8 @@ markdownlint **/*.md
 
 **For storage/transport (filenames, URLs):** Percent-encode special characters:
 - `&` → `%26`, Space → `%20`, `:` → `%3A`, `/` → `%2F`, `#` → `%23`
+
+**Flexible input resolution:** Resolvers try input as-is first, then percent-decoded. Registry patterns match human-readable (unencoded) form. Backend storage format is an implementation choice. Do NOT strip quotes or other characters from input - the registry determines what matches.
 
 ## Writing Principle
 
