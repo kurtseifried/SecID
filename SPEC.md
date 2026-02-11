@@ -45,7 +45,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 |----------------|-----------------|----------|-------------|
 | `pkg:` | `secid:` | Yes | Scheme (constant prefix) |
 | `type` | `type` | Yes | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
-| `namespace` | `namespace` | Yes | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `nist.gov`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/nyu-mll`). |
+| `namespace` | `namespace` | Yes | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `cloudsecurityalliance.org`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/ModelContextProtocol-Security/vulnerability-db`). |
 | `name` | `name` | Yes | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `ccm`, `27001`) |
 | `@version` | `@version` | No | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | No | Optional context that doesn't change identity (e.g., `?lang=ja`) |
@@ -660,11 +660,11 @@ Namespaces are domain names, optionally followed by path segments separated by `
 **Examples:**
 ```
 mitre.org                ✓  Domain name
+cloudsecurityalliance.org ✓  Long domain name
 nist.gov                 ✓  Domain name
-github.com/advisories    ✓  Platform sub-namespace
-github.com/llm-attacks   ✓  GitHub user/org sub-namespace
+github.com/advisories    ✓  Platform sub-namespace (one path segment)
+github.com/ModelContextProtocol-Security/vulnerability-db  ✓  Deep sub-namespace (two path segments)
 字节跳动.com              ✓  Unicode domain (ByteDance)
-ibm.com                  ✓  Standard domain
 aws.amazon.com           ✓  Subdomain
 red_hat.com              ✗  Underscore not allowed in segment
 ```

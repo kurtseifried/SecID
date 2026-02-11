@@ -411,9 +411,10 @@ Projects hosted on platforms (GitHub, GitLab, etc.) use platform sub-namespaces:
 github.com/advisories     → GitHub's own advisory database (GHSA)
 github.com/llm-attacks    → Research project hosted on GitHub
 github.com/thu-coai       → University research group on GitHub
+github.com/ModelContextProtocol-Security/vulnerability-db  → Deep sub-namespace (org/repo)
 ```
 
-This resolves the old "GitHub projects without domains" question. No project needs its own domain — the platform's domain serves as the namespace root, with the org/user name as the sub-namespace.
+Sub-namespaces can be any depth — one path segment (`github.com/advisories`) or multiple (`github.com/ModelContextProtocol-Security/vulnerability-db`). This resolves the old "GitHub projects without domains" question. No project needs its own domain — the platform's domain serves as the namespace root, with path segments for org/user/repo.
 
 **No platform allowlist.** The registry filesystem determines namespace boundaries. If `registry/advisory/com/github/advisories.md` exists, then `github.com/advisories` is a valid namespace. No hardcoded list of "allowed platforms" needed.
 
