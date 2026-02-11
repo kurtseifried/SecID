@@ -109,7 +109,7 @@ GET /v1/registry/{type}/{namespace}/{source}
 ```
 
 **Core principle: Format validation, not existence checking.**
-SecID validates that an identifier matches a known pattern - it does NOT check if the thing exists. `secid:advisory/mitre/cve#CVE-2099-99999` is valid (fits pattern) even if that CVE doesn't exist yet. Existence is for the relationship/enrichment layers.
+SecID validates that an identifier matches a known pattern - it does NOT check if the thing exists. `secid:advisory/mitre.org/cve#CVE-2099-99999` is valid (fits pattern) even if that CVE doesn't exist yet. Existence is for the relationship/enrichment layers.
 
 **Discovery mode:** Partial or bare identifiers return ALL matching patterns:
 - `CVE-2024-1234` (bare) → Returns matches from mitre/cve, nist/nvd, redhat/cve, etc.

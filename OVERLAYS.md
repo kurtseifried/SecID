@@ -66,7 +66,7 @@ This is purely illustrative - not a design:
 
 ```json
 {
-  "target": "secid:advisory/mitre/cve#CVE-2024-1234",
+  "target": "secid:advisory/mitre.org/cve#CVE-2024-1234",
   "type": "enrich",
   "adds": {
     "cvss_v3": "8.8",
@@ -81,7 +81,7 @@ This is purely illustrative - not a design:
 Or maybe overlays are simple key-value patches:
 
 ```yaml
-target: secid:advisory/mitre/cve#CVE-2024-1234
+target: secid:advisory/mitre.org/cve#CVE-2024-1234
 overlay:
   ai_relevant: true
   atlas_technique: AML.T0043

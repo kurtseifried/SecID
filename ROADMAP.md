@@ -11,13 +11,13 @@ This document describes what we're building, in what order, and why.
 This is the simplest useful thing SecID can do, and it's the foundation everything else builds on.
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/mitre.org/cve#CVE-2024-1234
   → https://www.cve.org/CVERecord?id=CVE-2024-1234
 
-secid:weakness/mitre/cwe#CWE-79
+secid:weakness/mitre.org/cwe#CWE-79
   → https://cwe.mitre.org/data/definitions/79.html
 
-secid:control/nist/800-53@r5#AC-1
+secid:control/nist.gov/800-53@r5#AC-1
   → https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_1_1/home?element=AC-1
 ```
 
@@ -35,7 +35,7 @@ URL resolution delivers immediate value with minimal complexity:
 **Simple case (most namespaces):** String substitution. The registry file contains a URL template:
 
 ```yaml
-# registry/advisory/mitre/cve.md
+# registry/advisory/org/mitre.md (cve source)
 urls:
   lookup: "https://www.cve.org/CVERecord?id={id}"
 ```
@@ -133,10 +133,10 @@ A SecID isn't just an identifier - it's a handle that gives you everything you n
 
 ```json
 {
-  "secid": "secid:control/csa/ccm@4.0#IAM-12",
+  "secid": "secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12",
   "urls": {
     "lookup": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4",
-    "api": "https://api.secid.dev/v1/control/csa/ccm/IAM-12"
+    "api": "https://api.secid.dev/v1/control/cloudsecurityalliance.org/ccm/IAM-12"
   },
   "description": "Identity & Access Management control requiring multi-factor authentication for all interactive access to cloud services.",
   "content": {
@@ -151,9 +151,9 @@ A SecID isn't just an identifier - it's a handle that gives you everything you n
     "retrieved": "2024-01-15"
   },
   "relationships": {
-    "mitigates": ["secid:weakness/mitre/cwe#CWE-308", "secid:weakness/mitre/cwe#CWE-287"],
-    "related_controls": ["secid:control/nist/800-53@r5#IA-2"],
-    "attacked_by": ["secid:ttp/mitre/attack#T1078"]
+    "mitigates": ["secid:weakness/mitre.org/cwe#CWE-308", "secid:weakness/mitre.org/cwe#CWE-287"],
+    "related_controls": ["secid:control/nist.gov/800-53@r5#IA-2"],
+    "attacked_by": ["secid:ttp/mitre.org/attack#T1078"]
   },
   "meta": {
     "schema": "https://secid.dev/schemas/control/v1",
@@ -175,7 +175,7 @@ Return where to find it and what it is:
 
 ```json
 {
-  "secid": "secid:control/csa/ccm@4.0#IAM-12",
+  "secid": "secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12",
   "urls": { "lookup": "..." },
   "description": "Identity & Access Management control requiring multi-factor authentication..."
 }
@@ -378,7 +378,7 @@ Registry quality depends on validation. Our approach uses AI as a first-class pa
 
 **The workflow:**
 
-1. **Goal discovery** - Given a SecID like `secid:advisory/redhat/errata#RHSA-2024:1234`, ask AI: "What would you typically want to do with this?" The most likely answer: "Find the URL for this RHSA."
+1. **Goal discovery** - Given a SecID like `secid:advisory/redhat.com/errata#RHSA-2024:1234`, ask AI: "What would you typically want to do with this?" The most likely answer: "Find the URL for this RHSA."
 
 2. **Codify the goal** - That answer becomes the success criterion: resolution must produce a working URL.
 

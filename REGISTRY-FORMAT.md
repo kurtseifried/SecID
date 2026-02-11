@@ -18,27 +18,27 @@ Registry files use YAML frontmatter followed by Markdown content. This format is
 
 ### One File Per Namespace
 
-Each namespace gets a single file containing all its sources:
+Each namespace gets a single file containing all its sources, stored in a reverse-DNS directory hierarchy:
 
 ```
-registry/<type>/<namespace>.md
+registry/<type>/<tld>/<domain>.md
 ```
 
 Examples:
-- `registry/advisory/mitre.md` - Contains CVE, NVD sources
-- `registry/control/nist.md` - Contains CSF, SP 800-53, AI RMF sources
-- `registry/weakness/owasp.md` - Contains Top 10, ASVS, LLM Top 10 sources
+- `registry/advisory/org/mitre.md` - Contains CVE, NVD sources
+- `registry/control/gov/nist.md` - Contains CSF, SP 800-53, AI RMF sources
+- `registry/weakness/org/owasp.md` - Contains Top 10, ASVS, LLM Top 10 sources
 
 This maps to SecID identifiers:
-- `secid:advisory/mitre/cve` → defined in `registry/advisory/mitre.md`
-- `secid:control/nist/csf` → defined in `registry/control/nist.md`
+- `secid:advisory/mitre.org/cve` → defined in `registry/advisory/org/mitre.md`
+- `secid:control/nist.gov/csf` → defined in `registry/control/gov/nist.md`
 
 ### Basic Structure
 
 ```markdown
 ---
 type: advisory
-namespace: mitre
+namespace: mitre.org
 full_name: "MITRE Corporation"
 operator: "secid:entity/mitre"
 website: "https://www.mitre.org"
@@ -52,13 +52,13 @@ sources:
       lookup: "https://www.cve.org/CVERecord?id={id}"
     id_pattern: "CVE-\\d{4}-\\d{4,}"
     examples:
-      - "secid:advisory/mitre/cve#CVE-2024-1234"
+      - "secid:advisory/mitre.org/cve#CVE-2024-1234"
   nvd:
     full_name: "National Vulnerability Database"
     urls:
       website: "https://nvd.nist.gov"
     examples:
-      - "secid:advisory/mitre/nvd#CVE-2024-1234"
+      - "secid:advisory/mitre.org/nvd#CVE-2024-1234"
 ---
 
 # MITRE Advisory Sources
@@ -84,6 +84,24 @@ sources:
 | `website` | Primary website URL |
 | `status` | Registry entry state (see below) |
 | `sources` | Map of sources within this namespace |
+| `alias_of` | Namespace this entry redirects to (for alias stubs, see below) |
+
+### Alias Stubs
+
+An alias stub is a minimal registry entry that redirects to another namespace. Used for Punycode/Unicode IDN equivalence and other namespace aliases.
+
+```yaml
+---
+type: advisory
+namespace: xn--mnchen-3ya.de
+alias_of: münchen.de
+---
+# Punycode form of münchen.de. See münchen.de for all records.
+```
+
+When a resolver encounters an entry with `alias_of`, it follows the redirect to the target namespace and resolves there. Alias stubs have no `sources` block — they exist solely to point resolvers to the canonical entry.
+
+See [EDGE-CASES.md](EDGE-CASES.md#punycode-vs-unicode-idn-resolution) for the full IDN resolution strategy.
 
 ### Status Field
 
@@ -118,7 +136,7 @@ urls:
   lookup: "https://www.cve.org/CVERecord?id={id}"
 ```
 
-This enables resolution: `secid:advisory/mitre/cve#CVE-2024-1234` → `https://www.cve.org/CVERecord?id=CVE-2024-1234`
+This enables resolution: `secid:advisory/mitre.org/cve#CVE-2024-1234` → `https://www.cve.org/CVERecord?id=CVE-2024-1234`
 
 ## Markdown Body
 
@@ -151,7 +169,7 @@ sources:
       lookup: "https://github.com/advisories/{id}"
     id_pattern: "GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}"
     examples:
-      - "secid:advisory/github/ghsa#GHSA-abcd-1234-efgh"
+      - "secid:advisory/github.com/advisories/ghsa#GHSA-abcd-1234-efgh"
 ---
 ```
 
@@ -160,7 +178,7 @@ sources:
 ```yaml
 ---
 type: control
-namespace: nist
+namespace: nist.gov
 full_name: "National Institute of Standards and Technology"
 status: active
 
@@ -171,7 +189,7 @@ sources:
     urls:
       website: "https://www.nist.gov/cyberframework"
     examples:
-      - "secid:control/nist/csf@2.0#PR.AC-1"
+      - "secid:control/nist.gov/csf@2.0#PR.AC-1"
 ---
 ```
 
@@ -180,7 +198,7 @@ sources:
 ```yaml
 ---
 type: weakness
-namespace: mitre
+namespace: mitre.org
 full_name: "MITRE Corporation"
 status: active
 
@@ -192,15 +210,15 @@ sources:
       lookup: "https://cwe.mitre.org/data/definitions/{id}.html"
     id_pattern: "CWE-\\d+"
     examples:
-      - "secid:weakness/mitre/cwe#CWE-79"
+      - "secid:weakness/mitre.org/cwe#CWE-79"
 ---
 ```
 
 ## File Naming
 
 - Use lowercase
-- Use hyphens for multi-word namespaces: `protect-ai.md`
-- Match the namespace exactly: `secid:advisory/protect-ai/...` → `registry/advisory/protect-ai.md`
+- Namespace `protectai.com` maps to `registry/advisory/com/protectai.md` (domain split on `.`, reversed into directory hierarchy)
+- Match the namespace via reverse-DNS: `secid:advisory/protectai.com/...` → `registry/advisory/com/protectai.md`
 
 ## Templates
 

@@ -11,11 +11,11 @@ SecID provides a grammar and registry for referencing security knowledge. SecID 
 Format: `secid:type/namespace/name[@version][?qualifiers][#subpath]`
 
 Examples:
-- `secid:advisory/mitre/cve#CVE-2024-1234` - CVE record
-- `secid:weakness/mitre/cwe#CWE-79` - CWE weakness
-- `secid:ttp/mitre/attack#T1059.003` - ATT&CK technique
-- `secid:control/nist/csf@2.0#PR.AC-1` - NIST CSF control
-- `secid:reference/arxiv/2303.08774` - arXiv paper
+- `secid:advisory/mitre.org/cve#CVE-2024-1234` - CVE record
+- `secid:weakness/mitre.org/cwe#CWE-79` - CWE weakness
+- `secid:ttp/mitre.org/attack#T1059.003` - ATT&CK technique
+- `secid:control/nist.gov/csf@2.0#PR.AC-1` - NIST CSF control
+- `secid:reference/arxiv.org/2303.08774` - arXiv paper
 
 ## Current Status: v0.9 (Public Draft)
 
@@ -48,7 +48,7 @@ secid/
 ├── ROADMAP.md               # v1.0 scope and deliverables
 ├── registry/                # Namespace definitions (one file per namespace)
 │   ├── <type>.md            # Type description
-│   └── <type>/<namespace>.md
+│   └── <type>/<tld>/<domain>.md  # Namespace file (reverse-DNS, e.g., org/mitre.md)
 └── seed/                    # Bulk import data (CSV)
 ```
 
@@ -97,9 +97,9 @@ Types are intentionally overloaded. Split only when usage proves it necessary.
 Use the hierarchy levels the source provides:
 
 ```
-secid:control/csa/ccm@4.0           → Whole framework
-secid:control/csa/ccm@4.0#IAM       → Domain (group of controls)
-secid:control/csa/ccm@4.0#IAM-12    → Specific control
+secid:control/cloudsecurityalliance.org/ccm@4.0           → Whole framework
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM       → Domain (group of controls)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12    → Specific control
 ```
 
 Document each level with its own `id_pattern` and description.
@@ -107,7 +107,7 @@ Document each level with its own `id_pattern` and description.
 ## Adding New Namespaces
 
 1. Determine type (advisory, weakness, ttp, control, regulation, entity, reference)
-2. Check if `registry/<type>/<namespace>.md` exists
+2. Check if the namespace file exists at the reverse-DNS path (e.g., `registry/<type>/org/mitre.md` for `mitre.org`)
 3. Add source to existing file OR create new namespace file
 4. Include: urls, id_patterns (with descriptions), examples
 5. Use `registry/_deferred/` for incomplete research
@@ -128,21 +128,24 @@ markdownlint **/*.md
 
 **SecID parsing requires registry access.** The registry defines what's valid - no banned character list to memorize.
 
-**The one hardcoded rule:** Namespace cannot contain `/`. This is the parsing anchor.
+**Namespaces are domain names**, optionally with `/`-separated path segments for platform sub-namespaces.
 
 | Component | Character Rules |
 |-----------|-----------------|
 | `type` | Fixed list of 7 values |
-| `namespace` | `a-z`, `0-9`, `-`, `.`, Unicode `\p{L}\p{N}`. **No `/`** (parsing anchor). |
+| `namespace` | Domain name, optionally with `/`-separated sub-namespace path segments. Per-segment: `a-z`, `0-9`, `-`, `.`, Unicode `\p{L}\p{N}`. |
 | `name` | **Anything** - resolved by registry lookup, longest match wins |
 | `subpath` | Anything (everything after `#`) |
 
-**Namespace validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+**Per-segment validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$` (applies to each segment between `/`)
 
-**Why these namespace rules?**
-- **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`)
-- **DNS for disambiguation** - When names collide, use DNS-style (`ibm` vs `ibm.xyz`)
-- **Unicode for internationalization** - Native language names supported
+**Namespace resolution: shortest-to-longest matching.** Since namespaces can contain `/`, the parser tries shortest namespace first against the registry, then progressively longer matches. Example: for `github.com/advisories/ghsa`, try `github.com` then `github.com/advisories` — longest match wins.
+
+**Why domain-name namespaces?**
+- **Self-registration (future)** - Domain owners will prove ownership via DNS/ACME; currently manual via pull requests
+- **No naming authority** - DNS already provides globally unique names
+- **Filesystem safety** - Namespaces become file paths (`registry/advisory/org/mitre.md`)
+- **Unicode for internationalization** - Native language domain names supported
 
 **Why registry-required?** Names can contain `#`, `@`, `?`, `:` - the registry lookup determines where name ends.
 

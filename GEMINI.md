@@ -22,7 +22,7 @@ The project is composed of Markdown files that define the specification and the 
 *   **`USE-CASES.md`**: Contains concrete examples of how SecID can be used to solve real-world security problems, such as correlating vulnerability data or mapping controls to standards.
 *   **`registry/`**: This directory is the functional heart of the project. It contains a hierarchy of Markdown files that define all valid SecID types and namespaces.
     *   **`registry/<type>.md`**: Describes a top-level type (e.g., `advisory.md`, `weakness.md`).
-    *   **`registry/<type>/<namespace>.md`**: Defines a specific namespace, including its resolution rules, ID patterns, and relevant URLs. For example, `registry/advisory/mitre.md` defines how to handle `secid:advisory/mitre/cve#...` and other MITRE advisory identifiers.
+    *   **`registry/<type>/<tld>/<domain>.md`**: Defines a specific namespace using reverse-DNS directory layout, including its resolution rules, ID patterns, and relevant URLs. For example, `registry/advisory/org/mitre.md` defines how to handle `secid:advisory/mitre.org/cve#...` and other MITRE advisory identifiers.
 
 Each file in the `registry/` uses a consistent format of **YAML frontmatter** for structured, machine-readable data (like URLs and ID patterns) and a **Markdown body** for human- and AI-readable context and documentation.
 

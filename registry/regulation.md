@@ -17,16 +17,16 @@ Track and reference regulatory requirements - the "what the law requires":
 ```
 secid:regulation/<jurisdiction>/<law>[@version][#article]
 
-secid:regulation/eu/gdpr
-secid:regulation/eu/gdpr@2016-04-27
-secid:regulation/eu/gdpr#art-32
-secid:regulation/eu/gdpr#art-32.1.a
-secid:regulation/us/hipaa
-secid:regulation/us/hipaa#164.312.a.1
-secid:regulation/us/sox
-secid:regulation/eu/nis2
-secid:regulation/eu/ai-act
-secid:regulation/us-ca/ccpa
+secid:regulation/europa.eu/gdpr
+secid:regulation/europa.eu/gdpr@2016-04-27
+secid:regulation/europa.eu/gdpr#art-32
+secid:regulation/europa.eu/gdpr#art-32.1.a
+secid:regulation/govinfo.gov/hipaa
+secid:regulation/govinfo.gov/hipaa#164.312.a.1
+secid:regulation/govinfo.gov/sox
+secid:regulation/europa.eu/nis2
+secid:regulation/europa.eu/ai-act
+secid:regulation/ca.gov/ccpa
 ```
 
 ## Namespaces (Jurisdictions)
@@ -45,16 +45,16 @@ secid:regulation/us-ca/ccpa
 Use `@version` for specific versions (often publication dates):
 
 ```
-secid:regulation/eu/gdpr@2016-04-27     # GDPR publication date
-secid:regulation/eu/ai-act@2024-06-13   # AI Act publication date
+secid:regulation/europa.eu/gdpr@2016-04-27     # GDPR publication date
+secid:regulation/europa.eu/ai-act@2024-06-13   # AI Act publication date
 ```
 
 Use `#subpath` for specific articles, sections, or citations:
 
 ```
-secid:regulation/eu/gdpr#art-32         # Article 32
-secid:regulation/eu/gdpr#art-32.1.a     # Article 32(1)(a)
-secid:regulation/us/hipaa#164.312.a.1   # Security Rule citation
+secid:regulation/europa.eu/gdpr#art-32         # Article 32
+secid:regulation/europa.eu/gdpr#art-32.1.a     # Article 32(1)(a)
+secid:regulation/govinfo.gov/hipaa#164.312.a.1   # Security Rule citation
 ```
 
 ## Key Regulations
@@ -95,13 +95,13 @@ The EU AI Act (entered into force August 2024) is the first comprehensive AI reg
 ### Key Articles
 
 ```
-secid:regulation/eu/ai-act#art-5      # Prohibited AI practices
-secid:regulation/eu/ai-act#art-6      # High-risk classification
-secid:regulation/eu/ai-act#art-9      # Risk management system
-secid:regulation/eu/ai-act#art-10     # Data governance
-secid:regulation/eu/ai-act#art-13     # Transparency
-secid:regulation/eu/ai-act#art-14     # Human oversight
-secid:regulation/eu/ai-act#art-52     # Transparency for certain AI systems
+secid:regulation/europa.eu/ai-act#art-5      # Prohibited AI practices
+secid:regulation/europa.eu/ai-act#art-6      # High-risk classification
+secid:regulation/europa.eu/ai-act#art-9      # Risk management system
+secid:regulation/europa.eu/ai-act#art-10     # Data governance
+secid:regulation/europa.eu/ai-act#art-13     # Transparency
+secid:regulation/europa.eu/ai-act#art-14     # Human oversight
+secid:regulation/europa.eu/ai-act#art-52     # Transparency for certain AI systems
 ```
 
 ### Timeline
@@ -117,8 +117,8 @@ The AI Act creates demand for AI-specific controls:
 
 ```json
 {
-  "from": "secid:control/csa/aicm@1.0#GOV-01",
-  "to": "secid:regulation/eu/ai-act#art-9",
+  "from": "secid:control/cloudsecurityalliance.org/aicm@1.0#GOV-01",
+  "to": "secid:regulation/europa.eu/ai-act#art-9",
   "type": "satisfies",
   "description": "AI governance controls address AI Act risk management requirements"
 }
@@ -130,8 +130,8 @@ Controls satisfy regulatory requirements:
 
 ```json
 {
-  "from": "secid:control/iso/27001@2022#A.8.1",
-  "to": "secid:regulation/eu/gdpr#art-32",
+  "from": "secid:control/iso.org/27001@2022#A.8.1",
+  "to": "secid:regulation/europa.eu/gdpr#art-32",
   "type": "satisfies",
   "description": "Asset management addresses GDPR security requirements"
 }
@@ -141,8 +141,8 @@ Regulations may reference other regulations:
 
 ```json
 {
-  "from": "secid:regulation/eu/nis2",
-  "to": "secid:regulation/eu/gdpr",
+  "from": "secid:regulation/europa.eu/nis2",
+  "to": "secid:regulation/europa.eu/gdpr",
   "type": "references",
   "description": "NIS2 builds on GDPR data protection requirements"
 }
@@ -152,7 +152,7 @@ Regulations may reference other regulations:
 
 - **Regulation** (regulation): What the law requires (GDPR, HIPAA)
 - **Control** (control): How to meet requirements (ISO 27001, CIS)
-- **Scoring/Formats**: Technical specifications (CVSS via `entity/first/cvss`, etc.)
+- **Scoring/Formats**: Technical specifications (CVSS via `entity/first.org/cvss`, etc.)
 
 Regulations are **mandatory** within their jurisdiction. Controls are **voluntary** frameworks (unless regulation mandates them). Technical standards are referenced via their operating entity.
 

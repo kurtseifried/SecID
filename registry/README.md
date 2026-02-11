@@ -7,15 +7,15 @@ Namespace definitions for all SecID types. The directory structure mirrors SecID
 ```
 registry/
 ├── <type>.md                    # Type description (e.g., advisory.md)
-├── <type>/                      # Namespaces for that type
-│   └── <namespace>.md           # Organization namespace definition
+├── <type>/                      # Namespaces for that type (reverse-DNS layout)
+│   └── <tld>/<domain>.md        # Organization namespace definition
 ...
 
 # Examples:
-registry/advisory/mitre.md   → secid:advisory/mitre/cve, secid:advisory/mitre/nvd
-registry/weakness/mitre.md   → secid:weakness/mitre/cwe
-registry/ttp/mitre.md        → secid:ttp/mitre/attack, secid:ttp/mitre/atlas
-registry/control/nist.md     → secid:control/nist/csf, secid:control/nist/800-53
+registry/advisory/org/mitre.md   → secid:advisory/mitre.org/cve, secid:advisory/mitre.org/nvd
+registry/weakness/org/mitre.md   → secid:weakness/mitre.org/cwe
+registry/ttp/org/mitre.md        → secid:ttp/mitre.org/attack, secid:ttp/mitre.org/atlas
+registry/control/gov/nist.md     → secid:control/nist.gov/csf, secid:control/nist.gov/800-53
 ```
 
 Each type has:
@@ -44,10 +44,10 @@ Namespace files use YAML frontmatter + Markdown body:
 ```yaml
 ---
 type: "weakness"
-namespace: "mitre"
+namespace: "mitre.org"
 name: "cwe"
 full_name: "Common Weakness Enumeration"
-operator: "secid:entity/mitre/cwe"
+operator: "secid:entity/mitre.org/cwe"
 
 urls:
   website: "https://cwe.mitre.org"
@@ -55,8 +55,8 @@ urls:
 
 id_pattern: "CWE-\\d+"
 examples:
-  - "secid:weakness/mitre/cwe#CWE-79"
-  - "secid:weakness/mitre/cwe#CWE-89"
+  - "secid:weakness/mitre.org/cwe#CWE-79"
+  - "secid:weakness/mitre.org/cwe#CWE-89"
 
 status: "active"
 ---
@@ -67,14 +67,14 @@ The canonical software weakness taxonomy...
 
 ## Format
 
-secid:weakness/mitre/cwe#CWE-NNN
+secid:weakness/mitre.org/cwe#CWE-NNN
 
 ## Resolution
 
 https://cwe.mitre.org/data/definitions/{num}.html
 ```
 
-The file location `registry/weakness/mitre.md` corresponds to `secid:weakness/mitre/*` (all MITRE weakness namespaces like CWE).
+The file location `registry/weakness/org/mitre.md` corresponds to `secid:weakness/mitre.org/*` (all MITRE weakness namespaces like CWE).
 
 ## Patterns
 
@@ -90,17 +90,17 @@ Security tools that provide security checks should be documented in **both** ent
 **Example: MCPShark Smart Scan**
 
 ```
-secid:entity/mcpshark/smart      → The Smart Scan tool itself
-secid:control/mcpshark/smart     → Security checks it provides
+secid:entity/mcpshark.sh/smart      → The Smart Scan tool itself
+secid:control/mcpshark.sh/smart     → Security checks it provides
 ```
 
-**Entity file** (`registry/entity/mcpshark/smart.md`):
+**Entity file** (`registry/entity/sh/mcpshark/smart.md`):
 - What the tool is and does
 - CLI, API, Dashboard access methods
 - CI/CD integration capabilities
 - What it scans (MCP servers, AI agents)
 
-**Control file** (`registry/control/mcpshark/smart.md`):
+**Control file** (`registry/control/sh/mcpshark/smart.md`):
 - `#agent-analysis` - Agent security assessment
 - `#privilege-escalation-detection` - Finds escalation paths
 - `#owasp-mapping` - Maps findings to OWASP LLM Top 10
@@ -116,8 +116,8 @@ This pattern applies to any security tool with defined checks:
 Some frameworks define both weaknesses AND controls (like OWASP AI Exchange):
 
 ```
-secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION  → The threat
-secid:control/owasp/ai-exchange#PROMPTINJECTIONIOHANDLING  → The mitigation
+secid:weakness/owasp.org/ai-exchange#DIRECTPROMPTINJECTION  → The threat
+secid:control/owasp.org/ai-exchange#PROMPTINJECTIONIOHANDLING  → The mitigation
 ```
 
 Document in both types when the source provides both perspectives.
@@ -127,7 +127,7 @@ Document in both types when the source provides both perspectives.
 To add a new namespace:
 1. Determine which type it belongs to
 2. Identify the organization (namespace)
-3. Create or update `registry/<type>/<namespace>.md`
+3. Create or update `registry/<type>/<tld>/<domain>.md`
 4. Fill in the frontmatter with resolution info (urls, id_pattern, examples)
 5. Add context in the markdown body (format, resolution rules, notes)
 

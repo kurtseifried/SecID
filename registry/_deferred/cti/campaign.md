@@ -43,7 +43,7 @@ Use lowercase, hyphenated descriptive names:
 
 ```
 secid:cti/campaign/solarwinds-2020 → attributed_to → secid:cti/actor/apt29
-secid:cti/campaign/solarwinds-2020 → exploited → secid:advisory/mitre/cve#CVE-2020-10148
+secid:cti/campaign/solarwinds-2020 → exploited → secid:advisory/mitre.org/cve#CVE-2020-10148
 ```
 
 ## Notes

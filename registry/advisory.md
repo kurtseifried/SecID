@@ -18,12 +18,12 @@ Track and coordinate security and safety publications - anything that documents 
 ```
 secid:advisory/<namespace>/<name>[#subpath]
 
-secid:advisory/mitre/cve#CVE-2024-1234
-secid:advisory/nist/nvd#CVE-2024-1234
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz
-secid:advisory/google/osv#PYSEC-2024-1
-secid:advisory/redhat/errata#RHSA-2024:1234
-secid:advisory/debian/dsa#DSA-5678-1
+secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:advisory/nist.gov/nvd#CVE-2024-1234
+secid:advisory/github.com/ghsa#GHSA-xxxx-yyyy-zzzz
+secid:advisory/google.com/osv#PYSEC-2024-1
+secid:advisory/redhat.com/errata#RHSA-2024:1234
+secid:advisory/debian.org/dsa#DSA-5678-1
 ```
 
 ## Namespaces
@@ -125,12 +125,12 @@ Some vendors have multiple advisory systems, each with its own `name`:
 **Red Hat example:**
 
 ```
-secid:advisory/redhat/cve#CVE-2024-1234      # Red Hat CVE Database (vulnerability info)
-secid:advisory/redhat/errata#RHSA-2024:1234  # Red Hat Security Advisory (the fix)
-secid:advisory/redhat/errata#RHBA-2024:5678  # Red Hat Bug Advisory
-secid:advisory/redhat/errata#RHEA-2024:9012  # Red Hat Enhancement Advisory
-secid:advisory/redhat/bugzilla#2045678       # Bugzilla bug (by ID)
-secid:advisory/redhat/bugzilla#CVE-2024-1234 # Bugzilla bug (by CVE alias)
+secid:advisory/redhat.com/cve#CVE-2024-1234      # Red Hat CVE Database (vulnerability info)
+secid:advisory/redhat.com/errata#RHSA-2024:1234  # Red Hat Security Advisory (the fix)
+secid:advisory/redhat.com/errata#RHBA-2024:5678  # Red Hat Bug Advisory
+secid:advisory/redhat.com/errata#RHEA-2024:9012  # Red Hat Enhancement Advisory
+secid:advisory/redhat.com/bugzilla#2045678       # Bugzilla bug (by ID)
+secid:advisory/redhat.com/bugzilla#CVE-2024-1234 # Bugzilla bug (by CVE alias)
 ```
 
 The `name` distinguishes the system (`cve` vs `errata` vs `bugzilla`). Within errata, the subpath prefix (`RHSA-`, `RHBA-`, `RHEA-`) distinguishes advisory types. Bugzilla accepts both numeric IDs and CVE aliases.
@@ -138,17 +138,17 @@ The `name` distinguishes the system (`cve` vs `errata` vs `bugzilla`). Within er
 **Microsoft example:**
 
 ```
-secid:advisory/microsoft/msrc#CVE-2024-1234      # MSRC CVE database
-secid:advisory/microsoft/advisory#ADV240001      # Security Advisory (defense-in-depth)
-secid:advisory/microsoft/kb#KB5001234            # Knowledge Base article (patch)
+secid:advisory/microsoft.com/msrc#CVE-2024-1234      # MSRC CVE database
+secid:advisory/microsoft.com/advisory#ADV240001      # Security Advisory (defense-in-depth)
+secid:advisory/microsoft.com/kb#KB5001234            # Knowledge Base article (patch)
 ```
 
 **Debian example:**
 
 ```
-secid:advisory/debian/dsa#DSA-5678-1         # Debian Security Advisory (stable)
-secid:advisory/debian/dla#DLA-3456-1         # Debian LTS Advisory (extended support)
-secid:advisory/debian/tracker#CVE-2024-1234  # Debian Security Tracker (CVE status)
+secid:advisory/debian.org/dsa#DSA-5678-1         # Debian Security Advisory (stable)
+secid:advisory/debian.org/dla#DLA-3456-1         # Debian LTS Advisory (extended support)
+secid:advisory/debian.org/tracker#CVE-2024-1234  # Debian Security Tracker (CVE status)
 ```
 
 ## Relationships
@@ -157,8 +157,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/github/ghsa#GHSA-xxxx-yyyy",
-  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
+  "from": "secid:advisory/github.com/ghsa#GHSA-xxxx-yyyy",
+  "to": "secid:advisory/mitre.org/cve#CVE-2024-1234",
   "type": "aliases",
   "asserted_by": "github"
 }
@@ -166,8 +166,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/nist/nvd#CVE-2024-1234",
-  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
+  "from": "secid:advisory/nist.gov/nvd#CVE-2024-1234",
+  "to": "secid:advisory/mitre.org/cve#CVE-2024-1234",
   "type": "enriches",
   "description": "NVD adds CVSS, CPE, CWE to CVE records"
 }
@@ -175,8 +175,8 @@ Advisories connect through aliasing and enrichment:
 
 ```json
 {
-  "from": "secid:advisory/redhat/errata#RHSA-2024:1234",
-  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
+  "from": "secid:advisory/redhat.com/errata#RHSA-2024:1234",
+  "to": "secid:advisory/mitre.org/cve#CVE-2024-1234",
   "type": "about",
   "description": "RHSA addresses this CVE"
 }
@@ -184,8 +184,8 @@ Advisories connect through aliasing and enrichment:
 
 ## Notes
 
-- CVE is a MITRE project: `secid:advisory/mitre/cve#CVE-2024-1234`
-- NVD enriches CVE but doesn't issue IDs - it's NIST's view: `secid:advisory/nist/nvd#CVE-2024-1234`
+- CVE is a MITRE project: `secid:advisory/mitre.org/cve#CVE-2024-1234`
+- NVD enriches CVE but doesn't issue IDs - it's NIST's view: `secid:advisory/nist.gov/nvd#CVE-2024-1234`
 - Different databases may have the same vulnerability with different IDs
 - Use `aliases` relationship to connect equivalent advisories
 

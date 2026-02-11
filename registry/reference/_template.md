@@ -9,7 +9,7 @@ type: "reference"
 category: ""  # standard, publication, research, position, policy, report, collection
 
 # Source
-publisher: ""  # e.g., "secid:entity/nist"
+publisher: ""  # e.g., "secid:entity/nist.gov"
 authors: []
 publication_date: null
 version: ""

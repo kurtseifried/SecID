@@ -48,7 +48,7 @@ Use lowercase, hyphenated canonical names:
 ## Relationships
 
 ```
-secid:cti/actor/apt29 → uses → secid:ttp/mitre/attack#T1566
+secid:cti/actor/apt29 → uses → secid:ttp/mitre.org/attack#T1566
 secid:cti/actor/apt29 → attributed_to → secid:cti/campaign/solarwinds-2020
 ```
 

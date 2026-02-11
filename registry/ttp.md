@@ -14,11 +14,11 @@ Track and reference attack methodologies - the "how attackers do this":
 ```
 secid:ttp/<namespace>/<name>[#subpath]
 
-secid:ttp/mitre/attack#T1566
-secid:ttp/mitre/attack#T1566.001
-secid:ttp/mitre/attack#TA0001
-secid:ttp/mitre/atlas#AML.T0043
-secid:ttp/mitre/capec#CAPEC-66
+secid:ttp/mitre.org/attack#T1566
+secid:ttp/mitre.org/attack#T1566.001
+secid:ttp/mitre.org/attack#TA0001
+secid:ttp/mitre.org/atlas#AML.T0043
+secid:ttp/mitre.org/capec#CAPEC-66
 ```
 
 ## Namespaces
@@ -48,8 +48,8 @@ TTPs relate to weaknesses they exploit:
 
 ```json
 {
-  "from": "secid:ttp/mitre/capec#CAPEC-66",
-  "to": "secid:weakness/mitre/cwe#CWE-89",
+  "from": "secid:ttp/mitre.org/capec#CAPEC-66",
+  "to": "secid:weakness/mitre.org/cwe#CWE-89",
   "type": "exploits",
   "description": "SQL Injection attack exploits CWE-89"
 }
@@ -57,8 +57,8 @@ TTPs relate to weaknesses they exploit:
 
 ```json
 {
-  "from": "secid:ttp/mitre/atlas#AML.T0043",
-  "to": "secid:weakness/mitre/cwe#CWE-1427",
+  "from": "secid:ttp/mitre.org/atlas#AML.T0043",
+  "to": "secid:weakness/mitre.org/cwe#CWE-1427",
   "type": "exploits",
   "description": "Prompt injection attack"
 }
@@ -68,8 +68,8 @@ TTPs can be mitigated by controls:
 
 ```json
 {
-  "from": "secid:control/csa/aicm#INP-01",
-  "to": "secid:ttp/mitre/atlas#AML.T0043",
+  "from": "secid:control/cloudsecurityalliance.org/aicm#INP-01",
+  "to": "secid:ttp/mitre.org/atlas#AML.T0043",
   "type": "mitigates",
   "description": "Input validation mitigates prompt injection"
 }

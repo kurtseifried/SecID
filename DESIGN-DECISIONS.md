@@ -61,7 +61,7 @@ Those concerns are handled by other systems (OSV, GHSA, etc.) that *use* PURLs. 
 SecID follows this pattern. **SecID uses PURL grammar with `secid:` as the scheme** - just as PURL uses `pkg:`, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly (`type/namespace/name`):
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/mitre.org/cve#CVE-2024-1234
 ```
 
 What you can say *about* that identifier - relationships, enrichments, history - is a separate concern.
@@ -151,7 +151,7 @@ How do you handle name changes? Companies get acquired, products get rebranded, 
 - VMware → Broadcom VMware
 - RHSA-* → hypothetically IBMRHSA-*
 
-If someone wrote `secid:advisory/redhat/errata#RHSA-2024-1234` in a paper, a database, or a tool, what happens when "redhat" becomes "ibmredhat"?
+If someone wrote `secid:advisory/redhat.com/errata#RHSA-2024-1234` in a paper, a database, or a tool, what happens when "redhat" becomes "ibmredhat"?
 
 ### The UUID Proposal
 
@@ -171,7 +171,7 @@ This is how some systems handle stability. It's not wrong.
 
 In practice, people would write:
 ```
-secid:advisory/redhat/errata#RHSA-2024-1234
+secid:advisory/redhat.com/errata#RHSA-2024-1234
 ```
 
 Not:
@@ -195,12 +195,12 @@ We'd have all the costs of UUIDs with none of the benefits.
 When a namespace is renamed:
 
 1. **Both names remain valid identifiers**
-   - `secid:advisory/redhat/errata#RHSA-2024-1234` works
-   - `secid:advisory/ibmredhat/RHSA-2024-1234` also works
+   - `secid:advisory/redhat.com/errata#RHSA-2024-1234` works
+   - `secid:advisory/ibmredhat.com/RHSA-2024-1234` also works
 
 2. **The relationship layer records the change**
    ```
-   ibmredhat renamedFrom redhat
+   ibmredhat.com renamedFrom redhat.com
    ```
 
 3. **Resolvers follow the chain**
@@ -244,7 +244,7 @@ What happens when organizations change? Companies get acquired, rebrand, merge, 
 - VMware acquired by Broadcom
 - Sun Microsystems absorbed into Oracle
 
-If someone wrote `secid:advisory/redhat/errata#RHSA-2024:1234`, what happens when Red Hat's organizational structure changes?
+If someone wrote `secid:advisory/redhat.com/errata#RHSA-2024:1234`, what happens when Red Hat's organizational structure changes?
 
 ### Why We Don't Pre-Design This
 
@@ -263,8 +263,8 @@ Nothing needed to change in SecID. If we'd pre-built a transition system, we'd h
 **Contrast: If IBM fully absorbed Red Hat**
 
 If IBM killed the Red Hat brand and migrated everything to IBM infrastructure:
-- Old `secid:advisory/redhat/*` identifiers stay valid forever (like old URLs)
-- New advisories use `secid:advisory/ibm/*`
+- Old `secid:advisory/redhat.com/*` identifiers stay valid forever (like old URLs)
+- New advisories use `secid:advisory/ibm.com/*`
 - Relationship layer records: `ibm/errata renamedFrom redhat/errata`
 - Resolvers follow the chain
 
@@ -312,7 +312,7 @@ This applies to:
 
 **Simplicity**: No need to invent naming schemes. The vendor already named their product.
 
-**Recognizability**: Users searching for "ROSA" should find `entity/redhat/rosa`, not `entity/redhat/openshift-aws-managed-service`.
+**Recognizability**: Users searching for "ROSA" should find `entity/redhat.com/rosa`, not `entity/redhat.com/openshift-aws-managed-service`.
 
 **Reduced ambiguity**: The vendor's naming is authoritative. We're not guessing.
 
@@ -322,15 +322,15 @@ This applies to:
 
 **General concepts use common names:**
 ```
-entity/redhat/openshift     # The OpenShift platform generally
-entity/microsoft/windows    # Windows generally
+entity/redhat.com/openshift     # The OpenShift platform generally
+entity/microsoft.com/windows    # Windows generally
 ```
 
 **Variants use official product names:**
 ```
-entity/redhat/rosa                # "ROSA" (Red Hat OpenShift Service on AWS)
-entity/redhat/aro                 # "ARO" (Azure Red Hat OpenShift)
-entity/redhat/openshift-dedicated # "OpenShift Dedicated"
+entity/redhat.com/rosa                # "ROSA" (Red Hat OpenShift Service on AWS)
+entity/redhat.com/aro                 # "ARO" (Azure Red Hat OpenShift)
+entity/redhat.com/openshift-dedicated # "OpenShift Dedicated"
 ```
 
 Note: `rosa` not `openshift-rosa`. Red Hat calls it "ROSA", so we call it `rosa`.
@@ -350,58 +350,125 @@ If a source genuinely has no usable names (see next section), we may need to cre
 
 ---
 
-## Namespace Character Rules
+## Domain-Name Namespaces
 
 ### The Principle
 
-Namespaces must be safe for filesystems, shells, and URLs while supporting international organizations.
+Namespaces are **domain names** of the organizations that publish security knowledge. This enables self-registration, scales without a central naming authority, and provides built-in ownership verification.
 
-### Allowed Characters
+### Why Domain Names?
 
+Early versions used short names (`mitre`, `nist`, `redhat`). This worked at small scale (~100 namespaces) but created problems:
+
+1. **Collision risk at scale** - With 10,000+ namespaces, short names would collide. Who gets `ibm`? The mainframe company or the startup?
+2. **Central naming authority required** - Someone has to assign and arbitrate short names. That doesn't scale.
+3. **No ownership verification** - Anyone could claim `google` in a registry contribution. No way to verify.
+
+Domain names solve all three:
+
+| Problem | Short Names | Domain Names |
+|---------|------------|--------------|
+| Collisions | Manual arbitration | DNS already solves this |
+| Authority | Central committee | Domain ownership = authority |
+| Verification | Trust-based | DNS TXT records / ACME challenges |
+| Scale | Breaks at 10K+ | Works at any scale |
+
+### Per-Segment Validation
+
+Namespaces are domain names optionally followed by `/`-separated path segments (for platform sub-namespaces). Each segment between `/` must match:
+
+`^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Allowed characters per segment:**
 - `a-z` (lowercase ASCII letters)
 - `0-9` (ASCII digits)
-- `-` (hyphen, not at start/end of DNS labels)
+- `-` (hyphen, not at start/end)
 - `.` (period, as DNS label separator)
 - Unicode letters (`\p{L}`) and numbers (`\p{N}`)
 
-**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+**`/` separates segments** within namespaces for platform sub-namespaces.
 
-### Why These Specific Rules?
+### Shortest-to-Longest Resolution
 
-**1. Filesystem Safety**
+Since namespaces can contain `/`, the parser uses **shortest-to-longest matching** against the registry to determine where the namespace ends and the name begins:
 
-Registry files live in Git: `registry/advisory/mitre.md`. Namespaces become directory and file names. We need characters that work on:
-- Windows (no `:`, `<`, `>`, `|`, `*`, `?`, `"`, `\`)
-- macOS and Linux (no `/`)
-- All Git implementations
+```
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx
 
-Shell metacharacters like `$`, `` ` ``, `!`, `~`, `^`, `{`, `}`, `[`, `]` would cause problems when working with files in terminal environments.
+Try (shortest first):
+  "github.com"              → exists? Yes → candidate
+  "github.com/advisories"   → exists? Yes → longer candidate (wins)
+  "github.com/advisories/ghsa" → not a namespace → stop
+```
 
-**2. DNS for Disambiguation**
+**Why shortest first?** The most authoritative namespace is the shortest. `github.com` is GitHub itself; `github.com/advisories` is a team within GitHub; `github.com/someuser` is a random user. Starting from the shortest prevents namespace hijacking.
 
-When two organizations share a name (rare, but it happens), DNS provides globally unique, authoritative resolution. Rather than inventing our own categorization (`ibm-mainframe-division`, `ibm-cloud-startup`), we use what already exists:
-- `ibm` → the obvious one (ibm.com)
-- `ibm.xyz` → some other IBM that owns ibm.xyz
+### Platform Sub-Namespaces
 
-DNS eliminates the need for geographic suffixes (`-uk`, `-us`) or arbitrary categorization. The domain owner is, by definition, authoritative for that namespace.
+Projects hosted on platforms (GitHub, GitLab, etc.) use platform sub-namespaces:
 
-**3. Unicode for Internationalization**
+```
+github.com/advisories     → GitHub's own advisory database (GHSA)
+github.com/llm-attacks    → Research project hosted on GitHub
+github.com/thu-coai       → University research group on GitHub
+```
 
-Security knowledge is global. Organizations worldwide should be able to use their native names:
-- `字节跳动` (ByteDance in Chinese)
-- `касперский` (Kaspersky in Russian, if needed)
+This resolves the old "GitHub projects without domains" question. No project needs its own domain — the platform's domain serves as the namespace root, with the org/user name as the sub-namespace.
 
-Unicode letter and number categories (`\p{L}`, `\p{N}`) include all alphabets and number systems while excluding:
-- Punctuation that could cause parsing issues
-- Symbols that are shell metacharacters
-- Whitespace
+**No platform allowlist.** The registry filesystem determines namespace boundaries. If `registry/advisory/com/github/advisories.md` exists, then `github.com/advisories` is a valid namespace. No hardcoded list of "allowed platforms" needed.
 
-**4. No Underscore**
+### Self-Registration via DNS/ACME (Future)
 
-We explicitly excluded `_` even though it's filesystem-safe:
-- DNS doesn't allow underscores in labels
-- Hyphens serve the same purpose and are DNS-compatible
-- Keeping the character set minimal reduces edge cases
+**Current state:** Namespace registration is manual (pull requests reviewed by maintainers). This works at the current scale of ~150 namespaces.
+
+**Long-term vision:** Automated self-registration where domain owners prove namespace ownership through standard mechanisms:
+
+1. **DNS TXT record** - Add a `_secid` TXT record to verify domain ownership
+2. **ACME-style challenge** - Serve a challenge file at a well-known URL
+3. **Platform verification** - For sub-namespaces, serve a `.secid-verify` file in the repository
+
+Automated registration is designed for both **human operators** and **AI agents acting on behalf of organizations**. An AI agent managing security operations for an organization should be able to register, update, and maintain that organization's namespace entries programmatically — the same way it might manage DNS records or certificate renewals today. The verification mechanisms (DNS TXT, ACME challenges) are already machine-friendly by design.
+
+After verification, owners manage their registry paths via CODEOWNERS:
+```
+registry/*/com/redhat/**            @redhat-security-team
+registry/*/com/github/advisories/** @github-security
+```
+
+### Filesystem Mapping
+
+Namespace domain names are stored using a reverse-DNS directory hierarchy. The domain is split on `.`, segments are reversed, and joined with `/`:
+
+| Namespace | Registry File |
+|-----------|--------------|
+| `mitre.org` | `registry/advisory/org/mitre.md` |
+| `github.com/advisories` | `registry/advisory/com/github/advisories.md` |
+| `aws.amazon.com` | `registry/advisory/com/amazon/aws.md` |
+
+Sub-namespaces naturally become subdirectories under the reversed domain, consistent with how Git handles paths.
+
+### Why Not Reverse DNS?
+
+Java uses reverse DNS order for package names (`com.google.android`) because Java's `.` separator also appears inside domain names, making the boundary between namespace and package ambiguous. Reverse order lets the parser read left-to-right through progressively more specific segments.
+
+SecID doesn't need this. Domain names **cannot contain `/`**, and `/` is SecID's namespace-to-name separator. This means `secid:advisory/github.com/advisories/ghsa#...` is unambiguous: the domain portion (`github.com`) is immediately recognizable because domain names have a constrained character set, and the `/` cleanly delimits segments. No reversal needed.
+
+| Approach | Format | Why |
+|----------|--------|-----|
+| **Java** | `com.google.android.foo` | `.` is ambiguous → reverse to parse left-to-right |
+| **SecID** | `google.com/android/foo` | `/` cannot appear in domains → natural order, no reversal |
+
+**Deeply nested subdomains** (e.g., `security.teams.internal.bigcorp.com`) could theoretically produce long namespaces, but in practice public-facing security knowledge comes from short, well-known domains. Cloud providers already use subdomains naturally (`aws.amazon.com`) without issue.
+
+### Domain Name Changes and Defunct Domains
+
+Domain names can change (acquisitions, rebranding) or expire and be re-registered by someone else. SecID handles this through layered separation:
+
+- **DNS/ACME proves ownership at registration time** - not ongoing authority. Once verified, the registry entry persists regardless of future DNS changes.
+- **The registry is the source of truth** - after a namespace is registered, it exists in the registry independent of DNS. A domain expiring doesn't invalidate existing SecID identifiers.
+- **Equivalence is a relationship-layer concern** - if `twitter.com` rebrands to `x.com`, the mapping between `secid:entity/twitter.com/...` and `secid:entity/x.com/...` belongs in the relationship layer, not the registry.
+
+See [EDGE-CASES.md](EDGE-CASES.md) for more edge cases including Punycode/IDN normalization, shared platform domains, and trailing DNS dots.
 
 ### What We Considered and Rejected
 
@@ -412,29 +479,17 @@ We explicitly excluded `_` even though it's filesystem-safe:
 | `@` | Reserved for version separator in SecID grammar |
 | `#` | Reserved for subpath separator in SecID grammar |
 | Space | Filesystem problems, URL encoding required |
-| `/` | Path separator in SecID grammar - the one hardcoded rule |
 
 ### Examples
 
 ```
-mitre           ✓  Short, common name
-cloudsecurity   ✓  Concatenated words
-cloud-security  ✓  Hyphenated
-ibm.xyz         ✓  DNS-style for disambiguation
-字节跳动         ✓  Unicode (ByteDance in Chinese)
-red_hat         ✗  Underscore not allowed
-red/hat         ✗  Slash not allowed (reserved)
-red&hat         ✗  Ampersand not allowed (shell metacharacter)
+mitre.org                ✓  Standard domain
+nist.gov                 ✓  Government domain
+github.com/advisories    ✓  Platform sub-namespace
+字节跳动.com              ✓  Unicode domain (ByteDance)
+aws.amazon.com           ✓  Subdomain
+red_hat.com              ✗  Underscore not allowed in segment
 ```
-
-### Unresolved: GitHub Projects Without Domains
-
-Some projects exist primarily as GitHub repositories without associated domains (e.g., `github.com/username/security-tool`). We haven't designed the namespace assignment process for these cases yet. Options under consideration:
-- Use GitHub username as namespace (`username.github`)
-- Require projects to obtain a domain for SecID namespace
-- Case-by-case decisions
-
-This is deferred until we have concrete examples requiring resolution.
 
 ---
 
@@ -458,8 +513,8 @@ Consider MCPShark Smart Scan:
 - As a **control source**: It provides specific security checks like `agent-analysis`, `privilege-escalation-detection`, `owasp-mapping`
 
 Users might want to:
-1. Reference the tool itself → `secid:entity/mcpshark/smart`
-2. Reference a specific security check the tool provides → `secid:control/mcpshark/smart#agent-analysis`
+1. Reference the tool itself → `secid:entity/mcpshark.sh/smart`
+2. Reference a specific security check the tool provides → `secid:control/mcpshark.sh/smart#agent-analysis`
 
 Both are valid, different use cases.
 
@@ -480,10 +535,10 @@ Both are valid, different use cases.
 ### Example: MCPShark Smart Scan
 
 ```
-secid:entity/mcpshark/smart                        → The Smart Scan tool itself
-secid:control/mcpshark/smart#agent-analysis        → Agent security assessment check
-secid:control/mcpshark/smart#owasp-mapping         → OWASP LLM Top 10 mapping check
-secid:control/mcpshark/smart#privilege-escalation-detection → Privilege escalation detector
+secid:entity/mcpshark.sh/smart                        → The Smart Scan tool itself
+secid:control/mcpshark.sh/smart#agent-analysis        → Agent security assessment check
+secid:control/mcpshark.sh/smart#owasp-mapping         → OWASP LLM Top 10 mapping check
+secid:control/mcpshark.sh/smart#privilege-escalation-detection → Privilege escalation detector
 ```
 
 ### This Pattern Applies To
@@ -500,8 +555,8 @@ Any security tool with defined checks:
 Some frameworks define both weaknesses AND controls (like OWASP AI Exchange):
 
 ```
-secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION     → The threat
-secid:control/owasp/ai-exchange#PROMPTINJECTIONIOHANDLING  → The mitigation
+secid:weakness/owasp.org/ai-exchange#DIRECTPROMPTINJECTION     → The threat
+secid:control/owasp.org/ai-exchange#PROMPTINJECTIONIOHANDLING  → The mitigation
 ```
 
 Document in both types when the source provides both perspectives.
@@ -524,35 +579,35 @@ How do we reference entries in these sources?
 
 **Option 1: Use titles as-is**
 ```
-weakness/aiweakdb/Buffer-Overflow-in-Memory-Allocation-Functions
+weakness/aiweakdb.org/Buffer-Overflow-in-Memory-Allocation-Functions
 ```
 - **Pro**: Exactly what the source calls it
 - **Con**: Long, unwieldy, may need URL encoding, could change if source updates title
 
 **Option 2: Slugify titles**
 ```
-weakness/aiweakdb/buffer-overflow-memory-allocation
+weakness/aiweakdb.org/buffer-overflow-memory-allocation
 ```
 - **Pro**: URL-safe, readable, shorter
 - **Con**: Loses precision, potential collisions, we're now transforming the source name
 
 **Option 3: Content hash**
 ```
-weakness/aiweakdb/a3f2b8c9
+weakness/aiweakdb.org/a3f2b8c9
 ```
 - **Pro**: Guaranteed unique, stable if content is stable
 - **Con**: Meaningless to humans, changes if content changes
 
 **Option 4: Assign sequential IDs**
 ```
-weakness/aiweakdb/AIWD-001
+weakness/aiweakdb.org/AIWD-001
 ```
 - **Pro**: Short, clean, CVE-like
 - **Con**: We become the ID authority, not the source. Governance burden.
 
 **Option 5: Use row/position**
 ```
-weakness/aiweakdb/row-42
+weakness/aiweakdb.org/row-42
 ```
 - **Pro**: Traceable to source
 - **Con**: Brittle if source reorders, position isn't meaningful
@@ -610,7 +665,7 @@ Other identifier schemes handle their domains. We complement them, not replace t
 | `doi:` | Research papers | `doi:10.48550/arXiv.2303.08774` | Digital Object Identifiers |
 | `swh:` | Source code | `swh:1:cnt:94a9ed...` | Software Heritage immutable refs |
 
-Note: To be a peer scheme, it needs a **self-identifying string format**. Standards that exist but don't have their own identifier syntax (like OWASP AIVSS) are referenced as entities (`secid:entity/owasp/aivss`) rather than peer schemes.
+Note: To be a peer scheme, it needs a **self-identifying string format**. Standards that exist but don't have their own identifier syntax (like OWASP AIVSS) are referenced as entities (`secid:entity/owasp.org/aivss`) rather than peer schemes.
 
 ### Why Not Wrap Them?
 
@@ -622,10 +677,10 @@ These schemes are already self-identifying. Writing `secid:package:npm/lodash` w
 Instead, use them as peers:
 
 ```yaml
-advisory: secid:advisory/mitre/cve#CVE-2024-1234
+advisory: secid:advisory/mitre.org/cve#CVE-2024-1234
 affects: pkg:pypi/langchain@0.1.0
 severity: CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H
-classified_as: secid:weakness/mitre/cwe#CWE-94
+classified_as: secid:weakness/mitre.org/cwe#CWE-94
 license: spdx:MIT
 paper: doi:10.48550/arXiv.2303.08774
 ```
@@ -635,8 +690,8 @@ paper: doi:10.48550/arXiv.2303.08774
 If a peer scheme has gaps we need to cover, we could create a compatible namespace:
 
 ```
-secid:license:spdx/MIT              → translates to → spdx:MIT
-secid:license:spdx/Custom-Corp-1.0  → covers gap SPDX doesn't have
+secid:license:spdx.org/MIT              → translates to → spdx:MIT
+secid:license:spdx.org/Custom-Corp-1.0  → covers gap SPDX doesn't have
 ```
 
 This approach:
@@ -662,7 +717,7 @@ This shapes everything about how we design responses and documentation.
 
 ### What AI-First Means
 
-When an AI encounters a SecID like `secid:advisory/redhat/cve#CVE-2026-0544`, it should be able to:
+When an AI encounters a SecID like `secid:advisory/redhat.com/cve#CVE-2026-0544`, it should be able to:
 
 1. **Look it up** - Query the registry or API
 2. **Understand what it is** - Not just "a URL" but what kind of data, why it matters, how it differs from alternatives
@@ -678,7 +733,7 @@ Registry files use Obsidian-style format: YAML frontmatter + Markdown body.
 
 ```yaml
 ---
-namespace: redhat
+namespace: redhat.com
 type: advisory
 # ... structured fields
 ---
@@ -723,11 +778,11 @@ These entries still provide value through explanatory text, relationships, and c
 
 ### Example: What AI Gets
 
-Query: `secid:advisory/redhat/cve#CVE-2026-0544`
+Query: `secid:advisory/redhat.com/cve#CVE-2026-0544`
 
 Response includes:
 - **what**: "Red Hat's analysis of this CVE. Unlike the upstream CVE record, includes Red Hat severity rating, affected product matrix, and RHEL/OpenShift-specific remediation."
-- **when_to_use**: "Use for Red Hat-specific impact. For canonical description, use secid:advisory/mitre/cve#CVE-2026-0544."
+- **when_to_use**: "Use for Red Hat-specific impact. For canonical description, use secid:advisory/mitre.org/cve#CVE-2026-0544."
 - **urls**: Links to HTML page, CSAF/VEX JSON, API endpoint
 - **parsing**: "CSAF uses VEX profile. Python: `pip install csaf`. Key fields: `/vulnerabilities/[]/product_status/fixed`"
 - **ai_guidance**: "Red Hat severity may differ from NVD CVSS - both are valid perspectives representing different risk contexts."
@@ -750,9 +805,9 @@ SecID uses a single scheme (`secid:`) with multiple types, rather than separate 
 
 We chose:
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
-secid:weakness/mitre/cwe#CWE-79
-secid:control/nist/csf@2.0#PR.AC-1
+secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:weakness/mitre.org/cwe#CWE-79
+secid:control/nist.gov/csf@2.0#PR.AC-1
 ```
 
 Over alternatives like:
@@ -793,10 +848,10 @@ Until then, we stay unified.
 
 ### What About Aliases?
 
-If someone wants `advisory:mitre/cve#CVE-2024-1234` to work alongside `secid:advisory/mitre/cve#CVE-2024-1234`, that's an **enrichment layer concern**, not a spec concern. The enrichment database can store:
+If someone wants `advisory:mitre/cve#CVE-2024-1234` to work alongside `secid:advisory/mitre.org/cve#CVE-2024-1234`, that's an **enrichment layer concern**, not a spec concern. The enrichment database can store:
 
 ```yaml
-secid:advisory/mitre/cve#CVE-2024-1234:
+secid:advisory/mitre.org/cve#CVE-2024-1234:
   sameAs:
     - advisory:mitre/cve#CVE-2024-1234
     - cve:CVE-2024-1234
@@ -817,7 +872,7 @@ PURL qualifiers (`?key=value`) exist for **disambiguation**—distinguishing bet
 
 ```
 pkg:npm/lodash@4.17.21?arch=x86_64       # Same package, different architecture
-secid:advisory/vendor/product?lang=ja    # Same advisory, Japanese translation
+secid:advisory/vendor.com/product?lang=ja    # Same advisory, Japanese translation
 ```
 
 The qualifier changes *which specific thing* you're identifying.
@@ -826,7 +881,7 @@ The qualifier changes *which specific thing* you're identifying.
 
 ```
 # DON'T DO THIS
-secid:talk/defcon/32#hacking-iot?speaker=John%20Smith&time=2026-08-05T14:00&room=101&rating=5
+secid:talk/defcon.org/32#hacking-iot?speaker=John%20Smith&time=2026-08-05T14:00&room=101&rating=5
 ```
 
 This is tempting but wrong:
@@ -847,10 +902,10 @@ This is tempting but wrong:
 
 ```
 # The identifier
-secid:talk/defcon/32#smith-hacking-iot
+secid:talk/defcon.org/32#smith-hacking-iot
 
 # The data layer
-secid:talk/defcon/32#smith-hacking-iot:
+secid:talk/defcon.org/32#smith-hacking-iot:
   speaker: "John Smith"
   title: "Hacking IoT: A Deep Dive"
   scheduled: "2026-08-05T14:00Z"
@@ -871,17 +926,17 @@ When referencing specific items within a database or framework, **use whatever i
 
 If BlackHat's schedule uses `talk-2847`:
 ```
-secid:talk/blackhat/2026#talk-2847
+secid:talk/blackhat.com/2026#talk-2847
 ```
 
 If their website uses URL slugs like `/briefings/smith-hacking-iot`:
 ```
-secid:talk/blackhat/2026#smith-hacking-iot
+secid:talk/blackhat.com/2026#smith-hacking-iot
 ```
 
 If CVE uses `CVE-2024-1234`:
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/mitre.org/cve#CVE-2024-1234
 ```
 
 ### Why This Matters
@@ -1002,7 +1057,7 @@ The as-is check runs first so that if a source literally uses `%20` in an identi
 
 ### Why Not Strip Quotes or Backticks?
 
-Tempting, but dangerous. If someone provides `secid:control/csa/ccm#IAM-12/"Auditing Guidelines"`, those quotes might be:
+Tempting, but dangerous. If someone provides `secid:control/cloudsecurityalliance.org/ccm#IAM-12/"Auditing Guidelines"`, those quotes might be:
 - Presentation delimiters (human wrapped it in quotes) → quotes aren't part of the ID
 - Part of the identifier (source actually uses quotes) → quotes ARE part of the ID
 
@@ -1050,7 +1105,7 @@ This mirrors how Package URL (PURL) works:
 
 Similarly:
 - SecID doesn't assign `CVE-2024-1234` — MITRE does
-- SecID provides `secid:advisory/mitre/cve#CVE-2024-1234` as a consistent reference
+- SecID provides `secid:advisory/mitre.org/cve#CVE-2024-1234` as a consistent reference
 
 ### "I Have a Vulnerability and Need an ID"
 
@@ -1062,7 +1117,7 @@ If someone asks SecID to assign an identifier for their vulnerability, the answe
 > - **AVID**: Submit to the AI Vulnerability Database
 > - **Your own system**: Create your own advisory namespace with your own IDs
 >
-> Once your advisory has an identifier from an authority, SecID provides a consistent way to reference it. If you create 'FooSec Advisories' with ID 'FSA-2025-001', we can add your namespace to the registry, and `secid:advisory/foosec/fsa#FSA-2025-001` becomes a valid reference."
+> Once your advisory has an identifier from an authority, SecID provides a consistent way to reference it. If you create 'FooSec Advisories' with ID 'FSA-2025-001', we can add your namespace to the registry, and `secid:advisory/foosec.com/fsa#FSA-2025-001` becomes a valid reference."
 
 ### Why This Constraint?
 
@@ -1097,10 +1152,10 @@ The registry uses a flat, hierarchical structure where **every level is queryabl
 ### The Hierarchy
 
 ```
-secid:advisory                          → registry/advisory.md
-secid:advisory/redhat                   → registry/advisory/redhat.md
-secid:advisory/redhat/cve               → section within redhat.md
-secid:advisory/redhat/cve#CVE-2026-1234 → resolved URL from rules in redhat.md
+secid:advisory                               → registry/advisory.md
+secid:advisory/redhat.com                    → registry/advisory/com/redhat.md
+secid:advisory/redhat.com/cve               → section within com/redhat.md
+secid:advisory/redhat.com/cve#CVE-2026-1234 → resolved URL from rules in com/redhat.md
 ```
 
 Every level returns useful information:
@@ -1108,40 +1163,48 @@ Every level returns useful information:
 | Query | Returns |
 |-------|---------|
 | `secid:advisory` | Type definition — what advisories are |
-| `secid:advisory/redhat` | Namespace definition — what Red Hat publishes |
-| `secid:advisory/redhat/cve` | Source definition — Red Hat CVE pages, root URL |
-| `secid:advisory/redhat/cve#CVE-2026-1234` | Resolved URL to specific entry |
+| `secid:advisory/redhat.com` | Namespace definition — what Red Hat publishes |
+| `secid:advisory/redhat.com/cve` | Source definition — Red Hat CVE pages, root URL |
+| `secid:advisory/redhat.com/cve#CVE-2026-1234` | Resolved URL to specific entry |
 
 ### File Structure
 
 ```
 registry/
-  advisory.md                 ← Type definition (what is an advisory?)
+  advisory.md                      ← Type definition (what is an advisory?)
   advisory/
-    redhat.md                 ← Namespace: ALL Red Hat sources in ONE file
-    mitre.md                  ← Namespace: MITRE CVE
-    github.md                 ← Namespace: GHSA
-  weakness.md                 ← Type definition (what is a weakness?)
+    org/
+      mitre.md                     ← Namespace: MITRE CVE
+    com/
+      redhat.md                    ← Namespace: ALL Red Hat sources in ONE file
+      github/                      ← GitHub platform sub-namespaces
+        advisories.md              ← Namespace: GHSA
+  weakness.md                      ← Type definition (what is a weakness?)
   weakness/
-    mitre.md                  ← Namespace: CWE
-    owasp.md                  ← Namespace: ALL OWASP taxonomies in ONE file
-  control.md                  ← Type definition
+    org/
+      mitre.md                     ← Namespace: CWE
+      owasp.md                     ← Namespace: ALL OWASP taxonomies in ONE file
+  control.md                       ← Type definition
   control/
-    nist.md                   ← Namespace: ALL NIST frameworks in ONE file
-    iso.md                    ← Namespace: ALL ISO standards in ONE file
-  entity.md                   ← Type definition
+    gov/
+      nist.md                      ← Namespace: ALL NIST frameworks in ONE file
+    org/
+      iso.md                       ← Namespace: ALL ISO standards in ONE file
+  entity.md                        ← Type definition
   entity/
-    redhat.md                 ← Organization definition
-    mitre.md                  ← Organization definition
+    com/
+      redhat.md                    ← Organization definition
+    org/
+      mitre.md                     ← Organization definition
 ```
 
 ### Why One File Per Namespace (No Subdirectories)
 
 **Rejected alternative:**
 ```
-registry/advisory/redhat/_index.md
-registry/advisory/redhat/cve.md
-registry/advisory/redhat/errata.md
+registry/advisory/com/redhat/_index.md
+registry/advisory/com/redhat/cve.md
+registry/advisory/com/redhat/errata.md
 ```
 
 **Why we don't do this:**
@@ -1152,7 +1215,7 @@ registry/advisory/redhat/errata.md
 
 3. **All rules in one place.** When maintaining a namespace, everything is in one file — no hunting across subdirectories.
 
-4. **Future scaling.** If the directory gets too full, use alphabetical subdirectories (`registry/advisory/r/redhat.md`), not per-source files.
+4. **Future scaling uses reverse-DNS directory hierarchy** (`registry/advisory/com/redhat.md`), which provides natural grouping by TLD.
 
 ### Namespace File Format
 
@@ -1163,7 +1226,7 @@ Each namespace file contains:
 
 ```yaml
 ---
-namespace: redhat
+namespace: redhat.com
 full_name: "Red Hat"
 website: "https://redhat.com"
 type: vendor
@@ -1184,7 +1247,7 @@ Red Hat CVE pages with Red Hat-specific severity analysis.
 |-------|-------|
 | id_pattern | `CVE-\d{4}-\d{4,}` |
 | url_template | `https://access.redhat.com/security/cve/{id}` |
-| example | `secid:advisory/redhat/cve#CVE-2025-10725` |
+| example | `secid:advisory/redhat.com/cve#CVE-2025-10725` |
 
 ### errata
 
@@ -1194,7 +1257,7 @@ Red Hat Errata advisories (RHSA, RHBA, RHEA).
 |-------|-------|
 | id_pattern | `RH[SBEA]A-\d{4}:\d+` |
 | url_template | `https://access.redhat.com/errata/{id}` |
-| example | `secid:advisory/redhat/errata#RHSA-2025:1234` |
+| example | `secid:advisory/redhat.com/errata#RHSA-2025:1234` |
 ```
 
 ### KV Store Design
@@ -1202,10 +1265,10 @@ Red Hat Errata advisories (RHSA, RHBA, RHEA).
 The API uses a simple key-value lookup:
 
 ```
-Request: secid:advisory/redhat/cve#CVE-2025-1234
+Request: secid:advisory/redhat.com/cve#CVE-2025-1234
 
 1. Parse: type=advisory, namespace=redhat, name=cve, subpath=CVE-2025-1234
-2. KV lookup: key="advisory/redhat" → returns redhat.md content
+2. KV lookup: key="advisory/redhat.com" → returns redhat.md content
 3. Find "cve" section, get id_pattern and url_template
 4. Validate subpath against id_pattern
 5. Apply url_template: https://access.redhat.com/security/cve/CVE-2025-1234
@@ -1555,7 +1618,7 @@ This answers: "I see `#IAM` - what does IAM mean?"
 
 This walks a line. Technically, "what is IAM" could be considered enrichment. We include it because:
 
-1. **Critical for finding** - You can't effectively use `secid:control/csa/ccm@4.0#IAM-12` without knowing what IAM means
+1. **Critical for finding** - You can't effectively use `secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12` without knowing what IAM means
 2. **Class-level, not instance-level** - We describe the category (IAM domain), not every control (IAM-12 details)
 3. **Stable** - These category names rarely change; they're not dynamic enrichment
 4. **Aids disambiguation** - Helps distinguish IAM (controls) from IAM (cloud services) from IAM (other)
@@ -1607,7 +1670,7 @@ During JSON schema design, we considered and rejected:
 - `versions[]` (as simple list) - Replaced by `version_patterns[]` for resolution. A catalog of "what versions exist" is enrichment; resolution routing is identity.
 
 **Cross-reference identifiers:**
-- `doi`, `isbn`, `issn`, `asin` - These are identifier systems, not fields. They become namespaces (`secid:reference/doi/...`). Equivalence between identifiers belongs in the relationship layer.
+- `doi`, `isbn`, `issn`, `asin` - These are identifier systems, not fields. They become namespaces (`secid:reference/doi.org/...`). Equivalence between identifiers belongs in the relationship layer.
 
 **Other enrichment:**
 - `authors` - Enrichment layer.
@@ -1690,7 +1753,7 @@ This routes based on the version in the SecID itself (`@4.0.1` → matches `4\..
 
 ### Why Patterns?
 
-The version is already in the SecID: `secid:control/csa/ccm@4.0.1#IAM-12`
+The version is already in the SecID: `secid:control/cloudsecurityalliance.org/ccm@4.0.1#IAM-12`
 
 Using regex patterns:
 1. **Resolution, not catalog** - Routes to the right URL without maintaining a list
@@ -1745,13 +1808,13 @@ DOI, ISBN, ISSN, arXiv, IETF RFCs are **identifier systems** - they assign IDs a
 Standard identifier systems become namespaces in the `reference` type:
 
 ```
-secid:reference/doi/10.6028/NIST.AI.100-1
-secid:reference/isbn/978-0-13-468599-1
-secid:reference/arxiv/2303.08774
-secid:reference/ietf/9110
+secid:reference/doi.org/10.6028/NIST.AI.100-1
+secid:reference/isbn.org/978-0-13-468599-1
+secid:reference/arxiv.org/2303.08774
+secid:reference/ietf.org/9110
 ```
 
-The registry has namespace definitions (`registry/reference/doi.md`) that define:
+The registry has namespace definitions (`registry/reference/org/doi.md`) that define:
 - How to recognize IDs (id_pattern)
 - How to resolve them (urls)
 
@@ -1759,13 +1822,13 @@ The registry has namespace definitions (`registry/reference/doi.md`) that define
 
 If a document has both a DOI and a human-readable reference:
 ```
-secid:reference/nist/ai-rmf
-secid:reference/doi/10.6028/NIST.AI.100-1
+secid:reference/nist.gov/ai-rmf
+secid:reference/doi.org/10.6028/NIST.AI.100-1
 ```
 
 The fact that these point to the same document is an **equivalence relationship**, belonging in the relationship layer:
 ```
-secid:reference/nist/ai-rmf  sameAs  secid:reference/doi/10.6028/NIST.AI.100-1
+secid:reference/nist.gov/ai-rmf  sameAs  secid:reference/doi.org/10.6028/NIST.AI.100-1
 ```
 
 ### Layers Clarified

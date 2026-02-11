@@ -31,10 +31,10 @@ Everything follows from these:
 Stable, canonical identifiers for security knowledge:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
-secid:weakness/mitre/cwe#CWE-79
-secid:control/nist/800-53@r5#AC-1
-secid:ttp/mitre/attack#T1059.003
+secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:weakness/mitre.org/cwe#CWE-79
+secid:control/nist.gov/800-53@r5#AC-1
+secid:ttp/mitre.org/attack#T1059.003
 ```
 
 **Current capability**: Given an identifier, resolve to URL(s) where the resource lives.
@@ -113,7 +113,7 @@ Conflicts are **signals worth keeping**:
 
 ```json
 {
-  "secid": "secid:advisory/mitre/cve#CVE-2024-XXXX",
+  "secid": "secid:advisory/mitre.org/cve#CVE-2024-XXXX",
   "severity": {
     "mitre": { "score": "CRITICAL", "rationale": "Remote code execution" },
     "redhat": { "score": "MEDIUM", "rationale": "Requires NFS exposure to untrusted networks" }
@@ -212,7 +212,7 @@ node:
 ```yaml
 edge:
   from: secid:entity/glossary/model-context-protocol
-  to: secid:weakness/owasp/llm-top10@2.0#LLM01
+  to: secid:weakness/owasp.org/llm-top10@2.0#LLM01
   relationship: vulnerable-to
   properties:
     attack_vector: tool-injection
@@ -253,9 +253,9 @@ In documentation: `[MCP](secid:entity/glossary/model-context-protocol)` - a stab
 Different organizations define the same terms differently. Make this explicit:
 
 ```
-secid:entity/mitre/vulnerability      # MITRE's definition
-secid:entity/redhat/vulnerability     # Red Hat's operational definition
-secid:entity/nist/vulnerability       # NIST's definition
+secid:entity/mitre.org/vulnerability      # MITRE's definition
+secid:entity/redhat.com/vulnerability     # Red Hat's operational definition
+secid:entity/nist.gov/vulnerability       # NIST's definition
 ```
 
 Now when someone says "vulnerability," you can ask: whose definition?

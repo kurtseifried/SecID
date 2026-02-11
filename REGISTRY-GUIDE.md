@@ -61,37 +61,46 @@ If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932`. If ATT&C
 - No information loss from character substitution
 - The issuing authority chose the format; we defer to them
 
-## Namespace Character Rules
+## Domain-Name Namespaces
 
-Namespaces must be safe for filesystems, shells, and URLs while supporting international names.
+Namespaces are **domain names** of the organizations that publish security knowledge. This enables self-registration, scales without a central naming authority, and provides built-in ownership verification.
 
-**Allowed characters:**
+**Per-segment validation:** Namespaces may include `/`-separated path segments for platform sub-namespaces. Each segment between `/` must match:
+
+`^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Allowed characters per segment:**
 - `a-z` (lowercase ASCII letters)
 - `0-9` (ASCII digits)
-- `-` (hyphen, not at start/end of DNS labels)
+- `-` (hyphen, not at start/end)
 - `.` (period, as DNS label separator)
 - Unicode letters (`\p{L}`) and numbers (`\p{N}`)
 
-**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+**`/` separates segments** within namespaces for platform sub-namespaces.
 
 **Examples:**
 ```
-mitre           ✓  Short, common name
-cloudsecurity   ✓  Concatenated words
-cloud-security  ✓  Hyphenated
-ibm.xyz         ✓  DNS-style for disambiguation
-字节跳动         ✓  Unicode (ByteDance in Chinese)
-red_hat         ✗  Underscore not allowed
-red/hat         ✗  Slash not allowed (reserved for path separator)
+mitre.org                ✓  Domain name
+nist.gov                 ✓  Government domain
+github.com/advisories    ✓  Platform sub-namespace
+aws.amazon.com           ✓  Subdomain
+字节跳动.com              ✓  Unicode domain (ByteDance)
+red_hat.com              ✗  Underscore not allowed in segment
 ```
 
-**Why these rules:**
+**Namespace file location:** Namespace files are stored in a reverse-DNS directory hierarchy: `registry/<type>/<tld>/<domain>.md`
+- Simple namespace: `registry/advisory/org/mitre.md`
+- Sub-namespace: `registry/advisory/com/github/advisories.md` (directory + file)
 
-1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.md`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+**Why domain names:**
 
-2. **DNS for disambiguation** - When names collide, use DNS-style namespaces. If two organizations share a name, DNS resolves ambiguity: `ibm` → the obvious one (ibm.com), `ibm.xyz` → some other IBM.
+1. **Self-registration** - Domain owners prove ownership via DNS TXT records or ACME challenges. No central naming authority needed.
 
-3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories include all alphabets while excluding dangerous punctuation.
+2. **Globally unique** - DNS already provides collision-free identifiers. No need for manual arbitration.
+
+3. **Filesystem safety** - Domain names and path segments become file paths. Avoiding shell metacharacters ensures repos work in Git across all platforms.
+
+4. **Unicode for internationalization** - Organizations worldwide should use native language domain names.
 
 ## Granularity and Hierarchy
 
@@ -101,27 +110,27 @@ Many sources have hierarchical structure. Use the granularity levels the source 
 
 | Level | Example | SecID |
 |-------|---------|-------|
-| Framework | CCM 4.0 | `secid:control/csa/ccm@4.0` |
-| Domain | Identity & Access Management | `secid:control/csa/ccm@4.0#IAM` |
-| Control | IAM-12 | `secid:control/csa/ccm@4.0#IAM-12` |
+| Framework | CCM 4.0 | `secid:control/cloudsecurityalliance.org/ccm@4.0` |
+| Domain | Identity & Access Management | `secid:control/cloudsecurityalliance.org/ccm@4.0#IAM` |
+| Control | IAM-12 | `secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12` |
 
 ### Example: ISO 42001
 
 | Level | Example | SecID |
 |-------|---------|-------|
-| Standard | ISO 42001 | `secid:control/iso/42001` |
-| Annex | Annex B | `secid:control/iso/42001#B` |
-| Section | B.1 | `secid:control/iso/42001#B.1` |
-| Subsection | B.1.2 | `secid:control/iso/42001#B.1.2` |
+| Standard | ISO 42001 | `secid:control/iso.org/42001` |
+| Annex | Annex B | `secid:control/iso.org/42001#B` |
+| Section | B.1 | `secid:control/iso.org/42001#B.1` |
+| Subsection | B.1.2 | `secid:control/iso.org/42001#B.1.2` |
 
 ### Example: GDPR
 
 | Level | Example | SecID |
 |-------|---------|-------|
-| Regulation | GDPR | `secid:regulation/eu/gdpr` |
-| Chapter | Chapter III | `secid:regulation/eu/gdpr#chapter-3` |
-| Article | Article 17 | `secid:regulation/eu/gdpr#article-17` |
-| Paragraph | Article 17(1) | `secid:regulation/eu/gdpr#article-17-1` |
+| Regulation | GDPR | `secid:regulation/europa.eu/gdpr` |
+| Chapter | Chapter III | `secid:regulation/europa.eu/gdpr#chapter-3` |
+| Article | Article 17 | `secid:regulation/europa.eu/gdpr#article-17` |
+| Paragraph | Article 17(1) | `secid:regulation/europa.eu/gdpr#article-17-1` |
 
 ### Documenting Hierarchy in id_patterns
 
@@ -170,9 +179,9 @@ Example: A vulnerability scanner is an entity (`secid:entity/vendor/scanner`) an
 Standard identifier systems (DOI, ISBN, arXiv, etc.) are **namespaces**, not fields:
 
 ```
-secid:reference/doi/10.6028/NIST.AI.100-1
-secid:reference/isbn/978-0-13-468599-1
-secid:reference/arxiv/2303.08774
+secid:reference/doi.org/10.6028/NIST.AI.100-1
+secid:reference/isbn.org/978-0-13-468599-1
+secid:reference/arxiv.org/2303.08774
 ```
 
 If a document has multiple identifiers (DOI and arXiv ID for the same paper), the equivalence relationship belongs in the relationship layer, not the registry.
@@ -182,8 +191,8 @@ If a document has multiple identifiers (DOI and arXiv ID for the same paper), th
 Some frameworks define both problems and solutions (like OWASP AI Exchange):
 
 ```
-secid:weakness/owasp/ai-exchange#DIRECTPROMPTINJECTION   → The threat
-secid:control/owasp/ai-exchange#INPUTVALIDATION          → The mitigation
+secid:weakness/owasp.org/ai-exchange#DIRECTPROMPTINJECTION   → The threat
+secid:control/owasp.org/ai-exchange#INPUTVALIDATION          → The mitigation
 ```
 
 Document in both types when the source provides both perspectives.
@@ -235,12 +244,12 @@ Before adding anything, study how the source is **presented** and how people **u
 ### Step 3: Namespace File Location
 
 ```
-registry/<type>/<namespace>.md
+registry/<type>/<tld>/<domain>.md
 ```
 
 One file per namespace containing all sources from that organization:
-- `registry/advisory/redhat.md` → Red Hat CVE, errata, bugzilla
-- `registry/control/nist.md` → NIST CSF, 800-53, AI RMF
+- `registry/advisory/com/redhat.md` → Red Hat CVE, errata, bugzilla
+- `registry/control/gov/nist.md` → NIST CSF, 800-53, AI RMF
 
 ### Step 4: Required Information
 
@@ -338,13 +347,112 @@ Use `known_values` to enumerate finite, stable value sets:
 
 Descriptions and known_values walk a line - technically "what is IAM" could be enrichment. We include it because:
 
-1. **Critical for finding** - You can't use `secid:control/csa/ccm@4.0#IAM-12` without knowing what IAM means
+1. **Critical for finding** - You can't use `secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12` without knowing what IAM means
 2. **Class-level** - We describe categories, not instances
 3. **Stable** - Category names rarely change
 4. **Aids disambiguation** - Helps distinguish IAM (controls) from IAM (cloud services)
+
+## Self-Registration (Future)
+
+> **Current state:** Namespace registration is manual — submit a pull request. Automated self-registration is a planned future feature.
+
+Domain-name namespaces are designed for eventual decentralized ownership verification. When automated registration is implemented, namespace owners will prove control without a central naming authority. This is designed for both **human operators** and **AI agents acting on behalf of organizations** — an agent managing security operations for a company should be able to register and maintain that organization's namespace programmatically, just as it might manage DNS records or certificates today.
+
+### Domain Owners
+
+Organizations that own a domain will prove namespace ownership via:
+
+1. **DNS TXT record** - Add a TXT record to the domain:
+   ```
+   _secid.redhat.com  TXT  "secid-verify=<challenge-token>"
+   ```
+
+2. **ACME-style challenge** - Place a verification file at a well-known URL:
+   ```
+   https://redhat.com/.well-known/secid-verify/<challenge-token>
+   ```
+
+Either method proves the registrant controls the domain, which maps directly to the namespace (`redhat.com` → `registry/*/com/redhat/**`). These mechanisms are machine-friendly by design — AI agents can perform DNS updates and file placement without human intervention.
+
+### Platform Sub-Namespace Owners
+
+For platform sub-namespaces (e.g., `github.com/username`), the platform user (or their agent) proves control by placing a challenge file in their repository:
+
+```
+https://github.com/username/.secid-verify
+```
+
+The ownership chain follows left-to-right URL authority delegation:
+- `github.com` is owned by GitHub (verified via DNS)
+- `github.com/username` is delegated to the GitHub user (verified via repo challenge)
+- `github.com/username/project` inherits from the user's namespace
+
+### Ownership Scope
+
+Verified owners manage their own registry paths. Ownership of `redhat.com` grants authority over:
+- `registry/advisory/com/redhat.md`
+- `registry/entity/com/redhat.md`
+- Any future `registry/*/com/redhat/**` files
+
+But NOT over sub-namespaces they don't control (e.g., a third party's `redhat.com/partner` would require separate verification).
+
+## CODEOWNERS
+
+Self-registration integrates with GitHub's CODEOWNERS mechanism for federated management:
+
+```
+# registry/*/com/redhat/**         @redhat-security-team
+# registry/*/gov/nist/**           @nist-csrc
+# registry/*/com/github/advisories/** @github-security
+```
+
+This enables:
+- **Verified owners review their own files** - Changes to `redhat.com.md` require Red Hat approval
+- **Sub-namespace delegation** - `github.com/advisories` can have different owners than `github.com`
+- **Scalable governance** - No central bottleneck for reviewing namespace changes
+
+### Pre-Seeding
+
+Before self-registration opens, high-value namespaces should be claimed proactively:
+
+| Priority | Namespaces | Reason |
+|----------|-----------|--------|
+| Critical | `mitre.org`, `nist.gov`, `cisa.gov` | Core vulnerability infrastructure |
+| High | `redhat.com`, `microsoft.com`, `google.com`, `apple.com` | Major CNAs |
+| High | `owasp.org`, `iso.org`, `cisecurity.org` | Major frameworks |
+| Medium | `europa.eu`, `govinfo.gov` | Regulatory bodies |
+| Medium | `doi.org`, `arxiv.org`, `isbn.org` | Identifier systems |
+
+Pre-seeded namespaces are transferred to verified domain owners upon successful self-registration.
+
+## Migration from Short Names
+
+SecID previously used short names for namespaces (`mitre`, `nist`, `redhat`). These have been replaced with domain-name namespaces (`mitre.org`, `nist.gov`, `redhat.com`).
+
+**Why the change:**
+- Short names create collision risks at scale (10,000+ namespaces)
+- No ownership verification mechanism
+- Required a central naming authority
+
+**For the complete old→new mapping**, see [NAMESPACE-MAPPING.md](NAMESPACE-MAPPING.md).
+
+**Quick reference for common namespaces:**
+
+| Old | New |
+|-----|-----|
+| `mitre` | `mitre.org` |
+| `nist` | `nist.gov` |
+| `redhat` | `redhat.com` |
+| `github` (advisory) | `github.com/advisories` |
+| `github` (entity) | `github.com` |
+| `csa` | `cloudsecurityalliance.org` |
+| `owasp` | `owasp.org` |
+| `iso` | `iso.org` |
 
 ## See Also
 
 - [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - Technical schema specification
 - [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) - Rationale for design choices
+- [EDGE-CASES.md](EDGE-CASES.md) - Domain-name namespace edge cases
+- [NAMESPACE-MAPPING.md](NAMESPACE-MAPPING.md) - Complete short-name to domain-name mapping
 - [registry/README.md](registry/README.md) - Registry structure overview

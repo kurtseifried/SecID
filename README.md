@@ -2,7 +2,7 @@
 
 **SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities.**
 
-`secid:advisory/mitre/cve#CVE-2024-1234` refers to a CVE record published by MITRE. SecID doesn't create CVEs, assign CWE numbers, or issue ATT&CK technique IDs—it provides a consistent way to reference them all.
+`secid:advisory/mitre.org/cve#CVE-2024-1234` refers to a CVE record published by MITRE. SecID doesn't create CVEs, assign CWE numbers, or issue ATT&CK technique IDs—it provides a consistent way to reference them all.
 
 ## The Problem: Some Things Are Easy to Reference, Others Aren't
 
@@ -10,19 +10,19 @@ Everyone knows how to reference `CVE-2024-1234`. But what about:
 
 | What you want to reference | Without SecID | With SecID |
 |---------------------------|---------------|------------|
-| A CVE record (MITRE) | `CVE-2025-10725` (easy, well-known) | `secid:advisory/mitre/cve#CVE-2025-10725` |
-| Red Hat's page for that CVE | "Red Hat's CVE page for CVE-2025-10725" or a URL | `secid:advisory/redhat/cve#CVE-2025-10725` |
-| That CVE within a specific RHSA | "CVE-2025-10725 as addressed in RHSA-2025:16981" | `secid:advisory/redhat/rhsa#RHSA-2025:16981/CVE-2025-10725` |
-| A specific ISO 27001 control | "Control A.5.1 in ISO 27001:2022" (no URL exists) | `secid:control/iso/27001@2022#A.5.1` |
-| An ATT&CK technique | `T1059.003` (different format, different system) | `secid:ttp/mitre/attack#T1059.003` |
-| A CWE weakness | `CWE-79` (easy) | `secid:weakness/mitre/cwe#CWE-79` |
+| A CVE record (MITRE) | `CVE-2025-10725` (easy, well-known) | `secid:advisory/mitre.org/cve#CVE-2025-10725` |
+| Red Hat's page for that CVE | "Red Hat's CVE page for CVE-2025-10725" or a URL | `secid:advisory/redhat.com/cve#CVE-2025-10725` |
+| That CVE within a specific RHSA | "CVE-2025-10725 as addressed in RHSA-2025:16981" | `secid:advisory/redhat.com/rhsa#RHSA-2025:16981/CVE-2025-10725` |
+| A specific ISO 27001 control | "Control A.5.1 in ISO 27001:2022" (no URL exists) | `secid:control/iso.org/27001@2022#A.5.1` |
+| An ATT&CK technique | `T1059.003` (different format, different system) | `secid:ttp/mitre.org/attack#T1059.003` |
+| A CWE weakness | `CWE-79` (easy) | `secid:weakness/mitre.org/cwe#CWE-79` |
 
 The Red Hat examples show a key pattern: **the same CVE can be referenced in multiple contexts**, and each context has different data. MITRE's CVE record has MITRE's severity rating; Red Hat's CVE page has Red Hat's severity rating (which may differ based on their analysis); and the RHSA tells you which packages fix it. These are all valuable, distinct pieces of information about the same underlying vulnerability.
 
 **SecID helps at both ends of the popularity spectrum:**
 
 - **Popular things** (like CVEs) exist in many places—MITRE, NVD, Red Hat, Ubuntu, GitHub, vendor advisories. SecID lets you reference exactly which source you mean.
-- **Obscure things** (like a specific ISO control or a niche framework) become findable. Without SecID, you need a sentence of prose or a URL (if one even exists). With SecID, `secid:control/iso/27001@2022#A.5.1` is as easy to reference as a CVE.
+- **Obscure things** (like a specific ISO control or a niche framework) become findable. Without SecID, you need a sentence of prose or a URL (if one even exists). With SecID, `secid:control/iso.org/27001@2022#A.5.1` is as easy to reference as a CVE.
 
 ## Why Fragmentation Exists (And Why It's Not Going Away)
 
@@ -43,7 +43,7 @@ SecID is a **cross-reference and resolution convention**:
 | Enables cross-references between different systems | Adjudicate disputes between sources |
 | Gives AI and tools a consistent navigation format | Replace the governance of existing programs |
 
-When you write `secid:advisory/mitre/cve#CVE-2024-1234`, you're saying "the CVE record identified as CVE-2024-1234, as published by MITRE's CVE program." The authority remains with MITRE. SecID just gives you a consistent way to reference it alongside CWEs, ATT&CK techniques, and controls.
+When you write `secid:advisory/mitre.org/cve#CVE-2024-1234`, you're saying "the CVE record identified as CVE-2024-1234, as published by MITRE's CVE program." The authority remains with MITRE. SecID just gives you a consistent way to reference it alongside CWEs, ATT&CK techniques, and controls.
 
 **Authority boundaries are explicit.** If MITRE says something is a CVE, it's a CVE. If NIST publishes a CVSS score in NVD, that's NIST's assessment. SecID doesn't resolve disagreements - it makes them navigable. Different sources can have different perspectives on the same vulnerability; that's not a bug, it's reality.
 
@@ -129,14 +129,14 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 **Visual mapping:**
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/mitre.org/cve#CVE-2024-1234
        ───┬─── ──┬── ─┬─ ──────┬──────
           │      │    │        └─ subpath: specific CVE identifier
           │      │    └────────── name: the CVE database
           │      └─────────────── namespace: MITRE (the organization)
           └────────────────────── type: advisory
 
-secid:control/iso/27001@2022#A.8.1
+secid:control/iso.org/27001@2022#A.8.1
        ──┬─── ─┬─ ──┬── ─┬── ──┬──
          │     │    │    │     └─ subpath: specific control (Annex A.8.1)
          │     │    │    └─────── version: 2022 edition
@@ -151,26 +151,26 @@ secid:control/iso/27001@2022#A.8.1
 
 **SecID parsing requires the registry.** Rather than memorizing a list of banned characters, the registry defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps parsing simple and the registry authoritative.
 
-**The one hardcoded rule:** Namespace cannot contain `/`. We need one stable delimiter to separate namespace from name. Since we assign namespaces, we simply don't assign any with `/` (e.g., use `ac-dc` not `ac/dc`).
+**The domain-name namespace model:** Namespaces are domain names. We need one stable delimiter to separate namespace from name. Since we assign namespaces, we simply don't assign any with `/` (e.g., use `ac-dc` not `ac/dc`).
 
 **Names can contain any characters** (including `#`, `@`, `?`, `:`). The registry lookup determines where the name ends - longest match wins. This keeps identifiers human-friendly and preserves upstream naming exactly.
 
 **Subpath hierarchy:** Subpaths can use `/` to express hierarchy within a document:
 
 ```
-secid:control/csa/ccm@4.0#IAM-12                        # The control
-secid:control/csa/ccm@4.0#IAM-12/audit                  # Audit section within control
-secid:control/csa/ccm@4.0#IAM-12/implementation         # Implementation guidance
-secid:regulation/eu/gdpr#art-32/1/a                     # Article 32(1)(a)
-secid:weakness/mitre/cwe#CWE-79/potential-mitigations   # Mitigations section
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12                        # The control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit                  # Audit section within control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/implementation         # Implementation guidance
+secid:regulation/europa.eu/gdpr#art-32/1/a                     # Article 32(1)(a)
+secid:weakness/mitre.org/cwe#CWE-79/potential-mitigations   # Mitigations section
 ```
 
 **Encoding:** The SecID string is human-readable - no percent-encoding required:
 
 ```
-secid:control/csa/aicm@1.0#A&A-01                       # A&A-01 control (no encoding)
-secid:control/csa/ccm@4.0#IAM-12/Auditing Guidelines    # Section with space (no encoding)
-secid:advisory/redhat/errata#RHSA-2024:1234             # Colon in ID (no encoding)
+secid:control/cloudsecurityalliance.org/aicm@1.0#A&A-01                       # A&A-01 control (no encoding)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/Auditing Guidelines    # Section with space (no encoding)
+secid:advisory/redhat.com/errata#RHSA-2024:1234             # Colon in ID (no encoding)
 ```
 
 **When to encode:** Only when storing SecIDs in contexts with their own syntax:
@@ -202,11 +202,11 @@ PURL's `#subpath` points to files: `pkg:npm/lodash@4.17.21#lib/fp.js`
 SecID's `#subpath` points to **specific items within security knowledge**:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234           # A specific vulnerability
-secid:control/nist/800-53@r5#AC-1               # A specific security control
-secid:regulation/eu/gdpr#art-32/1/a             # Article 32(1)(a) of GDPR
-secid:ttp/mitre/attack#T1059.003                # A specific attack technique
-secid:weakness/mitre/cwe#CWE-79/mitigations     # Mitigations section within a weakness
+secid:advisory/mitre.org/cve#CVE-2024-1234           # A specific vulnerability
+secid:control/nist.gov/800-53@r5#AC-1               # A specific security control
+secid:regulation/europa.eu/gdpr#art-32/1/a             # Article 32(1)(a) of GDPR
+secid:ttp/mitre.org/attack#T1059.003                # A specific attack technique
+secid:weakness/mitre.org/cwe#CWE-79/mitigations     # Mitigations section within a weakness
 ```
 
 Security knowledge isn't packages with files - it's databases of identifiers, frameworks of controls, and regulations with articles. The subpath lets us precisely reference any item within any security knowledge system.
@@ -228,10 +228,10 @@ SecID is foundational infrastructure. The identifier system is deliberately simp
 SecID subpaths support hierarchical references and framework-specific patterns:
 
 ```
-secid:control/csa/ccm@4.0#IAM-12/audit           # Audit section of a control
-secid:regulation/eu/gdpr#art-32/1/a              # Article 32(1)(a)
-secid:advisory/redhat/errata#RHSA-2024:1234      # Red Hat Security Advisory
-secid:advisory/redhat/errata#RHBA-2024:5678      # Red Hat Bug Advisory
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit           # Audit section of a control
+secid:regulation/europa.eu/gdpr#art-32/1/a              # Article 32(1)(a)
+secid:advisory/redhat.com/errata#RHSA-2024:1234      # Red Hat Security Advisory
+secid:advisory/redhat.com/errata#RHBA-2024:5678      # Red Hat Bug Advisory
 ```
 
 Each registry file documents its subpath patterns and resolution rules.
@@ -242,14 +242,14 @@ Each registry file documents its subpath patterns and resolution rules.
 
 ```
 SecID:                          Registry File:
-secid:weakness/mitre/cwe        → registry/weakness/mitre.md (cwe source section)
-secid:advisory/nist/nvd         → registry/advisory/nist.md (nvd source section)
-secid:ttp/mitre/attack          → registry/ttp/mitre.md (attack source section)
-secid:control/csa/ccm           → registry/control/csa.md (ccm source section)
-secid:regulation/eu/gdpr        → registry/regulation/eu.md (gdpr source section)
+secid:weakness/mitre.org/cwe        → registry/weakness/org/mitre.md (cwe source section)
+secid:advisory/nist.gov/nvd         → registry/advisory/gov/nist.md (nvd source section)
+secid:ttp/mitre.org/attack          → registry/ttp/org/mitre.md (attack source section)
+secid:control/cloudsecurityalliance.org/ccm           → registry/control/org/cloudsecurityalliance.md (ccm source section)
+secid:regulation/europa.eu/gdpr        → registry/regulation/eu/europa.md (gdpr source section)
 ```
 
-Each registry file contains resolution rules for all sources in that namespace. For example, `registry/weakness/mitre.md` contains the `cwe` source section explaining how `#CWE-123` resolves to `https://cwe.mitre.org/data/definitions/123.html`.
+Each registry file contains resolution rules for all sources in that namespace. For example, `registry/weakness/org/mitre.md` contains the `cwe` source section explaining how `#CWE-123` resolves to `https://cwe.mitre.org/data/definitions/123.html`.
 
 ## Identifier Format
 
@@ -259,15 +259,15 @@ secid:type/namespace/name[@version][?qualifiers][#subpath]
 
 **Examples:**
 ```
-secid:advisory/mitre/cve#CVE-2024-1234            # CVE record
-secid:weakness/mitre/cwe#CWE-79                   # CWE weakness
-secid:ttp/mitre/attack#T1059.003                  # ATT&CK technique
-secid:control/nist/csf@2.0#PR.AC-1               # NIST CSF control
-secid:control/csa/aicm@1.0#A&A-01                # CSA AICM control
-secid:advisory/redhat/errata#RHSA-2024:1234      # Red Hat advisory (colon in ID)
-secid:regulation/eu/gdpr#art-32                  # GDPR Article 32
-secid:entity/mitre/cve                           # CVE program
-secid:reference/whitehouse/eo-14110              # Reference document
+secid:advisory/mitre.org/cve#CVE-2024-1234            # CVE record
+secid:weakness/mitre.org/cwe#CWE-79                   # CWE weakness
+secid:ttp/mitre.org/attack#T1059.003                  # ATT&CK technique
+secid:control/nist.gov/csf@2.0#PR.AC-1               # NIST CSF control
+secid:control/cloudsecurityalliance.org/aicm@1.0#A&A-01                # CSA AICM control
+secid:advisory/redhat.com/errata#RHSA-2024:1234      # Red Hat advisory (colon in ID)
+secid:regulation/europa.eu/gdpr#art-32                  # GDPR Article 32
+secid:entity/mitre.org/cve                           # CVE program
+secid:reference/whitehouse.gov/eo-14110              # Reference document
 ```
 
 SecID strings are human-readable - no encoding needed. Subpaths can use `/` for hierarchy.
@@ -308,30 +308,39 @@ secid/
 ├── registry/            # Namespace definitions
 │   ├── advisory.md      # Type definition (what is an advisory?)
 │   ├── advisory/        # Advisory namespaces (ONE FILE PER NAMESPACE)
-│   │   ├── mitre.md     # MITRE: cve
-│   │   ├── nist.md      # NIST: nvd
-│   │   ├── github.md    # GitHub: ghsa
-│   │   └── redhat.md    # Red Hat: cve, errata, bugzilla (all sources in one file)
+│   │   ├── org/         # .org TLD
+│   │   │   └── mitre.md # MITRE: cve
+│   │   ├── gov/         # .gov TLD
+│   │   │   └── nist.md  # NIST: nvd
+│   │   └── com/         # .com TLD
+│   │       ├── github/  # GitHub sub-namespaces
+│   │       └── redhat.md# Red Hat: cve, errata, bugzilla (all sources in one file)
 │   ├── weakness.md      # Type definition
 │   ├── weakness/
-│   │   ├── mitre.md     # MITRE: cwe
-│   │   └── owasp.md     # OWASP: top10, llm-top10, etc. (all in one file)
+│   │   └── org/
+│   │       ├── mitre.md # MITRE: cwe
+│   │       └── owasp.md # OWASP: top10, llm-top10, etc. (all in one file)
 │   ├── ttp.md           # Type definition
 │   ├── ttp/
-│   │   └── mitre.md     # MITRE: attack, atlas, capec (all in one file)
+│   │   └── org/
+│   │       └── mitre.md # MITRE: attack, atlas, capec (all in one file)
 │   ├── control.md       # Type definition
 │   ├── control/
-│   │   ├── nist.md      # NIST: csf, 800-53, ai-rmf
-│   │   └── iso.md       # ISO: 27001, 27002
+│   │   ├── gov/
+│   │   │   └── nist.md  # NIST: csf, 800-53, ai-rmf
+│   │   └── org/
+│   │       └── iso.md   # ISO: 27001, 27002
 │   ├── entity.md        # Type definition
 │   ├── entity/
-│   │   ├── mitre.md     # MITRE organization
-│   │   └── redhat.md    # Red Hat organization
+│   │   ├── org/
+│   │   │   └── mitre.md # MITRE organization
+│   │   └── com/
+│   │       └── redhat.md# Red Hat organization
 │   └── ...
 └── seed/                # Research data (CSV) - see seed/README.md
 ```
 
-**One file per namespace.** Each namespace file (e.g., `registry/advisory/redhat.md`) contains ALL sources for that namespace with ID patterns and URL templates. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) for the full architecture.
+**One file per namespace.** Each namespace file (e.g., `registry/advisory/com/redhat.md`) contains ALL sources for that namespace with ID patterns and URL templates. See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) for the full architecture.
 
 ## File Format
 
@@ -374,25 +383,25 @@ Why this format:
 SecIDs identify things; resolution retrieves them. Each namespace defines how to resolve its identifiers:
 
 ```
-secid:advisory/mitre/cve#CVE-2026-0544
+secid:advisory/mitre.org/cve#CVE-2026-0544
   → https://www.cve.org/CVERecord?id=CVE-2026-0544
 
-secid:advisory/nist/nvd#CVE-2026-0544
+secid:advisory/nist.gov/nvd#CVE-2026-0544
   → https://nvd.nist.gov/vuln/detail/CVE-2026-0544
 
-secid:advisory/redhat/cve#CVE-2026-0544
+secid:advisory/redhat.com/cve#CVE-2026-0544
   → https://access.redhat.com/security/cve/CVE-2026-0544
 
-secid:advisory/redhat/errata#RHSA-2026:0414
+secid:advisory/redhat.com/errata#RHSA-2026:0414
   → https://access.redhat.com/errata/RHSA-2026:0414
 
-secid:weakness/mitre/cwe#CWE-79
+secid:weakness/mitre.org/cwe#CWE-79
   → https://cwe.mitre.org/data/definitions/79.html
 
-secid:ttp/mitre/attack#T1059.003
+secid:ttp/mitre.org/attack#T1059.003
   → https://attack.mitre.org/techniques/T1059/003/
 
-secid:regulation/eu/gdpr#art-32
+secid:regulation/europa.eu/gdpr#art-32
   → https://gdpr-info.eu/art-32-gdpr/
 ```
 
@@ -405,6 +414,7 @@ Resolution URLs are defined in each namespace's registry file.
 | [SPEC.md](SPEC.md) | Full technical specification for identifiers |
 | [RATIONALE.md](RATIONALE.md) | Why SecID exists and how we got here |
 | [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) | Key decisions and alternatives considered |
+| [EDGE-CASES.md](EDGE-CASES.md) | Domain-name namespace edge cases and how SecID handles them |
 | [STRATEGY.md](STRATEGY.md) | Adoption, governance, and positioning |
 | [ROADMAP.md](ROADMAP.md) | Implementation phases and priorities |
 | [USE-CASES.md](USE-CASES.md) | Concrete examples of what SecID enables |

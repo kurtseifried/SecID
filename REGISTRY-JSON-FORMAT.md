@@ -29,7 +29,7 @@ This section explains how a SecID string is resolved to URLs using registry data
 Parsing uses the registry to identify components:
 
 ```
-secid:advisory/mitre/some#name@1.0#CVE-2024-1234
+secid:advisory/mitre.org/some#name@1.0#CVE-2024-1234
       ───┬─── ──┬── ────┬──── ─┬─ ──────┬──────
          │      │       │      │        └─ subpath
          │      │       │      └─ version
@@ -52,7 +52,7 @@ secid:advisory/mitre/some#name@1.0#CVE-2024-1234
 
 **Example with special characters:**
 ```
-secid:advisory/vendor/weird#name:here#ID-2024
+secid:advisory/vendor.com/weird#name:here#ID-2024
 ```
 If registry has source `weird#name:here` in `advisory/vendor`, then:
 - name = `weird#name:here`
@@ -63,7 +63,7 @@ If registry has source `weird#name:here` in `advisory/vendor`, then:
 Using type, namespace, and name, find the source definition:
 
 ```
-registry[type][namespace][name] → registry["advisory"]["mitre"]["cve"]
+registry[type][namespace][name] → registry["advisory"]["mitre.org"]["cve"]
 ```
 
 ### Step 3: Match Patterns Against Subpath
@@ -77,8 +77,8 @@ The subpath is tested against each `id_patterns[].pattern`. Patterns should be a
 ```
 
 **Important:** Patterns match the **complete subpath**, not a substring. This means:
-- `secid:advisory/mitre/cve#CVE-2024-1234` → subpath `CVE-2024-1234` → matches
-- `secid:advisory/mitre/cve#CVE-2024-1234/extra` → subpath `CVE-2024-1234/extra` → **no match**
+- `secid:advisory/mitre.org/cve#CVE-2024-1234` → subpath `CVE-2024-1234` → matches
+- `secid:advisory/mitre.org/cve#CVE-2024-1234/extra` → subpath `CVE-2024-1234/extra` → **no match**
 
 Invalid subpaths simply don't match any pattern. This is intentional - CVE IDs don't have path suffixes, so such a SecID would be malformed.
 
@@ -141,7 +141,7 @@ For CWE, the lookup URL needs just the number, not the full ID:
 }
 ```
 
-Resolution of `secid:weakness/mitre/cwe#CWE-79`:
+Resolution of `secid:weakness/mitre.org/cwe#CWE-79`:
 1. Subpath: `CWE-79`
 2. Pattern matches: `^CWE-\d+$` ✓
 3. Extract variables: apply `number.extract` regex → first capture group `(\d+)` captures `79`
@@ -174,7 +174,7 @@ For the CVE GitHub repository, files are organized by year and a "bucket" (all b
 }
 ```
 
-Resolution of `secid:advisory/mitre/cve#CVE-2026-25010`:
+Resolution of `secid:advisory/mitre.org/cve#CVE-2026-25010`:
 1. Subpath: `CVE-2026-25010`
 2. Pattern matches ✓
 3. Extract variables:
@@ -254,10 +254,11 @@ For arrays:
 | Field | Type | Description |
 |-------|------|-------------|
 | `schema_version` | string | JSON schema version for this file |
-| `namespace` | string | Organization identifier (used in SecIDs). See namespace validation below. |
+| `namespace` | string | Organization identifier — domain name (used in SecIDs). See namespace validation below. |
 | `type` | string | SecID type: advisory, weakness, ttp, control, regulation, entity, reference |
 | `status` | string | Registry entry status (see below) |
 | `status_notes` | string \| null | Optional context about status (blockers, gaps, guidance for contributors) |
+| `alias_of` | string \| null | If present, this is an alias stub — namespace redirects to the value. No sources needed. |
 
 #### Namespace Validation
 
@@ -274,22 +275,25 @@ Namespaces must be safe for filesystems, shells, and URLs while supporting inter
 
 **Not allowed:** Spaces, punctuation (except `-` and `.`), shell metacharacters, path separators.
 
+**Per-segment validation:** Namespaces are domain names, optionally with `/`-separated path segments for platform sub-namespaces. Each segment between `/` must match the regex above.
+
 **Examples:**
 ```
-mitre           ✓  Short, common name
-cloudsecurity   ✓  Concatenated words
-cloud-security  ✓  Hyphenated
-ibm.xyz         ✓  DNS-style for disambiguation
-字节跳动         ✓  Unicode (ByteDance in Chinese)
-red_hat         ✗  Underscore not allowed
-red/hat         ✗  Slash not allowed
+mitre.org                ✓  Domain name
+nist.gov                 ✓  Government domain
+github.com/advisories    ✓  Platform sub-namespace
+aws.amazon.com           ✓  Subdomain
+字节跳动.com              ✓  Unicode domain (ByteDance)
+red_hat.com              ✗  Underscore not allowed in segment
 ```
+
+**Alias stubs:** When `alias_of` is present, the entry is a redirect. Resolvers follow it to the target namespace. Used for Punycode/Unicode IDN equivalence (e.g., `xn--mnchen-3ya.de` → `münchen.de`). See [EDGE-CASES.md](EDGE-CASES.md) for details.
 
 **Why these rules:**
 
-1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+1. **Filesystem safety** - Namespace segments become file paths (`registry/advisory/org/mitre.json`). Sub-namespaces become directories (`registry/advisory/com/github/advisories.json`). Avoiding shell metacharacters ensures repos work in Git across all platforms.
 
-2. **DNS for disambiguation** - Domain names provide globally unique, authoritative identifiers. If two organizations share a name (e.g., multiple "IBM"s), DNS resolves ambiguity: `ibm` → the obvious one, `ibm.xyz` → some other IBM.
+2. **Domain names are globally unique** - DNS already provides authoritative, collision-free identifiers. No centralized namespace assignment needed.
 
 3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories include all alphabets while excluding dangerous punctuation.
 
@@ -372,7 +376,7 @@ The `sources` block contains one or more data sources published by this namespac
 }
 ```
 
-The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advisory/mitre/cve#CVE-2024-1234`
+The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advisory/mitre.org/cve#CVE-2024-1234`
 
 #### Source Name Fields
 
@@ -522,7 +526,7 @@ Example with format (appending literal text):
 
 **Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
 
-**Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire subpath must match, rejecting malformed SecIDs like `secid:advisory/mitre/cve#CVE-2024-1234/garbage`. Unanchored patterns would match substrings, allowing invalid input.
+**Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire subpath must match, rejecting malformed SecIDs like `secid:advisory/mitre.org/cve#CVE-2024-1234/garbage`. Unanchored patterns would match substrings, allowing invalid input.
 
 **Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
 
@@ -619,7 +623,7 @@ For sources where different versions have different URL structures, use `version
 | `description` | string | no | Human/AI-readable description |
 | `url` | string | yes | URL template for this version range |
 
-**Resolution example:** `secid:control/csa/ccm@4.0.1#IAM-12`
+**Resolution example:** `secid:control/cloudsecurityalliance.org/ccm@4.0.1#IAM-12`
 1. Extract version = `4.0.1`, id = `IAM-12`
 2. Match version against patterns → `^4\..*$` matches
 3. Use that pattern's URL template with `{version}` and `{id}` substitution
@@ -662,13 +666,13 @@ For `type: reference` (documents, papers, standards), additional fields help wit
 **Note:** Standard identifier systems (DOI, ISBN, ISSN, arXiv, etc.) are **namespaces**, not fields:
 
 ```
-secid:reference/doi/10.6028/NIST.AI.100-1
-secid:reference/isbn/978-0-123456-78-9
-secid:reference/arxiv/2303.08774
-secid:reference/ietf/rfc9110
+secid:reference/doi.org/10.6028/NIST.AI.100-1
+secid:reference/isbn.org/978-0-123456-78-9
+secid:reference/arxiv.org/2303.08774
+secid:reference/ietf.org/rfc9110
 ```
 
-If a document has both a human-readable reference (`secid:reference/nist/ai-rmf`) and a DOI (`secid:reference/doi/10.6028/NIST.AI.100-1`), the equivalence relationship between them belongs in the **relationship layer**, not the registry.
+If a document has both a human-readable reference (`secid:reference/nist.gov/ai-rmf`) and a DOI (`secid:reference/doi.org/10.6028/NIST.AI.100-1`), the equivalence relationship between them belongs in the **relationship layer**, not the registry.
 
 ## Entity Type Differences
 
@@ -894,10 +898,10 @@ For sources with hierarchical identifiers (domain → control → section), defi
       ],
 
       "examples": [
-        "secid:control/csa/ccm#IAM",
-        "secid:control/csa/ccm#IAM-12",
-        "secid:control/csa/ccm@4.0#IAM-12",
-        "secid:control/csa/ccm#IAM-12.1"
+        "secid:control/cloudsecurityalliance.org/ccm#IAM",
+        "secid:control/cloudsecurityalliance.org/ccm#IAM-12",
+        "secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12",
+        "secid:control/cloudsecurityalliance.org/ccm#IAM-12.1"
       ]
     }
   }

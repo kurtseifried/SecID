@@ -18,8 +18,8 @@ SecID supports **bare namespace identifiers** for referencing organizations them
 
 ```
 secid:entity/redhat           # Red Hat as an organization
-secid:entity/redhat/rhel      # RHEL operating system (product)
-secid:entity/redhat/openshift # OpenShift platform (product)
+secid:entity/redhat.com/rhel      # RHEL operating system (product)
+secid:entity/redhat.com/openshift # OpenShift platform (product)
 ```
 
 ### When to Use Bare Identifiers
@@ -45,9 +45,9 @@ Use `secid:entity/<namespace>/<name>` when:
 
 Examples:
 ```
-secid:entity/mitre/cve      # CVE program (operated by MITRE)
-secid:entity/nist/nvd       # NVD (operated by NIST)
-secid:entity/redhat/rhel    # RHEL (product from Red Hat)
+secid:entity/mitre.org/cve      # CVE program (operated by MITRE)
+secid:entity/nist.gov/nvd       # NVD (operated by NIST)
+secid:entity/redhat.com/rhel    # RHEL (product from Red Hat)
 ```
 
 ### Operator References
@@ -55,11 +55,11 @@ secid:entity/redhat/rhel    # RHEL (product from Red Hat)
 The `operator` field in registry files typically uses bare identifiers:
 
 ```yaml
-# In registry/advisory/mitre.md
-operator: "secid:entity/mitre"    # MITRE operates the CVE program
+# In registry/advisory/org/mitre.md
+operator: "secid:entity/mitre.org"    # MITRE operates the CVE program
 
-# In registry/advisory/nist.md
-operator: "secid:entity/nist"     # NIST operates the NVD
+# In registry/advisory/gov/nist.md
+operator: "secid:entity/nist.gov"     # NIST operates the NVD
 ```
 
 This indicates which organization is responsible for the advisory source, not which specific product.
@@ -68,19 +68,19 @@ This indicates which organization is responsible for the advisory source, not wh
 
 ```
 # Vendors and their products/services
-secid:entity/redhat/openshift       # OpenShift platform (product & service)
-secid:entity/redhat/rhel            # RHEL operating system
-secid:entity/aws/s3                 # S3 storage service
-secid:entity/aws/lambda             # Lambda compute service
-secid:entity/microsoft/azure        # Azure cloud platform
+secid:entity/redhat.com/openshift       # OpenShift platform (product & service)
+secid:entity/redhat.com/rhel            # RHEL operating system
+secid:entity/aws.amazon.com/s3                 # S3 storage service
+secid:entity/aws.amazon.com/lambda             # Lambda compute service
+secid:entity/microsoft.com/azure        # Azure cloud platform
 
 # AI vendors and models
-secid:entity/openai/gpt-4           # GPT-4 model
-secid:entity/openai/gpt-4o          # GPT-4o model
-secid:entity/anthropic/claude       # Claude model family
-secid:entity/anthropic/claude-3-5   # Claude 3.5 Sonnet
-secid:entity/google/gemini          # Gemini model family
-secid:entity/meta/llama             # Llama model family
+secid:entity/openai.com/gpt-4           # GPT-4 model
+secid:entity/openai.com/gpt-4o          # GPT-4o model
+secid:entity/anthropic.com/claude       # Claude model family
+secid:entity/anthropic.com/claude-3-5   # Claude 3.5 Sonnet
+secid:entity/google.com/gemini          # Gemini model family
+secid:entity/meta.com/llama             # Llama model family
 secid:entity/mistral/mistral        # Mistral models
 
 # AI infrastructure and tools
@@ -89,10 +89,10 @@ secid:entity/huggingface/hub        # HuggingFace model hub
 secid:entity/huggingface/transformers # Transformers library
 
 # Organizations that operate security systems
-secid:entity/mitre/cve              # CVE program (operated by MITRE)
-secid:entity/mitre/attack           # ATT&CK framework
-secid:entity/nist/nvd               # National Vulnerability Database
-secid:entity/github/ghsa            # GitHub Security Advisories
+secid:entity/mitre.org/cve              # CVE program (operated by MITRE)
+secid:entity/mitre.org/attack           # ATT&CK framework
+secid:entity/nist.gov/nvd               # National Vulnerability Database
+secid:entity/github.com/ghsa            # GitHub Security Advisories
 ```
 
 ## When to Use Entity Type
@@ -122,8 +122,8 @@ Use entity identifiers for:
 ### Use common names for general concepts
 
 ```
-entity/redhat/openshift     # The OpenShift platform generally
-entity/microsoft/windows    # Windows generally
+entity/redhat.com/openshift     # The OpenShift platform generally
+entity/microsoft.com/windows    # Windows generally
 ```
 
 ### Use real vendor product names for variants
@@ -131,10 +131,10 @@ entity/microsoft/windows    # Windows generally
 When you need to distinguish between product variants (e.g., self-managed vs managed service), use the actual names the vendor uses:
 
 ```
-entity/redhat/openshift           # General OpenShift platform
-entity/redhat/rosa                # ROSA (Red Hat OpenShift on AWS)
-entity/redhat/openshift-dedicated # OpenShift Dedicated
-entity/redhat/aro                 # ARO (Azure Red Hat OpenShift)
+entity/redhat.com/openshift           # General OpenShift platform
+entity/redhat.com/rosa                # ROSA (Red Hat OpenShift on AWS)
+entity/redhat.com/openshift-dedicated # OpenShift Dedicated
+entity/redhat.com/aro                 # ARO (Azure Red Hat OpenShift)
 ```
 
 **Don't invent suffixes** like `-product` or `-service`. If Red Hat calls it "ROSA", use `rosa`.
@@ -149,7 +149,7 @@ The general rule: **follow how the vendor/entity identifies it**.
 
 ## Namespace Files
 
-Each namespace file (`entity/<namespace>.md`) describes:
+Each namespace file (`entity/<tld>/<domain>.md`) describes:
 - The organization and its security-relevant activities
 - Names within the namespace (products, services, systems)
 - URLs for resolution

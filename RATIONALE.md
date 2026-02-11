@@ -86,7 +86,7 @@ This seemed clean: CVE-2024-1234 is "the vulnerability", and NVD's record, GHSA'
 But then we realized: **CVE would exist in both namespaces**.
 
 - `secid:vulnerability/cve/CVE-2024-1234` - the vulnerability
-- `secid:advisory/mitre/cve#CVE-2024-1234` - the CVE Record at cve.org
+- `secid:advisory/mitre.org/cve#CVE-2024-1234` - the CVE Record at cve.org
 
 The CVE Record IS what defines the CVE. It's not just commentary - it's the authoritative publication. So CVE is both a vulnerability identifier AND an advisory.
 
@@ -103,10 +103,10 @@ There is no platonic CVE-2024-1234 floating in the ether independent of the CVE 
 Everything is an advisory:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234        # CVE Record (canonical)
-secid:advisory/nist/nvd#CVE-2024-1234        # NVD enrichment
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy      # GitHub advisory
-secid:advisory/redhat/errata#RHSA-2024:1234    # Red Hat advisory
+secid:advisory/mitre.org/cve#CVE-2024-1234        # CVE Record (canonical)
+secid:advisory/nist.gov/nvd#CVE-2024-1234        # NVD enrichment
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy      # GitHub advisory
+secid:advisory/redhat.com/errata#RHSA-2024:1234    # Red Hat advisory
 ```
 
 CVE and OSV are "canonical" not because they live in a special namespace, but because other advisories reference them. The canonical nature is expressed through **relationships**, not types.
@@ -123,9 +123,9 @@ CVE and OSV are "canonical" not because they live in a special namespace, but be
 If you need to refer to "the vulnerability as a concept across all advisories", that's what relationships are for:
 
 ```
-secid:advisory/nist/nvd#CVE-2024-1234 → aliases → secid:advisory/mitre/cve#CVE-2024-1234
-secid:advisory/github/ghsa#GHSA-xxxx → aliases → secid:advisory/mitre/cve#CVE-2024-1234
-secid:advisory/redhat/cve#CVE-2024-1234 → enriches → secid:advisory/mitre/cve#CVE-2024-1234
+secid:advisory/nist.gov/nvd#CVE-2024-1234 → aliases → secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx → aliases → secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:advisory/redhat.com/cve#CVE-2024-1234 → enriches → secid:advisory/mitre.org/cve#CVE-2024-1234
 ```
 
 The CVE advisory is the canonical anchor. Everything else relates to it.
@@ -199,20 +199,20 @@ For example, if incident databases grow significantly different from vulnerabili
 ### Short Names When Unambiguous
 
 ```
-secid:advisory/mitre/cve#...       # Everyone knows CVE
-secid:advisory/github/ghsa#...      # Everyone knows GHSA
-secid:weakness/mitre/cwe#...       # Everyone knows CWE
-secid:ttp/mitre/attack#...         # Everyone knows ATT&CK
+secid:advisory/mitre.org/cve#...       # Everyone knows CVE
+secid:advisory/github.com/advisories/ghsa#...      # Everyone knows GHSA
+secid:weakness/mitre.org/cwe#...       # Everyone knows CWE
+secid:ttp/mitre.org/attack#...         # Everyone knows ATT&CK
 ```
 
 ### Longer Names for Disambiguation
 
 ```
-secid:weakness/owasp/top10@2021#... # OWASP Top 10
-secid:weakness/owasp/llm-top10@2.0#... # OWASP LLM Top 10
-secid:control/csa/ccm@4.0#...      # CSA Cloud Controls Matrix
-secid:control/csa/aicm@1.0#...    # CSA AI Controls Matrix
-secid:control/nist/csf@2.0#...    # NIST Cybersecurity Framework
+secid:weakness/owasp.org/top10@2021#... # OWASP Top 10
+secid:weakness/owasp.org/llm-top10@2.0#... # OWASP LLM Top 10
+secid:control/cloudsecurityalliance.org/ccm@4.0#...      # CSA Cloud Controls Matrix
+secid:control/cloudsecurityalliance.org/aicm@1.0#...    # CSA AI Controls Matrix
+secid:control/nist.gov/csf@2.0#...    # NIST Cybersecurity Framework
 ```
 
 ### Vendors with Multiple Systems
@@ -220,10 +220,10 @@ secid:control/nist/csf@2.0#...    # NIST Cybersecurity Framework
 For vendors with multiple advisory systems, use different names:
 
 ```
-secid:advisory/redhat/cve#CVE-2024-1234       # Red Hat CVE database
-secid:advisory/redhat/errata#RHSA-2024:1234   # Red Hat errata (advisories)
-secid:advisory/redhat/bugzilla#2045678        # Bugzilla bug ID
-secid:advisory/redhat/bugzilla#CVE-2024-1234  # Bugzilla CVE alias
+secid:advisory/redhat.com/cve#CVE-2024-1234       # Red Hat CVE database
+secid:advisory/redhat.com/errata#RHSA-2024:1234   # Red Hat errata (advisories)
+secid:advisory/redhat.com/bugzilla#2045678        # Bugzilla bug ID
+secid:advisory/redhat.com/bugzilla#CVE-2024-1234  # Bugzilla CVE alias
 ```
 
 Each name (`cve`, `errata`, `bugzilla`) gets its own registry file documenting subpath patterns and resolution rules. Some systems support aliases - Bugzilla accepts both numeric IDs and CVE identifiers.

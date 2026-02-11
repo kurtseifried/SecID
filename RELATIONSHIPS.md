@@ -83,8 +83,8 @@ This is purely illustrative - not a design:
 
 ```json
 {
-  "from": "secid:advisory/github/ghsa#GHSA-xxxx-yyyy",
-  "to": "secid:advisory/mitre/cve#CVE-2024-1234",
+  "from": "secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy",
+  "to": "secid:advisory/mitre.org/cve#CVE-2024-1234",
   "relationship": "aliases",
   "asserted_by": "github",
   "confidence": "high",
@@ -112,7 +112,7 @@ For now, entity files in the registry may include a `relationships` field:
 
 ```yaml
 relationships:
-  - to: "secid:entity/nist/nvd"
+  - to: "secid:entity/nist.gov/nvd"
     type: "enriched_by"
     description: "NVD adds CVSS, CPE, CWE to CVE records"
 ```

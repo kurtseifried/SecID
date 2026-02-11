@@ -4,7 +4,7 @@
 **Status: Resolved**
 
 The registry architecture has been documented in DESIGN-DECISIONS.md ("Registry Architecture: Hierarchical, One File Per Namespace"). The new architecture uses:
-- One file per namespace (e.g., `registry/advisory/redhat.md`)
+- One file per namespace (e.g., `registry/advisory/com/redhat.md`)
 - Sources as sections within that file
 - No subdirectories for individual sources
 
@@ -43,7 +43,7 @@ Deferred until we encounter a namespace that requires search-based resolution. S
 ## [RESOLVED] ISO 27001 Example Without Registry Entry
 **Status: Resolved**
 
-Created `registry/control/iso.md` with comprehensive coverage of:
+Created `registry/control/org/iso.md` with comprehensive coverage of:
 - ISO/IEC 27001 Information Security Management (with 2022 and 2013 versions)
 - ISO/IEC 27002 Information Security Controls
 

@@ -25,12 +25,12 @@ Track and reference things that define security requirements - what you need to 
 ```
 secid:control/<namespace>/<name>[@version][#subpath]
 
-secid:control/csa/aicm@1.0#INP-01
-secid:control/csa/ccm@4.0#IAM-12
-secid:control/nist/csf@2.0#PR.AC-1
-secid:control/cis/controls@8.0#1.1
-secid:control/iso/27001@2022#A.8.1
-secid:control/owasp/asvs@4.0#V5.3.4
+secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12
+secid:control/nist.gov/csf@2.0#PR.AC-1
+secid:control/cisecurity.org/controls@8.0#1.1
+secid:control/iso.org/27001@2022#A.8.1
+secid:control/owasp.org/asvs@4.0#V5.3.4
 ```
 
 The namespace is the organization, the name is the framework/document, and the subpath references specific controls within that framework.
@@ -97,9 +97,9 @@ Standards that define **what information to provide** about AI systems - these a
 Controls frameworks have versions. Use `@version` to pin:
 
 ```
-secid:control/csa/ccm@4.0#IAM-12       # CCM version 4.0
-secid:control/cis/controls@8.0#1.1     # CIS Controls v8
-secid:control/nist/csf@2.0#PR.AC-1     # NIST CSF 2.0
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12       # CCM version 4.0
+secid:control/cisecurity.org/controls@8.0#1.1     # CIS Controls v8
+secid:control/nist.gov/csf@2.0#PR.AC-1     # NIST CSF 2.0
 ```
 
 Omitting version implies "current" or "any version".
@@ -109,10 +109,10 @@ Omitting version implies "current" or "any version".
 Use `#subpath` with `/` for hierarchy to reference specific controls and sections:
 
 ```
-secid:control/csa/ccm@4.0#IAM-12                   # Specific control
-secid:control/csa/ccm@4.0#IAM-12/audit             # Audit guidance within control
-secid:control/csa/ccm@4.0#IAM-12/implementation    # Implementation guidance
-secid:control/csa/aicm@1.0#INP-01/Auditing%20Guidelines  # Section with spaces (percent-encoded)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12                   # Specific control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit             # Audit guidance within control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/implementation    # Implementation guidance
+secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01/Auditing%20Guidelines  # Section with spaces (percent-encoded)
 ```
 
 ## Relationships
@@ -121,8 +121,8 @@ Controls mitigate weaknesses:
 
 ```json
 {
-  "from": "secid:control/csa/aicm@1.0#INP-01",
-  "to": "secid:weakness/owasp/llm-top10@2.0#LLM01",
+  "from": "secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01",
+  "to": "secid:weakness/owasp.org/llm-top10@2.0#LLM01",
   "type": "mitigates",
   "strength": "partial",
   "description": "Input validation helps but doesn't fully prevent prompt injection"
@@ -133,8 +133,8 @@ Controls counter TTPs:
 
 ```json
 {
-  "from": "secid:control/nist/csf@2.0#DE.CM-1",
-  "to": "secid:ttp/mitre/attack#T1059",
+  "from": "secid:control/nist.gov/csf@2.0#DE.CM-1",
+  "to": "secid:ttp/mitre.org/attack#T1059",
   "type": "detects",
   "description": "Monitoring detects command execution"
 }
@@ -144,8 +144,8 @@ Controls satisfy regulatory requirements:
 
 ```json
 {
-  "from": "secid:control/iso/27001@2022#A.8.1",
-  "to": "secid:regulation/eu/gdpr#art-32",
+  "from": "secid:control/iso.org/27001@2022#A.8.1",
+  "to": "secid:regulation/europa.eu/gdpr#art-32",
   "type": "satisfies",
   "description": "Asset management control satisfies GDPR security requirement"
 }
@@ -174,6 +174,6 @@ Think of it this way:
 - **Capabilities** answer: "How do we implement those controls?"
 
 Example:
-- `secid:control/nist/csf@2.0#RS.RP-1` - Requirement: "Response plan is executed"
-- `secid:control/nist/800-61#section-3` - Capability: How to do incident response
+- `secid:control/nist.gov/csf@2.0#RS.RP-1` - Requirement: "Response plan is executed"
+- `secid:control/nist.gov/800-61#section-3` - Capability: How to do incident response
 

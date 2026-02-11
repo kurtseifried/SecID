@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The repo is intentionally documentation-first. Root Markdown files (`README.md`, `SPEC.md`, `REGISTRY-GUIDE.md`, etc.) define the grammar, rationale, and contributor expectations. SecID namespaces live under `registry/<type>/<namespace>.md` and use YAML front matter plus narrative context—study existing entries such as `registry/advisory/mitre.md` before editing. Seed CSVs in `seed/*.csv` capture discovery lists (controls, references, vendors) that feed registry research; keep headers untouched and sorted alphabetically by name. Treat `TODO.md` and `ROADMAP.md` as authoritative for work in flight, and avoid creating parallel documents.
+The repo is intentionally documentation-first. Root Markdown files (`README.md`, `SPEC.md`, `REGISTRY-GUIDE.md`, etc.) define the grammar, rationale, and contributor expectations. SecID namespaces live under `registry/<type>/<tld>/<domain>.md` (reverse-DNS layout) and use YAML front matter plus narrative context—study existing entries such as `registry/advisory/org/mitre.md` before editing. Seed CSVs in `seed/*.csv` capture discovery lists (controls, references, vendors) that feed registry research; keep headers untouched and sorted alphabetically by name. Treat `TODO.md` and `ROADMAP.md` as authoritative for work in flight, and avoid creating parallel documents.
 
 ## Build, Test, and Development Commands
 This repository has no compiled artifacts; the goal is clean, reviewable text. Use the commands below to keep contributions consistent:

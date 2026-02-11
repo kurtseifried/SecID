@@ -19,14 +19,14 @@ References are for citing source materials that aren't covered by other types. I
 
 | Don't use reference for | Use instead |
 |------------------------|-------------|
-| NIST SP 800-53 | `secid:control/nist/800-53#AC-1` |
-| NIST CSF | `secid:control/nist/csf@2.0#GV.RM-01` |
-| ISO 27001 | `secid:control/iso/27001@2022#A.8.1` |
-| IETF RFCs | `secid:control/ietf/...` or specific protocol |
-| GDPR, HIPAA | `secid:regulation/eu/gdpr`, `secid:regulation/us/hipaa` |
-| CWE, OWASP Top 10 | `secid:weakness/mitre/cwe#CWE-79`, `secid:weakness/owasp/top10#A01` |
-| CVE, NVD | `secid:advisory/mitre/cve#...`, `secid:advisory/nist/nvd#...` |
-| ATT&CK, ATLAS | `secid:ttp/mitre/attack#T1059`, `secid:ttp/mitre/atlas#AML.T0043` |
+| NIST SP 800-53 | `secid:control/nist.gov/800-53#AC-1` |
+| NIST CSF | `secid:control/nist.gov/csf@2.0#GV.RM-01` |
+| ISO 27001 | `secid:control/iso.org/27001@2022#A.8.1` |
+| IETF RFCs | `secid:control/ietf.org/...` or specific protocol |
+| GDPR, HIPAA | `secid:regulation/europa.eu/gdpr`, `secid:regulation/govinfo.gov/hipaa` |
+| CWE, OWASP Top 10 | `secid:weakness/mitre.org/cwe#CWE-79`, `secid:weakness/owasp.org/top10#A01` |
+| CVE, NVD | `secid:advisory/mitre.org/cve#...`, `secid:advisory/nist.gov/nvd#...` |
+| ATT&CK, ATLAS | `secid:ttp/mitre.org/attack#T1059`, `secid:ttp/mitre.org/atlas#AML.T0043` |
 
 ## Identifier Format
 
@@ -44,13 +44,13 @@ secid:reference/<namespace>/<identifier>
 ### Examples
 
 ```
-secid:reference/whitehouse/eo-14110           # AI Executive Order
-secid:reference/whitehouse/ncs-2023           # National Cybersecurity Strategy
-secid:reference/whitehouse/m-24-10            # OMB AI Governance Memo
-secid:reference/whitehouse/nsm-22             # National Security Memo
-secid:reference/arxiv/2303.08774              # GPT-4 Technical Report
-secid:reference/arxiv/2402.05369              # Sleeper Agents paper
-secid:reference/arxiv/2307.03109              # Jailbroken paper
+secid:reference/whitehouse.gov/eo-14110           # AI Executive Order
+secid:reference/whitehouse.gov/ncs-2023           # National Cybersecurity Strategy
+secid:reference/whitehouse.gov/m-24-10            # OMB AI Governance Memo
+secid:reference/whitehouse.gov/nsm-22             # National Security Memo
+secid:reference/arxiv.org/2303.08774              # GPT-4 Technical Report
+secid:reference/arxiv.org/2402.05369              # Sleeper Agents paper
+secid:reference/arxiv.org/2307.03109              # Jailbroken paper
 ```
 
 ## Subpaths
@@ -58,19 +58,19 @@ secid:reference/arxiv/2307.03109              # Jailbroken paper
 Reference specific sections within documents:
 
 ```
-secid:reference/whitehouse/eo-14110#section-4.1
-secid:reference/whitehouse/eo-14110#section-4.2
-secid:reference/arxiv/2303.08774#section-3
-secid:reference/arxiv/2303.08774#appendix-a
+secid:reference/whitehouse.gov/eo-14110#section-4.1
+secid:reference/whitehouse.gov/eo-14110#section-4.2
+secid:reference/arxiv.org/2303.08774#section-3
+secid:reference/arxiv.org/2303.08774#appendix-a
 ```
 
 ## Relationships
 
 | Relationship | Meaning | Example |
 |--------------|---------|---------|
-| `precedes` | Policy that led to regulation | `reference/whitehouse/eo-14110 → precedes → regulation/us/...` |
-| `cites` | Used as evidence | `weakness/... → cites → reference/arxiv/...` |
-| `informs` | Research informing practice | `reference/arxiv/... → informs → control/...` |
+| `precedes` | Policy that led to regulation | `reference/whitehouse.gov/eo-14110 → precedes → regulation/govinfo.gov/...` |
+| `cites` | Used as evidence | `weakness/... → cites → reference/arxiv.org/...` |
+| `informs` | Research informing practice | `reference/arxiv.org/... → informs → control/...` |
 
 ## Future Namespaces
 

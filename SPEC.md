@@ -11,7 +11,7 @@ Status: Public Draft - Open for Comment
 
 SecID is directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec). It provides a consistent way to reference existing databases like CVE, CWE, ATT&CK, and ISO standards.
 
-**SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one. CVE-2024-1234 is assigned by MITRE—SecID provides a consistent way to reference it.
+**SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre.org/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one. CVE-2024-1234 is assigned by MITRE—SecID provides a consistent way to reference it.
 
 **SecID identifies things. It does not imply authority, truth, severity, or correctness.**
 
@@ -45,7 +45,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 |----------------|-----------------|----------|-------------|
 | `pkg:` | `secid:` | Yes | Scheme (constant prefix) |
 | `type` | `type` | Yes | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
-| `namespace` | `namespace` | Yes | **Organization** that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `redhat`, `iso`, `owasp`) |
+| `namespace` | `namespace` | Yes | **Domain name** of organization that publishes/maintains (e.g., `mitre.org`, `nist.gov`, `cloudsecurityalliance.org`, `redhat.com`). May include path segments for platform sub-namespaces (e.g., `github.com/advisories`). |
 | `name` | `name` | Yes | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `ccm`, `27001`) |
 | `@version` | `@version` | No | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | No | Optional context that doesn't change identity (e.g., `?lang=ja`) |
@@ -54,44 +54,44 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 **Visual breakdown:**
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
-────┬─ ───┬─── ──┬── ─┬─ ──────┬──────
-    │     │      │    │        └─ #subpath: specific item (CVE-2024-1234)
-    │     │      │    └────────── name: database they publish (cve)
-    │     │      └─────────────── namespace: organization (mitre)
-    │     └────────────────────── type: security domain (advisory)
-    └──────────────────────────── scheme: always "secid:"
+secid:advisory/mitre.org/cve#CVE-2024-1234
+────┬─ ────┬──── ────┬──── ─┬─ ──────┬──────
+    │      │         │      │        └─ #subpath: specific item (CVE-2024-1234)
+    │      │         │      └────────── name: database they publish (cve)
+    │      │         └───────────────── namespace: domain name (mitre.org)
+    │      └─────────────────────────── type: security domain (advisory)
+    └────────────────────────────────── scheme: always "secid:"
 
-secid:control/iso/27001@2022#A.8.1
-────┬─ ──┬─── ─┬─ ──┬── ─┬── ──┬──
-    │    │     │    │    │     └─ #subpath: specific control (A.8.1)
-    │    │     │    │    └─────── @version: edition (2022)
-    │    │     │    └──────────── name: standard (27001)
-    │    │     └───────────────── namespace: organization (iso)
-    │    └─────────────────────── type: security domain (control)
-    └──────────────────────────── scheme: always "secid:"
-
-secid:weakness/owasp/top10@2021#A03
-────┬─ ───┬──── ──┬── ──┬── ─┬── ─┬─
-    │     │       │     │    │    └─ #subpath: specific weakness (A03)
-    │     │       │     │    └────── @version: edition year (2021)
-    │     │       │     └─────────── name: framework (top10)
-    │     │       └────────────────── namespace: organization (owasp)
-    │     └────────────────────────── type: security domain (weakness)
+secid:control/iso.org/27001@2022#A.8.1
+────┬─ ──┬──── ──┬─── ──┬── ─┬── ──┬──
+    │    │       │      │    │     └─ #subpath: specific control (A.8.1)
+    │    │       │      │    └─────── @version: edition (2022)
+    │    │       │      └──────────── name: standard (27001)
+    │    │       └─────────────────── namespace: domain name (iso.org)
+    │    └─────────────────────────── type: security domain (control)
     └──────────────────────────────── scheme: always "secid:"
+
+secid:weakness/owasp.org/top10@2021#A03
+────┬─ ───┬──── ────┬──── ──┬── ─┬── ─┬─
+    │     │         │       │    │    └─ #subpath: specific weakness (A03)
+    │     │         │       │    └────── @version: edition year (2021)
+    │     │         │       └─────────── name: framework (top10)
+    │     │         └─────────────────── namespace: domain name (owasp.org)
+    │     └───────────────────────────── type: security domain (weakness)
+    └─────────────────────────────────── scheme: always "secid:"
 ```
 
-**Key insight:** The namespace is always the **organization** (who publishes it), the name is the **thing they publish** (database, framework, standard), and the subpath is the **specific item within** that thing.
+**Key insight:** The namespace is always the **domain name** of the organization (who publishes it), the name is the **thing they publish** (database, framework, standard), and the subpath is the **specific item within** that thing. Platform namespaces can include path segments (e.g., `github.com/advisories`).
 
 **Subpath hierarchy:** Subpaths can use `/` to express hierarchy within a document (just like PURL):
 
 ```
-secid:control/csa/ccm@4.0#IAM-12                        # The control
-secid:control/csa/ccm@4.0#IAM-12/audit                  # Audit section within control
-secid:control/csa/ccm@4.0#IAM-12/implementation         # Implementation guidance
-secid:regulation/eu/gdpr#art-32/1/a                     # Article 32(1)(a)
-secid:weakness/mitre/cwe#CWE-79/potential-mitigations   # Mitigations section within CWE
-secid:ttp/mitre/attack#T1059/detection                  # Detection guidance for technique
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12                        # The control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit                  # Audit section within control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/implementation         # Implementation guidance
+secid:regulation/europa.eu/gdpr#art-32/1/a                     # Article 32(1)(a)
+secid:weakness/mitre.org/cwe#CWE-79/potential-mitigations   # Mitigations section within CWE
+secid:ttp/mitre.org/attack#T1059/detection                  # Detection guidance for technique
 ```
 
 **Percent encoding:** Special characters in names and subpaths must be percent-encoded (URL encoding). This ensures cross-platform compatibility and safe storage/transport:
@@ -107,9 +107,9 @@ secid:ttp/mitre/attack#T1059/detection                  # Detection guidance for
 | `?` | `%3F` | Only encode if literal (not the qualifier prefix) |
 
 ```
-secid:control/csa/aicm@1.0#A%26A-01                     # A&A-01 control (& encoded)
-secid:control/csa/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
-secid:control/nist/800-53#AC-1/Control%20Enhancements  # Section with space
+secid:control/cloudsecurityalliance.org/aicm@1.0#A%26A-01                     # A&A-01 control (& encoded)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/Auditing%20Guidelines  # Section with space
+secid:control/nist.gov/800-53#AC-1/Control%20Enhancements  # Section with space
 ```
 
 Tools should render identifiers human-friendly for display while storing the encoded form. See Section 8.2 for complete encoding rules.
@@ -119,26 +119,26 @@ Tools should render identifiers human-friendly for display while storing the enc
 ```
 SecID:                          Registry File:
 secid:advisory                  → registry/advisory.md (type definition)
-secid:advisory/redhat           → registry/advisory/redhat.md (namespace, all sources)
-secid:advisory/redhat/cve       → section within registry/advisory/redhat.md
+secid:advisory/redhat.com       → registry/advisory/com/redhat.md (namespace, all sources)
+secid:advisory/redhat.com/cve  → section within registry/advisory/com/redhat.md
 secid:weakness                  → registry/weakness.md (type definition)
-secid:weakness/mitre            → registry/weakness/mitre.md (namespace, all sources)
-secid:control/nist              → registry/control/nist.md (namespace, all sources)
+secid:weakness/mitre.org        → registry/weakness/org/mitre.md (namespace, all sources)
+secid:control/nist.gov          → registry/control/gov/nist.md (namespace, all sources)
 ```
 
-**One file per namespace.** Each namespace file contains ALL sources for that namespace. For example, `registry/advisory/redhat.md` contains rules for `cve`, `errata`, and `bugzilla`—not separate files for each.
+**One file per namespace.** Each namespace file contains ALL sources for that namespace. For example, `registry/advisory/com/redhat.md` contains rules for `cve`, `errata`, and `bugzilla`—not separate files for each.
 
 Each registry file contains:
 - Metadata (namespace, full name, website, status)
 - Sections for each source with ID patterns and URL templates
 - Examples and documentation
 
-For example, `registry/weakness/mitre.md` contains the rules for resolving CWE:
+For example, `registry/weakness/org/mitre.md` contains the rules for resolving CWE:
 
 ```yaml
-# In registry/weakness/mitre.md
+# In registry/weakness/org/mitre.md
 ---
-namespace: mitre
+namespace: mitre.org
 full_name: "MITRE Corporation"
 website: "https://mitre.org"
 status: active
@@ -154,16 +154,16 @@ status: active
 |-------|-------|
 | id_pattern | `CWE-\d+` |
 | url_template | `https://cwe.mitre.org/data/definitions/{num}.html` |
-| example | `secid:weakness/mitre/cwe#CWE-79` |
+| example | `secid:weakness/mitre.org/cwe#CWE-79` |
 ```
 
 **Resolution process (5 steps):**
 
 ```
-secid:weakness/mitre/cwe#CWE-123
+secid:weakness/mitre.org/cwe#CWE-123
 
-1. Parse SecID → type=weakness, namespace=mitre, name=cwe, subpath=CWE-123
-2. Lookup source → registry["weakness"]["mitre"]["cwe"]
+1. Parse SecID → type=weakness, namespace=mitre.org, name=cwe, subpath=CWE-123
+2. Lookup source → registry["weakness"]["mitre.org"]["cwe"]
 3. Match patterns → subpath "CWE-123" matches pattern "^CWE-\d+$"
 4. Extract variables → "number" regex captures "123" from "CWE-123"
 5. Build URL → https://cwe.mitre.org/data/definitions/123.html
@@ -190,29 +190,29 @@ See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the complete schema.
 
 | SecID | namespace (org) | name (what they publish) | subpath (specific item) |
 |-------|-----------------|--------------------------|-------------------------|
-| `secid:advisory/mitre/cve#CVE-2024-1234` | MITRE | CVE database | CVE-2024-1234 |
-| `secid:advisory/nist/nvd#CVE-2024-1234` | NIST | NVD database | CVE-2024-1234 |
-| `secid:advisory/redhat/errata#RHSA-2024:1234` | Red Hat | Errata system | RHSA-2024:1234 |
-| `secid:weakness/mitre/cwe#CWE-79` | MITRE | CWE taxonomy | CWE-79 |
-| `secid:ttp/mitre/attack#T1059` | MITRE | ATT&CK framework | T1059 |
-| `secid:ttp/mitre/capec#CAPEC-66` | MITRE | CAPEC catalog | CAPEC-66 |
-| `secid:control/csa/ccm@4.0#IAM-12` | CSA | CCM framework | IAM-12 |
-| `secid:control/nist/csf@2.0#PR.AC-1` | NIST | CSF framework | PR.AC-1 |
-| `secid:control/iso/27001@2022#A.8.1` | ISO | 27001 standard | A.8.1 |
-| `secid:regulation/eu/gdpr#art-32` | EU | GDPR regulation | Article 32 |
+| `secid:advisory/mitre.org/cve#CVE-2024-1234` | MITRE | CVE database | CVE-2024-1234 |
+| `secid:advisory/nist.gov/nvd#CVE-2024-1234` | NIST | NVD database | CVE-2024-1234 |
+| `secid:advisory/redhat.com/errata#RHSA-2024:1234` | Red Hat | Errata system | RHSA-2024:1234 |
+| `secid:weakness/mitre.org/cwe#CWE-79` | MITRE | CWE taxonomy | CWE-79 |
+| `secid:ttp/mitre.org/attack#T1059` | MITRE | ATT&CK framework | T1059 |
+| `secid:ttp/mitre.org/capec#CAPEC-66` | MITRE | CAPEC catalog | CAPEC-66 |
+| `secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12` | CSA | CCM framework | IAM-12 |
+| `secid:control/nist.gov/csf@2.0#PR.AC-1` | NIST | CSF framework | PR.AC-1 |
+| `secid:control/iso.org/27001@2022#A.8.1` | ISO | 27001 standard | A.8.1 |
+| `secid:regulation/europa.eu/gdpr#art-32` | EU | GDPR regulation | Article 32 |
 
 ### 1.3 Comparison with PURL Examples
 
 | What you're identifying | Scheme | Example |
 |------------------------|--------|---------|
 | Software packages | `pkg:` | `pkg:npm/lodash@4.17.21` |
-| Vulnerability advisories | `secid:` | `secid:advisory/mitre/cve#CVE-2024-1234` |
-| Weakness patterns | `secid:` | `secid:weakness/mitre/cwe#CWE-79` |
-| Attack techniques | `secid:` | `secid:ttp/mitre/attack#T1059` |
-| Security controls | `secid:` | `secid:control/nist/csf@2.0#PR.AC-1` |
-| Regulations | `secid:` | `secid:regulation/eu/gdpr#art-32` |
-| Entities | `secid:` | `secid:entity/mitre/cve` |
-| Reference documents | `secid:` | `secid:reference/whitehouse/eo-14110` |
+| Vulnerability advisories | `secid:` | `secid:advisory/mitre.org/cve#CVE-2024-1234` |
+| Weakness patterns | `secid:` | `secid:weakness/mitre.org/cwe#CWE-79` |
+| Attack techniques | `secid:` | `secid:ttp/mitre.org/attack#T1059` |
+| Security controls | `secid:` | `secid:control/nist.gov/csf@2.0#PR.AC-1` |
+| Regulations | `secid:` | `secid:regulation/europa.eu/gdpr#art-32` |
+| Entities | `secid:` | `secid:entity/mitre.org/cve` |
+| Reference documents | `secid:` | `secid:reference/whitehouse.gov/eo-14110` |
 
 Think of it this way: `secid:` is the scheme (like `pkg:`), and what follows uses the exact same grammar as PURL.
 
@@ -241,12 +241,12 @@ In PURL, `#subpath` is defined as "a subpath within the package, relative to the
 In SecID, `#subpath` identifies **specific items within a database or framework**:
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234       # A specific CVE
-secid:weakness/mitre/cwe#CWE-79              # A specific weakness
-secid:ttp/mitre/attack#T1059.003             # A specific technique
-secid:control/nist/800-53@r5#AC-1            # A specific control
-secid:control/iso/27001@2022#A.8.1           # An ISO Annex control
-secid:advisory/redhat/errata#RHSA-2024:1234  # A Red Hat advisory
+secid:advisory/mitre.org/cve#CVE-2024-1234       # A specific CVE
+secid:weakness/mitre.org/cwe#CWE-79              # A specific weakness
+secid:ttp/mitre.org/attack#T1059.003             # A specific technique
+secid:control/nist.gov/800-53@r5#AC-1            # A specific control
+secid:control/iso.org/27001@2022#A.8.1           # An ISO Annex control
+secid:advisory/redhat.com/errata#RHSA-2024:1234  # A Red Hat advisory
 ```
 
 **Why this divergence is necessary:**
@@ -259,23 +259,23 @@ Because security knowledge is often hierarchical, SecID subpaths support:
 
 1. **Identifier prefixes** - Different item types within one name:
    ```
-   secid:advisory/redhat/errata#RHSA-2024:1234  # Security Advisory
-   secid:advisory/redhat/errata#RHBA-2024:5678  # Bug Advisory
-   secid:advisory/redhat/errata#RHEA-2024:9012  # Enhancement Advisory
+   secid:advisory/redhat.com/errata#RHSA-2024:1234  # Security Advisory
+   secid:advisory/redhat.com/errata#RHBA-2024:5678  # Bug Advisory
+   secid:advisory/redhat.com/errata#RHEA-2024:9012  # Enhancement Advisory
    ```
 
 2. **Hierarchical references** using `/`:
    ```
-   secid:control/csa/ccm@4.0#IAM-12/audit           # Audit section of control
-   secid:regulation/eu/gdpr#art-32/1/a              # Article 32(1)(a)
-   secid:weakness/mitre/cwe#CWE-79/mitigations      # Mitigations for CWE-79
+   secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit           # Audit section of control
+   secid:regulation/europa.eu/gdpr#art-32/1/a              # Article 32(1)(a)
+   secid:weakness/mitre.org/cwe#CWE-79/mitigations      # Mitigations for CWE-79
    ```
 
 3. **Framework-specific patterns**:
    ```
-   secid:ttp/mitre/attack#T1059.003    # Sub-technique (ATT&CK uses dots)
-   secid:control/iso/27001@2022#A.8.1  # Annex control (ISO uses dots)
-   secid:control/nist/800-53@r5#AC-1   # Control family-number format
+   secid:ttp/mitre.org/attack#T1059.003    # Sub-technique (ATT&CK uses dots)
+   secid:control/iso.org/27001@2022#A.8.1  # Annex control (ISO uses dots)
+   secid:control/nist.gov/800-53@r5#AC-1   # Control family-number format
    ```
 
 Each registry file documents its subpath patterns and how to resolve them to URLs.
@@ -297,8 +297,8 @@ Each registry file documents its subpath patterns and how to resolve them to URL
 
 | What | In Scope? | Reason |
 |------|-----------|--------|
-| `secid:advisory/mitre/cve#CVE-2024-1234` | ✅ Yes | Structured security knowledge with namespace |
-| `secid:weakness/mitre/cwe#CWE-79` | ✅ Yes | Structured security knowledge with namespace |
+| `secid:advisory/mitre.org/cve#CVE-2024-1234` | ✅ Yes | Structured security knowledge with namespace |
+| `secid:weakness/mitre.org/cwe#CWE-79` | ✅ Yes | Structured security knowledge with namespace |
 | `secid:url/https://example.com/...` | ❌ No | URLs are already identifiers; no need to wrap them |
 | `https://stackoverflow.com/a/12345678` | ❌ No | Not a SecID - just a URL |
 
@@ -315,7 +315,7 @@ SecID APIs and relationship/enrichment databases MAY support arbitrary URLs as q
 
 For example, a SecID API might accept:
 ```
-GET /api/v1/lookup?secid=secid:weakness/mitre/cwe%23CWE-732
+GET /api/v1/lookup?secid=secid:weakness/mitre.org/cwe%23CWE-732
 GET /api/v1/lookup?url=https://stackoverflow.com/a/12345678
 ```
 
@@ -337,7 +337,7 @@ secid:type/namespace/name@version?qualifiers#subpath
 |-----------|----------|-------------|
 | `secid:` | Yes | The URL scheme (constant, like `pkg:` in PURL) |
 | `type` | Yes | The security domain: advisory, weakness, ttp, control, regulation, entity, reference |
-| `namespace` | Yes | The organization that publishes/maintains (mitre, nist, csa, owasp, etc.) |
+| `namespace` | Yes | The domain name of the organization (mitre.org, nist.gov, owasp.org, etc.), optionally with sub-namespace path segments (github.com/advisories) |
 | `name` | Yes | The database/framework/document they publish (cve, nvd, ccm, attack, etc.) |
 | `@version` | No | Edition or revision of the thing itself |
 | `?qualifiers` | No | Optional disambiguation or scope |
@@ -354,20 +354,20 @@ secid:type/namespace/name@version?qualifiers#subpath
 ### 2.3 Examples
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234
-secid:advisory/nist/nvd#CVE-2024-1234
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz
-secid:advisory/redhat/errata#RHSA-2024:1234
-secid:weakness/mitre/cwe#CWE-79
-secid:ttp/mitre/attack#T1059.003
-secid:control/csa/ccm@4.0#IAM-12
-secid:control/csa/aicm@1.0#IAM-12/Auditing%20Guidelines
-secid:regulation/eu/gdpr@2016-04-27
-secid:regulation/eu/gdpr#art-32
-secid:entity/mitre/cve
-secid:entity/openai/gpt-4
-secid:reference/whitehouse/eo-14110
-secid:reference/arxiv/2303.08774
+secid:advisory/mitre.org/cve#CVE-2024-1234
+secid:advisory/nist.gov/nvd#CVE-2024-1234
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
+secid:advisory/redhat.com/errata#RHSA-2024:1234
+secid:weakness/mitre.org/cwe#CWE-79
+secid:ttp/mitre.org/attack#T1059.003
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12
+secid:control/cloudsecurityalliance.org/aicm@1.0#IAM-12/Auditing%20Guidelines
+secid:regulation/europa.eu/gdpr@2016-04-27
+secid:regulation/europa.eu/gdpr#art-32
+secid:entity/mitre.org/cve
+secid:entity/openai.com/gpt-4
+secid:reference/whitehouse.gov/eo-14110
+secid:reference/arxiv.org/2303.08774
 ```
 
 ## 3. Types
@@ -397,14 +397,14 @@ SecID defines seven types. Each answers a different question. Types are intentio
 Publications, records, or analyses about vulnerabilities **and incidents**.
 
 ```
-secid:advisory/mitre/cve#CVE-2024-1234        # CVE record (canonical)
-secid:advisory/nist/nvd#CVE-2024-1234         # NVD enrichment
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy     # GitHub Security Advisory
-secid:advisory/google/osv#PYSEC-2024-1        # OSV/PyPI advisory
-secid:advisory/redhat/cve#CVE-2024-1234       # Red Hat CVE page
-secid:advisory/redhat/errata#RHSA-2024:1234   # Red Hat Security Advisory
-secid:advisory/debian/dsa#DSA-5678-1          # Debian Security Advisory
-secid:advisory/ubuntu/usn#USN-6789-1          # Ubuntu Security Notice
+secid:advisory/mitre.org/cve#CVE-2024-1234        # CVE record (canonical)
+secid:advisory/nist.gov/nvd#CVE-2024-1234         # NVD enrichment
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy     # GitHub Security Advisory
+secid:advisory/google.com/osv#PYSEC-2024-1        # OSV/PyPI advisory
+secid:advisory/redhat.com/cve#CVE-2024-1234       # Red Hat CVE page
+secid:advisory/redhat.com/errata#RHSA-2024:1234   # Red Hat Security Advisory
+secid:advisory/debian.org/dsa#DSA-5678-1          # Debian Security Advisory
+secid:advisory/ubuntu.com/usn#USN-6789-1          # Ubuntu Security Notice
 ```
 
 **Why "advisory" instead of "vulnerability"?**
@@ -417,7 +417,7 @@ For vendors with multiple systems, the ID pattern determines routing:
 
 ```yaml
 # Entity definition for advisory/redhat namespace
-namespace: redhat
+namespace: redhat.com
 id_routing:
   - pattern: "CVE-*"
     system: "Red Hat CVE Database"
@@ -434,11 +434,11 @@ id_routing:
 Abstract, recurring flaw patterns - the "what kind of mistake" that underlies vulnerabilities.
 
 ```
-secid:weakness/mitre/cwe#CWE-79               # Cross-site Scripting
-secid:weakness/mitre/cwe#CWE-89               # SQL Injection
-secid:weakness/mitre/cwe#CWE-1427             # Prompt Injection
-secid:weakness/owasp/top10@2021#A03           # Injection (2021)
-secid:weakness/owasp/llm-top10@2.0#LLM01      # Prompt Injection
+secid:weakness/mitre.org/cwe#CWE-79               # Cross-site Scripting
+secid:weakness/mitre.org/cwe#CWE-89               # SQL Injection
+secid:weakness/mitre.org/cwe#CWE-1427             # Prompt Injection
+secid:weakness/owasp.org/top10@2021#A03           # Injection (2021)
+secid:weakness/owasp.org/llm-top10@2.0#LLM01      # Prompt Injection
 ```
 
 Multiple advisories can share the same weakness type.
@@ -448,12 +448,12 @@ Multiple advisories can share the same weakness type.
 Reusable adversary behaviors - how attacks are carried out.
 
 ```
-secid:ttp/mitre/attack#T1059               # Command and Scripting Interpreter
-secid:ttp/mitre/attack#T1059.003           # Windows Command Shell
-secid:ttp/mitre/attack#TA0001              # Initial Access (tactic)
-secid:ttp/mitre/atlas#AML.T0043            # Prompt Injection
-secid:ttp/mitre/atlas#AML.T0051            # LLM Jailbreak
-secid:ttp/mitre/capec#CAPEC-66             # SQL Injection attack pattern
+secid:ttp/mitre.org/attack#T1059               # Command and Scripting Interpreter
+secid:ttp/mitre.org/attack#T1059.003           # Windows Command Shell
+secid:ttp/mitre.org/attack#TA0001              # Initial Access (tactic)
+secid:ttp/mitre.org/atlas#AML.T0043            # Prompt Injection
+secid:ttp/mitre.org/atlas#AML.T0051            # LLM Jailbreak
+secid:ttp/mitre.org/capec#CAPEC-66             # SQL Injection attack pattern
 ```
 
 ### 3.4 Control
@@ -461,12 +461,12 @@ secid:ttp/mitre/capec#CAPEC-66             # SQL Injection attack pattern
 Security requirements (from frameworks) or capabilities (from vendors).
 
 ```
-secid:control/csa/ccm@4.0#IAM-12              # CSA CCM control
-secid:control/csa/ccm@4.0#IAM-12/audit        # Audit guidance within control
-secid:control/csa/aicm@1.0#INP-01             # CSA AI Controls Matrix control
-secid:control/nist/csf@2.0#PR.AC-1            # NIST CSF subcategory
-secid:control/cis/controls@8.0#1.1            # CIS Control
-secid:control/iso/27001@2022#A.8.1            # ISO 27001 Annex A control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12              # CSA CCM control
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit        # Audit guidance within control
+secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01             # CSA AI Controls Matrix control
+secid:control/nist.gov/csf@2.0#PR.AC-1            # NIST CSF subcategory
+secid:control/cisecurity.org/controls@8.0#1.1            # CIS Control
+secid:control/iso.org/27001@2022#A.8.1            # ISO 27001 Annex A control
 ```
 
 ### 3.5 Regulation
@@ -474,14 +474,14 @@ secid:control/iso/27001@2022#A.8.1            # ISO 27001 Annex A control
 Laws, directives, and binding legal requirements.
 
 ```
-secid:regulation/eu/gdpr                   # GDPR
-secid:regulation/eu/gdpr@2016-04-27        # GDPR with version date
-secid:regulation/eu/gdpr#art-32            # Article 32
-secid:regulation/eu/gdpr#art-32/1/a        # Article 32(1)(a)
-secid:regulation/us/hipaa                  # HIPAA
-secid:regulation/us/hipaa#164.312/a/1      # Security Rule citation
-secid:regulation/us/sox                    # Sarbanes-Oxley
-secid:regulation/eu/nis2                   # NIS2 Directive
+secid:regulation/europa.eu/gdpr                   # GDPR
+secid:regulation/europa.eu/gdpr@2016-04-27        # GDPR with version date
+secid:regulation/europa.eu/gdpr#art-32            # Article 32
+secid:regulation/europa.eu/gdpr#art-32/1/a        # Article 32(1)(a)
+secid:regulation/govinfo.gov/hipaa                  # HIPAA
+secid:regulation/govinfo.gov/hipaa#164.312/a/1      # Security Rule citation
+secid:regulation/govinfo.gov/sox                    # Sarbanes-Oxley
+secid:regulation/europa.eu/nis2                   # NIS2 Directive
 ```
 
 ### 3.6 Entity
@@ -489,28 +489,28 @@ secid:regulation/eu/nis2                   # NIS2 Directive
 Organizations, products, services, platforms - stable anchors when PURL/SPDX are unavailable.
 
 ```
-secid:entity/mitre/cve                     # CVE program (operated by MITRE)
-secid:entity/mitre/cwe                     # CWE taxonomy
-secid:entity/mitre/attack                  # ATT&CK framework
-secid:entity/nist/nvd                      # NVD (operated by NIST)
-secid:entity/openai/gpt-4                  # GPT-4 product
-secid:entity/aws/s3                        # S3 service
-secid:entity/redhat/rhel                   # RHEL product
+secid:entity/mitre.org/cve                     # CVE program (operated by MITRE)
+secid:entity/mitre.org/cwe                     # CWE taxonomy
+secid:entity/mitre.org/attack                  # ATT&CK framework
+secid:entity/nist.gov/nvd                      # NVD (operated by NIST)
+secid:entity/openai.com/gpt-4                  # GPT-4 product
+secid:entity/aws.amazon.com/s3                        # S3 service
+secid:entity/redhat.com/rhel                   # RHEL product
 ```
 
-The namespace is the organization; the name is the specific thing (product, service, system) within that organization. The namespace definition file (e.g., `registry/entity/mitre.md`) describes the organization itself.
+The namespace is the organization; the name is the specific thing (product, service, system) within that organization. The namespace definition file (e.g., `registry/entity/org/mitre.md`) describes the organization itself.
 
 ### 3.7 Reference
 
 Documents, publications, and research that don't fit into other categories. The reference type has a **deliberately narrow scope** to avoid duplicating what other types cover well.
 
 ```
-secid:reference/whitehouse/eo-14110           # Executive Order on AI
-secid:reference/whitehouse/eo-14028           # Cybersecurity Executive Order
-secid:reference/whitehouse/m-24-10            # OMB AI Governance Memo
-secid:reference/arxiv/2303.08774              # GPT-4 Technical Report
-secid:reference/arxiv/2307.03109              # Jailbroken paper
-secid:reference/arxiv/2402.05369              # Sleeper Agents paper
+secid:reference/whitehouse.gov/eo-14110           # Executive Order on AI
+secid:reference/whitehouse.gov/eo-14028           # Cybersecurity Executive Order
+secid:reference/whitehouse.gov/m-24-10            # OMB AI Governance Memo
+secid:reference/arxiv.org/2303.08774              # GPT-4 Technical Report
+secid:reference/arxiv.org/2307.03109              # Jailbroken paper
+secid:reference/arxiv.org/2402.05369              # Sleeper Agents paper
 ```
 
 **What belongs in reference:**
@@ -519,15 +519,15 @@ secid:reference/arxiv/2402.05369              # Sleeper Agents paper
 - Primary sources that inform security practices
 
 **What does NOT belong in reference:**
-- NIST publications → Use `control/nist/*` for frameworks, entity for systems
-- ISO standards → Use `control/iso/*`
-- OWASP documents → Use `weakness/owasp/*`
+- NIST publications → Use `control/nist.gov/*` for frameworks, entity for systems
+- ISO standards → Use `control/iso.org/*`
+- OWASP documents → Use `weakness/owasp.org/*`
 - Vendor security pages → Use `advisory/*` or `entity/*`
 
 **Reference namespaces (current):**
 ```
-whitehouse      # White House publications (EOs, NSMs, OMB memos)
-arxiv           # ArXiv preprints (AI/ML security research)
+whitehouse.gov  # White House publications (EOs, NSMs, OMB memos)
+arxiv.org       # ArXiv preprints (AI/ML security research)
 ```
 
 Additional namespaces may be added when there's a clear need for documents that genuinely don't fit elsewhere.
@@ -535,50 +535,82 @@ Additional namespaces may be added when there's a clear need for documents that 
 **Subpaths:**
 
 ```
-secid:reference/whitehouse/eo-14110#section-4.1   # Specific section
-secid:reference/arxiv/2303.08774#appendix-a       # Paper appendix
+secid:reference/whitehouse.gov/eo-14110#section-4.1   # Specific section
+secid:reference/arxiv.org/2303.08774#appendix-a       # Paper appendix
 ```
 
 **Note:** Document classification (research paper, position paper, etc.) lives in metadata, not in the identifier.
 
 ## 4. Namespaces
 
-Namespaces identify the system that issued the identifier.
+Namespaces are **domain names** that identify the organization that issued the identifier. Using domain names enables self-registration via DNS/ACME, scales without a central naming authority, and provides built-in ownership verification.
 
 ### 4.0 Namespaces and the Registry
 
-Each type has a directory in the registry. **One file per namespace** contains all sources for that namespace:
+Each type has a directory in the registry. **One file per namespace** contains all sources for that namespace. Namespace domain names are stored using a reverse-DNS directory hierarchy, and platform sub-namespaces append their path after the reversed domain:
 
 ```
 registry/
-├── advisory.md              # Type definition (what is an advisory?)
-├── advisory/                # Advisory namespaces
-│   ├── mitre.md             # MITRE: cve source
-│   ├── nist.md              # NIST: nvd source
-│   ├── github.md            # GitHub: ghsa source
-│   └── redhat.md            # Red Hat: cve, errata, bugzilla sources (ALL IN ONE FILE)
-├── weakness.md              # Type definition (what is a weakness?)
+├── advisory.md                    # Type definition (what is an advisory?)
+├── advisory/                      # Advisory namespaces
+│   ├── org/                       # .org TLD
+│   │   └── mitre.md               # MITRE: cve source
+│   ├── gov/                       # .gov TLD
+│   │   └── nist.md                # NIST: nvd source
+│   ├── com/                       # .com TLD
+│   │   ├── github/                # GitHub platform sub-namespaces
+│   │   │   └── advisories.md      # GitHub: ghsa source
+│   │   └── redhat.md              # Red Hat: cve, errata, bugzilla sources (ALL IN ONE FILE)
+├── weakness.md                    # Type definition (what is a weakness?)
 ├── weakness/
-│   ├── mitre.md             # MITRE: cwe source
-│   └── owasp.md             # OWASP: top10, llm-top10, etc. (ALL IN ONE FILE)
-├── entity.md                # Type definition (what is an entity?)
+│   ├── org/
+│   │   ├── mitre.md               # MITRE: cwe source
+│   │   └── owasp.md               # OWASP: top10, llm-top10, etc. (ALL IN ONE FILE)
+├── entity.md                      # Type definition (what is an entity?)
 ├── entity/
-│   ├── mitre.md             # MITRE organization
-│   └── redhat.md            # Red Hat organization
+│   ├── org/
+│   │   └── mitre.md               # MITRE organization
+│   └── com/
+│       └── redhat.md              # Red Hat organization
 ...
 ```
 
-The namespace file (e.g., `registry/advisory/redhat.md`) contains sections for each source with rules for parsing and resolving `#subpath` (e.g., `#CVE-2024-1234` or `#RHSA-2025:1234`).
+**Namespace-to-filesystem-path mapping:** Namespace domain names are stored using a reverse-DNS directory hierarchy. The domain is split on `.`, segments are reversed, and joined with `/`:
 
-### 4.1 Naming Conventions
+| Namespace | Filesystem Path |
+|-----------|----------------|
+| `mitre.org` | `registry/<type>/org/mitre.md` |
+| `aws.amazon.com` | `registry/<type>/com/amazon/aws.md` |
+| `github.com/advisories` | `registry/<type>/com/github/advisories.md` |
+| `gov.uk` | `registry/<type>/uk/gov.md` |
 
-**Namespace = organization, Name = what they publish:**
+For sub-namespaces (containing `/`), only the domain portion is reversed; the sub-namespace path is appended after. The YAML `namespace:` field in each file remains the canonical domain name (e.g., `namespace: mitre.org`).
+
+The namespace file (e.g., `registry/advisory/com/redhat.md`) contains sections for each source with rules for parsing and resolving `#subpath` (e.g., `#CVE-2024-1234` or `#RHSA-2025:1234`).
+
+### 4.1 Domain-Name Namespaces
+
+**Namespace = domain name of the organization, Name = what they publish:**
 ```
-secid:advisory/mitre/cve#CVE-2024-1234   # namespace=mitre, name=cve
-secid:advisory/nist/nvd#CVE-2024-1234    # namespace=nist, name=nvd
-secid:advisory/github/ghsa#GHSA-xxxx     # namespace=github, name=ghsa
-secid:weakness/mitre/cwe#CWE-79          # namespace=mitre, name=cwe
-secid:ttp/mitre/attack#T1059             # namespace=mitre, name=attack
+secid:advisory/mitre.org/cve#CVE-2024-1234              # namespace=mitre.org, name=cve
+secid:advisory/nist.gov/nvd#CVE-2024-1234               # namespace=nist.gov, name=nvd
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx      # namespace=github.com/advisories, name=ghsa
+secid:weakness/mitre.org/cwe#CWE-79                      # namespace=mitre.org, name=cwe
+secid:ttp/mitre.org/attack#T1059                         # namespace=mitre.org, name=attack
+```
+
+**Why domain names?**
+
+1. **Self-registration** - Domain owners prove ownership via DNS TXT records or ACME-style challenges. No central naming authority needed.
+2. **Globally unique** - DNS already solves the namespace collision problem. No risk of two organizations claiming the same name.
+3. **Scales without governance** - Adding 10,000 namespaces requires no committee. Domain ownership is self-evident.
+4. **Federated management** - Organizations manage their own registry paths via CODEOWNERS.
+
+**Platform sub-namespaces** use `/` to express organizational hierarchy within platforms:
+```
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx      # GitHub's advisory database
+secid:control/github.com/llm-attacks/advbench#...         # Research project on GitHub
+secid:control/github.com/thu-coai/safetybench#...         # Another GitHub-hosted project
 ```
 
 **Keep names short and recognizable:**
@@ -591,67 +623,93 @@ nvd         # Not "national-vulnerability-database"
 
 **Framework examples:**
 ```
-secid:control/csa/ccm@4.0#IAM-12         # CSA Cloud Controls Matrix
-secid:control/csa/aicm@1.0#INP-01        # CSA AI Controls Matrix
-secid:control/nist/csf@2.0#PR.AC-1       # NIST Cybersecurity Framework
-secid:weakness/owasp/top10@2021#A03      # OWASP Top 10
-secid:weakness/owasp/llm-top10@2.0#LLM01 # OWASP LLM Top 10
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12    # CSA Cloud Controls Matrix
+secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01   # CSA AI Controls Matrix
+secid:control/nist.gov/csf@2.0#PR.AC-1                    # NIST Cybersecurity Framework
+secid:weakness/owasp.org/top10@2021#A03                    # OWASP Top 10
+secid:weakness/owasp.org/llm-top10@2.0#LLM01              # OWASP LLM Top 10
 ```
 
 **For vendors with multiple databases, use different names:**
 ```
-secid:advisory/redhat/cve#CVE-2024-1234      # Red Hat CVE database
-secid:advisory/redhat/errata#RHSA-2024:1234  # Red Hat errata system
-secid:advisory/debian/dsa#DSA-5678-1         # Debian Security Advisory
-secid:advisory/debian/dla#DLA-1234-1         # Debian LTS Advisory
+secid:advisory/redhat.com/cve#CVE-2024-1234      # Red Hat CVE database
+secid:advisory/redhat.com/errata#RHSA-2024:1234  # Red Hat errata system
+secid:advisory/debian.org/dsa#DSA-5678-1         # Debian Security Advisory
+secid:advisory/debian.org/dla#DLA-1234-1         # Debian LTS Advisory
 ```
 
 ### 4.2 Namespace Character Rules
 
-Namespaces must be safe for filesystems, shells, and URLs while supporting international names.
+Namespaces are domain names, optionally followed by path segments separated by `/`. Each segment must be safe for filesystems, shells, and URLs while supporting international names.
 
-**Allowed characters:**
+**Per-segment validation:** Each segment between `/` must match:
+
+`^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+
+**Allowed characters per segment:**
 - `a-z` (lowercase ASCII letters)
 - `0-9` (ASCII digits)
-- `-` (hyphen, not at start/end of DNS labels)
+- `-` (hyphen, not at start/end)
 - `.` (period, as DNS label separator)
 - Unicode letters (`\p{L}`) and numbers (`\p{N}`)
 
-**Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
+**`/` separates segments** within namespaces (for platform sub-namespaces).
 
-**Not allowed:** Spaces, punctuation (except `-` and `.`), shell metacharacters, path separators.
+**Not allowed within a segment:** Spaces, punctuation (except `-` and `.`), shell metacharacters.
 
 **Examples:**
 ```
-mitre           ✓  Short, common name
-cloudsecurity   ✓  Concatenated words
-cloud-security  ✓  Hyphenated
-ibm.xyz         ✓  DNS-style for disambiguation
-字节跳动         ✓  Unicode (ByteDance in Chinese)
-red_hat         ✗  Underscore not allowed
-red/hat         ✗  Slash not allowed
+mitre.org                ✓  Domain name
+nist.gov                 ✓  Domain name
+github.com/advisories    ✓  Platform sub-namespace
+github.com/llm-attacks   ✓  GitHub user/org sub-namespace
+字节跳动.com              ✓  Unicode domain (ByteDance)
+ibm.com                  ✓  Standard domain
+aws.amazon.com           ✓  Subdomain
+red_hat.com              ✗  Underscore not allowed in segment
 ```
 
 **Why these rules:**
 
-1. **Filesystem safety** - Namespaces become file paths (`registry/advisory/mitre.json`). Avoiding shell metacharacters and path separators ensures repos work in Git across all platforms.
+1. **Filesystem safety** - Namespace segments become file paths (`registry/advisory/org/mitre.md`). Sub-namespaces become directories (`registry/advisory/com/github/advisories.md`). Avoiding shell metacharacters ensures repos work in Git across all platforms.
 
-2. **DNS for disambiguation** - Domain names provide globally unique, authoritative identifiers. If two organizations share a name (e.g., multiple "IBM"s), DNS resolves ambiguity:
-   - `ibm` → the obvious one (ibm.com)
-   - `ibm.xyz` → some other IBM
-   - No geographic suffixes or categorization schemes needed.
+2. **Domain names are globally unique** - DNS already provides authoritative, collision-free identifiers. No centralized namespace assignment needed.
 
-3. **Unicode for internationalization** - Organizations worldwide should use native language names. Unicode letter/number categories (`\p{L}`, `\p{N}`) include all alphabets while excluding dangerous punctuation and symbols.
+3. **Ownership is verifiable** - Domain owners can prove ownership via DNS TXT records or ACME-style challenges. Platform users prove ownership via challenge files in their repositories.
 
-### 4.3 Namespace Governance
+4. **Unicode for internationalization** - Organizations worldwide should use native language domain names. Unicode letter/number categories (`\p{L}`, `\p{N}`) include all alphabets while excluding dangerous punctuation and symbols.
 
-- Namespaces are assigned, not discovered
-- Common systems get short names
-- When names collide, use DNS-style namespaces for disambiguation
-- Unknown or third-party systems may require longer names
+### 4.3 Namespace Resolution
+
+When parsing a SecID, the parser must determine where the namespace ends and the name begins. Since namespaces can now contain `/`, the parser uses **shortest-to-longest matching** against the registry:
+
+```
+Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx
+
+After extracting type "advisory", remaining path is: github.com/advisories/ghsa#GHSA-xxxx
+
+Try namespace matches (shortest first):
+  1. "github.com"              → exists in registry, but check for longer match
+  2. "github.com/advisories"   → exists in registry, check for longer match
+  3. "github.com/advisories/ghsa" → not a namespace in registry, stop
+
+Longest matching namespace: "github.com/advisories"
+Remaining: "ghsa#GHSA-xxxx" → name="ghsa", subpath="GHSA-xxxx"
+```
+
+**Why shortest-to-longest?** The most authoritative namespace is the shortest one. `github.com` is GitHub itself; `github.com/advisories` is GitHub's advisory team; `github.com/someuser` is a random user. Starting from the shortest prevents namespace hijacking - a malicious user can't register `github.com/evil` and intercept traffic meant for `github.com`.
+
+**Why not reverse DNS order?** Languages like Java use reverse DNS (`com.google.android`) because their `.` separator also appears inside domain names, creating parsing ambiguity. SecID uses `/` as the separator, and domain names **cannot contain `/`** — so `github.com/advisories/ghsa` is unambiguous without reversal. Natural reading order is preserved.
+
+### 4.4 Namespace Governance
+
+- **Currently manual** - Namespace registration is via pull request. Automated self-registration is a planned future feature.
+- **Future: DNS/ACME verification** - Domain owners will prove ownership via DNS TXT records or ACME-style challenges. Platform sub-namespace owners will prove control via challenge files.
+- **Designed for humans and AI agents** - Registration and maintenance mechanisms (DNS, ACME, challenge files) are machine-friendly by design, enabling AI agents to manage namespaces on behalf of organizations.
+- Domain owners manage their registry paths via CODEOWNERS
 - Namespaces identify identifier systems, not trust
 
-### 4.4 Namespace Documentation
+### 4.5 Namespace Documentation
 
 Each namespace has a documentation file explaining:
 - What identifiers it issues
@@ -681,34 +739,34 @@ Pins a specific edition of the thing itself. Use version when the **content chan
 
 **Semantic versions** - for frameworks with numbered releases:
 ```
-secid:control/csa/ccm@4.0#IAM-12           # CCM version 4.0
-secid:control/cis/controls@8.0#1.1         # CIS Controls v8
-secid:control/nist/csf@2.0#PR.AC-1         # NIST CSF 2.0
-secid:weakness/owasp/top10@2021#A03        # OWASP Top 10 2021 edition
-secid:weakness/owasp/llm-top10@2.0#LLM01   # OWASP LLM Top 10 v2
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12           # CCM version 4.0
+secid:control/cisecurity.org/controls@8.0#1.1         # CIS Controls v8
+secid:control/nist.gov/csf@2.0#PR.AC-1         # NIST CSF 2.0
+secid:weakness/owasp.org/top10@2021#A03        # OWASP Top 10 2021 edition
+secid:weakness/owasp.org/llm-top10@2.0#LLM01   # OWASP LLM Top 10 v2
 ```
 
 **Date versions** - for laws and dated publications:
 ```
-secid:regulation/eu/gdpr@2016-04-27        # GDPR publication date
-secid:regulation/eu/ai-act@2024-08-01      # EU AI Act effective date
-secid:regulation/us/hipaa@1996             # Year for older laws
+secid:regulation/europa.eu/gdpr@2016-04-27        # GDPR publication date
+secid:regulation/europa.eu/ai-act@2024-08-01      # EU AI Act effective date
+secid:regulation/govinfo.gov/hipaa@1996             # Year for older laws
 ```
 
 **Year versions** - for annual updates:
 ```
-secid:weakness/owasp/top10@2021#A01        # 2021 edition
-secid:weakness/owasp/top10@2017#A01        # 2017 edition (different!)
-secid:control/iso/27001@2022#A.8.1         # ISO 27001:2022
-secid:control/iso/27001@2013#A.8.1         # ISO 27001:2013
+secid:weakness/owasp.org/top10@2021#A01        # 2021 edition
+secid:weakness/owasp.org/top10@2017#A01        # 2017 edition (different!)
+secid:control/iso.org/27001@2022#A.8.1         # ISO 27001:2022
+secid:control/iso.org/27001@2013#A.8.1         # ISO 27001:2013
 ```
 
 #### Versionless References
 
 When version is omitted, assume "current" or "latest":
 ```
-secid:control/csa/ccm#IAM-12               # Current CCM version
-secid:weakness/owasp/top10#A03             # Current Top 10
+secid:control/cloudsecurityalliance.org/ccm#IAM-12               # Current CCM version
+secid:weakness/owasp.org/top10#A03             # Current Top 10
 ```
 
 ### 5.2 Qualifiers (`?key=value`)
@@ -716,8 +774,8 @@ secid:weakness/owasp/top10#A03             # Current Top 10
 Optional context that doesn't change identity:
 
 ```
-secid:control/cloudflare/waf?surface=api   # API-specific context
-secid:advisory/nist/nvd#CVE-2024-1234?lang=ja   # Japanese translation
+secid:control/cloudflare.com/waf?surface=api   # API-specific context
+secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja   # Japanese translation
 ```
 
 Qualifiers never define identity - two SecIDs differing only in qualifiers refer to the same thing with different context.
@@ -731,97 +789,97 @@ Addressable parts inside the thing. Use subpath to reference **structural compon
 **Regulations - Legal Citations:**
 ```
 # Articles (using / for hierarchy)
-secid:regulation/eu/gdpr#art-32            # Article 32
-secid:regulation/eu/gdpr#art-32/1          # Article 32, paragraph 1
-secid:regulation/eu/gdpr#art-32/1/a        # Article 32(1)(a)
-secid:regulation/eu/gdpr#art-32/1/a/ii     # Article 32(1)(a)(ii)
+secid:regulation/europa.eu/gdpr#art-32            # Article 32
+secid:regulation/europa.eu/gdpr#art-32/1          # Article 32, paragraph 1
+secid:regulation/europa.eu/gdpr#art-32/1/a        # Article 32(1)(a)
+secid:regulation/europa.eu/gdpr#art-32/1/a/ii     # Article 32(1)(a)(ii)
 
 # Chapters and Sections
-secid:regulation/eu/gdpr#chapter-4         # Chapter IV
-secid:regulation/eu/gdpr#recital-78        # Recital 78
+secid:regulation/europa.eu/gdpr#chapter-4         # Chapter IV
+secid:regulation/europa.eu/gdpr#recital-78        # Recital 78
 
 # US Code Style
-secid:regulation/us/hipaa#164.312          # 45 CFR 164.312
-secid:regulation/us/hipaa#164.312/a/1      # 164.312(a)(1)
-secid:regulation/us/hipaa#164.312/a/2/iv   # 164.312(a)(2)(iv)
+secid:regulation/govinfo.gov/hipaa#164.312          # 45 CFR 164.312
+secid:regulation/govinfo.gov/hipaa#164.312/a/1      # 164.312(a)(1)
+secid:regulation/govinfo.gov/hipaa#164.312/a/2/iv   # 164.312(a)(2)(iv)
 
 # Sections
-secid:regulation/us/sox#section-302        # Section 302
-secid:regulation/us/sox#section-404        # Section 404
+secid:regulation/govinfo.gov/sox#section-302        # Section 302
+secid:regulation/govinfo.gov/sox#section-404        # Section 404
 ```
 
 **Controls - Guidance Sections:**
 ```
 # CCM control guidance (framework is name, control is subpath)
-secid:control/csa/ccm@4.0#IAM-12
-secid:control/csa/ccm@4.0#IAM-12/audit-guidance
-secid:control/csa/ccm@4.0#IAM-12/implementation-guidance
-secid:control/csa/aicm@1.0#INP-01/Auditing%20Guidelines
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit-guidance
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/implementation-guidance
+secid:control/cloudsecurityalliance.org/aicm@1.0#INP-01/Auditing%20Guidelines
 
 # NIST sections
-secid:control/nist/csf@2.0#PR.AC-1
-secid:control/nist/csf@2.0#PR.AC-1/examples
-secid:control/nist/csf@2.0#PR.AC-1/informative-references
+secid:control/nist.gov/csf@2.0#PR.AC-1
+secid:control/nist.gov/csf@2.0#PR.AC-1/examples
+secid:control/nist.gov/csf@2.0#PR.AC-1/informative-references
 
 # ISO control parts
-secid:control/iso/27001@2022#A.8.1
-secid:control/iso/27001@2022#A.8.1/purpose
-secid:control/iso/27001@2022#A.8.1/guidance
+secid:control/iso.org/27001@2022#A.8.1
+secid:control/iso.org/27001@2022#A.8.1/purpose
+secid:control/iso.org/27001@2022#A.8.1/guidance
 ```
 
 **Advisories - Multiple CVEs in One Advisory:**
 ```
 # Red Hat advisory covering multiple CVEs
-secid:advisory/redhat/errata#RHSA-2024:1234#CVE-2024-1111
-secid:advisory/redhat/errata#RHSA-2024:1234#CVE-2024-2222
-secid:advisory/redhat/errata#RHSA-2024:1234#CVE-2024-3333
+secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-1111
+secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-2222
+secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-3333
 
 # Debian advisory sections
-secid:advisory/debian/dsa#DSA-5678-1#CVE-2024-1234
+secid:advisory/debian.org/dsa#DSA-5678-1#CVE-2024-1234
 
 # GHSA with multiple affected packages
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz#npm
-secid:advisory/github/ghsa#GHSA-xxxx-yyyy-zzzz#pip
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz#npm
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz#pip
 ```
 
 **Weaknesses - Structural Sections:**
 ```
 # CWE sections
-secid:weakness/mitre/cwe#CWE-79#extended-description
-secid:weakness/mitre/cwe#CWE-79#potential-mitigations
-secid:weakness/mitre/cwe#CWE-79#detection-methods
-secid:weakness/mitre/cwe#CWE-79#observed-examples
+secid:weakness/mitre.org/cwe#CWE-79#extended-description
+secid:weakness/mitre.org/cwe#CWE-79#potential-mitigations
+secid:weakness/mitre.org/cwe#CWE-79#detection-methods
+secid:weakness/mitre.org/cwe#CWE-79#observed-examples
 
 # OWASP Top 10 sections (framework is name, specific item is subpath)
-secid:weakness/owasp/top10@2021#A03
-secid:weakness/owasp/top10@2021#A03/description
-secid:weakness/owasp/top10@2021#A03/how-to-prevent
-secid:weakness/owasp/top10@2021#A03/example-attack-scenarios
+secid:weakness/owasp.org/top10@2021#A03
+secid:weakness/owasp.org/top10@2021#A03/description
+secid:weakness/owasp.org/top10@2021#A03/how-to-prevent
+secid:weakness/owasp.org/top10@2021#A03/example-attack-scenarios
 ```
 
 **TTPs - Framework Sections:**
 ```
 # ATT&CK technique sections
-secid:ttp/mitre/attack#T1059#detection
-secid:ttp/mitre/attack#T1059#mitigation
-secid:ttp/mitre/attack#T1059#procedure-examples
+secid:ttp/mitre.org/attack#T1059#detection
+secid:ttp/mitre.org/attack#T1059#mitigation
+secid:ttp/mitre.org/attack#T1059#procedure-examples
 
 # Sub-techniques (note: these are names, not subpaths)
-secid:ttp/mitre/attack#T1059.003                 # This is the ID, not a subpath
-secid:ttp/mitre/attack#T1059.003#detection       # Section within sub-technique
+secid:ttp/mitre.org/attack#T1059.003                 # This is the ID, not a subpath
+secid:ttp/mitre.org/attack#T1059.003#detection       # Section within sub-technique
 ```
 
 **References - Document Sections:**
 ```
 # Executive orders and policy documents
-secid:reference/whitehouse/eo-14110#section-4/1   # AI EO section 4.1
-secid:reference/whitehouse/eo-14110#section-4/2   # AI EO section 4.2
-secid:reference/whitehouse/m-24-10#appendix-a     # OMB memo appendix
+secid:reference/whitehouse.gov/eo-14110#section-4/1   # AI EO section 4.1
+secid:reference/whitehouse.gov/eo-14110#section-4/2   # AI EO section 4.2
+secid:reference/whitehouse.gov/m-24-10#appendix-a     # OMB memo appendix
 
 # Research paper sections
-secid:reference/arxiv/2303.08774#section-3        # GPT-4 paper section
-secid:reference/arxiv/2307.03109#appendix         # Jailbroken appendix
-secid:reference/arxiv/2402.05369#methodology      # Sleeper Agents methodology
+secid:reference/arxiv.org/2303.08774#section-3        # GPT-4 paper section
+secid:reference/arxiv.org/2307.03109#appendix         # Jailbroken appendix
+secid:reference/arxiv.org/2402.05369#methodology      # Sleeper Agents methodology
 ```
 
 #### Subpath Naming Rules
@@ -837,16 +895,16 @@ Version and subpath can be used together:
 
 ```
 # Specific article in specific version
-secid:regulation/eu/gdpr@2016-04-27#art-32/1/a
+secid:regulation/europa.eu/gdpr@2016-04-27#art-32/1/a
 
 # Control guidance in framework version
-secid:control/csa/ccm@4.0#IAM-12/audit-guidance
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit-guidance
 
 # Specific section in dated release
-secid:weakness/owasp/top10@2021#A03/how-to-prevent
+secid:weakness/owasp.org/top10@2021#A03/how-to-prevent
 
 # ISO control guidance in specific year
-secid:control/iso/27001@2022#A.8.1/implementation-guidance
+secid:control/iso.org/27001@2022#A.8.1/implementation-guidance
 ```
 
 ## 6. Future Layers: Relationships and Overlays
@@ -884,7 +942,7 @@ The examples below show the legacy YAML format for reference. New contributions 
 ---
 # What type this namespace belongs to
 type: "advisory"
-namespace: "redhat"
+namespace: "redhat.com"
 
 # Human-readable names
 common_name: "Red Hat Security"
@@ -912,8 +970,8 @@ id_routing:
 
 # Examples
 examples:
-  - "secid:advisory/redhat/cve#CVE-2024-1234"
-  - "secid:advisory/redhat/errata#RHSA-2024:1234"
+  - "secid:advisory/redhat.com/cve#CVE-2024-1234"
+  - "secid:advisory/redhat.com/errata#RHSA-2024:1234"
 
 status: "active"
 ---
@@ -937,48 +995,68 @@ The body contains human/AI-readable context:
 
 Rather than defining a complex list of banned characters that users must memorize, the registry itself defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps the parser and registry always in sync.
 
-**Parsing flow:**
-
-```
-secid:advisory/mitre/some#name@1.0?lang=en#CVE-2024-1234
-      ───┬─── ──┬── ────┬──── ─┬─ ───┬──── ──────┬──────
-         │      │       │      │     │           └─ 6. subpath (after #)
-         │      │       │      │     └─ 5. qualifiers (after ?)
-         │      │       │      └─ 4. version (after @)
-         │      │       └─ 3. name (longest registry match)
-         │      └─ 2. namespace (until /, must exist in registry)
-         └─ 1. type (known list of 7)
-```
+**Parsing algorithm:**
 
 1. **Type** - Match against known list: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`
-2. **Namespace** - Match until `/`, lookup in registry. **Only hard rule: namespace cannot contain `/`** (parsing anchor + filesystem safety)
+2. **Namespace** - Try shortest-to-longest namespace matches against the registry (see below)
 3. **Name** - Match remaining path against source names in `registry[type][namespace]`. **Longest match wins.** Names can contain any characters including `#`, `@`, `?`, `:`.
 4. **Version** - After name match, parse `@...` until `?` or `#`
 5. **Qualifiers** - Parse `?...` until `#`
 6. **Subpath** - Everything after the `#` that follows version/qualifiers
 
+**Namespace resolution (shortest-to-longest):**
+
+Since namespaces are domain names that can include `/` for sub-namespaces, the parser cannot simply split at the first `/` after the type. Instead, it tries progressively longer namespace matches against the registry:
+
+```
+Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
+
+After extracting type "advisory", remaining: github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
+
+Step 2 - Try namespace matches (shortest first):
+  "github.com"              → exists in registry["advisory"]? Yes → candidate
+  "github.com/advisories"   → exists in registry["advisory"]? Yes → longer candidate
+  "github.com/advisories/ghsa" → exists? No → stop, use previous
+
+Winner: namespace = "github.com/advisories"
+Remaining: ghsa#GHSA-xxxx-yyyy-zzzz
+
+Step 3 - Name resolution:
+  Try "ghsa" against sources in registry["advisory"]["github.com/advisories"] → match ✓
+  name = "ghsa", subpath = "GHSA-xxxx-yyyy-zzzz"
+```
+
+**Simple case (no sub-namespace):**
+
+```
+Input: secid:advisory/mitre.org/cve#CVE-2024-1234
+
+Step 2 - Namespace:
+  "mitre.org"     → exists in registry["advisory"]? Yes → candidate
+  "mitre.org/cve" → exists? No → stop
+
+Winner: namespace = "mitre.org"
+Step 3 - name = "cve", subpath = "CVE-2024-1234"
+```
+
+**Why shortest-to-longest?** The shortest matching namespace is the most authoritative. `github.com` is GitHub itself; `github.com/advisories` is a team within GitHub; `github.com/someuser` is a random user. Starting from the shortest and working outward prevents namespace hijacking — a malicious user cannot register `github.com/evil` and intercept parsing meant for `github.com`.
+
 **Why registry-required parsing?**
 
 - No banned character list to memorize
 - Registry is the single source of truth
-- Parser handles edge cases automatically
+- Parser handles edge cases automatically (including sub-namespaces)
 - Human-friendly: names preserve original identifiers exactly
-
-**The one hardcoded rule:**
-
-> **Namespace cannot contain `/`**
-
-This is the only character restriction in SecID. We need one stable delimiter to locate where namespace ends and name begins. Since namespaces are assigned (not discovered), we simply don't assign namespaces with `/`. If an organization's name contains `/`, we use a slug (e.g., `ac-dc` not `ac/dc`).
 
 **Example with special characters in name:**
 
 ```
-secid:advisory/vendor/some#weird:name#ID-2024-001
+secid:advisory/vendor.com/some#weird:name#ID-2024-001
 ```
 
 Registry lookup:
 1. Type: `advisory` ✓
-2. Namespace: `vendor` (lookup registry["advisory"]["vendor"]) ✓
+2. Namespace: `vendor.com` (shortest match in registry["advisory"]) ✓
 3. Name: Try sources in that namespace. If `some#weird:name` exists, match it.
 4. Subpath: `ID-2024-001`
 
@@ -999,25 +1077,25 @@ If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932` - not `RH
 
 | Source | Identifier Format | SecID |
 |--------|-------------------|-------|
-| Red Hat errata | `RHSA-2026:0932` (colon separator) | `secid:advisory/redhat/errata#RHSA-2026:0932` |
-| CVE | `CVE-2024-1234` (dash separator) | `secid:advisory/mitre/cve#CVE-2024-1234` |
-| ATT&CK | `T1059.003` (dot for sub-technique) | `secid:ttp/mitre/attack#T1059.003` |
-| ISO controls | `A.8.1` (dots in hierarchy) | `secid:control/iso/27001@2022#A.8.1` |
-| NIST CSF | `PR.AC-1` (dots and dashes) | `secid:control/nist/csf@2.0#PR.AC-1` |
-| Debian | `DSA-5678-1` (dashes) | `secid:advisory/debian/dsa#DSA-5678-1` |
+| Red Hat errata | `RHSA-2026:0932` (colon separator) | `secid:advisory/redhat.com/errata#RHSA-2026:0932` |
+| CVE | `CVE-2024-1234` (dash separator) | `secid:advisory/mitre.org/cve#CVE-2024-1234` |
+| ATT&CK | `T1059.003` (dot for sub-technique) | `secid:ttp/mitre.org/attack#T1059.003` |
+| ISO controls | `A.8.1` (dots in hierarchy) | `secid:control/iso.org/27001@2022#A.8.1` |
+| NIST CSF | `PR.AC-1` (dots and dashes) | `secid:control/nist.gov/csf@2.0#PR.AC-1` |
+| Debian | `DSA-5678-1` (dashes) | `secid:advisory/debian.org/dsa#DSA-5678-1` |
 
 **What we normalize vs what we preserve:**
 
 | Component | Normalized? | Rule |
 |-----------|-------------|------|
 | `type` | Yes | Always lowercase (`advisory` not `Advisory`) |
-| `namespace` | Yes | Always lowercase (`mitre` not `MITRE`) |
+| `namespace` | Yes | Always lowercase (`mitre.org` not `MITRE.ORG`) |
 | `name` | Preserve | Keep source format (`cve` or `CVE` as registered) |
 | `subpath` | Preserve | Keep exact source format (`RHSA-2026:0932`) |
 
 ### 8.2 String Normalization Summary
 
-- Lowercase type and namespace: `secid:advisory/mitre/cve#...`
+- Lowercase type and namespace: `secid:advisory/mitre.org/cve#...`
 - Preserve case in name and subpath: `CVE-2024-1234` not `cve-2024-1234`
 - Preserve special characters in subpath: `RHSA-2026:0932` not `RHSA-2026-0932`
 - Namespace uses only allowed characters (see Section 4.2)
@@ -1029,23 +1107,31 @@ If Red Hat uses `RHSA-2026:0932` with a colon, we use `RHSA-2026:0932` - not `RH
 
 In practice, users provide SecIDs in different forms. Someone might copy a URL-encoded string, type the human-readable form, or paste from a system that pre-encoded it. Rather than mandating one input format, resolvers try interpretations until one matches:
 
-**Resolution order:**
+**Resolution order (subpath/name):**
 
 1. **Try input as-is** - Most inputs are already in human-readable form
 2. **Try percent-decoded** (if input contains `%XX` sequences) - Handles URL-encoded input
 
+**Resolution order (namespace — IDN/Punycode):**
+
+1. **Try namespace as-is** - Look up the input form in the registry
+2. **If not found and input is Punycode (`xn--...`)** - Convert to Unicode, try again
+3. **If not found and input is Unicode** - Convert to Punycode, try again
+
+If the resolver hits an **alias stub** (a registry entry with `alias_of` and no sources), it follows the redirect to the canonical namespace. Only one form holds actual records; the other is an alias. See REGISTRY-FORMAT.md for alias stub format.
+
 ```
-Input: "secid:control/csa/ccm#IAM-12/Auditing%20Guidelines"
+Input: "secid:control/cloudsecurityalliance.org/ccm#IAM-12/Auditing%20Guidelines"
   1. Try as-is:   "Auditing%20Guidelines" → no match
   2. Try decoded: "Auditing Guidelines"   → match ✓ → return result
 
-Input: "secid:control/csa/ccm#IAM-12/Auditing Guidelines"
+Input: "secid:control/cloudsecurityalliance.org/ccm#IAM-12/Auditing Guidelines"
   1. Try as-is:   "Auditing Guidelines"   → match ✓ → return result
 
-Input: "secid:advisory/redhat/errata#RHSA-2026:0932"
+Input: "secid:advisory/redhat.com/errata#RHSA-2026:0932"
   1. Try as-is:   "RHSA-2026:0932"        → match ✓ → return result
 
-Input: "secid:advisory/redhat/errata#RHSA-2026%3A0932"
+Input: "secid:advisory/redhat.com/errata#RHSA-2026%3A0932"
   1. Try as-is:   "RHSA-2026%3A0932"      → no match
   2. Try decoded: "RHSA-2026:0932"        → match ✓ → return result
 ```
@@ -1074,10 +1160,10 @@ Input: "secid:advisory/redhat/errata#RHSA-2026%3A0932"
 
 | Context | Encoding needed? | Example |
 |---------|------------------|---------|
-| SecID string (canonical) | No | `secid:advisory/redhat/errata#RHSA-2024:1234` |
+| SecID string (canonical) | No | `secid:advisory/redhat.com/errata#RHSA-2024:1234` |
 | Filesystem (as filename) | Yes | `secid%3Aadvisory%2Fredhat%2Ferrata%23RHSA-2024%3A1234` |
 | URL query parameter | Yes | `?secid=secid%3Aadvisory%2Fredhat...` |
-| JSON value | No (JSON handles it) | `{"secid": "secid:advisory/redhat/errata#RHSA-2024:1234"}` |
+| JSON value | No (JSON handles it) | `{"secid": "secid:advisory/redhat.com/errata#RHSA-2024:1234"}` |
 
 **Unicode support:** SecID supports full Unicode in names and subpaths. When encoding for filesystem/URL use, non-ASCII characters are percent-encoded as UTF-8 bytes (e.g., `é` → `%C3%A9`).
 
@@ -1170,7 +1256,7 @@ Space  &  =  +  ;  [  ]  {  }  !  '  (  )  *  ,
 
 Tools should render identifiers human-friendly for display while storing the encoded form.
 
-**Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/mitre/cve#CVE-2024-1234` becomes `secid%3Aadvisory%2Fmitre%2Fcve%23CVE-2024-1234` as a filename.
+**Filename encoding:** When using SecIDs as filenames, encode all characters invalid on the target filesystem. For cross-platform compatibility, encode all characters listed above. The full SecID `secid:advisory/mitre.org/cve#CVE-2024-1234` becomes `secid%3Aadvisory%2Fmitre%2Fcve%23CVE-2024-1234` as a filename.
 
 ### 8.5 Canonical Form
 
@@ -1215,36 +1301,48 @@ secid/
 ├── USE-CASES.md           # Concrete examples
 ├── RELATIONSHIPS.md       # Future layer (exploratory)
 ├── OVERLAYS.md            # Future layer (exploratory)
-├── registry/              # Namespace definitions
-│   ├── advisory.md        # Type definition (what is an advisory?)
-│   ├── advisory/          # Advisory namespaces
-│   │   ├── mitre.md       # MITRE: cve
-│   │   ├── nist.md        # NIST: nvd
-│   │   ├── github.md      # GitHub: ghsa
-│   │   └── redhat.md      # Red Hat: cve, errata, bugzilla (ALL IN ONE)
-│   ├── weakness.md        # Type definition (what is a weakness?)
+├── registry/                    # Namespace definitions
+│   ├── advisory.md              # Type definition (what is an advisory?)
+│   ├── advisory/                # Advisory namespaces
+│   │   ├── org/                 # .org TLD
+│   │   │   └── mitre.md         # MITRE: cve
+│   │   ├── gov/                 # .gov TLD
+│   │   │   └── nist.md          # NIST: nvd
+│   │   ├── com/                 # .com TLD
+│   │   │   ├── github/          # GitHub platform sub-namespaces
+│   │   │   │   └── advisories.md# GitHub: ghsa
+│   │   │   └── redhat.md        # Red Hat: cve, errata, bugzilla (ALL IN ONE)
+│   ├── weakness.md              # Type definition (what is a weakness?)
 │   ├── weakness/
-│   │   ├── mitre.md       # MITRE: cwe
-│   │   └── owasp.md       # OWASP: top10, llm-top10, etc. (ALL IN ONE)
-│   ├── ttp.md             # Type definition
+│   │   └── org/
+│   │       ├── mitre.md         # MITRE: cwe
+│   │       └── owasp.md         # OWASP: top10, llm-top10, etc. (ALL IN ONE)
+│   ├── ttp.md                   # Type definition
 │   ├── ttp/
-│   │   └── mitre.md       # MITRE: attack, atlas, capec (ALL IN ONE)
-│   ├── control.md         # Type definition
+│   │   └── org/
+│   │       └── mitre.md         # MITRE: attack, atlas, capec (ALL IN ONE)
+│   ├── control.md               # Type definition
 │   ├── control/
-│   │   ├── nist.md        # NIST: csf, 800-53, ai-rmf (ALL IN ONE)
-│   │   ├── iso.md         # ISO: 27001, 27002 (ALL IN ONE)
-│   │   └── cis.md         # CIS: controls, benchmarks
-│   ├── entity.md          # Type definition
+│   │   ├── gov/
+│   │   │   └── nist.md          # NIST: csf, 800-53, ai-rmf (ALL IN ONE)
+│   │   └── org/
+│   │       ├── iso.md           # ISO: 27001, 27002 (ALL IN ONE)
+│   │       └── cisecurity.md    # CIS: controls, benchmarks
+│   ├── entity.md                # Type definition
 │   ├── entity/
-│   │   ├── mitre.md       # MITRE organization
-│   │   ├── nist.md        # NIST organization
-│   │   └── redhat.md      # Red Hat organization
-│   ├── regulation.md      # Type definition
+│   │   ├── org/
+│   │   │   ├── mitre.md         # MITRE organization
+│   │   │   └── nist.md          # NIST organization
+│   │   └── com/
+│   │       └── redhat.md        # Red Hat organization
+│   ├── regulation.md            # Type definition
 │   ├── regulation/
-│   │   └── eu.md          # EU: gdpr, ai-act, nis2 (ALL IN ONE)
-│   ├── reference.md       # Type definition
+│   │   └── eu/
+│   │       └── europa.md        # EU: gdpr, ai-act, nis2 (ALL IN ONE)
+│   ├── reference.md             # Type definition
 │   └── reference/
-│       └── whitehouse.md  # White House: executive orders
+│       └── gov/
+│           └── whitehouse.md    # White House: executive orders
 └── seed/                  # Seed data for bulk import
     └── *.csv
 ```

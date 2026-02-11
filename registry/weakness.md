@@ -15,10 +15,10 @@ Track and reference weakness types - the abstract "how things go wrong" that und
 ```
 secid:weakness/<namespace>/<name>[#subpath]
 
-secid:weakness/mitre/cwe#CWE-79
-secid:weakness/mitre/cwe#CWE-1427
-secid:weakness/owasp/top10@2021#A01
-secid:weakness/owasp/llm-top10@2.0#LLM01
+secid:weakness/mitre.org/cwe#CWE-79
+secid:weakness/mitre.org/cwe#CWE-1427
+secid:weakness/owasp.org/top10@2021#A01
+secid:weakness/owasp.org/llm-top10@2.0#LLM01
 ```
 
 ## Namespaces
@@ -56,8 +56,8 @@ Advisories reference their underlying weakness:
 
 ```json
 {
-  "from": "secid:advisory/mitre/cve#CVE-2024-1234",
-  "to": "secid:weakness/mitre/cwe#CWE-79",
+  "from": "secid:advisory/mitre.org/cve#CVE-2024-1234",
+  "to": "secid:weakness/mitre.org/cwe#CWE-79",
   "type": "hasWeakness",
   "asserted_by": "nvd"
 }
@@ -67,8 +67,8 @@ Weaknesses can be related to attack techniques:
 
 ```json
 {
-  "from": "secid:weakness/mitre/cwe#CWE-89",
-  "to": "secid:ttp/mitre/capec#CAPEC-66",
+  "from": "secid:weakness/mitre.org/cwe#CWE-89",
+  "to": "secid:ttp/mitre.org/capec#CAPEC-66",
   "type": "exploitedBy",
   "description": "SQL injection exploited by CAPEC-66"
 }
