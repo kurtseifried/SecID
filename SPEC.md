@@ -575,16 +575,27 @@ registry/
 ...
 ```
 
-**Namespace-to-filesystem-path mapping:** Namespace domain names are stored using a reverse-DNS directory hierarchy. The domain is split on `.`, segments are reversed, and joined with `/`:
+**Namespace-to-filesystem-path algorithm:**
 
-| Namespace | Filesystem Path |
-|-----------|----------------|
-| `mitre.org` | `registry/<type>/org/mitre.md` |
-| `aws.amazon.com` | `registry/<type>/com/amazon/aws.md` |
-| `github.com/advisories` | `registry/<type>/com/github/advisories.md` |
-| `gov.uk` | `registry/<type>/uk/gov.md` |
+1. If the namespace contains `/`, split into **domain portion** (before first `/`) and **path portion** (after first `/`)
+2. Split the domain portion on `.`
+3. Reverse the domain segments
+4. Join with `/` to form the directory path
+5. If there is a path portion, append it after the reversed domain
+6. Append `.md` to the final segment (the file)
+7. Prepend `registry/<type>/`
 
-For sub-namespaces (containing `/`), only the domain portion is reversed; the sub-namespace path is appended after. The YAML `namespace:` field in each file remains the canonical domain name (e.g., `namespace: mitre.org`).
+**Examples:**
+
+| Namespace | Step 1: domain / path | Step 2-3: reverse domain | Step 5: append path | Filesystem Path |
+|-----------|----------------------|-------------------------|--------------------|----|
+| `mitre.org` | `mitre.org` / (none) | `org/mitre` | — | `registry/<type>/org/mitre.md` |
+| `aws.amazon.com` | `aws.amazon.com` / (none) | `com/amazon/aws` | — | `registry/<type>/com/amazon/aws.md` |
+| `gov.uk` | `gov.uk` / (none) | `uk/gov` | — | `registry/<type>/uk/gov.md` |
+| `github.com/advisories` | `github.com` / `advisories` | `com/github` | `com/github/advisories` | `registry/<type>/com/github/advisories.md` |
+| `github.com/ModelContextProtocol-Security/vulnerability-db` | `github.com` / `ModelContextProtocol-Security/vulnerability-db` | `com/github` | `com/github/ModelContextProtocol-Security/vulnerability-db` | `registry/<type>/com/github/ModelContextProtocol-Security/vulnerability-db.md` |
+
+For sub-namespaces (containing `/`), only the domain portion is reversed; the sub-namespace path segments are appended as-is. The YAML `namespace:` field in each file remains the canonical namespace (e.g., `namespace: mitre.org` or `namespace: github.com/advisories`).
 
 The namespace file (e.g., `registry/advisory/com/redhat.md`) contains sections for each source with rules for parsing and resolving `#subpath` (e.g., `#CVE-2024-1234` or `#RHSA-2025:1234`).
 
@@ -640,20 +651,23 @@ secid:advisory/debian.org/dla#DLA-1234-1         # Debian LTS Advisory
 
 ### 4.2 Namespace Character Rules
 
-Namespaces are domain names, optionally followed by path segments separated by `/`. Each segment must be safe for filesystems, shells, and URLs while supporting international names.
+Namespaces are domain names, optionally followed by path segments separated by `/`. A namespace has two parts:
 
-**Per-segment validation:** Each segment between `/` must match:
+1. **Domain portion** (required): a standard domain name (e.g., `github.com`, `mitre.org`)
+2. **Path portion** (optional): one or more `/`-separated segments (e.g., `/advisories`, `/ModelContextProtocol-Security/vulnerability-db`)
+
+**Both domain labels and path segments follow the same character rules.** Each segment (whether a DNS label like `github` or a path segment like `advisories`) must match:
 
 `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
 
-**Allowed characters per segment:**
+**Allowed characters per segment (domain labels and path segments alike):**
 - `a-z` (lowercase ASCII letters)
 - `0-9` (ASCII digits)
 - `-` (hyphen, not at start/end)
-- `.` (period, as DNS label separator)
+- `.` (period, as DNS label separator within domain portion)
 - Unicode letters (`\p{L}`) and numbers (`\p{N}`)
 
-**`/` separates segments** within namespaces (for platform sub-namespaces).
+**`.` separates labels** within the domain portion (standard DNS). **`/` separates the domain from the path portion**, and separates path segments from each other. Neither `/` nor `.` is interchangeable.
 
 **Not allowed within a segment:** Spaces, punctuation (except `-` and `.`), shell metacharacters.
 
@@ -688,10 +702,10 @@ Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx
 
 After extracting type "advisory", remaining path is: github.com/advisories/ghsa#GHSA-xxxx
 
-Try namespace matches (shortest first):
-  1. "github.com"              → exists in registry, but check for longer match
-  2. "github.com/advisories"   → exists in registry, check for longer match
-  3. "github.com/advisories/ghsa" → not a namespace in registry, stop
+Try namespace matches (shortest first, using reverse-DNS path lookup):
+  1. "github.com"              → registry/advisory/com/github.md exists? Yes → candidate
+  2. "github.com/advisories"   → registry/advisory/com/github/advisories.md exists? Yes → longer candidate
+  3. "github.com/advisories/ghsa" → registry/advisory/com/github/advisories/ghsa.md exists? No → stop
 
 Longest matching namespace: "github.com/advisories"
 Remaining: "ghsa#GHSA-xxxx" → name="ghsa", subpath="GHSA-xxxx"
@@ -1006,7 +1020,9 @@ Rather than defining a complex list of banned characters that users must memoriz
 
 **Namespace resolution (shortest-to-longest):**
 
-Since namespaces are domain names that can include `/` for sub-namespaces, the parser cannot simply split at the first `/` after the type. Instead, it tries progressively longer namespace matches against the registry:
+Since namespaces are domain names that can include `/` for sub-namespaces, the parser cannot simply split at the first `/` after the type. Instead, it tries progressively longer namespace matches against the registry.
+
+**"Exists in registry" means:** convert the candidate namespace to a filesystem path using the namespace-to-path algorithm (Section 4.0) and check if that file exists. For example, checking whether `github.com/advisories` exists in `registry["advisory"]` means checking whether `registry/advisory/com/github/advisories.md` exists on disk (or in the registry index).
 
 ```
 Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
@@ -1014,15 +1030,15 @@ Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
 After extracting type "advisory", remaining: github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz
 
 Step 2 - Try namespace matches (shortest first):
-  "github.com"              → exists in registry["advisory"]? Yes → candidate
-  "github.com/advisories"   → exists in registry["advisory"]? Yes → longer candidate
-  "github.com/advisories/ghsa" → exists? No → stop, use previous
+  "github.com"              → registry/advisory/com/github.md exists? Yes → candidate
+  "github.com/advisories"   → registry/advisory/com/github/advisories.md exists? Yes → longer candidate
+  "github.com/advisories/ghsa" → registry/advisory/com/github/advisories/ghsa.md exists? No → stop
 
 Winner: namespace = "github.com/advisories"
 Remaining: ghsa#GHSA-xxxx-yyyy-zzzz
 
 Step 3 - Name resolution:
-  Try "ghsa" against sources in registry["advisory"]["github.com/advisories"] → match ✓
+  Try "ghsa" against sources in registry/advisory/com/github/advisories.md → match ✓
   name = "ghsa", subpath = "GHSA-xxxx-yyyy-zzzz"
 ```
 
@@ -1032,11 +1048,12 @@ Step 3 - Name resolution:
 Input: secid:advisory/mitre.org/cve#CVE-2024-1234
 
 Step 2 - Namespace:
-  "mitre.org"     → exists in registry["advisory"]? Yes → candidate
-  "mitre.org/cve" → exists? No → stop
+  "mitre.org"     → registry/advisory/org/mitre.md exists? Yes → candidate
+  "mitre.org/cve" → registry/advisory/org/mitre/cve.md exists? No → stop
 
 Winner: namespace = "mitre.org"
-Step 3 - name = "cve", subpath = "CVE-2024-1234"
+Step 3 - Try "cve" against sources in registry/advisory/org/mitre.md → match ✓
+  name = "cve", subpath = "CVE-2024-1234"
 ```
 
 **Why shortest-to-longest?** The shortest matching namespace is the most authoritative. `github.com` is GitHub itself; `github.com/advisories` is a team within GitHub; `github.com/someuser` is a random user. Starting from the shortest and working outward prevents namespace hijacking — a malicious user cannot register `github.com/evil` and intercept parsing meant for `github.com`.
