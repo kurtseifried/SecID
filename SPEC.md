@@ -1114,11 +1114,13 @@ In practice, users provide SecIDs in different forms. Someone might copy a URL-e
 
 **Resolution order (namespace — IDN/Punycode):**
 
+Punycode-encoded domain labels are identified by the `xn--` ACE prefix ([RFC 3492](https://www.rfc-editor.org/rfc/rfc3492), [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890)–5893). Every major language has built-in IDNA support for conversion (Python `idna`, Java `java.net.IDN`, Go `golang.org/x/net/idna`, Rust `idna` crate, JS `URL` API).
+
 1. **Try namespace as-is** - Look up the input form in the registry
-2. **If not found and input is Punycode (`xn--...`)** - Convert to Unicode, try again
+2. **If not found and input contains `xn--` labels (Punycode)** - Convert to Unicode, try again
 3. **If not found and input is Unicode** - Convert to Punycode, try again
 
-If the resolver hits an **alias stub** (a registry entry with `alias_of` and no sources), it follows the redirect to the canonical namespace. Only one form holds actual records; the other is an alias. See REGISTRY-FORMAT.md for alias stub format.
+If the resolver hits an **alias stub** (a registry entry with `alias_of` and no sources), it follows the redirect to the canonical namespace. Only one form holds actual records; the other is an alias. See REGISTRY-FORMAT.md for alias stub format and [EDGE-CASES.md](EDGE-CASES.md#punycode-vs-unicode-idn-resolution) for full details.
 
 ```
 Input: "secid:control/cloudsecurityalliance.org/ccm#IAM-12/Auditing%20Guidelines"

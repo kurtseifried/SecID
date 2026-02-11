@@ -93,10 +93,22 @@ The test: where does the organization publish its security content?
 
 **Yes — handled via try-both resolution + alias stubs.** This follows the same pattern as flexible input resolution for percent-encoding (SPEC.md Section 8.3): try the input form first, then try the other form.
 
+**Standards:** Punycode encoding is defined in [RFC 3492](https://www.rfc-editor.org/rfc/rfc3492). Internationalized Domain Names in Applications (IDNA2008) is defined in [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890)–[5893](https://www.rfc-editor.org/rfc/rfc5893). These are mature, widely-implemented standards.
+
+**Detecting Punycode input:** Punycode-encoded domain labels always start with the ASCII Compatible Encoding (ACE) prefix `xn--`. Detection is trivial — check whether any label in the domain starts with `xn--`. If so, convert to Unicode using any IDNA library:
+
+| Language | Library |
+|----------|---------|
+| Python | `idna` package (`pip install idna`), or built-in `encodings.idna` |
+| JavaScript | `URL` API (built-in), or `punycode` module |
+| Go | `golang.org/x/net/idna` |
+| Rust | `idna` crate |
+| Java | `java.net.IDN` (built-in since Java 6) |
+
 **Resolution order for IDN namespaces:**
 
 1. **Try namespace as-is** — look up the input form in the registry
-2. **If not found and input is Punycode** — convert to Unicode, try again
+2. **If not found and input contains `xn--` labels (Punycode)** — convert to Unicode, try again
 3. **If not found and input is Unicode** — convert to Punycode, try again
 
 **Registry structure:** Only one form holds the actual records (the canonical form). The other form gets an **alias stub** — a minimal registry entry that points to the canonical namespace:
