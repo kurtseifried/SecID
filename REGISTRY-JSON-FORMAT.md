@@ -231,7 +231,7 @@ For arrays:
 ```json
 {
   "schema_version": "1.0",
-  "namespace": "mitre",
+  "namespace": "mitre.org",
   "type": "advisory",
   "status": "published",
 
@@ -649,7 +649,7 @@ For `type: reference` (documents, papers, standards), additional fields help wit
 ```json
 {
   "type": "reference",
-  "namespace": "nist",
+  "namespace": "nist.gov",
 
   "title": "AI RMF",
   "full_title": "Artificial Intelligence Risk Management Framework",
@@ -680,7 +680,7 @@ Entity files describe organizations rather than data sources. They use a `names`
 
 ```json
 {
-  "namespace": "mitre",
+  "namespace": "mitre.org",
   "type": "entity",
   "official_name": "The MITRE Corporation",
   "common_name": "MITRE",
@@ -713,7 +713,7 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
 ```json
 {
   "schema_version": "1.0",
-  "namespace": "mitre",
+  "namespace": "mitre.org",
   "type": "advisory",
   "status": "published",
   "status_notes": null,
@@ -823,7 +823,7 @@ For sources with hierarchical identifiers (domain → control → section), defi
 ```json
 {
   "schema_version": "1.0",
-  "namespace": "csa",
+  "namespace": "cloudsecurityalliance.org",
   "type": "control",
   "status": "published",
 

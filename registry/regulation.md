@@ -33,12 +33,12 @@ secid:regulation/ca.gov/ccpa
 
 | Namespace | Jurisdiction | Description |
 |-----------|--------------|-------------|
-| `eu` | European Union | GDPR, NIS2, AI Act |
-| `us` | United States | HIPAA, SOX, federal laws |
-| `us-ca` | California | CCPA, CPRA |
-| `us-ny` | New York | SHIELD Act, DFS requirements |
-| `uk` | United Kingdom | UK GDPR, Data Protection Act |
-| `cn` | China | PIPL, Cybersecurity Law |
+| `europa.eu` | European Union | GDPR, NIS2, AI Act |
+| `govinfo.gov` | United States | HIPAA, SOX, federal laws |
+| `ca.gov` | California | CCPA, CPRA |
+| `ny.gov` | New York | SHIELD Act, DFS requirements |
+| `gov.uk` | United Kingdom | UK GDPR, Data Protection Act |
+| `gov.cn` | China | PIPL, Cybersecurity Law |
 
 ## Versioning and Citations
 
@@ -62,22 +62,22 @@ secid:regulation/govinfo.gov/hipaa#164.312.a.1   # Security Rule citation
 ### Data Protection
 | ID | Name | Jurisdiction |
 |----|------|--------------|
-| `eu/gdpr` | General Data Protection Regulation | EU |
-| `us/hipaa` | Health Insurance Portability and Accountability Act | US |
-| `us-ca/ccpa` | California Consumer Privacy Act | California |
-| `cn/pipl` | Personal Information Protection Law | China |
+| `europa.eu/gdpr` | General Data Protection Regulation | EU |
+| `govinfo.gov/hipaa` | Health Insurance Portability and Accountability Act | US |
+| `ca.gov/ccpa` | California Consumer Privacy Act | California |
+| `gov.cn/pipl` | Personal Information Protection Law | China |
 
 ### Security and Infrastructure
 | ID | Name | Jurisdiction |
 |----|------|--------------|
-| `eu/nis2` | Network and Information Security Directive 2 | EU |
-| `us/fisma` | Federal Information Security Management Act | US |
-| `us/sox` | Sarbanes-Oxley Act | US |
+| `europa.eu/nis2` | Network and Information Security Directive 2 | EU |
+| `govinfo.gov/fisma` | Federal Information Security Management Act | US |
+| `govinfo.gov/sox` | Sarbanes-Oxley Act | US |
 
 ### AI-Specific
 | ID | Name | Jurisdiction |
 |----|------|--------------|
-| `eu/ai-act` | EU Artificial Intelligence Act | EU |
+| `europa.eu/ai-act` | EU Artificial Intelligence Act | EU |
 
 ## EU AI Act Detail
 

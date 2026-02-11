@@ -120,7 +120,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 |----------------|-----------------|-------------|
 | `pkg:` | `secid:` | Scheme (constant prefix) |
 | `type` | `type` | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
-| `namespace` | `namespace` | **Organization** that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `redhat`, `iso`) |
+| `namespace` | `namespace` | **Organization** that publishes/maintains (e.g., `mitre.org`, `nist.gov`, `cloudsecurityalliance.org`, `redhat.com`, `iso.org`) |
 | `name` | `name` | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `27001`) |
 | `@version` | `@version` | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`) |
@@ -348,9 +348,9 @@ SecID is AI-first, meaning files need to be easily parsed by AI agents while rem
 
 ```markdown
 ---
-title: CVE Namespace
+title: MITRE Advisory Namespace
 type: advisory
-namespace: cve
+namespace: mitre.org
 ---
 
 # Content here...
@@ -370,7 +370,7 @@ Why this format:
 | **SecID** | A complete identifier string starting with `secid:` |
 | **Scheme** | The URL scheme - always `secid:` (like `pkg:` in PURL) |
 | **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
-| **Namespace** | The organization that publishes/maintains (e.g., `mitre`, `nist`, `csa`, `owasp`). Allowed: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. **Cannot contain `/`** (parsing anchor). |
+| **Namespace** | The organization that publishes/maintains, as a domain name (e.g., `mitre.org`, `nist.gov`, `cloudsecurityalliance.org`, `owasp.org`). Allowed: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. Domain names, optionally with `/`-separated sub-namespace path segments. |
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |

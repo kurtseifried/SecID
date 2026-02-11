@@ -27,21 +27,21 @@ secid:weakness/owasp.org/llm-top10@2.0#LLM01
 
 | Namespace | Name | Taxonomy | Description |
 |-----------|------|----------|-------------|
-| `mitre` | `cwe` | CWE | MITRE Common Weakness Enumeration (900+ weaknesses) |
-| `owasp` | `top10` | OWASP Top 10 | Web application security risks |
+| `mitre.org` | `cwe` | CWE | MITRE Common Weakness Enumeration (900+ weaknesses) |
+| `owasp.org` | `top10` | OWASP Top 10 | Web application security risks |
 
 ### AI/ML Weakness Taxonomies
 
 | Namespace | Name | Taxonomy | Description |
 |-----------|------|----------|-------------|
-| `owasp` | `llm-top10` | OWASP LLM Top 10 | LLM application security risks |
-| `owasp` | `ml-top10` | OWASP ML Top 10 | Machine learning security risks |
-| `owasp` | `ai-exchange` | OWASP AI Exchange | Comprehensive AI security framework |
-| `owasp` | `agentic-top10` | OWASP Agentic AI Top 10 | AI agent security risks |
-| `nist` | `ai-100-2` | NIST AML Taxonomy | Adversarial ML attack taxonomy |
-| `biml` | `ml-risks` | BIML ML Risks | 78 architectural ML risks |
-| `biml` | `llm-risks` | BIML LLM Risks | 81 LLM-specific risks |
-| `mit` | `ai-risk-repository` | MIT AI Risks | 1,700+ AI risks across 7 domains |
+| `owasp.org` | `llm-top10` | OWASP LLM Top 10 | LLM application security risks |
+| `owasp.org` | `ml-top10` | OWASP ML Top 10 | Machine learning security risks |
+| `owasp.org` | `ai-exchange` | OWASP AI Exchange | Comprehensive AI security framework |
+| `owasp.org` | `agentic-top10` | OWASP Agentic AI Top 10 | AI agent security risks |
+| `nist.gov` | `ai-100-2` | NIST AML Taxonomy | Adversarial ML attack taxonomy |
+| `berryvilleiml.com` | `ml-risks` | BIML ML Risks | 78 architectural ML risks |
+| `berryvilleiml.com` | `llm-risks` | BIML LLM Risks | 81 LLM-specific risks |
+| `mit.edu` | `ai-risk-repository` | MIT AI Risks | 1,700+ AI risks across 7 domains |
 
 ## Weakness vs Advisory
 

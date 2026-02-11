@@ -25,9 +25,9 @@ secid:ttp/mitre.org/capec#CAPEC-66
 
 | Namespace | Name | Framework | Description |
 |-----------|------|-----------|-------------|
-| `mitre` | `attack` | ATT&CK | Enterprise/Mobile/ICS attack techniques |
-| `mitre` | `atlas` | ATLAS | AI/ML attack techniques |
-| `mitre` | `capec` | CAPEC | Common Attack Pattern Enumeration |
+| `mitre.org` | `attack` | ATT&CK | Enterprise/Mobile/ICS attack techniques |
+| `mitre.org` | `atlas` | ATLAS | AI/ML attack techniques |
+| `mitre.org` | `capec` | CAPEC | Common Attack Pattern Enumeration |
 
 ## ATT&CK ID Format
 

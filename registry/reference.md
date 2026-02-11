@@ -38,8 +38,8 @@ secid:reference/<namespace>/<identifier>
 
 | Namespace | Description | Example IDs |
 |-----------|-------------|-------------|
-| `whitehouse` | US Executive Branch publications | `eo-14110`, `ncs-2023`, `m-24-10` |
-| `arxiv` | ArXiv research papers | `2303.08774`, `2402.05369` |
+| `whitehouse.gov` | US Executive Branch publications | `eo-14110`, `ncs-2023`, `m-24-10` |
+| `arxiv.org` | ArXiv research papers | `2303.08774`, `2402.05369` |
 
 ### Examples
 

@@ -1267,7 +1267,7 @@ The API uses a simple key-value lookup:
 ```
 Request: secid:advisory/redhat.com/cve#CVE-2025-1234
 
-1. Parse: type=advisory, namespace=redhat, name=cve, subpath=CVE-2025-1234
+1. Parse: type=advisory, namespace=redhat.com, name=cve, subpath=CVE-2025-1234
 2. KV lookup: key="advisory/redhat.com" → returns redhat.md content
 3. Find "cve" section, get id_pattern and url_template
 4. Validate subpath against id_pattern
@@ -1785,7 +1785,7 @@ Early drafts had identifier fields on reference entries:
 ```json
 {
   "type": "reference",
-  "namespace": "nist",
+  "namespace": "nist.gov",
   "title": "AI RMF",
   "doi": "10.6028/NIST.AI.100-1",
   "isbn": "978-0-...",

@@ -161,32 +161,32 @@ Each namespace file (`entity/<tld>/<domain>.md`) describes:
 
 | Namespace | Vendor/Organization | Key Products/Services |
 |-----------|---------------------|----------------------|
-| `mitre` | MITRE Corporation | cve, cwe, attack, atlas, capec |
-| `nist` | NIST | nvd, csf, 800-53 |
-| `cisa` | CISA | kev, vulnrichment |
-| `first` | FIRST | cvss, epss |
-| `owasp` | OWASP | top-10, llm-top-10, asvs |
-| `csa` | Cloud Security Alliance | ccm, aicm |
+| `mitre.org` | MITRE Corporation | cve, cwe, attack, atlas, capec |
+| `nist.gov` | NIST | nvd, csf, 800-53 |
+| `cisa.gov` | CISA | kev, vulnrichment |
+| `first.org` | FIRST | cvss, epss |
+| `owasp.org` | OWASP | top-10, llm-top-10, asvs |
+| `cloudsecurityalliance.org` | Cloud Security Alliance | ccm, aicm |
 
 ### AI Vendors
 
 | Namespace | Vendor/Organization | Key Products/Services |
 |-----------|---------------------|----------------------|
-| `openai` | OpenAI | gpt-4, gpt-4o, chatgpt |
-| `anthropic` | Anthropic | claude, claude-3-5 |
-| `google` | Google | gemini, bard, osv |
-| `meta` | Meta | llama |
-| `mistral` | Mistral AI | mistral, mixtral |
-| `huggingface` | HuggingFace | hub, transformers |
+| `openai.com` | OpenAI | gpt-4, gpt-4o, chatgpt |
+| `anthropic.com` | Anthropic | claude, claude-3-5 |
+| `google.com` | Google | gemini, bard, osv |
+| `meta.com` | Meta | llama |
+| `mistral.ai` | Mistral AI | mistral, mixtral |
+| `huggingface.co` | HuggingFace | hub, transformers |
 
 ### Infrastructure Vendors
 
 | Namespace | Vendor/Organization | Key Products/Services |
 |-----------|---------------------|----------------------|
-| `aws` | Amazon Web Services | s3, lambda, ec2, alas |
-| `microsoft` | Microsoft | azure, msrc, windows |
-| `redhat` | Red Hat | openshift, rhel, ansible |
-| `github` | GitHub | ghsa, actions |
-| `cisco` | Cisco | psirt, ios |
-| `debian` | Debian Project | debian |
+| `aws.amazon.com` | Amazon Web Services | s3, lambda, ec2, alas |
+| `microsoft.com` | Microsoft | azure, msrc, windows |
+| `redhat.com` | Red Hat | openshift, rhel, ansible |
+| `github.com` | GitHub | ghsa, actions |
+| `cisco.com` | Cisco | psirt, ios |
+| `debian.org` | Debian Project | debian |
 

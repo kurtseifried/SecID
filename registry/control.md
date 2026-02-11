@@ -41,28 +41,28 @@ The namespace is the organization, the name is the framework/document, and the s
 
 | Namespace | Name | Framework | Description |
 |-----------|------|-----------|-------------|
-| `nist` | `csf` | NIST Cybersecurity Framework | Cybersecurity framework |
-| `cis` | `controls` | CIS Controls | Center for Internet Security |
-| `iso` | `27001` | ISO 27001 | Information security standard |
-| `owasp` | `asvs` | OWASP ASVS | Application security controls |
-| `csa` | `ccm` | CSA Cloud Controls Matrix | Cloud security controls |
+| `nist.gov` | `csf` | NIST Cybersecurity Framework | Cybersecurity framework |
+| `cisecurity.org` | `controls` | CIS Controls | Center for Internet Security |
+| `iso.org` | `27001` | ISO 27001 | Information security standard |
+| `owasp.org` | `asvs` | OWASP ASVS | Application security controls |
+| `cloudsecurityalliance.org` | `ccm` | CSA Cloud Controls Matrix | Cloud security controls |
 
 ### AI-Specific Control Frameworks
 
 | Namespace | Name | Framework | Description |
 |-----------|------|-----------|-------------|
-| `csa` | `aicm` | CSA AI Controls Matrix | AI-specific security controls |
-| `owasp` | `ai-exchange` | OWASP AI Exchange | AI controls mapped to threats |
-| `nist` | `ai-rmf` | NIST AI RMF | AI Risk Management Framework |
+| `cloudsecurityalliance.org` | `aicm` | CSA AI Controls Matrix | AI-specific security controls |
+| `owasp.org` | `ai-exchange` | OWASP AI Exchange | AI controls mapped to threats |
+| `nist.gov` | `ai-rmf` | NIST AI RMF | AI Risk Management Framework |
 
 ### Control Capabilities (Guidance)
 
 | Namespace | Name | Publication | Description |
 |-----------|------|-------------|-------------|
-| `nist` | `800-53` | NIST SP 800-53 | Security and Privacy Controls |
-| `nist` | `800-61` | NIST SP 800-61 | Incident Response guidance |
-| `nist` | `800-86` | NIST SP 800-86 | Forensics guidance |
-| `cis` | `benchmark` | CIS Benchmarks | Platform hardening guides |
+| `nist.gov` | `800-53` | NIST SP 800-53 | Security and Privacy Controls |
+| `nist.gov` | `800-61` | NIST SP 800-61 | Incident Response guidance |
+| `nist.gov` | `800-86` | NIST SP 800-86 | Forensics guidance |
+| `cisecurity.org` | `benchmark` | CIS Benchmarks | Platform hardening guides |
 
 ### Prescriptive Benchmarks
 
@@ -70,15 +70,15 @@ Benchmarks that define **what to test** are semantically requirements - "your mo
 
 | Namespace | Name | Benchmark | Description |
 |-----------|------|-----------|-------------|
-| `cais` | `harmbench`, `wmdp` | CAIS | Harmful behavior and dangerous knowledge benchmarks |
-| `ai2` | `decodingtrust`, `realtoxicityprompts` | AI2 | Trustworthiness and toxicity benchmarks |
-| `mlcommons` | `ailuminate` | MLCommons | AI safety benchmark (12 hazard categories) |
-| `jailbreakbench` | `jbb` | JailbreakBench | Jailbreak robustness evaluation |
-| `trustllm` | `benchmark` | TrustLLM | Comprehensive LLM trustworthiness benchmark |
-| `safetybench` | `benchmark` | SafetyBench | Chinese LLM safety evaluation |
-| `advbench` | `benchmark` | AdvBench | Adversarial behavior benchmark |
-| `arc` | `evals` | ARC | Dangerous capability evaluations |
-| `metr` | `task-standard` | METR | AI evaluation task standard |
+| `safe.ai` | `harmbench`, `wmdp` | CAIS | Harmful behavior and dangerous knowledge benchmarks |
+| `allenai.org` | `decodingtrust`, `realtoxicityprompts` | AI2 | Trustworthiness and toxicity benchmarks |
+| `mlcommons.org` | `ailuminate` | MLCommons | AI safety benchmark (12 hazard categories) |
+| `jailbreakbench.github.io` | `jbb` | JailbreakBench | Jailbreak robustness evaluation |
+| `trustllmbenchmark.github.io` | `benchmark` | TrustLLM | Comprehensive LLM trustworthiness benchmark |
+| `thu-coai.github.io` | `benchmark` | SafetyBench | Chinese LLM safety evaluation |
+| `llm-attacks.github.io` | `benchmark` | AdvBench | Adversarial behavior benchmark |
+| `alignment.org` | `evals` | ARC | Dangerous capability evaluations |
+| `metr.org` | `task-standard` | METR | AI evaluation task standard |
 
 **Why benchmarks in `control`?** A prescriptive benchmark ("test for X") is functionally a requirement. Results/leaderboards are different - they're data about how models performed, not requirements to meet. If benchmarks diverge enough from traditional controls, we'll split them.
 
