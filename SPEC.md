@@ -45,7 +45,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 |----------------|-----------------|----------|-------------|
 | `pkg:` | `secid:` | Yes | Scheme (constant prefix) |
 | `type` | `type` | Yes | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
-| `namespace` | `namespace` | Yes | **Domain name** of organization that publishes/maintains (e.g., `mitre.org`, `nist.gov`, `cloudsecurityalliance.org`, `redhat.com`). May include path segments for platform sub-namespaces (e.g., `github.com/advisories`). |
+| `namespace` | `namespace` | Yes | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `nist.gov`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/nyu-mll`). |
 | `name` | `name` | Yes | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `ccm`, `27001`) |
 | `@version` | `@version` | No | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | No | Optional context that doesn't change identity (e.g., `?lang=ja`) |

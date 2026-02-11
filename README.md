@@ -120,7 +120,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 |----------------|-----------------|-------------|
 | `pkg:` | `secid:` | Scheme (constant prefix) |
 | `type` | `type` | Security domain: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference` |
-| `namespace` | `namespace` | **Domain name** of the organization that publishes/maintains (e.g., `mitre.org`, `nist.gov`, `cloudsecurityalliance.org`, `redhat.com`). May include path segments for platform sub-namespaces (e.g., `github.com/advisories`). |
+| `namespace` | `namespace` | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. Examples: `redhat.com`, `github.com`, `github.com/advisories`, `github.com/nyu-mll`. |
 | `name` | `name` | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `27001`) |
 | `@version` | `@version` | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`) |
@@ -370,7 +370,7 @@ Why this format:
 | **SecID** | A complete identifier string starting with `secid:` |
 | **Scheme** | The URL scheme - always `secid:` (like `pkg:` in PURL) |
 | **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
-| **Namespace** | **Domain name** of the organization that publishes/maintains (e.g., `mitre.org`, `nist.gov`, `owasp.org`), optionally with `/`-separated path segments for platform sub-namespaces (e.g., `github.com/advisories`). Allowed: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. |
+| **Namespace** | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `mitre.org`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/nyu-mll`). Allowed per segment: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. |
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
