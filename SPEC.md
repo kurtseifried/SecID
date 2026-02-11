@@ -660,7 +660,7 @@ Namespaces are domain names, optionally followed by path segments separated by `
 **Examples:**
 ```
 mitre.org                ✓  Domain name
-cloudsecurityalliance.org ✓  Long domain name
+cloudsecurityalliance.org ✓  Domain name
 nist.gov                 ✓  Domain name
 github.com/advisories    ✓  Platform sub-namespace (one path segment)
 github.com/ModelContextProtocol-Security/vulnerability-db  ✓  Deep sub-namespace (two path segments)

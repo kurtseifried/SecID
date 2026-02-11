@@ -81,7 +81,7 @@ Namespaces are **domain names** of the organizations that publish security knowl
 **Examples:**
 ```
 mitre.org                ✓  Domain name
-cloudsecurityalliance.org ✓  Long domain name
+cloudsecurityalliance.org ✓  Domain name
 nist.gov                 ✓  Government domain
 github.com/advisories    ✓  Platform sub-namespace (one path segment)
 github.com/ModelContextProtocol-Security/vulnerability-db  ✓  Deep sub-namespace (two path segments)
