@@ -29,12 +29,11 @@ This section explains how a SecID string is resolved to URLs using registry data
 Parsing uses the registry to identify components:
 
 ```
-secid:advisory/mitre.org/some#name@1.0#CVE-2024-1234
-      ───┬─── ──┬── ────┬──── ─┬─ ──────┬──────
-         │      │       │      │        └─ subpath
-         │      │       │      └─ version
-         │      │       └─ name (registry lookup, longest match)
-         │      └─ namespace (no / allowed)
+secid:advisory/github.com/advisories/ghsa#GHSA-1234-5678-abcd
+      ───┬─── ──────────┬──────────── ─┬── ─────────┬─────────
+         │              │              │            └─ subpath
+         │              │              └─ name (registry lookup, longest match)
+         │              └─ namespace (domain, optionally with /path segments)
          └─ type (known list)
 ```
 
@@ -42,13 +41,29 @@ secid:advisory/mitre.org/some#name@1.0#CVE-2024-1234
 |------|-----------|--------------|
 | 1 | scheme | Literal `secid:` |
 | 2 | type | Match against 7 known values |
-| 3 | namespace | Until next `/`. **Only rule: no `/` in namespace.** |
+| 3 | namespace | **Shortest-to-longest matching** against registry. Namespaces can contain `/` (e.g., `github.com/advisories`). See SPEC.md Section 4.3. |
 | 4 | name | Longest match against sources in `registry[type][namespace]` |
 | 5 | version | After name, parse `@...` until `?` or `#` |
 | 6 | qualifiers | Parse `?...` until `#` |
 | 7 | subpath | Everything after the `#` following version/qualifiers |
 
 **Why registry-aware?** Names can contain any characters (including `#`, `@`, `?`, `:`). The registry defines what names exist, and longest-match resolves ambiguity.
+
+**Shortest-to-longest namespace resolution:** Since namespaces can contain `/`, the parser tries shortest namespace first against the registry, then progressively longer matches. See SPEC.md Section 4.3 for details.
+
+```
+Input: secid:advisory/github.com/advisories/ghsa#GHSA-xxxx
+
+After extracting type "advisory", remaining path: github.com/advisories/ghsa#GHSA-xxxx
+
+Try namespace matches (shortest first):
+  1. "github.com"              → exists in registry? Yes → candidate
+  2. "github.com/advisories"   → exists in registry? Yes → longer candidate
+  3. "github.com/advisories/ghsa" → exists? No → stop
+
+Longest matching namespace: "github.com/advisories"
+Remaining: "ghsa#GHSA-xxxx" → name="ghsa", subpath="GHSA-xxxx"
+```
 
 **Example with special characters:**
 ```
@@ -65,6 +80,14 @@ Using type, namespace, and name, find the source definition:
 ```
 registry[type][namespace][name] → registry["advisory"]["mitre.org"]["cve"]
 ```
+
+**Filesystem mapping:** The abstract `registry[type][namespace]` maps to a filesystem path via the reverse-DNS algorithm (see SPEC.md Section 4.0):
+
+| Lookup | Filesystem Path |
+|--------|----------------|
+| `registry["advisory"]["mitre.org"]` | `registry/advisory/org/mitre.json` |
+| `registry["advisory"]["github.com/advisories"]` | `registry/advisory/com/github/advisories.json` |
+| `registry["control"]["cloudsecurityalliance.org"]` | `registry/control/org/cloudsecurityalliance.json` |
 
 ### Step 3: Match Patterns Against Subpath
 
@@ -273,9 +296,9 @@ Namespaces must be safe for filesystems, shells, and URLs while supporting inter
 
 **Validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$`
 
-**Not allowed:** Spaces, punctuation (except `-` and `.`), shell metacharacters, path separators.
+**Not allowed within a segment:** Spaces, punctuation (except `-` and `.`), shell metacharacters.
 
-**Per-segment validation:** Namespaces are domain names, optionally with `/`-separated path segments for platform sub-namespaces. Each segment between `/` must match the regex above.
+**Per-segment validation:** Namespaces are domain names, optionally with `/`-separated path segments for platform sub-namespaces (e.g., `github.com/advisories`). `/` separates segments but is not allowed *within* a segment. Each segment between `/` must match the regex above.
 
 **Examples:**
 ```
@@ -782,6 +805,57 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   }
 }
 ```
+
+## Complete Example: Sub-Namespace
+
+This example shows a namespace with a `/`-separated path portion (`github.com/advisories`). The namespace maps to `registry/advisory/com/github/advisories.json` via the reverse-DNS algorithm.
+
+```json
+{
+  "schema_version": "1.0",
+  "namespace": "github.com/advisories",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "GitHub Advisory Database",
+  "common_name": "GitHub Advisories",
+  "alternate_names": null,
+
+  "urls": [
+    {"type": "website", "url": "https://github.com/advisories"}
+  ],
+
+  "sources": {
+    "ghsa": {
+      "official_name": "GitHub Security Advisories",
+      "common_name": "GHSA",
+      "alternate_names": null,
+
+      "urls": [
+        {"type": "website", "url": "https://github.com/advisories"},
+        {"type": "api", "url": "https://api.github.com/advisories"},
+        {"type": "bulk_data", "url": "https://github.com/github/advisory-database"}
+      ],
+
+      "id_patterns": [
+        {
+          "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
+          "description": "GitHub Security Advisory ID",
+          "url": "https://github.com/advisories/{id}"
+        }
+      ],
+
+      "examples": ["GHSA-jfh8-c2jp-5v3q", "GHSA-8v63-cqqc-6r2c"]
+    }
+  }
+}
+```
+
+**Key differences from simple namespace:**
+- `namespace` includes a path: `github.com/advisories` (not just `github.com`)
+- Filesystem path uses reverse-DNS for domain + appended path: `registry/advisory/com/github/advisories.json`
+- SecID references use the full namespace: `secid:advisory/github.com/advisories/ghsa#GHSA-jfh8-c2jp-5v3q`
 
 ## Migration from YAML+Markdown
 
