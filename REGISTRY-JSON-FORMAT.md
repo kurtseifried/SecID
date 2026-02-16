@@ -555,6 +555,8 @@ Example with format (appending literal text):
 
 **Patterns match the human-readable (unencoded) form.** Write patterns matching what you see in the source documentation. `^Auditing Guidelines$` with a literal space, not `^Auditing%20Guidelines$`. Resolvers are responsible for decoding percent-encoded input before matching against patterns (see SPEC.md Section 8.3).
 
+**Patterns are independent, not chained.** All patterns are tested against the subpath independently — there is no ordering, priority, or conditional chaining between patterns. A future version may support chained patterns (e.g., "if pattern A matches, try pattern B on a captured group") if real-world usage demonstrates the need. For now, independent patterns keep the matching model simple and predictable. Each pattern either matches or it doesn't, and all matching patterns contribute resolution URLs.
+
 **Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
 
 #### Known Values

@@ -81,12 +81,12 @@ secid:entity/anthropic.com/claude       # Claude model family
 secid:entity/anthropic.com/claude-3-5   # Claude 3.5 Sonnet
 secid:entity/google.com/gemini          # Gemini model family
 secid:entity/meta.com/llama             # Llama model family
-secid:entity/mistral/mistral        # Mistral models
+secid:entity/mistral.ai/mistral     # Mistral models
 
 # AI infrastructure and tools
-secid:entity/langchain/langchain    # LangChain framework
-secid:entity/huggingface/hub        # HuggingFace model hub
-secid:entity/huggingface/transformers # Transformers library
+secid:entity/langchain.com/langchain    # LangChain framework
+secid:entity/huggingface.co/hub         # HuggingFace model hub
+secid:entity/huggingface.co/transformers # Transformers library
 
 # Organizations that operate security systems
 secid:entity/mitre.org/cve              # CVE program (operated by MITRE)
@@ -165,7 +165,7 @@ Each namespace file (`entity/<tld>/<domain>.md`) describes:
 | `nist.gov` | NIST | nvd, csf, 800-53 |
 | `cisa.gov` | CISA | kev, vulnrichment |
 | `first.org` | FIRST | cvss, epss |
-| `owasp.org` | OWASP | top-10, llm-top-10, asvs |
+| `owasp.org` | OWASP | top10, llm-top10, asvs |
 | `cloudsecurityalliance.org` | Cloud Security Alliance | ccm, aicm |
 
 ### AI Vendors

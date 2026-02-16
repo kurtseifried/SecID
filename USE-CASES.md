@@ -136,13 +136,13 @@ Browse the entity registry:
 
 ```
 secid:entity/mitre.org/atlas         # AI attack framework
-secid:entity/owasp.org/llm-top-10    # AI risk categories
+secid:entity/owasp.org/llm-top10     # AI risk categories
 secid:entity/cloudsecurityalliance.org/aicm            # AI controls
 secid:entity/nist.gov/ai-rmf         # AI risk management
 
 secid:entity/openai.com/gpt-4        # GPT-4 model
 secid:entity/openai.com/chatgpt      # ChatGPT service
-secid:entity/anthropic/claude    # Claude model
+secid:entity/anthropic.com/claude    # Claude model
 secid:entity/google.com/gemini       # Gemini model
 
 # Each entity has:
@@ -177,7 +177,7 @@ secid:advisory/ai-vuln-db/JB-2024-0042
     │   └── secid:ttp/mitre.org/atlas#AML.T0051
     ├── affects
     │   ├── secid:entity/openai.com/gpt-4
-    │   ├── secid:entity/anthropic/claude-3
+    │   ├── secid:entity/anthropic.com/claude-3
     │   └── secid:entity/google.com/gemini
     ├── discovered: 2024-03-15
     ├── references
@@ -317,7 +317,7 @@ Building an LLM application. Need threat model covering:
 Components:
   - pkg:pypi/langchain → 15 known vulns
   - secid:entity/openai.com/api → prompt injection exposure
-  - secid:entity/pinecone/vector-db → embedding manipulation risk
+  - secid:entity/pinecone.io/vector-db → embedding manipulation risk
 
 Relevant Threats:
   - secid:ttp/mitre.org/atlas#AML.T0043 (Prompt Injection)

@@ -844,25 +844,25 @@ secid:control/iso.org/27001@2022#A.8.1/guidance
 **Advisories - Multiple CVEs in One Advisory:**
 ```
 # Red Hat advisory covering multiple CVEs
-secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-1111
-secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-2222
-secid:advisory/redhat.com/errata#RHSA-2024:1234#CVE-2024-3333
+secid:advisory/redhat.com/errata#RHSA-2024:1234/CVE-2024-1111
+secid:advisory/redhat.com/errata#RHSA-2024:1234/CVE-2024-2222
+secid:advisory/redhat.com/errata#RHSA-2024:1234/CVE-2024-3333
 
 # Debian advisory sections
-secid:advisory/debian.org/dsa#DSA-5678-1#CVE-2024-1234
+secid:advisory/debian.org/dsa#DSA-5678-1/CVE-2024-1234
 
 # GHSA with multiple affected packages
-secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz#npm
-secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz#pip
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz/npm
+secid:advisory/github.com/advisories/ghsa#GHSA-xxxx-yyyy-zzzz/pip
 ```
 
 **Weaknesses - Structural Sections:**
 ```
 # CWE sections
-secid:weakness/mitre.org/cwe#CWE-79#extended-description
-secid:weakness/mitre.org/cwe#CWE-79#potential-mitigations
-secid:weakness/mitre.org/cwe#CWE-79#detection-methods
-secid:weakness/mitre.org/cwe#CWE-79#observed-examples
+secid:weakness/mitre.org/cwe#CWE-79/extended-description
+secid:weakness/mitre.org/cwe#CWE-79/potential-mitigations
+secid:weakness/mitre.org/cwe#CWE-79/detection-methods
+secid:weakness/mitre.org/cwe#CWE-79/observed-examples
 
 # OWASP Top 10 sections (framework is name, specific item is subpath)
 secid:weakness/owasp.org/top10@2021#A03
@@ -874,13 +874,13 @@ secid:weakness/owasp.org/top10@2021#A03/example-attack-scenarios
 **TTPs - Framework Sections:**
 ```
 # ATT&CK technique sections
-secid:ttp/mitre.org/attack#T1059#detection
-secid:ttp/mitre.org/attack#T1059#mitigation
-secid:ttp/mitre.org/attack#T1059#procedure-examples
+secid:ttp/mitre.org/attack#T1059/detection
+secid:ttp/mitre.org/attack#T1059/mitigation
+secid:ttp/mitre.org/attack#T1059/procedure-examples
 
 # Sub-techniques (note: these are names, not subpaths)
 secid:ttp/mitre.org/attack#T1059.003                 # This is the ID, not a subpath
-secid:ttp/mitre.org/attack#T1059.003#detection       # Section within sub-technique
+secid:ttp/mitre.org/attack#T1059.003/detection       # Section within sub-technique
 ```
 
 **References - Document Sections:**

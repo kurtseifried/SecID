@@ -1544,6 +1544,16 @@ These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d
 
 We never know if an ID is valid; we only know if it has a valid format.
 
+### Independent Patterns, Not Chained
+
+All patterns in `id_patterns` are tested independently against the subpath. There is no ordering, priority, or conditional chaining between patterns. All matching patterns contribute resolution URLs.
+
+**What chaining would look like (not supported):** "If pattern A matches, extract a group, then test pattern B against that group." For example, matching `RHSA-2024:1234` with a first pattern, extracting `RHSA`, then routing to a second pattern based on that prefix.
+
+**Why we don't support it:** Independent matching is simple and predictable — each pattern either matches or it doesn't. Chaining adds ordering semantics, conditional logic, and debugging complexity. The current model handles real-world sources (Red Hat errata, ATT&CK techniques, Amazon Linux variants) well with independent patterns.
+
+**May revisit if:** Real-world usage demonstrates sources with ID formats that can't be practically expressed as independent patterns. Until then, complexity stays out.
+
 ---
 
 ## JSON Schema: Descriptions and Known Values

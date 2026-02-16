@@ -174,7 +174,7 @@ Security tools that provide security checks should appear in **both** types:
 | `entity` | What the tool IS | Product description, capabilities, access methods |
 | `control` | What checks it PROVIDES | Specific detections, validations, mappings |
 
-Example: A vulnerability scanner is an entity (`secid:entity/vendor/scanner`) and its detection rules are controls (`secid:control/vendor/scanner#rule-123`).
+Example: A vulnerability scanner is an entity (`secid:entity/vendor.com/scanner`) and its detection rules are controls (`secid:control/vendor.com/scanner#rule-123`).
 
 ### Identifier Systems as Namespaces
 
