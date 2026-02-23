@@ -17,6 +17,9 @@ sources:
       - "2021"
       - "2017"
       - "2013"
+    version_required: true
+    unversioned_behavior: "all_with_guidance"
+    version_disambiguation: "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another."
     examples:
       - "secid:weakness/owasp.org/top10@2021#A01"
       - "secid:weakness/owasp.org/top10@2021#A03"
@@ -34,6 +37,9 @@ sources:
     versions:
       - "2.0"
       - "1.0"
+    version_required: true
+    unversioned_behavior: "all_with_guidance"
+    version_disambiguation: "v2.0 (2025) significantly restructured from v1.0 (2023). Match the version whose release date is closest to but not after the referring document's publication date. If no date context, use v2.0. Item numbering is reused — LLM01 in v2.0 is the same topic (Prompt Injection) but with substantially updated content; other items changed more significantly."
     examples:
       - "secid:weakness/owasp.org/llm-top10@2.0#LLM01"
       - "secid:weakness/owasp.org/llm-top10@2.0#LLM02"

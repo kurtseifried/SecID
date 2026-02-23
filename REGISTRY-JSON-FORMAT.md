@@ -44,9 +44,10 @@ secid:advisory/github.com/advisories/ghsa#GHSA-1234-5678-abcd
 | 3 | namespace | **Shortest-to-longest matching** against registry. Namespaces can contain `/` (e.g., `github.com/advisories`). See SPEC.md Section 4.3. |
 | 4 | name | Longest match against sources in `registry[type][namespace]` |
 | 5 | version | After name, parse `@...` until `?` or `#` |
-| 6 | qualifiers | Parse `?...` until `#` |
+| 6 | source qualifiers | Parse `?...` until `#` |
 | 7 | subpath | Everything after the `#` following version/qualifiers |
 | 8 | item_version | Match subpath against `id_patterns`. If `@` follows the matched pattern, extract item version. See below. |
+| 9 | item qualifiers | If `?` follows the item version (or matched identifier), parse as item-level qualifiers. |
 
 **Why registry-aware?** Names can contain any characters (including `#`, `@`, `?`, `:`). The registry defines what names exist, and longest-match resolves ambiguity.
 
@@ -438,6 +439,10 @@ The `sources` block contains one or more data sources published by this namespac
     "urls": [ ... ],
     "id_patterns": [ ... ],
     "version_patterns": [ ... ],
+    "version_required": false,
+    "unversioned_behavior": "current",
+    "version_disambiguation": null,
+    "versions_available": null,
     "examples": [ ... ]
   }
 }
@@ -817,6 +822,88 @@ For sources where individual items can be versioned independently (e.g., git-bac
 - Items are immutable once published
 
 If `item_version_patterns` is absent or `null`, the source's items are assumed to be either immutable or versioned only at the source level.
+
+#### Version Resolution Fields (optional)
+
+These source-level fields control what happens when a SecID omits the `@version` component. Most sources don't need them — the default behavior ("return current") is correct for sources like CVE where IDs are unique across all versions.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `version_required` | boolean, optional | `true` if unversioned references are ambiguous. Default: `false`. When `true`, the resolver should not silently return a single version. |
+| `unversioned_behavior` | string, optional | One of `"current"` (default), `"current_with_history"`, `"all_with_guidance"`. How the resolver should respond when version is omitted. |
+| `version_disambiguation` | string, optional | AI-readable instructions for determining which version was intended based on available context (publication date, ID format, surrounding references, etc.). |
+| `versions_available` | array, optional | Array of objects documenting known versions. Each object has: `version` (string, required), `release_date` (string, ISO date, optional), `status` (string: `"current"`, `"superseded"`, `"draft"`, optional), `note` (string, optional). |
+
+##### Unversioned Behavior Values
+
+| Value | Resolver Response | Use When |
+|-------|-------------------|----------|
+| `"current"` | Return the current/latest version. No ambiguity signal. | IDs are unique across all versions, or the source doesn't meaningfully version (CVE, CWE, GHSA). This is the default. |
+| `"current_with_history"` | Return the current version, plus a note that other versions exist. | The current version is a sensible default, but older versions are still actively referenced (CCM, ISO 27001). |
+| `"all_with_guidance"` | Return **all matching versions** with disambiguation instructions from `version_disambiguation`. | Item identifiers are reused across versions with different meanings (OWASP Top 10 — A01 means something different in each edition). |
+
+##### Disambiguation Guidance
+
+The `version_disambiguation` field provides instructions for AI clients to determine the intended version from surrounding context. Write it as if explaining to another AI agent that has access to the referring document but doesn't know which version was meant:
+
+```json
+"version_disambiguation": "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another."
+```
+
+This implements the **"AI on both ends" pattern**: the registry provides reasoning guidance (server side), and the AI client applies it to the local context it has access to (publication dates, surrounding references, document age). Neither side alone can resolve the ambiguity.
+
+##### Versions Available
+
+```json
+"versions_available": [
+  {
+    "version": "2021",
+    "release_date": "2021-09-24",
+    "status": "current",
+    "note": "Major restructuring from 2017. A01 changed from Injection to Broken Access Control."
+  },
+  {
+    "version": "2017",
+    "release_date": "2017-11-20",
+    "status": "superseded",
+    "note": "Still widely referenced in existing documentation and certifications."
+  }
+]
+```
+
+##### Version Resolution Examples
+
+**OWASP Top 10 (`all_with_guidance`):**
+
+```json
+{
+  "official_name": "OWASP Top 10",
+  "version_required": true,
+  "unversioned_behavior": "all_with_guidance",
+  "version_disambiguation": "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another.",
+  "versions_available": [
+    {"version": "2021", "release_date": "2021-09-24", "status": "current"},
+    {"version": "2017", "release_date": "2017-11-20", "status": "superseded"},
+    {"version": "2013", "release_date": "2013-06-12", "status": "superseded"}
+  ]
+}
+```
+
+**CCM (`current_with_history`):**
+
+```json
+{
+  "official_name": "Cloud Controls Matrix",
+  "version_required": false,
+  "unversioned_behavior": "current_with_history",
+  "versions_available": [
+    {"version": "4.0", "release_date": "2021-06-01", "status": "current"},
+    {"version": "3.0.1", "release_date": "2017-06-01", "status": "superseded", "note": "Still referenced in older compliance documentation."}
+  ]
+}
+```
+
+**CVE (default — no fields needed):** When `version_required` and `unversioned_behavior` are absent, the default behavior is `current` — just resolve the identifier. CVE IDs are globally unique and don't need version context.
 
 #### Examples
 

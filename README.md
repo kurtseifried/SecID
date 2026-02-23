@@ -53,7 +53,7 @@ SecID is a **meta-identifier system**—it identifies things that already have i
 
 [Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents. These live in different databases, with different formats, maintained by different organizations.
 
-**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`.
+**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]`.
 
 **What SecID does:**
 - Gives you a consistent way to reference CVE-2024-1234, CWE-79, T1059.003, and ISO 27001 A.5.1 in the same format
@@ -111,7 +111,7 @@ SecID is PURL with a different scheme. The grammar is identical:
 
 ```
 PURL:   pkg:type/namespace/name@version?qualifiers#subpath
-SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version]
+SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version][?qualifiers]
 ```
 
 **How each component maps:**
@@ -123,7 +123,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version]
 | `namespace` | `namespace` | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. Examples: `redhat.com`, `cloudsecurityalliance.org`, `github.com/advisories`, `github.com/ModelContextProtocol-Security/vulnerability-db`. |
 | `name` | `name` | **Database/framework/standard** they publish (e.g., `cve`, `nvd`, `cwe`, `attack`, `27001`) |
 | `@version` | `@version` | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
-| `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`) |
+| `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`). Can appear on name (source-level) and/or subpath (item-level). |
 | `#subpath` | `#subpath` | **Specific item** within the database (e.g., `#CVE-2024-1234`, `#CWE-79`, `#T1059`, `#A.8.1`) |
 | — | `@item_version` | **Version of the specific item** (e.g., `@a1b2c3d` for a git commit). SecID extension. |
 
@@ -266,7 +266,7 @@ Each registry file contains resolution rules for all sources in that namespace. 
 ## Identifier Format
 
 ```
-secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]
+secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]
 ```
 
 **Examples:**
@@ -386,6 +386,7 @@ Why this format:
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix on the name for edition/revision of the source (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
 | **Item Version** | Optional `@item_version` suffix on the subpath for a specific revision of an individual item (e.g., `@a1b2c3d` for a git commit, `@rev2` for a revision). Parsed using registry `id_patterns`. |
+| **Version Required** | Some sources declare `version_required: true` in the registry — meaning unversioned references are ambiguous (e.g., OWASP Top 10 `#A01` means different things in 2017 vs 2021). When version is required but absent, the resolver returns all matching versions with disambiguation guidance instead of a single result. |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
 | **Subpath** | The specific item within the document (e.g., `#CVE-2024-1234`, `#IAM-12`, `#T1059`); can use `/` for hierarchy |
 | **Registry** | The collection of namespace definition files that document what identifiers exist |

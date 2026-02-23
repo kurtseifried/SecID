@@ -186,6 +186,53 @@ If your source's items can be versioned independently (e.g., git-backed database
 
 Most sources don't need item versioning — their items are either immutable (CVE IDs) or versioned at the source level (CCM @4.0). Only add `item_version_patterns` when individual items have independent revision histories.
 
+### Version Requirements and Disambiguation
+
+Some sources reuse item identifiers across versions with different meanings. When this happens, an unversioned SecID is ambiguous and the resolver needs to handle it differently. The registry provides four optional source-level fields to control this behavior.
+
+**When to set `version_required: true`:**
+- Item IDs change meaning across versions (OWASP Top 10 `A01` = different weakness in each edition)
+- Returning a single version for an unversioned reference would be misleading
+- Most sources do NOT need this — the default (`false`) is correct when IDs are unique across versions
+
+**When to set `unversioned_behavior`:**
+- `"current"` (default) — IDs are unique or version doesn't matter. No field needed.
+- `"current_with_history"` — Current version is a sensible default, but note that other versions exist. Use for actively-maintained frameworks where older versions are still referenced (CCM, ISO 27001).
+- `"all_with_guidance"` — Return all matching versions with disambiguation instructions. Use when item IDs are reused across versions with different meanings (OWASP Top 10, any source where numbering restarts per version).
+
+**Writing good `version_disambiguation` text:**
+
+Write as if explaining to an AI agent that has access to the referring document but doesn't know which version was meant. Include:
+- How versions are structured (by year, by semantic version, etc.)
+- Date-based heuristics ("match the version whose release year is closest to but not after the referring document's publication date")
+- Structural differences between versions ("item numbering restarts with each version")
+- A sensible fallback ("if no date context is available, use the latest version")
+
+Example:
+```
+"Versions are released by year. Match the version whose release year is closest to
+but not after the referring document's publication date. If no date context is available,
+use the latest version (2021). Note: item numbering restarts with each version — A01 in
+one version is unrelated to A01 in another."
+```
+
+**Populating `versions_available`:**
+
+List all known versions with release dates and status. This helps resolvers and AI agents understand the version landscape:
+```yaml
+versions_available:
+  - version: "2021"
+    release_date: "2021-09-24"
+    status: current
+    note: "Major restructuring from 2017."
+  - version: "2017"
+    release_date: "2017-11-20"
+    status: superseded
+    note: "Still widely referenced in existing documentation."
+```
+
+See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the complete field definitions and JSON examples.
+
 ## Common Patterns
 
 ### Security Tools: Entity + Control

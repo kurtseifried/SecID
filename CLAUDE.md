@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities (MITRE, NIST, etc.).
 
-Format: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`
+Format: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]`
 
 Examples:
 - `secid:advisory/mitre.org/cve#CVE-2024-1234` - CVE record
@@ -199,6 +199,8 @@ This is a **specification-only repository** — no build system, no tests, no co
 - **Unicode for internationalization** - Native language domain names supported
 
 **Why registry-required?** Names can contain `#`, `@`, `?`, `:` - the registry lookup determines where name ends.
+
+**Version resolution:** Sources with `version_required: true` behave differently when `@version` is omitted — the resolver returns all matching versions with disambiguation guidance instead of a single result. See REGISTRY-JSON-FORMAT.md "Version Resolution Fields".
 
 ## Preserve Source Identifiers
 

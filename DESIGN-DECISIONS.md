@@ -926,12 +926,15 @@ PURL qualifiers (`?key=value`) exist for **disambiguation**—distinguishing bet
 
 ### Appropriate Use
 
+Qualifiers can appear in two positions — on the name (source-level) and on the subpath (item-level):
+
 ```
-pkg:npm/lodash@4.17.21?arch=x86_64       # Same package, different architecture
-secid:advisory/vendor.com/product?lang=ja    # Same advisory, Japanese translation
+secid:advisory/nist.gov/nvd?lang=ja#CVE-2024-1234      # Source-level: Japanese NVD
+secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja      # Item-level: this CVE in Japanese
+secid:advisory/nist.gov/nvd?format=json#CVE-2024-1234?lang=ja   # Both: JSON API, this CVE in Japanese
 ```
 
-The qualifier changes *which specific thing* you're identifying.
+The qualifier changes *which specific thing* you're identifying, or *how* you want to interact with it. Source-level qualifiers scope the resolution context; item-level qualifiers scope the specific item. If the same key appears in both positions, item-level takes precedence.
 
 ### Anti-Pattern: Metadata in Qualifiers
 
@@ -1927,7 +1930,7 @@ Extend the `@` convention to items in the subpath:
 secid:advisory/github.com/advisories/ghsa#GHSA-cxpw-2g23-2vgw@a1b2c3d
 ```
 
-The grammar becomes: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`
+The grammar becomes: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]`
 
 - `@version` (source version) pins the source as a whole: `ccm@4.0`
 - `@item_version` (item version) pins a specific item revision: `#GHSA-xxxx@commit`
@@ -1955,6 +1958,92 @@ If a source's IDs legitimately contained `@`, their `id_pattern` would include i
 | Framework editions | — | `ccm@4.0` |
 | Annual releases | — | `top10@2021` |
 | Version already in the ID | Neither — it's part of the ID | arXiv `2303.08774v2` |
+
+---
+
+## Why Each Component Does or Doesn't Support Versioning
+
+### The Question
+
+SecID has six grammar components: `secid:type/namespace/name@version?qualifiers#subpath@item_version?qualifiers`. Why do only `name` and `subpath` support versioning?
+
+### The Decision Table
+
+| Component | Versioned? | Rationale |
+|-----------|-----------|-----------|
+| `secid:` (scheme) | No | Protocol-level changes, not per-identifier. If the grammar itself changes incompatibly, use `secid2:`. Versioning the scheme per-identifier would break every consumer. |
+| `type` | No | Categories don't version — they refine or split. `advisory@2` would break every existing identifier using that type. If a type needs rethinking, create a new type. |
+| `namespace` | No | Domain names are stable identifiers. Organization changes (acquisitions, rebrands) create new namespaces + relationship records. Also: `namespace@version` would be syntactically ambiguous with `name@version` since namespaces can contain `/` path segments. |
+| `name` | **Yes** (`@version`) | Frameworks and databases release as versioned wholes. OWASP Top 10 `@2021`, CCM `@4.0`, ISO 27001 `@2022`. The source publishes a complete artifact at a version — this is the natural versioning unit. |
+| `?qualifiers` (both positions) | No | Metadata modifiers that add context, not artifacts with release cycles. `?lang=en` or `?format=json` are view preferences, not versionable things. Qualifiers can appear on both name (source-level) and subpath (item-level) but neither position versions. |
+| `#subpath` | **Yes** (`@item_version`) | Individual items within a source can have independent revision histories. A GHSA advisory changes over time (`@a1b2c3d`), a Red Hat erratum gets revisions (`@rev2`). |
+
+### The Underlying Principle
+
+**Versioning exists exactly where artifacts have independent release cycles.** Names version because sources are published artifacts (CCM 4.0 is a release). Subpaths version because items within sources can change independently (a GHSA advisory is updated via git commits). Everything else — scheme, type, namespace, qualifiers — either doesn't change, changes via replacement rather than versioning, or represents metadata rather than artifacts.
+
+---
+
+## Version Resolution Behavior
+
+### The Problem
+
+When version is omitted from a SecID, what should happen? The naive answer — "return the current/latest version" — is wrong for some sources.
+
+Consider:
+- `secid:advisory/mitre.org/cve#CVE-2024-1234` — CVE IDs are globally unique. Version is irrelevant. Just resolve it.
+- `secid:control/cloudsecurityalliance.org/ccm#IAM-12` — CCM 4.0 is current. Return that, but note that v3.0.1 exists (older docs may reference it).
+- `secid:weakness/owasp.org/top10#A01` — **Genuinely ambiguous.** A01 in 2021 is "Broken Access Control." A01 in 2017 was "Injection." These are completely different weaknesses sharing the same identifier.
+
+### Three Resolution Behaviors
+
+The registry declares per-source how the resolver should behave when version is omitted:
+
+| Behavior | When Version Omitted | Use When |
+|----------|---------------------|----------|
+| `current` (default) | Return the current/latest version. No ambiguity. | IDs are unique across all versions, or the source doesn't meaningfully version (CVE, CWE, GHSA). |
+| `current_with_history` | Return the current version, but include a note that other versions exist and may be relevant. | The current version is a sensible default, but older versions are still actively referenced (CCM, ISO 27001). |
+| `all_with_guidance` | Return **all matching versions** with disambiguation instructions. | Item identifiers are reused across versions with different meanings. Returning just one would be misleading (OWASP Top 10). |
+
+### Disambiguation Guidance
+
+For `all_with_guidance` sources, the registry includes a `version_disambiguation` field — AI-readable instructions that help a client determine which version was intended based on context it has access to. Example for OWASP Top 10:
+
+> "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another."
+
+This is the **"AI on both ends" pattern**: the registry (server side) provides reasoning guidance, and the AI client (consumer side) applies it to the local context it has — publication dates, surrounding references, document age. Neither side alone can resolve the ambiguity, but together they can.
+
+### Why Grammar Keeps Version Optional
+
+The grammar makes `@version` syntactically optional everywhere. The registry makes it semantically required for specific sources via `version_required: true`. This separation is deliberate:
+
+1. **The grammar shouldn't encode source-specific constraints.** Whether version matters depends on the source, not the syntax.
+2. **Versionless references are valid questions.** "What does `top10#A01` mean?" is a legitimate query — the answer is "it means different things in different versions, here's how to determine which one."
+3. **Graceful degradation.** A client that doesn't understand version requirements still gets useful information back (all versions with guidance), rather than an error.
+
+### The Full Spectrum
+
+```
+# Version irrelevant — just resolve it
+secid:advisory/mitre.org/cve#CVE-2024-1234           → URL to CVE record
+                                                        (unversioned_behavior: current)
+
+# Version significant — sensible default, history noted
+secid:control/cloudsecurityalliance.org/ccm#IAM-12    → URL to v4.0 IAM-12
+                                                        + note: "v3.0.1 also exists"
+                                                        (unversioned_behavior: current_with_history)
+
+# Version ambiguous — all versions with disambiguation guidance
+secid:weakness/owasp.org/top10#A01                    → 2021: Broken Access Control
+                                                        + 2017: Injection
+                                                        + 2013: Injection
+                                                        + guidance for determining which
+                                                        (unversioned_behavior: all_with_guidance)
+```
+
+### Registry Fields
+
+See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the source-level fields that control this behavior: `version_required`, `unversioned_behavior`, `version_disambiguation`, and `versions_available`.
 
 ---
 

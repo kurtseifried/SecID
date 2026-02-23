@@ -32,7 +32,7 @@ Package URL (PURL) provides a universal scheme for identifying software packages
 
 In the security world, we need to identify many things that aren't packages: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents. Rather than invent something new, we essentially created a "package URL" for each category of security knowledge we needed to identify.
 
-**Why `secid:`?** PURL uses `pkg:` as its scheme for packages. SecID uses `secid:` as its scheme for security knowledge. What follows the scheme is identical to PURL grammar: `type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`. Everywhere in SecID, we're using PURL-compliant grammar - just with `secid:` as the scheme because we're identifying security knowledge, not software packages. The `@item_version` extension allows pinning specific revisions of individual items (e.g., a GHSA advisory at a specific git commit).
+**Why `secid:`?** PURL uses `pkg:` as its scheme for packages. SecID uses `secid:` as its scheme for security knowledge. What follows the scheme is identical to PURL grammar: `type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]`. Everywhere in SecID, we're using PURL-compliant grammar - just with `secid:` as the scheme because we're identifying security knowledge, not software packages. The `@item_version` extension allows pinning specific revisions of individual items (e.g., a GHSA advisory at a specific git commit), and qualifiers can appear on both the name (source-level) and the subpath (item-level).
 
 ### 1.2 Exact PURL to SecID Mapping
 
@@ -40,7 +40,7 @@ SecID is PURL with a different scheme. The grammar is identical:
 
 ```
 PURL:   pkg:type/namespace/name@version?qualifiers#subpath
-SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version]
+SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version][?qualifiers]
 ```
 
 **Component-by-component mapping:**
@@ -174,6 +174,8 @@ secid:weakness/mitre.org/cwe#CWE-123
 5. Extract item version → if "@" follows the matched pattern, extract item_version (none in this case)
 6. Build URL → https://cwe.mitre.org/data/definitions/123.html
 ```
+
+**Note:** If version is absent in step 2, check the source's `version_required` field. If `true`, the resolver's behavior changes — instead of building a single URL, it returns multiple versions with disambiguation guidance. See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for details.
 
 For complex URLs, patterns define variables that extract parts of the ID:
 
@@ -336,7 +338,7 @@ This separation keeps the identifier specification focused while allowing implem
 SecID follows PURL's grammar exactly, with `secid:` as the scheme:
 
 ```
-secid:type/namespace/name@version?qualifiers#subpath[@item_version]
+secid:type/namespace/name@version?qualifiers#subpath[@item_version][?qualifiers]
 ```
 
 ### 2.1 Components
@@ -348,7 +350,7 @@ secid:type/namespace/name@version?qualifiers#subpath[@item_version]
 | `namespace` | Yes | The domain name of the organization (mitre.org, nist.gov, owasp.org, etc.), optionally with sub-namespace path segments (github.com/advisories) |
 | `name` | Yes | The database/framework/document they publish (cve, nvd, ccm, attack, etc.) |
 | `@version` | No | Edition or revision of the thing itself |
-| `?qualifiers` | No | Optional disambiguation or scope |
+| `?qualifiers` | No | Optional disambiguation or scope. Can appear on the name (source-level) and/or on the subpath (item-level). |
 | `#subpath` | No | The specific item within the document (CVE-2024-1234, IAM-12, T1059, etc.) |
 | `@item_version` | No | Version of the specific item within the subpath (e.g., git commit hash for a GHSA advisory, revision number for an erratum). Follows the subpath. |
 
@@ -786,11 +788,21 @@ secid:control/iso.org/27001@2013#A.8.1         # ISO 27001:2013
 
 #### Versionless References
 
-When version is omitted, assume "current" or "latest":
+When version is omitted, the default behavior is "current" or "latest":
 ```
 secid:control/cloudsecurityalliance.org/ccm#IAM-12               # Current CCM version
-secid:weakness/owasp.org/top10#A03             # Current Top 10
+secid:advisory/mitre.org/cve#CVE-2024-1234                       # CVE — version irrelevant
 ```
+
+However, some sources declare `version_required: true` in the registry because unversioned references are ambiguous. OWASP Top 10 is the canonical example — `top10#A01` means "Broken Access Control" in 2021 but "Injection" in 2017. For these sources, when version is omitted the resolver returns all matching versions with disambiguation guidance rather than silently picking one:
+
+```
+secid:weakness/owasp.org/top10#A01             # Ambiguous — returns 2021 + 2017 + 2013
+                                               # with instructions for determining which
+secid:weakness/owasp.org/top10@2021#A01        # Unambiguous — Broken Access Control
+```
+
+The registry controls this via three `unversioned_behavior` values: `"current"` (default), `"current_with_history"`, and `"all_with_guidance"`. See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for field definitions.
 
 ### 5.1b Item Version (`#subpath@item_version`)
 
@@ -844,14 +856,28 @@ secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12   ← Source version (fra
 
 ### 5.2 Qualifiers (`?key=value`)
 
-Optional context that doesn't change identity:
+Optional context that doesn't change identity. Qualifiers can appear in two positions:
 
+**Source-level qualifiers** (on the name, before `#`):
 ```
-secid:control/cloudflare.com/waf?surface=api   # API-specific context
-secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja   # Japanese translation
+secid:control/cloudflare.com/waf?surface=api           # API-specific context for the whole source
+secid:advisory/nist.gov/nvd?lang=ja#CVE-2024-1234      # Japanese NVD, then the specific CVE
 ```
 
-Qualifiers never define identity - two SecIDs differing only in qualifiers refer to the same thing with different context.
+**Item-level qualifiers** (on the subpath, after the item):
+```
+secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja      # This specific CVE in Japanese
+secid:control/iso.org/27001@2022#A.8.1?format=pdf      # This specific control as PDF
+```
+
+**Both positions:**
+```
+secid:advisory/nist.gov/nvd?format=json#CVE-2024-1234?lang=ja   # JSON API, Japanese translation of this CVE
+```
+
+When both positions are present: source-level qualifiers apply to the resolution context, item-level qualifiers apply to the specific item. If the same key appears in both positions, the item-level qualifier takes precedence.
+
+Qualifiers never define identity — two SecIDs differing only in qualifiers refer to the same thing with different context.
 
 ### 5.3 Subpath (`#subpath`)
 
@@ -1077,9 +1103,10 @@ Rather than defining a complex list of banned characters that users must memoriz
 2. **Namespace** - Try shortest-to-longest namespace matches against the registry (see below)
 3. **Name** - Match remaining path against source names in `registry[type][namespace]`. **Longest match wins.** Names can contain any characters including `#`, `@`, `?`, `:`.
 4. **Source version** - After name match, parse `@...` until `?` or `#`
-5. **Qualifiers** - Parse `?...` until `#`
+5. **Source qualifiers** - Parse `?...` until `#`
 6. **Subpath** - Everything after the `#` that follows version/qualifiers
 7. **Item version** - Match subpath against `id_patterns` for this source. If the matched identifier is followed by `@`, extract the remainder as `item_version`. **This is why SecID parsing requires the registry** — the `id_pattern` regex determines where the item identifier ends, resolving the ambiguity of `@` in subpaths.
+8. **Item qualifiers** - If `?` follows the item version (or the matched identifier if no item version), parse `?...` as item-level qualifiers.
 
 **Namespace resolution (shortest-to-longest):**
 
@@ -1344,7 +1371,7 @@ Tools should render identifiers human-friendly for display while storing the enc
 
 All SecIDs should normalize to:
 ```
-secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]
+secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version][?qualifiers]]
 ```
 
 Display shorthands must expand to canonical form for storage and comparison.
