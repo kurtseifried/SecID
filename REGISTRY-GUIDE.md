@@ -163,6 +163,29 @@ Use `known_values` for the domain/category level (finite set) but not for indivi
 
 Not every granularity level needs to resolve to a URL. An identifier can be valid for reference purposes even without direct resolution.
 
+### Item-Level Versioning
+
+If your source's items can be versioned independently (e.g., git-backed databases like GHSA, advisory revision histories), define `item_version_patterns` on the relevant `id_pattern`. This tells parsers what item version formats are valid and how to resolve versioned items:
+
+```json
+"id_patterns": [
+  {
+    "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
+    "description": "GitHub Security Advisory ID",
+    "url": "https://github.com/advisories/{id}",
+    "item_version_patterns": [
+      {
+        "pattern": "^[0-9a-f]{7,40}$",
+        "description": "Git commit hash",
+        "url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"
+      }
+    ]
+  }
+]
+```
+
+Most sources don't need item versioning — their items are either immutable (CVE IDs) or versioned at the source level (CCM @4.0). Only add `item_version_patterns` when individual items have independent revision histories.
+
 ## Common Patterns
 
 ### Security Tools: Entity + Control

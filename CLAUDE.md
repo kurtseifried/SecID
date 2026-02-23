@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 SecID provides a grammar and registry for referencing security knowledge. SecID does not assign identifiers—those come from their respective authorities (MITRE, NIST, etc.).
 
-Format: `secid:type/namespace/name[@version][?qualifiers][#subpath]`
+Format: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`
 
 Examples:
 - `secid:advisory/mitre.org/cve#CVE-2024-1234` - CVE record
@@ -35,30 +35,45 @@ SecID separates concerns:
 
 The registry (this repo) only handles identity, resolution, and disambiguation.
 
+## Document Map
+
+With 20+ markdown files, know which document answers which question:
+
+| Question | Read This |
+|----------|-----------|
+| How do SecID strings work? | [SPEC.md](SPEC.md) - grammar, types, parsing, encoding |
+| Why does SecID exist? | [RATIONALE.md](RATIONALE.md) |
+| Why was X designed this way? | [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) |
+| How do I add a namespace? | [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) - principles, patterns, process |
+| What's the JSON schema? | [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - target format for v1.0+ |
+| What's the current file format? | [REGISTRY-FORMAT.md](REGISTRY-FORMAT.md) - YAML+Markdown (what's in use now) |
+| What's being built and when? | [ROADMAP.md](ROADMAP.md) |
+| Edge cases with domains? | [EDGE-CASES.md](EDGE-CASES.md) |
+| What's deferred? | [TODO.md](TODO.md), [registry/_deferred/](registry/_deferred/) |
+
+Documents like RELATIONSHIPS.md, OVERLAYS.md, FUTURE-VISION.md, and STRATEGY.md are exploratory/aspirational — not needed for day-to-day registry work.
+
 ## Repository Structure
 
 ```
 secid/
 ├── SPEC.md                  # Full technical specification
-├── RATIONALE.md             # Why SecID exists
-├── DESIGN-DECISIONS.md      # Key design decisions and rationale
 ├── REGISTRY-GUIDE.md        # Principles and patterns for registry contributions
-├── REGISTRY-JSON-FORMAT.md  # Target JSON schema specification
-├── REGISTRY-FORMAT.md       # Current YAML+Markdown format
-├── ROADMAP.md               # v1.0 scope and deliverables
+├── REGISTRY-JSON-FORMAT.md  # Target JSON schema specification (v1.0+)
+├── REGISTRY-FORMAT.md       # Current YAML+Markdown format (what's in use now)
 ├── registry/                # Namespace definitions (one file per namespace)
-│   ├── <type>.md            # Type description
-│   └── <type>/<tld>/<domain>.md  # Namespace file (reverse-DNS, e.g., org/mitre.md)
-└── seed/                    # Bulk import data (CSV)
+│   ├── <type>.md            # Type description (e.g., advisory.md)
+│   ├── <type>/_template.md  # Template for new namespace files
+│   ├── <type>/<tld>/<domain>.md  # Namespace file (reverse-DNS, e.g., org/mitre.md)
+│   └── _deferred/           # Partially researched entries not ready for main registry
+└── seed/                    # Bulk import data (CSV) for seeding
 ```
 
 ## Registry File Format
 
-Registry files use YAML frontmatter + Markdown (transitioning to JSON). One file per namespace containing all sources from that organization.
+**Current state: All registry files are YAML frontmatter + Markdown.** The JSON format in REGISTRY-JSON-FORMAT.md is the target for v1.0+, not yet in use.
 
-Key documents:
-- [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) - Contribution principles
-- [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - JSON schema, resolution pipeline, variable extraction
+One file per namespace containing all sources from that organization. Use `registry/advisory/_template.md` as a starting point for new files.
 
 ### Status Values
 
@@ -104,15 +119,40 @@ secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12    → Specific control
 
 Document each level with its own `id_pattern` and description.
 
+## Namespace-to-Filesystem Algorithm
+
+Given a namespace like `github.com/advisories` and type `advisory`:
+
+1. Split namespace at first `/` → domain `github.com`, path `advisories`
+2. Split domain on `.` → `github`, `com`
+3. Reverse → `com/github`
+4. Append path portion → `com/github/advisories`
+5. Append `.md` → `com/github/advisories.md`
+6. Prepend `registry/<type>/` → `registry/advisory/com/github/advisories.md`
+
+Simple cases: `mitre.org` → `registry/<type>/org/mitre.md`, `nist.gov` → `registry/<type>/gov/nist.md`
+
 ## Adding New Namespaces
 
 1. Determine type (advisory, weakness, ttp, control, regulation, entity, reference)
-2. Check if the namespace file exists at the reverse-DNS path (e.g., `registry/<type>/org/mitre.md` for `mitre.org`)
-3. Add source to existing file OR create new namespace file
-4. Include: urls, id_patterns (with descriptions), examples
-5. Use `registry/_deferred/` for incomplete research
+2. Compute the filesystem path using the algorithm above
+3. Check if the file already exists — if so, add a source section to it
+4. If new, copy from `registry/advisory/_template.md` and fill in fields
+5. Include: urls, id_patterns (with descriptions), examples
+6. Use `registry/_deferred/` for incomplete research
 
 See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for detailed patterns.
+
+## Entity Type Differences
+
+Entity files describe organizations, not data sources. They use a `names` block instead of `sources` to document products/projects:
+
+```yaml
+# registry/entity/org/mitre.md uses names: { cve: {...}, attack: {...} }
+# vs registry/advisory/org/mitre.md uses sources: { cve: {...} }
+```
+
+See REGISTRY-JSON-FORMAT.md "Entity Type Differences" section for the full schema.
 
 ## Development Commands
 
@@ -120,9 +160,20 @@ See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for detailed patterns.
 # Check registry files have required metadata
 rg -n '^type:' registry/**/*.md
 
-# Lint markdown
+# List all namespaces and their types
+rg -n '^namespace:' registry/**/*.md
+
+# Find all files for a specific namespace (e.g., mitre.org appears in multiple types)
+rg -l 'namespace: mitre.org' registry/
+
+# Count registry files per type
+for type in advisory weakness ttp control regulation entity reference; do echo "$type: $(find registry/$type -name '*.md' -not -name '_*' 2>/dev/null | wc -l)"; done
+
+# Lint markdown (if markdownlint is installed)
 markdownlint **/*.md
 ```
+
+This is a **specification-only repository** — no build system, no tests, no compiled code. Validation is manual review + grep/ripgrep over YAML frontmatter.
 
 ## Parsing Rules
 
@@ -135,7 +186,7 @@ markdownlint **/*.md
 | `type` | Fixed list of 7 values |
 | `namespace` | Domain name, optionally with `/`-separated sub-namespace path segments. Per-segment: `a-z`, `0-9`, `-`, `.`, Unicode `\p{L}\p{N}`. |
 | `name` | **Anything** - resolved by registry lookup, longest match wins |
-| `subpath` | Anything (everything after `#`) |
+| `subpath` | Anything (everything after `#`). May include `@item_version` suffix — parsed via `id_patterns`. |
 
 **Per-segment validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$` (applies to each segment between `/`)
 

@@ -11,6 +11,10 @@ Status: Public Draft - Open for Comment
 
 SecID is directly modeled after [Package URL (PURL)](https://github.com/package-url/purl-spec). It provides a consistent way to reference existing databases like CVE, CWE, ATT&CK, and ISO standards.
 
+**This specification is not a recipe for parsing individual SecID strings in isolation. It is a blueprint for building a parser** — a system that combines this grammar with registry data to parse, validate, and resolve SecIDs. A standalone regex cannot parse SecIDs because the registry resolves every structural ambiguity: where the namespace ends, where the name ends, whether `@` is a version delimiter or part of an identifier.
+
+This is by design. Because every SecID contains a domain name (`mitre.org`, `github.com/advisories`, `redhat.com`), even an unknown SecID carries enough information to bootstrap its own resolution. A human or AI encountering `secid:advisory/newvendor.com/alerts#ALERT-2026-001` can visit `newvendor.com`, understand their alert system, and contribute a registry entry. The goal is comprehensive registry coverage — and the ecosystem (hosted service, easy contribution, federation) is how we get there. But the domain-name design means encountering an unknown SecID is a solvable problem, not a dead end.
+
 **SecID does not replace CVE, CWE, ATT&CK, or any other authority.** It references them. `secid:advisory/mitre.org/cve#CVE-2024-1234` points to MITRE's CVE record; it doesn't create a new one. CVE-2024-1234 is assigned by MITRE—SecID provides a consistent way to reference it.
 
 **SecID identifies things. It does not imply authority, truth, severity, or correctness.**
@@ -28,7 +32,7 @@ Package URL (PURL) provides a universal scheme for identifying software packages
 
 In the security world, we need to identify many things that aren't packages: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents. Rather than invent something new, we essentially created a "package URL" for each category of security knowledge we needed to identify.
 
-**Why `secid:`?** PURL uses `pkg:` as its scheme for packages. SecID uses `secid:` as its scheme for security knowledge. What follows the scheme is identical to PURL grammar: `type/namespace/name[@version][?qualifiers][#subpath]`. Everywhere in SecID, we're using PURL-compliant grammar - just with `secid:` as the scheme because we're identifying security knowledge, not software packages.
+**Why `secid:`?** PURL uses `pkg:` as its scheme for packages. SecID uses `secid:` as its scheme for security knowledge. What follows the scheme is identical to PURL grammar: `type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`. Everywhere in SecID, we're using PURL-compliant grammar - just with `secid:` as the scheme because we're identifying security knowledge, not software packages. The `@item_version` extension allows pinning specific revisions of individual items (e.g., a GHSA advisory at a specific git commit).
 
 ### 1.2 Exact PURL to SecID Mapping
 
@@ -36,7 +40,7 @@ SecID is PURL with a different scheme. The grammar is identical:
 
 ```
 PURL:   pkg:type/namespace/name@version?qualifiers#subpath
-SecID:  secid:type/namespace/name@version?qualifiers#subpath
+SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version]
 ```
 
 **Component-by-component mapping:**
@@ -50,6 +54,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 | `@version` | `@version` | No | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | No | Optional context that doesn't change identity (e.g., `?lang=ja`) |
 | `#subpath` | `#subpath` | No | **Specific item** within the database/framework (e.g., `#CVE-2024-1234`, `#CWE-79`, `#T1059`, `#A.8.1`) |
+| `@item_version` | `@item_version` | No | **Version of the specific item** (e.g., `@a1b2c3d` for a git commit, `@rev2` for a revision). SecID extension — not in PURL. |
 
 **Visual breakdown:**
 
@@ -157,7 +162,7 @@ status: active
 | example | `secid:weakness/mitre.org/cwe#CWE-79` |
 ```
 
-**Resolution process (5 steps):**
+**Resolution process (6 steps):**
 
 ```
 secid:weakness/mitre.org/cwe#CWE-123
@@ -166,7 +171,8 @@ secid:weakness/mitre.org/cwe#CWE-123
 2. Lookup source → registry["weakness"]["mitre.org"]["cwe"]
 3. Match patterns → subpath "CWE-123" matches pattern "^CWE-\d+$"
 4. Extract variables → "number" regex captures "123" from "CWE-123"
-5. Build URL → https://cwe.mitre.org/data/definitions/123.html
+5. Extract item version → if "@" follows the matched pattern, extract item_version (none in this case)
+6. Build URL → https://cwe.mitre.org/data/definitions/123.html
 ```
 
 For complex URLs, patterns define variables that extract parts of the ID:
@@ -330,7 +336,7 @@ This separation keeps the identifier specification focused while allowing implem
 SecID follows PURL's grammar exactly, with `secid:` as the scheme:
 
 ```
-secid:type/namespace/name@version?qualifiers#subpath
+secid:type/namespace/name@version?qualifiers#subpath[@item_version]
 ```
 
 ### 2.1 Components
@@ -344,6 +350,7 @@ secid:type/namespace/name@version?qualifiers#subpath
 | `@version` | No | Edition or revision of the thing itself |
 | `?qualifiers` | No | Optional disambiguation or scope |
 | `#subpath` | No | The specific item within the document (CVE-2024-1234, IAM-12, T1059, etc.) |
+| `@item_version` | No | Version of the specific item within the subpath (e.g., git commit hash for a GHSA advisory, revision number for an erratum). Follows the subpath. |
 
 ### 2.2 Hard Rules
 
@@ -737,9 +744,9 @@ See Section 8 for the entity registry format used for namespace documentation.
 
 ## 5. Versions, Qualifiers, and Subpaths
 
-### 5.1 Version (`@version`)
+### 5.1 Source Version (`name@version`)
 
-Pins a specific edition of the thing itself. Use version when the **content changes across releases**.
+Pins a specific edition of the source (database, framework, standard) itself. Use version when the **content changes across releases**.
 
 #### When to Use Versions
 
@@ -783,6 +790,56 @@ When version is omitted, assume "current" or "latest":
 ```
 secid:control/cloudsecurityalliance.org/ccm#IAM-12               # Current CCM version
 secid:weakness/owasp.org/top10#A03             # Current Top 10
+```
+
+### 5.1b Item Version (`#subpath@item_version`)
+
+Pins a specific revision of an individual item within a source. Use item version when the **item itself changes over time** independently of the source as a whole.
+
+#### When to Use Item Versions
+
+| Scenario | Use Item Version? | Example |
+|----------|-------------------|---------|
+| Git-backed advisory databases | Yes | GHSA advisory at a specific commit |
+| Advisory revisions | Yes | Red Hat erratum at revision 2 |
+| Content that gets updated in place | Yes | Wiki-style entries with edit history |
+| Version already baked into the ID | No | arXiv `2303.08774v2` — the `v2` is part of the arXiv ID itself |
+| Source already versions as a whole | No | OWASP Top 10 `@2021` — use source version instead |
+
+#### Item Version Format
+
+```
+secid:advisory/github.com/advisories/ghsa#GHSA-cxpw-2g23-2vgw@a1b2c3d    # GHSA at specific git commit
+secid:advisory/redhat.com/errata#RHSA-2026:3102@rev2                       # Erratum at revision 2
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12@draft               # Control at draft stage (both source and item version)
+```
+
+#### How Parsing Works
+
+**This is a key example of why SecID parsing requires the registry.**
+
+The `@` character can appear in subpaths as either a version delimiter or as part of an identifier. The registry's `id_patterns` resolve this ambiguity:
+
+1. The parser matches the subpath against the source's `id_patterns`
+2. The `id_pattern` regex defines where the item identifier ends
+3. If `@` follows the matched identifier, it's the item version delimiter
+4. If a source's IDs legitimately contain `@`, their `id_pattern` includes it, and the parser knows it's not a version delimiter
+
+**Example:** GHSA IDs match `^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$`. This pattern does not include `@`. So in `GHSA-cxpw-2g23-2vgw@a1b2c3d`, the parser matches `GHSA-cxpw-2g23-2vgw` against the pattern, sees the `@` after the match boundary, and extracts `a1b2c3d` as the item version.
+
+#### When NOT to Use Item Versions
+
+**Version already in the ID:** arXiv papers include version numbers as part of their identifier (`2303.08774v2`). The `v2` is part of the arXiv ID, not a SecID item version. The registry's `id_pattern` matches the full `2303.08774v2` string.
+
+```
+secid:reference/arxiv.org/papers#2303.08774v2       ← v2 is part of the arXiv ID itself (not @v2)
+```
+
+**Source versions the whole thing:** When a framework releases numbered editions (OWASP Top 10 @2021, CCM @4.0), use the source version, not item versions on individual controls.
+
+```
+secid:weakness/owasp.org/top10@2021#A01             ← Source version (whole framework is versioned)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12   ← Source version (framework release)
 ```
 
 ### 5.2 Qualifiers (`?key=value`)
@@ -905,22 +962,23 @@ secid:reference/arxiv.org/2402.05369#methodology      # Sleeper Agents methodolo
 3. Mirror source structure when possible: use the document's own section names
 4. Preserve upstream IDs: `#CVE-2024-1234` keeps the CVE format
 
-### 5.4 Combined Version and Subpath
+### 5.4 Combined Version, Subpath, and Item Version
 
-Version and subpath can be used together:
+Source version, subpath, and item version can be used together:
 
 ```
-# Specific article in specific version
+# Source version + subpath (already supported)
 secid:regulation/europa.eu/gdpr@2016-04-27#art-32/1/a
-
-# Control guidance in framework version
 secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit-guidance
-
-# Specific section in dated release
 secid:weakness/owasp.org/top10@2021#A03/how-to-prevent
-
-# ISO control guidance in specific year
 secid:control/iso.org/27001@2022#A.8.1/implementation-guidance
+
+# Subpath + item version (new)
+secid:advisory/github.com/advisories/ghsa#GHSA-cxpw-2g23-2vgw@a1b2c3d
+secid:advisory/redhat.com/errata#RHSA-2026:3102@rev2
+
+# Source version + subpath + item version (both)
+secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12@draft
 ```
 
 ## 6. Future Layers: Relationships and Overlays
@@ -1007,18 +1065,21 @@ The body contains human/AI-readable context:
 
 ### 8.0 Registry-Required Parsing
 
-**SecID parsing requires access to the registry.** This is by design.
+**SecID parsing requires access to the registry.** This specification is not a standalone grammar you can implement with a regex — it is a guide for building a parser that uses registry data. This is by design.
 
 Rather than defining a complex list of banned characters that users must memorize, the registry itself defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps the parser and registry always in sync.
+
+**Even for unknown SecIDs, the domain name provides a starting point.** Because every namespace is a domain name, encountering a SecID not in the registry is a solvable problem: visit the domain, understand the source, contribute a registry entry. The hosted SecID service, easy contribution model (one file per namespace), and federation support (organizations can run their own registries) mean that unknown SecIDs are a temporary state. The spec teaches you how to build a parser; the registry and ecosystem grow to cover what's out there.
 
 **Parsing algorithm:**
 
 1. **Type** - Match against known list: `advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`
 2. **Namespace** - Try shortest-to-longest namespace matches against the registry (see below)
 3. **Name** - Match remaining path against source names in `registry[type][namespace]`. **Longest match wins.** Names can contain any characters including `#`, `@`, `?`, `:`.
-4. **Version** - After name match, parse `@...` until `?` or `#`
+4. **Source version** - After name match, parse `@...` until `?` or `#`
 5. **Qualifiers** - Parse `?...` until `#`
 6. **Subpath** - Everything after the `#` that follows version/qualifiers
+7. **Item version** - Match subpath against `id_patterns` for this source. If the matched identifier is followed by `@`, extract the remainder as `item_version`. **This is why SecID parsing requires the registry** — the `id_pattern` regex determines where the item identifier ends, resolving the ambiguity of `@` in subpaths.
 
 **Namespace resolution (shortest-to-longest):**
 
@@ -1283,7 +1344,7 @@ Tools should render identifiers human-friendly for display while storing the enc
 
 All SecIDs should normalize to:
 ```
-secid:type/namespace/name[@version][?qualifiers][#subpath]
+secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]
 ```
 
 Display shorthands must expand to canonical form for storage and comparison.

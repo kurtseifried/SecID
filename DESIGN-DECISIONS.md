@@ -66,6 +66,61 @@ secid:advisory/mitre.org/cve#CVE-2024-1234
 
 What you can say *about* that identifier - relationships, enrichments, history - is a separate concern.
 
+### The Spec Is a Parser-Building Guide
+
+**This specification is not a recipe for parsing individual SecID strings.** It is a blueprint for building a parser — a system that combines the grammar with registry data to parse, validate, and resolve SecIDs. A standalone regex cannot parse SecIDs, and that's intentional.
+
+SecID's grammar is intentionally ambiguous without the registry. **This is a feature, not a limitation.**
+
+No characters need to be banned from identifiers because the registry resolves every ambiguity:
+
+| Ambiguity | How the Registry Resolves It |
+|-----------|------------------------------|
+| Where does the namespace end? | Shortest-to-longest matching against registry files |
+| Where does the name end? | Longest match against source names in the registry |
+| Is this `@` a version delimiter or part of an ID? | The `id_pattern` regex defines where the item identifier ends — `@` after the match boundary is a version delimiter |
+| Is this `#` a subpath prefix or part of a name? | Registry source names can contain `#` — longest match determines the boundary |
+
+**The spec defines components and their ordering. The registry resolves every ambiguity.** A parser built from the spec alone cannot parse a SecID string — it needs the registry data to determine where one component ends and the next begins. This means:
+
+1. **No banned characters** — identifiers preserve upstream formats exactly (`RHSA-2026:0932`, `T1059.003`)
+2. **Registry is always authoritative** — if it's not in the registry, it's not valid
+3. **Parser and registry stay in sync** — by definition, since parsing requires the registry
+
+This is the same approach DNS takes: you can't resolve a domain name without a nameserver. The format tells you what a domain name looks like; the nameserver tells you what it resolves to. SecID's spec tells you what a SecID looks like; the registry tells you how to parse and resolve it.
+
+### Unknown SecIDs Are Solvable, Not Dead Ends
+
+Because every SecID contains a domain name, **even a SecID with no registry entry carries enough information to bootstrap its own resolution.**
+
+Consider encountering this SecID in the wild with no registry match:
+
+```
+secid:advisory/newvendor.com/alerts#NVA-2026-0042
+```
+
+A human or AI can:
+1. Visit `newvendor.com` — the domain is right there in the identifier
+2. Find their security advisory system
+3. Understand the `NVA-YYYY-NNNN` ID format
+4. Contribute a registry entry with `id_patterns`, `urls`, and resolution rules
+
+This is fundamentally different from opaque identifiers (UUIDs, sequential numbers) where an unknown ID gives you nothing to work with. Domain-name namespaces make SecIDs **self-documenting** — they carry enough context to find the source, even with zero prior knowledge.
+
+**The goal is comprehensive registry coverage.** Ideally, every SecID encountered in the wild has a registry entry with parsing rules, URL templates, and resolution patterns. But the domain-name design means the gap between "known" and "unknown" is bridgeable by anyone.
+
+### The Path Forward: Service, Contribution, Federation
+
+A standard like SecID only works if the registry keeps up with the ecosystem. The design enables this through three mechanisms:
+
+**1. Hosted service.** SecID will be implemented as a service (API + MCP server) that resolves SecIDs to URLs. This means consumers don't need to maintain local registry copies — they query the service, which always has the latest registry data. This also means building a parser is optional; most consumers just call the API.
+
+**2. Easy contribution.** The registry is a git repository with one markdown file per namespace. Contributing a new namespace means creating a single file with the organization's domain, their ID patterns, and their URL templates. The barrier to entry is deliberately low — a pull request, not a committee approval. The future self-registration system (DNS/ACME verification) will make this even easier, including for AI agents acting on behalf of organizations.
+
+**3. Federation.** Organizations can run their own registries that overlay or extend the canonical data. A company might maintain private namespace definitions for internal systems, proprietary resolution rules, or organizational context — all compatible with the public ecosystem. Federation means the canonical registry doesn't need to contain everything; it needs to contain the public common ground.
+
+Together, these mean: encountering an unknown SecID is a **temporary state**. The domain name in the identifier tells you where to look. The contribution model makes it easy to add. The service propagates it to all consumers. And federation lets organizations extend the system for their own needs without waiting for the canonical registry.
+
 ### What We Gain
 
 **Simpler spec**: The identifier specification is just grammar and types. Ship it, stabilize it, done.
@@ -1638,6 +1693,73 @@ The test: "Does someone need this to understand what a SecID points to, before t
 
 ---
 
+## JSON Schema: Lookup Tables for Non-Derivable URLs
+
+### The Problem
+
+Most sources have predictable URL structures. Given `CVE-2024-1234`, the URL is always `https://cve.org/CVERecord?id=CVE-2024-1234` — simple template substitution.
+
+But some sources have URLs that **can't be computed from the identifier alone**. The OWASP LLM Top 10 is the motivating example:
+
+| ID | URL Slug | Pattern? |
+|----|----------|----------|
+| LLM01 | `llm01-prompt-injection` | No year prefix |
+| LLM02 | `llm022025-sensitive-information-disclosure` | Has `2025` prefix |
+| LLM03 | `llm032025-supply-chain` | Has `2025` prefix |
+
+LLM01's slug is `llm01-prompt-injection` (no year), while LLM02-10 all include `2025`. And the human-readable slug portion (`prompt-injection`, `sensitive-information-disclosure`) can't be derived from the ID `LLM01` — you'd have to know the title and know exactly how OWASP slugified it.
+
+No URL template can express this. `https://genai.owasp.org/llmrisk/{id}-{slug}/` would require knowing `{slug}`, which is the whole problem.
+
+### The Solution: `lookup_table`
+
+When URLs can't be computed from a pattern template, map each ID directly to its URL:
+
+```json
+{
+  "pattern": "^LLM\\d{2}$",
+  "lookup_table": {
+    "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
+    "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"}
+  },
+  "provenance": {
+    "method": "Searched genai.owasp.org listing page, verified each URL loads.",
+    "date": "2026-02-22",
+    "source_url": "https://genai.owasp.org/llm-top-10/"
+  }
+}
+```
+
+### Why Not Just Use `known_values`?
+
+`known_values` maps IDs to descriptions — it helps disambiguation ("what is LLM01?"). But it doesn't provide URLs. A source can have both: `known_values` for descriptions and `lookup_table` for resolution. They serve different purposes.
+
+### Why Provenance Is Required
+
+Lookup tables are manually assembled data. Unlike URL templates (which are verifiable by construction), lookup table entries can be wrong — a typo in a URL, a stale slug, a URL that worked when entered but later changed.
+
+The `provenance` object records:
+- **How** the URLs were found (scraped a listing page, checked each one manually, used an API)
+- **When** they were last verified
+- **Where** the source data came from
+
+This lets reviewers re-verify the data and future maintainers know where to check when URLs break. Without provenance, a lookup table is unverifiable claims about URLs.
+
+### When to Use
+
+| Situation | Use This |
+|-----------|----------|
+| Consistent, computable URL pattern | `url` template with `{id}`, `{version}`, variables |
+| Inconsistent slugs or non-derivable paths | `lookup_table` |
+| Most IDs follow a pattern but some exceptions exist | Both — `url` as fallback, `lookup_table` for exceptions |
+| Very large or open-ended set | `url` template (lookup tables don't scale to thousands of entries) |
+
+### The Fallback Relationship
+
+If a pattern has both a `url` template and a `lookup_table`, the lookup table takes priority for IDs it contains. The template serves as a fallback for IDs not in the table. This handles the common case where most entries follow a pattern but a few are inconsistent.
+
+---
+
 ## Scope: Labeling and Finding
 
 ### The Principle
@@ -1780,6 +1902,59 @@ Most sources don't need `version_patterns`. Use the `{version}` placeholder in r
 ```
 
 Only add `version_patterns` when major versions have incompatible URL structures.
+
+---
+
+## Item-Level Versioning (`#subpath@item_version`)
+
+### The Problem
+
+Some security knowledge sources are git-backed databases where individual items change over time. GitHub Security Advisories (GHSA) are stored in a git repository — the advisory content can be updated, corrected, or enriched after initial publication. The CVE list repository on GitHub has the same characteristic. A GHSA ID identifies the advisory, but not *which revision* of it.
+
+Source-level versioning (`name@version`) handles frameworks that release as a whole: CCM @4.0, OWASP Top 10 @2021. But GHSA doesn't release "version 2.0" of its entire database — individual advisories are updated independently.
+
+### Why Not Qualifiers?
+
+Qualifiers (`?key=value`) are defined as "context that doesn't change identity." But a different revision of an advisory IS meaningfully different content — it might have a corrected severity, updated affected versions, or additional references. This changes what the identifier points to, which means it affects identity.
+
+Additionally, `@version` is the established convention for versioning in the SecID grammar (inherited from PURL). Using `?revision=abc123` would be inconsistent.
+
+### The Solution
+
+Extend the `@` convention to items in the subpath:
+
+```
+secid:advisory/github.com/advisories/ghsa#GHSA-cxpw-2g23-2vgw@a1b2c3d
+```
+
+The grammar becomes: `secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`
+
+- `@version` (source version) pins the source as a whole: `ccm@4.0`
+- `@item_version` (item version) pins a specific item revision: `#GHSA-xxxx@commit`
+
+### Why This Doesn't Break Parsing
+
+Registry `id_patterns` define the item ID boundary. The pattern `^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$` does not include `@`. So in `GHSA-cxpw-2g23-2vgw@a1b2c3d`, the parser:
+
+1. Matches `GHSA-cxpw-2g23-2vgw` against the pattern ✓
+2. Sees `@` follows the match boundary
+3. Extracts `a1b2c3d` as the item version
+
+If a source's IDs legitimately contained `@`, their `id_pattern` would include it, and the parser would know it's not a version delimiter. **The registry resolves the ambiguity.**
+
+### The Key Principle
+
+**The spec teaches you how to build a parser. The registry makes it work.** Item-level versioning is the strongest example of this — without the registry's `id_patterns`, there's no way to distinguish `@` as a version delimiter from `@` as part of an identifier. With the registry, it's unambiguous.
+
+### When to Use
+
+| Scenario | Use Item Version | Use Source Version |
+|----------|------------------|--------------------|
+| Git-backed databases (GHSA, CVE list repo) | `#GHSA-xxxx@commit` | — |
+| Advisory revisions | `#RHSA-2026:3102@rev2` | — |
+| Framework editions | — | `ccm@4.0` |
+| Annual releases | — | `top10@2021` |
+| Version already in the ID | Neither — it's part of the ID | arXiv `2303.08774v2` |
 
 ---
 

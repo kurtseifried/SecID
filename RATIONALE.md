@@ -56,7 +56,7 @@ This was a key "aha" moment. We started from first principles designing an ident
 Rather than invent a new format, we adopted PURL's grammar with `secid:` as the scheme:
 
 ```
-secid:type/namespace/name[@version][?qualifiers][#subpath]
+secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]
 ```
 
 Benefits:
@@ -65,7 +65,7 @@ Benefits:
 - **Tooling** can be adapted from PURL libraries
 - **Legitimacy** by association with established standard
 
-**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:`, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath]`.
+**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:`, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`.
 
 For actual packages, we don't wrap PURL at all - just use `pkg:` directly. SecID handles the security knowledge that PURL doesn't cover.
 

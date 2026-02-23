@@ -46,6 +46,7 @@ secid:advisory/github.com/advisories/ghsa#GHSA-1234-5678-abcd
 | 5 | version | After name, parse `@...` until `?` or `#` |
 | 6 | qualifiers | Parse `?...` until `#` |
 | 7 | subpath | Everything after the `#` following version/qualifiers |
+| 8 | item_version | Match subpath against `id_patterns`. If `@` follows the matched pattern, extract item version. See below. |
 
 **Why registry-aware?** Names can contain any characters (including `#`, `@`, `?`, `:`). The registry defines what names exist, and longest-match resolves ambiguity.
 
@@ -528,6 +529,7 @@ URLs may contain placeholders for dynamic resolution:
 | `{num}` | Numeric portion of identifier | `1234` |
 | `{year}` | Year component of identifier | `2024` |
 | `{version}` | Version from `@version` component | `4.0` |
+| `{item_version}` | Item version from `@item_version` after subpath | `a1b2c3d` |
 
 #### ID Patterns (array with context)
 
@@ -568,6 +570,7 @@ For sources where different ID patterns need different lookup URLs:
 | `variables` | object | no | Map of placeholder names to extraction objects (see below) |
 | `known_values` | object | no | Enumeration of finite, stable values (see below) |
 | `lookup_table` | object | no | Map of IDs to URLs when URLs can't be computed from patterns (see below) |
+| `item_version_patterns` | array | no | Patterns for item-level versions (see Item Version Patterns below) |
 
 **Variables structure:**
 
@@ -770,6 +773,50 @@ For sources where different versions have different URL structures, use `version
 - Legacy versions are hosted on different infrastructure
 
 If URLs are predictable (just substitute `{version}`), use the placeholder in the main `urls[]` instead.
+
+#### Item Version Patterns (array, optional)
+
+For sources where individual items can be versioned independently (e.g., git-backed databases, advisory revision histories), use `item_version_patterns` on the relevant `id_patterns` entry to define valid item version formats and version-specific resolution URLs:
+
+```json
+"id_patterns": [
+  {
+    "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
+    "description": "GitHub Security Advisory ID",
+    "url": "https://github.com/advisories/{id}",
+    "item_version_patterns": [
+      {
+        "pattern": "^[0-9a-f]{7,40}$",
+        "description": "Git commit hash (short or full)",
+        "url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"
+      }
+    ]
+  }
+]
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `pattern` | string | yes | PCRE2-compatible regex to match item version string (should be anchored) |
+| `description` | string | no | Human/AI-readable description |
+| `url` | string | no | URL template for this item version format (uses `{id}`, `{item_version}`, etc.) |
+
+**Resolution example:** `secid:advisory/github.com/advisories/ghsa#GHSA-jfh8-c2jp-5v3q@a1b2c3d`
+1. Subpath before item version: `GHSA-jfh8-c2jp-5v3q` → matches `id_patterns[0]`
+2. Item version: `a1b2c3d` → matches `item_version_patterns[0]` (`^[0-9a-f]{7,40}$`)
+3. Use item version URL template with `{id}` and `{item_version}` substitution
+
+**When not needed:** Most sources don't need `item_version_patterns`. Use when:
+- The source is git-backed and items change over time (GHSA, CVE list repo)
+- Advisory revisions are tracked independently (Red Hat errata revisions)
+- Content is wiki-like with edit history
+
+**When not appropriate:**
+- The version is already part of the ID itself (arXiv `2303.08774v2`)
+- The whole source is versioned as a unit (OWASP Top 10 `@2021`)
+- Items are immutable once published
+
+If `item_version_patterns` is absent or `null`, the source's items are assumed to be either immutable or versioned only at the source level.
 
 #### Examples
 

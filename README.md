@@ -53,7 +53,7 @@ SecID is a **meta-identifier system**—it identifies things that already have i
 
 [Package URL (PURL)](https://github.com/package-url/purl-spec) provides `pkg:type/namespace/name` for identifying software packages. In security, we need to identify many different things: advisories, weaknesses, attack techniques, controls, regulations, entities, and reference documents. These live in different databases, with different formats, maintained by different organizations.
 
-**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath]`.
+**SecID uses PURL grammar with `secid:` as the scheme.** Just as PURL uses `pkg:` as its scheme, SecID uses `secid:`. Everything after `secid:` follows PURL grammar exactly: `type/namespace/name[@version][?qualifiers][#subpath[@item_version]]`.
 
 **What SecID does:**
 - Gives you a consistent way to reference CVE-2024-1234, CWE-79, T1059.003, and ISO 27001 A.5.1 in the same format
@@ -111,7 +111,7 @@ SecID is PURL with a different scheme. The grammar is identical:
 
 ```
 PURL:   pkg:type/namespace/name@version?qualifiers#subpath
-SecID:  secid:type/namespace/name@version?qualifiers#subpath
+SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version]
 ```
 
 **How each component maps:**
@@ -125,6 +125,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath
 | `@version` | `@version` | Edition or revision (e.g., `@4.0`, `@2022`, `@2.0`) |
 | `?qualifiers` | `?qualifiers` | Optional context (e.g., `?lang=ja`) |
 | `#subpath` | `#subpath` | **Specific item** within the database (e.g., `#CVE-2024-1234`, `#CWE-79`, `#T1059`, `#A.8.1`) |
+| — | `@item_version` | **Version of the specific item** (e.g., `@a1b2c3d` for a git commit). SecID extension. |
 
 **Visual mapping:**
 
@@ -149,7 +150,14 @@ secid:control/iso.org/27001@2022#A.8.1
 
 ### Parsing and Character Rules
 
-**SecID parsing requires the registry.** Rather than memorizing a list of banned characters, the registry defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps parsing simple and the registry authoritative.
+**SecID parsing requires the registry — the spec is a guide for building parsers, not a standalone regex.** Rather than memorizing a list of banned characters, the registry defines what's valid. If a type, namespace, or name isn't in the registry, it's not a valid SecID. This keeps parsing simple and the registry authoritative.
+
+Every ambiguity in a SecID string is resolved by registry data:
+- **Namespace boundary:** shortest-to-longest matching against registry files
+- **Name boundary:** longest match against source names in the registry
+- **Item version boundary:** the `id_pattern` regex for each source defines where the item identifier ends. An `@` after the matched pattern is unambiguously a version delimiter. If a source's IDs contain `@`, their pattern includes it. This is why the spec teaches you how to build a parser, not a standalone regex.
+
+**Even unknown SecIDs are solvable.** Because every SecID contains a domain name, encountering `secid:advisory/newvendor.com/alerts#NVA-2026-0042` with no registry match isn't a dead end — you can visit `newvendor.com`, find their advisory system, and contribute a registry entry. The goal is comprehensive registry coverage through a hosted service, easy contribution (one file per namespace), and federation (organizations can run their own registries). Unknown SecIDs are a temporary state, not a permanent gap.
 
 **The domain-name namespace model:** Namespaces are domain names. We need one stable delimiter to separate namespace from name. Since we assign namespaces, we simply don't assign any with `/` (e.g., use `ac-dc` not `ac/dc`).
 
@@ -185,7 +193,7 @@ See [SPEC.md Section 8.2](SPEC.md#82-percent-encoding) for encoding rules when s
 
 | Same as PURL | Different in SecID |
 |--------------|-------------------|
-| Grammar: `scheme:type/namespace/name@version?qualifiers#subpath` | Scheme: `secid:` instead of `pkg:` |
+| Grammar: `scheme:type/namespace/name@version?qualifiers#subpath[@item_version]` | Scheme: `secid:` instead of `pkg:` |
 | Percent encoding rules | Types: security domains instead of package ecosystems |
 | Version and qualifier semantics | Subpath: references items in databases, not files in packages |
 
@@ -232,6 +240,10 @@ secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12/audit           # Audit s
 secid:regulation/europa.eu/gdpr#art-32/1/a              # Article 32(1)(a)
 secid:advisory/redhat.com/errata#RHSA-2024:1234      # Red Hat Security Advisory
 secid:advisory/redhat.com/errata#RHBA-2024:5678      # Red Hat Bug Advisory
+
+# Item versioning (pin a specific revision of an item)
+secid:advisory/github.com/advisories/ghsa#GHSA-cxpw-2g23-2vgw@a1b2c3d  # GHSA at specific git commit
+secid:advisory/redhat.com/errata#RHSA-2026:3102@rev2                     # Erratum at revision 2
 ```
 
 Each registry file documents its subpath patterns and resolution rules.
@@ -254,7 +266,7 @@ Each registry file contains resolution rules for all sources in that namespace. 
 ## Identifier Format
 
 ```
-secid:type/namespace/name[@version][?qualifiers][#subpath]
+secid:type/namespace/name[@version][?qualifiers][#subpath[@item_version]]
 ```
 
 **Examples:**
@@ -372,7 +384,8 @@ Why this format:
 | **Type** | The security domain (advisory, weakness, ttp, control, regulation, entity, reference) |
 | **Namespace** | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `cloudsecurityalliance.org`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/ModelContextProtocol-Security/vulnerability-db`). Allowed per segment: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. |
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
-| **Version** | Optional `@version` suffix for edition/revision (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
+| **Version** | Optional `@version` suffix on the name for edition/revision of the source (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
+| **Item Version** | Optional `@item_version` suffix on the subpath for a specific revision of an individual item (e.g., `@a1b2c3d` for a git commit, `@rev2` for a revision). Parsed using registry `id_patterns`. |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
 | **Subpath** | The specific item within the document (e.g., `#CVE-2024-1234`, `#IAM-12`, `#T1059`); can use `/` for hierarchy |
 | **Registry** | The collection of namespace definition files that document what identifiers exist |
@@ -403,9 +416,12 @@ secid:ttp/mitre.org/attack#T1059.003
 
 secid:regulation/europa.eu/gdpr#art-32
   → https://gdpr-info.eu/art-32-gdpr/
+
+secid:advisory/github.com/advisories/ghsa#GHSA-jfh8-c2jp-5v3q@a1b2c3d
+  → https://github.com/github/advisory-database/blob/a1b2c3d/advisories/github-reviewed/GHSA-jfh8-c2jp-5v3q.json
 ```
 
-Resolution URLs are defined in each namespace's registry file.
+Resolution URLs are defined in each namespace's registry file. Item versions (like `@a1b2c3d` above) pin a specific revision — the registry's `id_patterns` determine where the item ID ends and the version begins.
 
 ## Documentation
 
