@@ -41,6 +41,7 @@ With 20+ markdown files, know which document answers which question:
 
 | Question | Read This |
 |----------|-----------|
+| What are the design principles? | [PRINCIPLES.md](PRINCIPLES.md) - AI-first, helpful over correct, four response outcomes |
 | How do SecID strings work? | [SPEC.md](SPEC.md) - grammar, types, parsing, encoding |
 | Why does SecID exist? | [RATIONALE.md](RATIONALE.md) |
 | Why was X designed this way? | [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) |
@@ -89,10 +90,15 @@ One file per namespace containing all sources from that organization. Use `regis
 
 ## Key Design Principles
 
-1. **Scope: labeling and finding** - Identity, resolution, disambiguation only. Enrichment and relationships are separate layers.
-2. **Follow the source** - Use names and ID structures the source uses
-3. **AI-first** - Primary consumer is AI agents; include context and parsing hints
-4. **PURL compatibility** - Same grammar as Package URL, different scheme
+See [PRINCIPLES.md](PRINCIPLES.md) for the full treatment. The short version:
+
+1. **Labeling and finding** - Identity, resolution, disambiguation only. Enrichment and relationships are separate layers.
+2. **AI-first, human-legible** - Primary consumer is AI agents, but humans must be able to read and write everything.
+3. **Helpful over correct** - Always return something useful. Never a bare error. Four response outcomes: exact match, corrected match, related data, not found.
+4. **Honest uncertainty** - Say what you know, what you don't, and what the risks are.
+5. **Follow the source** - Use names and ID structures the source uses. Preserve identifiers exactly.
+6. **PURL compatibility** - Same grammar as Package URL, different scheme.
+7. **Progressive resolution** - Try most specific match first, loosen progressively. `/*` wildcard for exploration at any level.
 
 ## SecID Types
 
