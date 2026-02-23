@@ -48,6 +48,7 @@ With 20+ markdown files, know which document answers which question:
 | What's the JSON schema? | [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) - target format for v1.0+ |
 | What's the current file format? | [REGISTRY-FORMAT.md](REGISTRY-FORMAT.md) - YAML+Markdown (what's in use now) |
 | What's being built and when? | [ROADMAP.md](ROADMAP.md) |
+| How does versioning work? | [VERSIONING.md](VERSIONING.md) - analysis, API behavior, response outcomes |
 | Edge cases with domains? | [EDGE-CASES.md](EDGE-CASES.md) |
 | What's deferred? | [TODO.md](TODO.md), [registry/_deferred/](registry/_deferred/) |
 

@@ -2045,6 +2045,10 @@ secid:weakness/owasp.org/top10#A01                    → 2021: Broken Access Co
 
 See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the source-level fields that control this behavior: `version_required`, `unversioned_behavior`, `version_disambiguation`, and `versions_available`.
 
+### Further Reading
+
+See [VERSIONING.md](VERSIONING.md) for the empirical analysis of how versioning works across security knowledge sources (spoiler: it's rare and shallow), the four API response outcomes, and the full resolution algorithm for graceful version handling.
+
 ---
 
 ## Identifier Systems Are Namespaces, Not Fields
