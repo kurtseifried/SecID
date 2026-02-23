@@ -345,6 +345,23 @@ Use `known_values` to enumerate finite, stable value sets:
 - Self-explanatory values (years, sequential numbers)
 - Instance data (specific controls within a domain)
 
+### When to Use lookup_table
+
+Use `lookup_table` when URLs can't be computed from a pattern template — the source uses inconsistent slugs, human-readable paths, or URL structures that changed between entries.
+
+**Good candidates for lookup_table:**
+- URLs with human-readable slugs not derivable from the ID (e.g., OWASP LLM Top 10: `LLM01` → `llm01-prompt-injection`, `LLM02` → `llm022025-sensitive-information-disclosure`)
+- Sources with inconsistent URL patterns across entries
+- Small, finite sets where enumerating every URL is practical
+
+**Not good candidates:**
+- URLs that follow a consistent, computable pattern (use the `url` template with variables instead)
+- Open-ended or very large sets (thousands of entries)
+
+**Always include `provenance`** — record how you found the URLs, when you verified them, and from what source page. This lets reviewers re-verify the data and future maintainers know where to check for updates.
+
+See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the full schema, examples, and the relationship between `lookup_table`, `known_values`, and `url` templates.
+
 ### Why This Isn't Enrichment
 
 Descriptions and known_values walk a line - technically "what is IAM" could be enrichment. We include it because:

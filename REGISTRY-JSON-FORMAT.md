@@ -261,6 +261,7 @@ For arrays:
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
   "alternate_names": ["MITRE Corp"],
+  "notes": "MITRE is a US nonprofit that operates FFRDCs. Created and maintains CVE, CWE, ATT&CK, CAPEC, and ATLAS. CISA contracts MITRE to operate the CVE Program. NVD (NIST) enriches CVE records with CVSS, CPE, CWE data. CNAs can assign CVE IDs under MITRE's program.",
 
   "urls": [
     {"type": "website", "url": "https://www.mitre.org"}
@@ -281,6 +282,7 @@ For arrays:
 | `type` | string | SecID type: advisory, weakness, ttp, control, regulation, entity, reference |
 | `status` | string | Registry entry status (see below) |
 | `status_notes` | string \| null | Optional context about status (blockers, gaps, guidance for contributors) |
+| `notes` | string \| null | Free-form context for AI and human readers (see Notes Fields below) |
 | `alias_of` | string \| null | If present, this is an alias stub — namespace redirects to the value. No sources needed. |
 
 #### Namespace Validation
@@ -367,6 +369,45 @@ Registry entry status reflects documentation completeness and review state:
 
 **Why separate fields?** Fixed, small set of name categories. Named fields are self-documenting and easier for AI to generate correctly.
 
+#### Notes Fields
+
+The `notes` field provides free-form context that doesn't fit into structured fields. It exists at two levels:
+
+**Top-level `notes`** — context about the organization/namespace:
+- History and background ("MITRE created and operates many canonical security identifier systems")
+- Relationships to other organizations ("CISA contracts MITRE to operate the CVE Program")
+- Why this namespace matters for security practitioners
+- Organizational context that helps AI understand the source's role
+
+**Source-level `notes`** — operational context about a specific data source:
+- Resolution quirks ("Bugzilla accepts both bug IDs and CVE aliases; CVE aliases redirect")
+- Data quality notes ("Quality of descriptions varies by CNA")
+- Usage guidance ("The cvelistV5 GitHub repo has raw JSON records organized by year/bucket")
+- Processing context ("NVD enriches CVE records but has processing backlogs")
+- Historical context about format changes or migrations
+
+**`notes` vs `description`:**
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| `description` | What the source **is** (1-3 sentences) | "Red Hat publishes three types of errata: RHSA, RHBA, and RHEA." |
+| `notes` | Everything else an AI needs to **use** it well | "RHSA advisories reference CVEs but may bundle multiple CVEs per advisory. Errata IDs contain colons (RHSA-2024:1234) — preserve the colon in subpaths. Red Hat's API requires authentication for some endpoints." |
+
+**Format:** Markdown-allowed string. Can be multiple paragraphs. Keep it concise but don't artificially truncate — if an AI needs to know it to resolve or understand this source, put it here.
+
+**Null vs absent:** Same convention as other fields. `null` means "we looked, nothing noteworthy." Absent means "not yet researched."
+
+**What goes in `notes`:**
+- Context migrated from YAML+Markdown body content
+- Operational knowledge for resolution
+- Quirks, edge cases, known issues
+- Relationships to other sources (informational, not machine-readable)
+
+**What does NOT go in `notes`:**
+- Structured data that belongs in other fields (URLs, patterns, examples)
+- Enrichment data (severity, affected products, authors)
+- Relationship data that should be machine-readable (belongs in the relationship layer)
+
 #### URLs (top-level)
 
 Top-level `urls[]` array for the namespace/organization. Same structure as source-level URLs:
@@ -390,6 +431,8 @@ The `sources` block contains one or more data sources published by this namespac
     "official_name": "Common Vulnerabilities and Exposures",
     "common_name": "CVE",
     "alternate_names": null,
+    "description": "...",
+    "notes": "...",
 
     "urls": [ ... ],
     "id_patterns": [ ... ],
@@ -405,30 +448,39 @@ The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advi
 
 Same pattern as top-level: `official_name`, `common_name`, `alternate_names`.
 
-#### Source Description
+#### Source Description and Notes
 
-The `description` field provides context about what this source is and when to use it:
+The `description` field provides a brief summary of what this source is. The `notes` field provides deeper operational context:
 
 ```json
 "sources": {
   "errata": {
     "official_name": "Red Hat Security Advisories",
     "description": "Red Hat publishes three types of errata: RHSA (Security Advisory) for security fixes, RHBA (Bug Advisory) for bug fixes, and RHEA (Enhancement Advisory) for new features. Most security work focuses on RHSA.",
+    "notes": "Errata IDs contain colons (e.g., RHSA-2024:1234) — preserve the colon in subpaths. A single RHSA may bundle fixes for multiple CVEs. Red Hat's API at access.redhat.com/hydra/rest/securitydata provides machine-readable advisory data. Errata are also linked from Bugzilla entries. Numbering resets annually — the number after the colon is sequential within a year.",
     ...
   }
 }
 ```
 
-**What to describe:**
+**`description` — what the source is (1-3 sentences):**
 - Classes of objects the source contains (what is an RHSA vs RHBA vs RHEA?)
 - When to use this source vs similar ones
-- Important quirks or exceptions (e.g., numbering restarts annually)
 
-**What NOT to describe:**
+**`notes` — everything else an AI needs to use it well:**
+- Resolution quirks and edge cases
+- Data quality observations
+- Format details and gotchas
+- Relationships to other sources (informational)
+- Historical context about migrations or format changes
+- Processing notes (backlogs, update frequency, authentication requirements)
+
+**What does NOT go in either field:**
 - Every individual instance (don't describe CVE-2024-1234)
 - Data enrichment (severity, affected products, authors)
+- Machine-readable relationships (belongs in the relationship layer)
 
-**Rule of thumb:** Is it an object or a class of objects? Describe classes. For individual objects, only describe when unique/important (like ISO standards or NIST special publications).
+**Rule of thumb:** `description` answers "what is this?" in a sentence. `notes` answers "what do I need to know to work with this effectively?"
 
 #### URLs (array with context)
 
@@ -515,6 +567,7 @@ For sources where different ID patterns need different lookup URLs:
 | `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
 | `variables` | object | no | Map of placeholder names to extraction objects (see below) |
 | `known_values` | object | no | Enumeration of finite, stable values (see below) |
+| `lookup_table` | object | no | Map of IDs to URLs when URLs can't be computed from patterns (see below) |
 
 **Variables structure:**
 
@@ -623,6 +676,65 @@ ISO standard numbers with titles:
 
 **Rule of thumb:** Ask "is this a class of objects?" If yes, describe it. For individual instances, only include in `known_values` when they're distinct enough to need disambiguation (ISO 27001 vs 42001) or when the set is small and stable.
 
+#### Lookup Table
+
+When URLs can't be computed from the ID pattern alone — because the source uses inconsistent slugs, human-readable paths, or other non-derivable URL components — use `lookup_table` to map each ID directly to its URL.
+
+```json
+{
+  "pattern": "^LLM\\d{2}$",
+  "description": "LLM Top 10 item number",
+  "lookup_table": {
+    "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
+    "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"},
+    "LLM03": {"url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/", "title": "Supply Chain"},
+    "LLM04": {"url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/", "title": "Data and Model Poisoning"},
+    "LLM05": {"url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/", "title": "Improper Output Handling"},
+    "LLM06": {"url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/", "title": "Excessive Agency"},
+    "LLM07": {"url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/", "title": "System Prompt Leakage"},
+    "LLM08": {"url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/", "title": "Vector and Embedding Weaknesses"},
+    "LLM09": {"url": "https://genai.owasp.org/llmrisk/llm092025-misinformation/", "title": "Misinformation"},
+    "LLM10": {"url": "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/", "title": "Unbounded Consumption"}
+  },
+  "provenance": {
+    "method": "Searched genai.owasp.org/llm-top-10/ listing page, then verified each individual URL. LLM01 slug lacks the year prefix that all other entries have — confirmed this is how OWASP published it, not a data entry error.",
+    "date": "2026-02-22",
+    "source_url": "https://genai.owasp.org/llm-top-10/"
+  }
+}
+```
+
+Each `lookup_table` entry maps an ID to:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `url` | string | yes | The actual URL for this specific ID |
+| `title` | string | no | Human-readable title (useful when it differs from the ID) |
+
+The `provenance` object documents how the lookup table was built:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `method` | string | yes | How the URLs were found and verified (searched site, scraped listing page, read documentation, etc.) |
+| `date` | string | yes | When the lookup table was last verified (ISO 8601 date) |
+| `source_url` | string | no | The page or API used to build the table |
+
+**When to use `lookup_table`:**
+- URLs contain human-readable slugs not derivable from the ID (`llm01-prompt-injection`)
+- The source uses inconsistent URL patterns (LLM01 has no year, LLM02-10 do)
+- URL structure changed between entries and can't be expressed as a single template
+- Small, finite sets where enumerating every URL is practical
+
+**When NOT to use:**
+- URLs follow a consistent, computable pattern (use `url` with `{id}` template instead)
+- The set is open-ended or very large (thousands of entries)
+
+**Relationship to `known_values`:** A pattern can have both. `known_values` provides descriptions for disambiguation. `lookup_table` provides URLs for resolution. If you have `lookup_table` with `title` fields, `known_values` is redundant — but including both is fine since they serve different purposes (description vs resolution).
+
+**Relationship to `url`:** If a pattern has both a `url` template and a `lookup_table`, the `lookup_table` takes priority for IDs it contains. The `url` template serves as a fallback for IDs not in the table (useful when most IDs follow a pattern but some exceptions exist).
+
+**Why `provenance`?** Registry data is only trustworthy if you can verify it. Provenance records how the data was gathered so reviewers (human or AI) can re-verify it, and future maintainers know where to check for updates. Sources change their URL structures — provenance tells you where to look when that happens.
+
 #### Version Patterns (array, optional)
 
 For sources where different versions have different URL structures, use `version_patterns` to route based on the `@version` component:
@@ -709,6 +821,7 @@ Entity files describe organizations rather than data sources. They use a `names`
   "type": "entity",
   "official_name": "The MITRE Corporation",
   "common_name": "MITRE",
+  "notes": "US nonprofit operating FFRDCs for the US government. Headquarters in Bedford, MA and McLean, VA. Created and maintains foundational cybersecurity frameworks including CVE, CWE, ATT&CK, CAPEC, and ATLAS.",
   "wikidata": ["Q1116236"],
   "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
@@ -746,6 +859,7 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
   "official_name": "MITRE Corporation",
   "common_name": "MITRE",
   "alternate_names": ["The MITRE Corporation"],
+  "notes": "MITRE is a US nonprofit that operates federally funded research and development centers (FFRDCs). In cybersecurity, MITRE created and maintains CVE, CWE, ATT&CK, CAPEC, and ATLAS — foundational identifier systems and frameworks used across the industry. CISA contracts MITRE to operate the CVE Program. CNAs (CVE Numbering Authorities) can assign CVE IDs under MITRE's program.",
   "wikidata": ["Q1116236"],
   "wikipedia": ["https://en.wikipedia.org/wiki/Mitre_Corporation"],
 
@@ -758,6 +872,8 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
       "official_name": "Common Vulnerabilities and Exposures",
       "common_name": "CVE",
       "alternate_names": null,
+      "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
+      "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD enrichment has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others provide minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.",
 
       "urls": [
         {"type": "website", "url": "https://cve.org"},
@@ -823,6 +939,7 @@ This example shows a namespace with a `/`-separated path portion (`github.com/ad
   "official_name": "GitHub Advisory Database",
   "common_name": "GitHub Advisories",
   "alternate_names": null,
+  "notes": "GitHub's advisory database aggregates vulnerabilities across package ecosystems. Acquired npm's advisory database. Advisories are community-editable and cross-reference CVEs.",
 
   "urls": [
     {"type": "website", "url": "https://github.com/advisories"}
@@ -833,6 +950,8 @@ This example shows a namespace with a `/`-separated path portion (`github.com/ad
       "official_name": "GitHub Security Advisories",
       "common_name": "GHSA",
       "alternate_names": null,
+      "description": "GitHub-native security advisory identifiers for vulnerabilities in open source packages.",
+      "notes": "GHSA IDs use a base-32 encoding scheme (lowercase letters and digits). Most GHSAs have a corresponding CVE, but some ecosystem-specific advisories may not. The advisory-database GitHub repo contains the raw advisory data in OSV format.",
 
       "urls": [
         {"type": "website", "url": "https://github.com/advisories"},
@@ -874,6 +993,7 @@ The current YAML frontmatter maps to JSON as follows:
 | `wikipedia` | `wikipedia[]` | New field, array |
 | `status` | `status` | New values: proposed, draft, pending, published |
 | `status_notes` | `status_notes` | New field |
+| Markdown body | `notes` (top-level and/or source-level) | Narrative content migrates to `notes` fields |
 
 ### Fields Moved to Data Layer
 
@@ -890,7 +1010,7 @@ The following fields were considered but belong in the enrichment/relationship d
 
 The registry focuses on identity, resolution, and disambiguation. Relationships and lifecycle metadata belong in separate data layers that reference SecIDs.
 
-The Markdown body content (narrative documentation) will be handled separately - either as a companion `.md` file or a `description` field. Decision pending.
+The Markdown body content (narrative documentation) migrates to `notes` fields — top-level `notes` for organizational context, source-level `notes` for source-specific operational knowledge. No companion `.md` files needed; everything lives in one `.json` file.
 
 ## Multi-Level Pattern Example
 
@@ -905,6 +1025,7 @@ For sources with hierarchical identifiers (domain → control → section), defi
 
   "official_name": "Cloud Security Alliance",
   "common_name": "CSA",
+  "notes": "CSA is a nonprofit focused on cloud security best practices. Publishes multiple control frameworks (CCM, AICM) and runs the STAR certification program. Also publishes research on AI security through its AI Safety Initiative.",
   "wikidata": ["Q5135329"],
 
   "urls": [
@@ -916,6 +1037,7 @@ For sources with hierarchical identifiers (domain → control → section), defi
       "official_name": "Cloud Controls Matrix",
       "common_name": "CCM",
       "description": "Security controls framework organized by domains. Domains contain controls, controls may have implementation sections.",
+      "notes": "CCM v4 has 17 domains and 197 controls. Domain codes are 2-3 uppercase letters (e.g., IAM, DSP). Control IDs append a dash and two-digit number (e.g., IAM-12). Some controls have implementation sections with a dot suffix (e.g., IAM-12.1). CCM is available as a spreadsheet download — no direct per-control URL for all versions.",
 
       "urls": [
         {"type": "website", "url": "https://cloudsecurityalliance.org/research/cloud-controls-matrix"},

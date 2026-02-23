@@ -184,6 +184,8 @@ For complex URLs, patterns define variables that extract parts of the ID:
 }
 ```
 
+When URLs can't be computed from patterns — because the source uses inconsistent slugs or non-derivable paths — `lookup_table` maps specific IDs directly to their URLs. For example, the OWASP LLM Top 10 entries have inconsistent URL slugs (`llm01-prompt-injection` vs `llm022025-sensitive-information-disclosure`), so each entry is mapped explicitly. A `provenance` object records how the lookup data was gathered (method, date, source URL) so reviewers can re-verify it.
+
 See [REGISTRY-JSON-FORMAT.md](REGISTRY-JSON-FORMAT.md) for the complete schema.
 
 **More examples showing the pattern:**
