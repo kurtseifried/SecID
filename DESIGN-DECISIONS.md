@@ -2051,6 +2051,204 @@ See [VERSIONING.md](VERSIONING.md) for the empirical analysis of how versioning 
 
 ---
 
+## Nested Pattern Matching (Replacing Flat id_patterns)
+
+### The Problem
+
+The original design had three separate matching concepts at three levels:
+
+1. **Source name** — literal key lookup in the `sources` object
+2. **Version patterns** — `version_patterns` array, matches `@version`
+3. **ID patterns** — `id_patterns` array, matches `#subpath`
+
+Each had a different schema, different field names, different documentation. But they all do the same thing: match a portion of the string, return data if matched, optionally go deeper.
+
+Literal key lookup for source names also creates a problem: names can contain `@`, `#`, and other characters that the parser needs to handle. Making names regex-matchable means the registry patterns determine boundaries — consistent with the principle that SecID parsing requires registry access.
+
+### The Decision: Unified Pattern Tree
+
+All matching uses a single recursive structure. Each node in the tree has:
+
+- **One or more patterns** (regex, OR alternatives) to match against the current portion of the string
+- **Result data** (URLs, descriptions, etc.) to return if matched at this level
+- **Optional children** — more specific patterns to match the next portion
+- **Optional weight** — for ordering when multiple patterns match
+
+The resolver walks the SecID string left to right, handing each portion to the next level:
+
+1. Match name against name-level patterns. The remaining string passes to children.
+2. Match version against version-level patterns (if `@` present). The remaining string passes to children.
+3. Match subpath against subpath-level patterns (if `#` present). The remaining string passes to children.
+4. At each level, the node returns its data. If nothing remains to match, stop.
+
+**No backtracking, no lookahead across levels.** Each regex only sees its portion of the string. Just chop and pass.
+
+### Node Structure
+
+```json
+{
+  "patterns": ["(?i)^errata$"],
+  "description": "Red Hat Errata advisory system",
+  "weight": 100,
+  "data": {
+    "official_name": "Red Hat Errata",
+    "urls": [
+      {"type": "website", "url": "https://access.redhat.com/errata/"}
+    ]
+  },
+  "children": [
+    {
+      "patterns": ["^RHSA-\\d{4}:\\d+$"],
+      "description": "Red Hat Security Advisory",
+      "weight": 100,
+      "data": {
+        "type": "security",
+        "url": "https://access.redhat.com/errata/{id}"
+      }
+    },
+    {
+      "patterns": ["^RHBA-\\d{4}:\\d+$"],
+      "description": "Red Hat Bug Advisory",
+      "weight": 100,
+      "data": {
+        "type": "bugfix",
+        "url": "https://access.redhat.com/errata/{id}"
+      }
+    },
+    {
+      "patterns": ["^RHEA-\\d{4}:\\d+$"],
+      "description": "Red Hat Enhancement Advisory",
+      "weight": 100,
+      "data": {
+        "type": "enhancement",
+        "url": "https://access.redhat.com/errata/{id}"
+      }
+    }
+  ]
+}
+```
+
+### Full Example: Red Hat
+
+```json
+{
+  "namespace": "redhat.com",
+  "type": "advisory",
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^errata$"],
+      "description": "Red Hat Errata",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat Errata",
+        "alternate_names": ["RHSA", "RHBA", "RHEA", "Red Hat Security Advisory"],
+        "description": "Security fixes (RHSA), bug fixes (RHBA), and enhancements (RHEA).",
+        "urls": [{"type": "website", "url": "https://access.redhat.com/errata/"}]
+      },
+      "children": [
+        {
+          "patterns": ["^RHSA-\\d{4}:\\d+$"],
+          "weight": 100,
+          "data": {"type": "security", "url": "https://access.redhat.com/errata/{id}"}
+        },
+        {
+          "patterns": ["^RHBA-\\d{4}:\\d+$"],
+          "weight": 100,
+          "data": {"type": "bugfix", "url": "https://access.redhat.com/errata/{id}"}
+        },
+        {
+          "patterns": ["^RHEA-\\d{4}:\\d+$"],
+          "weight": 100,
+          "data": {"type": "enhancement", "url": "https://access.redhat.com/errata/{id}"}
+        }
+      ]
+    },
+    {
+      "patterns": ["(?i)^cve$"],
+      "description": "Red Hat CVE Database",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat CVE Database",
+        "urls": [{"type": "website", "url": "https://access.redhat.com/security/"}]
+      },
+      "children": [
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "weight": 100,
+          "data": {"url": "https://access.redhat.com/security/cve/{id}"}
+        }
+      ]
+    },
+    {
+      "patterns": ["(?i)^bugzilla$"],
+      "description": "Red Hat Bugzilla",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat Bugzilla",
+        "urls": [{"type": "website", "url": "https://bugzilla.redhat.com"}]
+      },
+      "children": [
+        {
+          "patterns": ["^\\d+$"],
+          "weight": 100,
+          "data": {"type": "primary", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
+        },
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "weight": 50,
+          "data": {"type": "alias", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Weight
+
+Patterns can optionally carry a `weight` field (integer, 0-200, default 0).
+
+- **0** = no weight / neutral (default, most patterns)
+- **100** = standard / preferred match
+- **Higher** = more preferred
+
+Weight is returned with results, not used for ordering by the server. The consumer decides how to use weights. The general convention is to prefer the "heaviest" result, but the API doesn't enforce this.
+
+**When to use weight:** When two patterns at the same level can both match the same input. Example: Bugzilla accepts both numeric IDs (weight 100, canonical) and CVE aliases (weight 50, redirects). Both are valid, but the numeric ID is the canonical form.
+
+**When not needed:** Most patterns don't overlap at the same level. If siblings are mutually exclusive (RHSA, RHBA, RHEA), weight is irrelevant and should be omitted.
+
+### Key Properties
+
+1. **Every level returns data.** Query `secid:advisory/redhat.com/errata` → returns errata info. Query `secid:advisory/redhat.com/errata#RHSA-2026:1234` → returns the specific advisory. No special cases for "incomplete" queries.
+
+2. **Mutual exclusivity is checkable.** At each level, you can validate that sibling patterns don't overlap. `^RHSA-` and `^RHBA-` and `^RHEA-` clearly don't conflict. When they do overlap, weight disambiguates.
+
+3. **All matching nodes traversed.** The resolver doesn't stop at the first match — it traverses all matching nodes to completion. Multiple matches are all returned (with weights).
+
+4. **Case sensitivity per-pattern.** Use `(?i)` prefix in the regex for case-insensitive matching. Convention: name-level patterns use `(?i)`, subpath patterns match canonical case. No lossy normalization of the input.
+
+5. **Chop and pass.** Each regex only sees its portion of the string. The resolver splits at grammar boundaries (`@`, `#`) and hands each piece to the appropriate tree level. No backtracking, no lookahead across levels.
+
+6. **Multiple patterns per node.** A node can have multiple regex alternatives (OR). All share the same children and result data. Used when a source is known by multiple names.
+
+### Why This Replaces Three Concepts
+
+| Old Concept | New Equivalent |
+|-------------|----------------|
+| Source name (literal key in `sources`) | Name-level pattern node |
+| `version_patterns` | Version-level children (between name and subpath) |
+| `id_patterns` | Subpath-level children |
+| `item_version_patterns` | Deeper children within subpath nodes |
+
+One schema, one matching algorithm, any depth. The tree naturally mirrors the SecID grammar: `name[@version][#subpath[@item_version]]`.
+
+### Migration
+
+The current flat `sources` / `id_patterns` / `version_patterns` structure will be migrated to the nested tree when we build the API. The data is the same — it just needs restructuring. Existing YAML+Markdown registry files continue to work as-is during the transition; the JSON format is the one that changes.
+
+---
+
 ## Identifier Systems Are Namespaces, Not Fields
 
 ### The Problem
