@@ -16,242 +16,254 @@
     {"type": "website", "url": "https://owasp.org"}
   ],
 
-  "sources": {
-    "top10": {
-      "official_name": "OWASP Top 10",
-      "common_name": "OWASP Top 10",
-      "alternate_names": null,
-      "description": "The most critical web application security risks. Updated every 3-4 years.",
-      "notes": "Version matters: top10@2021#A01 (Broken Access Control) is not the same as top10@2017#A01 (Injection). The lookup URL requires assembling the item number, year, and name slug — not a simple {id} substitution. Maps to CWEs.",
-
-      "urls": [
-        {"type": "website", "url": "https://owasp.org/www-project-top-ten/"},
-        {"type": "lookup", "url": "https://owasp.org/Top10/A{num}_{year}_{name}/", "note": "Requires assembling num, year, and name slug — not automatable from ID alone without a lookup table"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^top10$", "(?i)^top-10$", "(?i)^owasp-top-10$"],
+      "description": "OWASP Top 10",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP Top 10",
+        "common_name": "OWASP Top 10",
+        "alternate_names": null,
+        "description": "The most critical web application security risks. Updated every 3-4 years.",
+        "notes": "Version matters: top10@2021#A01 (Broken Access Control) is not the same as top10@2017#A01 (Injection). The lookup URL requires assembling the item number, year, and name slug — not a simple {id} substitution. Maps to CWEs.",
+        "urls": [
+          {"type": "website", "url": "https://owasp.org/www-project-top-ten/"},
+          {"type": "lookup", "url": "https://owasp.org/Top10/A{num}_{year}_{name}/", "note": "Requires assembling num, year, and name slug — not automatable from ID alone without a lookup table"}
+        ],
+        "version_required": true,
+        "unversioned_behavior": "all_with_guidance",
+        "version_disambiguation": "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another.",
+        "versions_available": [
+          {"version": "2021", "release_date": "2021-09-24", "status": "current", "note": "Major restructuring from 2017. A01 changed from Injection to Broken Access Control."},
+          {"version": "2017", "release_date": "2017-11-20", "status": "superseded", "note": "Still widely referenced in existing documentation and certifications."},
+          {"version": "2013", "release_date": "2013-06-12", "status": "superseded", "note": "Legacy. Occasionally referenced in older compliance documentation."}
+        ],
+        "examples": ["A01", "A03", "A10"]
+      },
+      "children": [
         {
-          "pattern": "^A\\d{2}$",
+          "patterns": ["^A\\d{2}$"],
           "description": "OWASP Top 10 item number (e.g., A01, A03)",
-          "known_values": {
-            "A01": "Broken Access Control (2021)",
-            "A02": "Cryptographic Failures (2021)",
-            "A03": "Injection (2021)",
-            "A04": "Insecure Design (2021)",
-            "A05": "Security Misconfiguration (2021)",
-            "A06": "Vulnerable and Outdated Components (2021)",
-            "A07": "Identification and Authentication Failures (2021)",
-            "A08": "Software and Data Integrity Failures (2021)",
-            "A09": "Security Logging and Monitoring Failures (2021)",
-            "A10": "Server-Side Request Forgery (2021)"
+          "weight": 100,
+          "data": {
+            "known_values": {
+              "A01": "Broken Access Control (2021)",
+              "A02": "Cryptographic Failures (2021)",
+              "A03": "Injection (2021)",
+              "A04": "Insecure Design (2021)",
+              "A05": "Security Misconfiguration (2021)",
+              "A06": "Vulnerable and Outdated Components (2021)",
+              "A07": "Identification and Authentication Failures (2021)",
+              "A08": "Software and Data Integrity Failures (2021)",
+              "A09": "Security Logging and Monitoring Failures (2021)",
+              "A10": "Server-Side Request Forgery (2021)"
+            }
           }
         }
-      ],
-
-      "version_patterns": null,
-
-      "version_required": true,
-      "unversioned_behavior": "all_with_guidance",
-      "version_disambiguation": "Versions are released by year. Match the version whose release year is closest to but not after the referring document's publication date. If no date context is available, use the latest version (2021). Note: item numbering restarts with each version — A01 in one version is unrelated to A01 in another.",
-      "versions_available": [
-        {"version": "2021", "release_date": "2021-09-24", "status": "current", "note": "Major restructuring from 2017. A01 changed from Injection to Broken Access Control."},
-        {"version": "2017", "release_date": "2017-11-20", "status": "superseded", "note": "Still widely referenced in existing documentation and certifications."},
-        {"version": "2013", "release_date": "2013-06-12", "status": "superseded", "note": "Legacy. Occasionally referenced in older compliance documentation."}
-      ],
-
-      "examples": ["A01", "A03", "A10"]
+      ]
     },
 
-    "llm-top10": {
-      "official_name": "OWASP Top 10 for LLM Applications",
-      "common_name": "LLM Top 10",
-      "alternate_names": null,
-      "description": "Security risks specific to Large Language Model applications.",
-      "notes": "AI/ML-specific weakness categories. Maps to CWE and MITRE ATLAS. Updated more frequently than traditional OWASP Top 10. v2.0 released 2025, labelled '2025' in titles (e.g., 'LLM01:2025'). v1 content archived at a different URL path. URL slugs are inconsistent — LLM01 lacks the year prefix that LLM02-10 have. Actual titles from OWASP may differ from commonly cited names (e.g., 'Improper Output Handling' not 'Insecure Output Handling' for LLM05).",
-
-      "urls": [
-        {"type": "website", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"},
-        {"type": "docs", "url": "https://genai.owasp.org/llm-top-10/", "note": "v2.0 list"},
-        {"type": "docs", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/Archive/0_1_vulns/", "note": "v1.0 list (archived)"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^llm-top10$"],
+      "description": "OWASP Top 10 for LLM Applications",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP Top 10 for LLM Applications",
+        "common_name": "LLM Top 10",
+        "alternate_names": null,
+        "description": "Security risks specific to Large Language Model applications.",
+        "notes": "AI/ML-specific weakness categories. Maps to CWE and MITRE ATLAS. Updated more frequently than traditional OWASP Top 10. v2.0 released 2025, labelled '2025' in titles (e.g., 'LLM01:2025'). v1 content archived at a different URL path. URL slugs are inconsistent — LLM01 lacks the year prefix that LLM02-10 have. Actual titles from OWASP may differ from commonly cited names (e.g., 'Improper Output Handling' not 'Insecure Output Handling' for LLM05).",
+        "urls": [
+          {"type": "website", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"},
+          {"type": "docs", "url": "https://genai.owasp.org/llm-top-10/", "note": "v2.0 list"},
+          {"type": "docs", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/Archive/0_1_vulns/", "note": "v1.0 list (archived)"}
+        ],
+        "version_required": true,
+        "unversioned_behavior": "all_with_guidance",
+        "version_disambiguation": "v2.0 (2025) significantly restructured from v1.0 (2023). Match the version whose release date is closest to but not after the referring document's publication date. If no date context, use v2.0. Item numbering is reused — LLM01 in v2.0 is the same topic (Prompt Injection) but with substantially updated content; other items changed more significantly.",
+        "versions_available": [
+          {"version": "2.0", "release_date": "2025-01-01", "status": "current", "note": "Major update. Labelled '2025' in titles (e.g., 'LLM01:2025'). Some items renamed and reordered from v1.0."},
+          {"version": "1.0", "release_date": "2023-10-16", "status": "superseded", "note": "First edition. Content archived at different URL path."}
+        ],
+        "examples": ["LLM01", "LLM02", "LLM10"]
+      },
+      "children": [
         {
-          "pattern": "^LLM\\d{2}$",
+          "patterns": ["^LLM\\d{2}$"],
           "description": "LLM Top 10 item number (e.g., LLM01, LLM02)",
-          "lookup_table": {
-            "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
-            "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"},
-            "LLM03": {"url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/", "title": "Supply Chain"},
-            "LLM04": {"url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/", "title": "Data and Model Poisoning"},
-            "LLM05": {"url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/", "title": "Improper Output Handling"},
-            "LLM06": {"url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/", "title": "Excessive Agency"},
-            "LLM07": {"url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/", "title": "System Prompt Leakage"},
-            "LLM08": {"url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/", "title": "Vector and Embedding Weaknesses"},
-            "LLM09": {"url": "https://genai.owasp.org/llmrisk/llm092025-misinformation/", "title": "Misinformation"},
-            "LLM10": {"url": "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/", "title": "Unbounded Consumption"}
-          },
-          "provenance": {
-            "method": "Searched genai.owasp.org for 'site:genai.owasp.org/llmrisk/' to find all v2.0 (2025) URLs, then verified each URL loads. LLM01 slug lacks the '2025' year that all other entries have (llm01-prompt-injection vs llm022025-...) — confirmed this is how OWASP published it, not a data entry error.",
-            "date": "2026-02-22",
-            "source_url": "https://genai.owasp.org/llm-top-10/"
+          "weight": 100,
+          "data": {
+            "lookup_table": {
+              "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
+              "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"},
+              "LLM03": {"url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/", "title": "Supply Chain"},
+              "LLM04": {"url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/", "title": "Data and Model Poisoning"},
+              "LLM05": {"url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/", "title": "Improper Output Handling"},
+              "LLM06": {"url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/", "title": "Excessive Agency"},
+              "LLM07": {"url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/", "title": "System Prompt Leakage"},
+              "LLM08": {"url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/", "title": "Vector and Embedding Weaknesses"},
+              "LLM09": {"url": "https://genai.owasp.org/llmrisk/llm092025-misinformation/", "title": "Misinformation"},
+              "LLM10": {"url": "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/", "title": "Unbounded Consumption"}
+            },
+            "provenance": {
+              "method": "Searched genai.owasp.org for 'site:genai.owasp.org/llmrisk/' to find all v2.0 (2025) URLs, then verified each URL loads. LLM01 slug lacks the '2025' year that all other entries have (llm01-prompt-injection vs llm022025-...) — confirmed this is how OWASP published it, not a data entry error.",
+              "date": "2026-02-22",
+              "source_url": "https://genai.owasp.org/llm-top-10/"
+            }
           }
         }
-      ],
-
-      "version_patterns": null,
-
-      "version_required": true,
-      "unversioned_behavior": "all_with_guidance",
-      "version_disambiguation": "v2.0 (2025) significantly restructured from v1.0 (2023). Match the version whose release date is closest to but not after the referring document's publication date. If no date context, use v2.0. Item numbering is reused — LLM01 in v2.0 is the same topic (Prompt Injection) but with substantially updated content; other items changed more significantly.",
-      "versions_available": [
-        {"version": "2.0", "release_date": "2025-01-01", "status": "current", "note": "Major update. Labelled '2025' in titles (e.g., 'LLM01:2025'). Some items renamed and reordered from v1.0."},
-        {"version": "1.0", "release_date": "2023-10-16", "status": "superseded", "note": "First edition. Content archived at different URL path."}
-      ],
-
-      "examples": ["LLM01", "LLM02", "LLM10"]
+      ]
     },
 
-    "ml-top10": {
-      "official_name": "OWASP Machine Learning Security Top 10",
-      "common_name": "ML Top 10",
-      "alternate_names": null,
-      "description": "Security risks specific to Machine Learning systems — broader than LLMs, covering vision, classification, and other ML domains.",
-      "notes": "Focuses on traditional ML security (not just LLMs). Covers attacks at both training and inference time. Complements the LLM Top 10 for non-LLM systems. More technical/research oriented vs LLM Top 10's deployment/integration focus.",
-
-      "urls": [
-        {"type": "website", "url": "https://owasp.org/www-project-machine-learning-security-top-10/"},
-        {"type": "docs", "url": "https://mltop10.info/"},
-        {"type": "github", "url": "https://github.com/OWASP/www-project-machine-learning-security-top-10"},
-        {"type": "lookup", "url": "https://mltop10.info/#{id}/"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^ml-top10$"],
+      "description": "OWASP Machine Learning Security Top 10",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP Machine Learning Security Top 10",
+        "common_name": "ML Top 10",
+        "alternate_names": null,
+        "description": "Security risks specific to Machine Learning systems — broader than LLMs, covering vision, classification, and other ML domains.",
+        "notes": "Focuses on traditional ML security (not just LLMs). Covers attacks at both training and inference time. Complements the LLM Top 10 for non-LLM systems. More technical/research oriented vs LLM Top 10's deployment/integration focus.",
+        "urls": [
+          {"type": "website", "url": "https://owasp.org/www-project-machine-learning-security-top-10/"},
+          {"type": "docs", "url": "https://mltop10.info/"},
+          {"type": "github", "url": "https://github.com/OWASP/www-project-machine-learning-security-top-10"},
+          {"type": "lookup", "url": "https://mltop10.info/#{id}/"}
+        ],
+        "examples": ["ML01", "ML05", "ML10"]
+      },
+      "children": [
         {
-          "pattern": "^ML\\d{2}$",
+          "patterns": ["^ML\\d{2}$"],
           "description": "ML Top 10 item number (e.g., ML01, ML05)",
-          "url": "https://mltop10.info/#{id}/",
-          "known_values": {
-            "ML01": "Input Manipulation Attack",
-            "ML02": "Data Poisoning Attack",
-            "ML03": "Model Inversion Attack",
-            "ML04": "Membership Inference Attack",
-            "ML05": "Model Theft",
-            "ML06": "AI Supply Chain Attacks",
-            "ML07": "Transfer Learning Attack",
-            "ML08": "Model Skewing",
-            "ML09": "Output Integrity Attack",
-            "ML10": "Model Poisoning"
+          "weight": 100,
+          "data": {
+            "url": "https://mltop10.info/#{id}/",
+            "known_values": {
+              "ML01": "Input Manipulation Attack",
+              "ML02": "Data Poisoning Attack",
+              "ML03": "Model Inversion Attack",
+              "ML04": "Membership Inference Attack",
+              "ML05": "Model Theft",
+              "ML06": "AI Supply Chain Attacks",
+              "ML07": "Transfer Learning Attack",
+              "ML08": "Model Skewing",
+              "ML09": "Output Integrity Attack",
+              "ML10": "Model Poisoning"
+            }
           }
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["ML01", "ML05", "ML10"]
+      ]
     },
 
-    "agentic-top10": {
-      "official_name": "OWASP Top 10 for Agentic Applications",
-      "common_name": "Agentic Top 10",
-      "alternate_names": null,
-      "description": "Security risks specific to AI agents — autonomous systems that can plan, act, use tools, and make decisions with limited human oversight.",
-      "notes": "Released December 10, 2025. Developed by 100+ industry experts. Agentic systems introduce unique risks not covered by LLM Top 10: autonomy (agents act without per-action human approval), tool use (code execution, API calls, file modification), chaining (multi-agent collaboration amplifying risks), persistence (state across sessions), and goal pursuit (unexpected achievement paths). Key principle: Least Agency — only grant agents the minimum autonomy required. Critical for MCP, LangChain, AutoGPT, CrewAI security. Complements LLM Top 10, doesn't replace it.\n\nSupporting resources: State of Agentic Security 1.0, Agentic Security Solutions Landscape, Practical Guide to Securing Agentic Applications, OWASP FinBot CTF.",
-
-      "urls": [
-        {"type": "website", "url": "https://genai.owasp.org/"},
-        {"type": "docs", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"},
-        {"type": "docs", "url": "https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/", "note": "Announcement blog post"},
-        {"type": "lookup", "url": "https://genai.owasp.org/agentic/{id}/"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^agentic-top10$"],
+      "description": "OWASP Top 10 for Agentic Applications",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP Top 10 for Agentic Applications",
+        "common_name": "Agentic Top 10",
+        "alternate_names": null,
+        "description": "Security risks specific to AI agents — autonomous systems that can plan, act, use tools, and make decisions with limited human oversight.",
+        "notes": "Released December 10, 2025. Developed by 100+ industry experts. Agentic systems introduce unique risks not covered by LLM Top 10: autonomy (agents act without per-action human approval), tool use (code execution, API calls, file modification), chaining (multi-agent collaboration amplifying risks), persistence (state across sessions), and goal pursuit (unexpected achievement paths). Key principle: Least Agency — only grant agents the minimum autonomy required. Critical for MCP, LangChain, AutoGPT, CrewAI security. Complements LLM Top 10, doesn't replace it.\n\nSupporting resources: State of Agentic Security 1.0, Agentic Security Solutions Landscape, Practical Guide to Securing Agentic Applications, OWASP FinBot CTF.",
+        "urls": [
+          {"type": "website", "url": "https://genai.owasp.org/"},
+          {"type": "docs", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"},
+          {"type": "docs", "url": "https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/", "note": "Announcement blog post"},
+          {"type": "lookup", "url": "https://genai.owasp.org/agentic/{id}/"}
+        ],
+        "examples": ["ASI01", "ASI06", "ASI10"]
+      },
+      "children": [
         {
-          "pattern": "^ASI\\d{2}$",
+          "patterns": ["^ASI\\d{2}$"],
           "description": "Agentic Top 10 item number (e.g., ASI01, ASI06)",
-          "url": "https://genai.owasp.org/agentic/{id}/",
-          "known_values": {
-            "ASI01": "Agent Goal Hijack",
-            "ASI02": "Tool Misuse and Exploitation",
-            "ASI03": "Identity and Privilege Abuse",
-            "ASI04": "Agentic Supply Chain Vulnerabilities",
-            "ASI05": "Unexpected Code Execution",
-            "ASI06": "Memory and Context Poisoning",
-            "ASI07": "Insecure Inter-Agent Communication",
-            "ASI08": "Cascading Failures",
-            "ASI09": "Human-Agent Trust Exploitation",
-            "ASI10": "Rogue Agents"
+          "weight": 100,
+          "data": {
+            "url": "https://genai.owasp.org/agentic/{id}/",
+            "known_values": {
+              "ASI01": "Agent Goal Hijack",
+              "ASI02": "Tool Misuse and Exploitation",
+              "ASI03": "Identity and Privilege Abuse",
+              "ASI04": "Agentic Supply Chain Vulnerabilities",
+              "ASI05": "Unexpected Code Execution",
+              "ASI06": "Memory and Context Poisoning",
+              "ASI07": "Insecure Inter-Agent Communication",
+              "ASI08": "Cascading Failures",
+              "ASI09": "Human-Agent Trust Exploitation",
+              "ASI10": "Rogue Agents"
+            }
           }
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["ASI01", "ASI06", "ASI10"]
+      ]
     },
 
-    "ai-exchange": {
-      "official_name": "OWASP AI Exchange",
-      "common_name": "AI Exchange",
-      "alternate_names": null,
-      "description": "Comprehensive AI security knowledge base with a 'Periodic Table of AI Security' organizing threats and controls.",
-      "notes": "The lookup URL https://owaspai.org/goto/{id}/ redirects to the detailed page for each threat or control. IDs are uppercase concatenated words (e.g., DIRECTPROMPTINJECTION). Maps to MITRE ATLAS, CWE, and other frameworks. Continuously updated with emerging threats. Each threat maps to controls in secid:control/owasp.org/ai-exchange.",
-
-      "urls": [
-        {"type": "website", "url": "https://owaspai.org"},
-        {"type": "docs", "url": "https://owaspai.org/docs/ai_security_overview/#periodic-table-of-ai-security", "note": "Periodic Table overview"},
-        {"type": "docs", "url": "https://owaspai.org/docs/ai_security_overview/#how-to-address-ai-security", "note": "Threat addressing guide"},
-        {"type": "lookup", "url": "https://owaspai.org/goto/{id}/"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^ai-exchange$"],
+      "description": "OWASP AI Exchange",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP AI Exchange",
+        "common_name": "AI Exchange",
+        "alternate_names": null,
+        "description": "Comprehensive AI security knowledge base with a 'Periodic Table of AI Security' organizing threats and controls.",
+        "notes": "The lookup URL https://owaspai.org/goto/{id}/ redirects to the detailed page for each threat or control. IDs are uppercase concatenated words (e.g., DIRECTPROMPTINJECTION). Maps to MITRE ATLAS, CWE, and other frameworks. Continuously updated with emerging threats. Each threat maps to controls in secid:control/owasp.org/ai-exchange.",
+        "urls": [
+          {"type": "website", "url": "https://owaspai.org"},
+          {"type": "docs", "url": "https://owaspai.org/docs/ai_security_overview/#periodic-table-of-ai-security", "note": "Periodic Table overview"},
+          {"type": "docs", "url": "https://owaspai.org/docs/ai_security_overview/#how-to-address-ai-security", "note": "Threat addressing guide"},
+          {"type": "lookup", "url": "https://owaspai.org/goto/{id}/"}
+        ],
+        "examples": ["DIRECTPROMPTINJECTION", "DATAPOISON", "MODELTHEFTUSE"]
+      },
+      "children": [
         {
-          "pattern": "^[A-Z]+$",
+          "patterns": ["^[A-Z]+$"],
           "description": "AI Exchange threat/control ID — uppercase concatenated words",
-          "url": "https://owaspai.org/goto/{id}/",
-          "known_values": {
-            "DIRECTPROMPTINJECTION": "Direct prompt injection",
-            "INDIRECTPROMPTINJECTION": "Indirect prompt injection",
-            "EVASION": "Evasion (adversarial examples)",
-            "RUNTIMEMODELPOISON": "Model poisoning at runtime (reprogramming)",
-            "DEVMODELPOISON": "Development-time model poisoning",
-            "SUPPLYMODELPOISON": "Supply-chain model poisoning",
-            "DATAPOISON": "Training/fine-tune data poisoning",
-            "DEVDATALEAK": "Training data leaks",
-            "DISCLOSUREUSEOUTPUT": "Data disclosure in model output",
-            "MODELINVERSIONANDMEMBERSHIP": "Model inversion / Membership inference",
-            "LEAKINPUT": "Model input leak",
-            "MODELTHEFTUSE": "Model theft through use (input-output harvesting)",
-            "RUNTIMEMODELTHEFT": "Direct model theft at runtime",
-            "DEVMODELLEAK": "Model theft at development-time",
-            "INSECUREOUTPUT": "Model output contains injection",
-            "AIRESOURCEEXHAUSTION": "AI resource exhaustion (model DoS)"
+          "weight": 100,
+          "data": {
+            "url": "https://owaspai.org/goto/{id}/",
+            "known_values": {
+              "DIRECTPROMPTINJECTION": "Direct prompt injection",
+              "INDIRECTPROMPTINJECTION": "Indirect prompt injection",
+              "EVASION": "Evasion (adversarial examples)",
+              "RUNTIMEMODELPOISON": "Model poisoning at runtime (reprogramming)",
+              "DEVMODELPOISON": "Development-time model poisoning",
+              "SUPPLYMODELPOISON": "Supply-chain model poisoning",
+              "DATAPOISON": "Training/fine-tune data poisoning",
+              "DEVDATALEAK": "Training data leaks",
+              "DISCLOSUREUSEOUTPUT": "Data disclosure in model output",
+              "MODELINVERSIONANDMEMBERSHIP": "Model inversion / Membership inference",
+              "LEAKINPUT": "Model input leak",
+              "MODELTHEFTUSE": "Model theft through use (input-output harvesting)",
+              "RUNTIMEMODELTHEFT": "Direct model theft at runtime",
+              "DEVMODELLEAK": "Model theft at development-time",
+              "INSECUREOUTPUT": "Model output contains injection",
+              "AIRESOURCEEXHAUSTION": "AI resource exhaustion (model DoS)"
+            }
           }
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["DIRECTPROMPTINJECTION", "DATAPOISON", "MODELTHEFTUSE"]
+      ]
     },
 
-    "aivss": {
-      "official_name": "AI Vulnerability Scoring System",
-      "common_name": "AIVSS",
-      "alternate_names": null,
-      "description": "Extends CVSS concepts to score AI/ML-specific vulnerabilities.",
-      "notes": "Under active development. Traditional CVSS doesn't capture AI-specific risk factors: probabilistic attack success (vs binary exploitability), adaptive attacks (vs static attack vectors), cascading AI failures (vs single impact type), and model-update-dependent vulnerabilities (vs fixed temporal metrics). AIVSS adds metrics for model access level (black/gray/white-box), attack transferability, detectability, and reversibility. Complements CVSS for AI vulnerabilities. Used by security teams assessing AI risks.",
-
-      "urls": [
-        {"type": "website", "url": "https://owasp.org/www-project-ai-vulnerability-scoring-system/"},
-        {"type": "github", "url": "https://github.com/OWASP/www-project-ai-vulnerability-scoring-system"}
-      ],
-
-      "id_patterns": [],
-
-      "version_patterns": null,
-
-      "examples": []
+    {
+      "patterns": ["(?i)^aivss$"],
+      "description": "AI Vulnerability Scoring System",
+      "weight": 100,
+      "data": {
+        "official_name": "AI Vulnerability Scoring System",
+        "common_name": "AIVSS",
+        "alternate_names": null,
+        "description": "Extends CVSS concepts to score AI/ML-specific vulnerabilities.",
+        "notes": "Under active development. Traditional CVSS doesn't capture AI-specific risk factors: probabilistic attack success (vs binary exploitability), adaptive attacks (vs static attack vectors), cascading AI failures (vs single impact type), and model-update-dependent vulnerabilities (vs fixed temporal metrics). AIVSS adds metrics for model access level (black/gray/white-box), attack transferability, detectability, and reversibility. Complements CVSS for AI vulnerabilities. Used by security teams assessing AI risks.",
+        "urls": [
+          {"type": "website", "url": "https://owasp.org/www-project-ai-vulnerability-scoring-system/"},
+          {"type": "github", "url": "https://github.com/OWASP/www-project-ai-vulnerability-scoring-system"}
+        ],
+        "examples": []
+      }
     }
-  }
+  ]
 }

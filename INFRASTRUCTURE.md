@@ -183,12 +183,15 @@ export default app
 // registry.ts - generated at build time
 export const REGISTRY = {
   advisory: {
-    mitre: {
-      cve: {
-        official_name: "Common Vulnerabilities and Exposures",
-        urls: [...],
-        id_patterns: [...]
-      }
+    "mitre.org": {
+      official_name: "MITRE Corporation",
+      match_nodes: [
+        {
+          patterns: ["(?i)^cve$"],
+          data: { official_name: "Common Vulnerabilities and Exposures", urls: [...] },
+          children: [...]
+        }
+      ]
     }
   },
   // ...

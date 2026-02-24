@@ -78,7 +78,7 @@ No characters need to be banned from identifiers because the registry resolves e
 |-----------|------------------------------|
 | Where does the namespace end? | Shortest-to-longest matching against registry files |
 | Where does the name end? | Longest match against source names in the registry |
-| Is this `@` a version delimiter or part of an ID? | The `id_pattern` regex defines where the item identifier ends — `@` after the match boundary is a version delimiter |
+| Is this `@` a version delimiter or part of an ID? | The pattern tree's subpath-level regex defines where the item identifier ends — `@` after the match boundary is a version delimiter |
 | Is this `#` a subpath prefix or part of a name? | Registry source names can contain `#` — longest match determines the boundary |
 
 **The spec defines components and their ordering. The registry resolves every ambiguity.** A parser built from the spec alone cannot parse a SecID string — it needs the registry data to determine where one component ends and the next begins. This means:
@@ -103,7 +103,7 @@ A human or AI can:
 1. Visit `newvendor.com` — the domain is right there in the identifier
 2. Find their security advisory system
 3. Understand the `NVA-YYYY-NNNN` ID format
-4. Contribute a registry entry with `id_patterns`, `urls`, and resolution rules
+4. Contribute a registry entry with pattern tree (`match_nodes`), URLs, and resolution rules
 
 This is fundamentally different from opaque identifiers (UUIDs, sequential numbers) where an unknown ID gives you nothing to work with. Domain-name namespaces make SecIDs **self-documenting** — they carry enough context to find the source, even with zero prior knowledge.
 
@@ -1075,13 +1075,13 @@ Names and subpaths preserve the source format exactly.
 
 ### The Registry Documents Format
 
-Each registry file's `id_patterns` documents the expected format:
+Each registry file's pattern tree (`match_nodes`) documents the expected format. (See "Nested Pattern Matching" section below for the current tree structure.) For example, the errata source's subpath-level children:
 
 ```json
-"id_patterns": [
-  {"pattern": "^RHSA-\\d{4}:\\d+$", "description": "Red Hat Security Advisory (note colon separator)"},
-  {"pattern": "^RHBA-\\d{4}:\\d+$", "description": "Red Hat Bug Advisory"},
-  {"pattern": "^RHEA-\\d{4}:\\d+$", "description": "Red Hat Enhancement Advisory"}
+"children": [
+  {"patterns": ["^RHSA-\\d{4}:\\d+$"], "description": "Red Hat Security Advisory (note colon separator)"},
+  {"patterns": ["^RHBA-\\d{4}:\\d+$"], "description": "Red Hat Bug Advisory"},
+  {"patterns": ["^RHEA-\\d{4}:\\d+$"], "description": "Red Hat Enhancement Advisory"}
 ]
 ```
 
@@ -1448,7 +1448,7 @@ We use different patterns based on data characteristics:
 | Situation | Pattern | Example |
 |-----------|---------|---------|
 | Fixed, small set of categories | Named fields | `official_name`, `common_name`, `alternate_names` |
-| Open-ended, numerous categories | Arrays with type/context | `urls`, `id_patterns` |
+| Open-ended, numerous categories | Arrays with type/context | `urls`, `match_nodes` |
 | Identity/classification | Singular values | `namespace`, `type`, `status` |
 
 **Why named fields for names?** An AI reads `official_name` and immediately knows what it is. Arrays with type (like `{"type": "official", "value": "..."}`) require understanding a schema to interpret. Named fields are self-documenting.
@@ -1558,6 +1558,8 @@ This balances open contribution with quality control.
 ---
 
 ## JSON Schema: ID Patterns Design
+
+> **Note:** This section describes the original flat `id_patterns` design. The flat structure has been superseded by the unified nested pattern tree (`match_nodes`). See the "Nested Pattern Matching" section below for the current design. This section is preserved for historical context.
 
 ### The Principle
 
@@ -1803,7 +1805,7 @@ During JSON schema design, we considered and rejected:
 - `publication_date` - Enrichment layer.
 
 **Catalog data:**
-- `versions[]` (as simple list) - Replaced by `version_patterns[]` for resolution. A catalog of "what versions exist" is enrichment; resolution routing is identity.
+- `versions[]` (as simple list) - Replaced by version-level children in the pattern tree for resolution. A catalog of "what versions exist" is enrichment; resolution routing is identity.
 
 **Cross-reference identifiers:**
 - `doi`, `isbn`, `issn`, `asin` - These are identifier systems, not fields. They become namespaces (`secid:reference/doi.org/...`). Equivalence between identifiers belongs in the relationship layer.
@@ -1857,6 +1859,8 @@ Some Wikipedia articles lack corresponding Wikidata entries. Some Wikidata entri
 
 ## Version Resolution: Patterns Over Catalogs
 
+> **Note:** This section describes the original `version_patterns` design. In the current design, version patterns are version-level children in the `match_nodes` tree. See the "Nested Pattern Matching" section below. The reasoning here still applies — the nesting just changed.
+
 ### The Problem
 
 Some sources have different URL structures for different versions. CSA CCM v4.0 might be at one URL, CCM v3.0.1 at another. How do we handle this?
@@ -1895,7 +1899,7 @@ Using regex patterns:
 1. **Resolution, not catalog** - Routes to the right URL without maintaining a list
 2. **Handles future versions** - Pattern `4\..*` works for 4.0, 4.1, 4.2... without updates
 3. **Explicit routing** - Clear which URL structure applies to which version range
-4. **Consistent with id_patterns** - Same pattern-based routing concept
+4. **Consistent with pattern tree** - Same pattern-based routing concept used throughout `match_nodes`
 
 ### When to Use
 
@@ -1937,17 +1941,17 @@ The grammar becomes: `secid:type/namespace/name[@version][?qualifiers][#subpath[
 
 ### Why This Doesn't Break Parsing
 
-Registry `id_patterns` define the item ID boundary. The pattern `^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$` does not include `@`. So in `GHSA-cxpw-2g23-2vgw@a1b2c3d`, the parser:
+The registry's subpath-level patterns define the item ID boundary. The pattern `^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$` does not include `@`. So in `GHSA-cxpw-2g23-2vgw@a1b2c3d`, the parser:
 
 1. Matches `GHSA-cxpw-2g23-2vgw` against the pattern ✓
 2. Sees `@` follows the match boundary
 3. Extracts `a1b2c3d` as the item version
 
-If a source's IDs legitimately contained `@`, their `id_pattern` would include it, and the parser would know it's not a version delimiter. **The registry resolves the ambiguity.**
+If a source's IDs legitimately contained `@`, their pattern would include it, and the parser would know it's not a version delimiter. **The registry resolves the ambiguity.**
 
 ### The Key Principle
 
-**The spec teaches you how to build a parser. The registry makes it work.** Item-level versioning is the strongest example of this — without the registry's `id_patterns`, there's no way to distinguish `@` as a version delimiter from `@` as part of an identifier. With the registry, it's unambiguous.
+**The spec teaches you how to build a parser. The registry makes it work.** Item-level versioning is the strongest example of this — without the registry's pattern tree, there's no way to distinguish `@` as a version delimiter from `@` as part of an identifier. With the registry, it's unambiguous.
 
 ### When to Use
 

@@ -830,12 +830,12 @@ secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12@draft               # Con
 
 **This is a key example of why SecID parsing requires the registry.**
 
-The `@` character can appear in subpaths as either a version delimiter or as part of an identifier. The registry's `id_patterns` resolve this ambiguity:
+The `@` character can appear in subpaths as either a version delimiter or as part of an identifier. The registry's pattern tree resolves this ambiguity:
 
-1. The parser matches the subpath against the source's `id_patterns`
-2. The `id_pattern` regex defines where the item identifier ends
+1. The parser matches the subpath against the source's subpath-level patterns (children in the `match_nodes` tree)
+2. The pattern regex defines where the item identifier ends
 3. If `@` follows the matched identifier, it's the item version delimiter
-4. If a source's IDs legitimately contain `@`, their `id_pattern` includes it, and the parser knows it's not a version delimiter
+4. If a source's IDs legitimately contain `@`, their pattern includes it, and the parser knows it's not a version delimiter
 
 **Example:** GHSA IDs match `^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$`. This pattern does not include `@`. So in `GHSA-cxpw-2g23-2vgw@a1b2c3d`, the parser matches `GHSA-cxpw-2g23-2vgw` against the pattern, sees the `@` after the match boundary, and extracts `a1b2c3d` as the item version.
 
@@ -1105,7 +1105,7 @@ Rather than defining a complex list of banned characters that users must memoriz
 4. **Source version** - After name match, parse `@...` until `?` or `#`
 5. **Source qualifiers** - Parse `?...` until `#`
 6. **Subpath** - Everything after the `#` that follows version/qualifiers
-7. **Item version** - Match subpath against `id_patterns` for this source. If the matched identifier is followed by `@`, extract the remainder as `item_version`. **This is why SecID parsing requires the registry** — the `id_pattern` regex determines where the item identifier ends, resolving the ambiguity of `@` in subpaths.
+7. **Item version** - Match subpath against the source's subpath-level patterns (children in the `match_nodes` tree). If the matched identifier is followed by `@`, extract the remainder as `item_version`. **This is why SecID parsing requires the registry** — the pattern regex determines where the item identifier ends, resolving the ambiguity of `@` in subpaths.
 8. **Item qualifiers** - If `?` follows the item version (or the matched identifier if no item version), parse `?...` as item-level qualifiers.
 
 **Namespace resolution (shortest-to-longest):**

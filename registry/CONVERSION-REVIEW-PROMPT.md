@@ -25,12 +25,12 @@ You are reviewing pilot conversions of SecID registry files from YAML+Markdown f
 **What to check:**
 
 1. **Data loss** — Is any information from the YAML frontmatter or Markdown body missing in the JSON? Every URL, pattern, example, and piece of context should be accounted for.
-2. **Field mapping** — Do fields map correctly per the migration table in REGISTRY-JSON-FORMAT.md? (`full_name` → `official_name`, `website` → `urls[]`, `id_pattern` → `id_patterns[]`, etc.)
+2. **Field mapping** — Do fields map correctly per the migration table in REGISTRY-JSON-FORMAT.md? (`full_name` → `official_name`, `website` → `urls[]`, flat `sources` → nested `match_nodes` tree, etc.)
 3. **Dropped fields** — `operator`, `established`, and `versions[]` should NOT appear in the JSON (they moved to the data layer). But the information they carried should be preserved in `notes` if it's useful context.
-4. **Pattern correctness** — Are `id_patterns[].pattern` values anchored with `^...$`? Do they match the same strings as the original `id_pattern`?
+4. **Pattern correctness** — Are `match_nodes` `patterns[]` values anchored with `^...$`? Do name-level patterns use `(?i)` for case-insensitive matching? Do subpath-level children match the same strings as the original `id_pattern`?
 5. **URL completeness** — Are all URLs from the original present in the JSON? Are URL types (`website`, `lookup`, `api`, `bulk_data`, `docs`, `github`) assigned correctly?
 6. **Notes quality** — Does the top-level `notes` capture organizational context from the Markdown body? Do source-level `notes` capture operational quirks and resolution guidance? Is anything important from the Markdown lost?
-7. **known_values** — Where the Markdown had tables enumerating items (e.g., OWASP Top 10 lists, CCM domains), are those captured as `known_values` on the appropriate pattern?
+7. **known_values** — Where the Markdown had tables enumerating items (e.g., OWASP Top 10 lists, CCM domains), are those captured as `known_values` in the appropriate node's `data` object?
 8. **Null vs absent** — Per the spec: `null` means "we looked, nothing to find." Absent means "not yet researched." Are these used correctly?
 9. **Status** — Original files used `status: active`. JSON should use `draft` (since these haven't been reviewed against JSON spec completeness requirements).
 10. **JSON validity** — Is the JSON well-formed?

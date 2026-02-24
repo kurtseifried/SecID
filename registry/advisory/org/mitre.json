@@ -16,60 +16,67 @@
     {"type": "website", "url": "https://www.mitre.org"}
   ],
 
-  "sources": {
-    "cve": {
-      "official_name": "Common Vulnerabilities and Exposures",
-      "common_name": "CVE",
-      "alternate_names": null,
-      "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
-      "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.",
-
-      "urls": [
-        {"type": "website", "url": "https://www.cve.org"},
-        {"type": "api", "url": "https://cveawg.mitre.org/api"},
-        {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5", "format": "json"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^cve$"],
+      "description": "Common Vulnerabilities and Exposures",
+      "weight": 100,
+      "data": {
+        "official_name": "Common Vulnerabilities and Exposures",
+        "common_name": "CVE",
+        "alternate_names": null,
+        "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
+        "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.",
+        "urls": [
+          {"type": "website", "url": "https://www.cve.org"},
+          {"type": "api", "url": "https://cveawg.mitre.org/api"},
+          {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5", "format": "json"}
+        ],
+        "examples": ["CVE-2024-1234", "CVE-2023-44487", "CVE-2021-44228"]
+      },
+      "children": [
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "Standard CVE ID format",
-          "url": "https://www.cve.org/CVERecord?id={id}"
+          "weight": 100,
+          "data": {"url": "https://www.cve.org/CVERecord?id={id}"}
         },
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE JSON record on GitHub",
-          "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
-          "format": "json",
-          "note": "Raw CVE record from cvelistV5 repository",
-          "variables": {
-            "year": {
-              "extract": "^CVE-(\\d{4})-\\d+$",
-              "description": "4-digit year (e.g., '2024' from 'CVE-2024-1234')"
-            },
-            "bucket": {
-              "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
-              "format": "{1}xxx",
-              "description": "All but last 3 digits + 'xxx' (e.g., '1xxx' from 'CVE-2024-1234')"
-            },
-            "id": {
-              "extract": "^(CVE-\\d{4}-\\d+)$",
-              "description": "Full CVE ID"
+          "weight": 50,
+          "data": {
+            "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
+            "format": "json",
+            "note": "Raw CVE record from cvelistV5 repository",
+            "variables": {
+              "year": {
+                "extract": "^CVE-(\\d{4})-\\d+$",
+                "description": "4-digit year (e.g., '2024' from 'CVE-2024-1234')"
+              },
+              "bucket": {
+                "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+                "format": "{1}xxx",
+                "description": "All but last 3 digits + 'xxx' (e.g., '1xxx' from 'CVE-2024-1234')"
+              },
+              "id": {
+                "extract": "^(CVE-\\d{4}-\\d+)$",
+                "description": "Full CVE ID"
+              }
             }
           }
         },
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE JSON via API",
-          "url": "https://cveawg.mitre.org/api/cve/{id}",
-          "format": "json",
-          "note": "API endpoint, richer data than web page"
+          "weight": 50,
+          "data": {
+            "url": "https://cveawg.mitre.org/api/cve/{id}",
+            "format": "json",
+            "note": "API endpoint, richer data than web page"
+          }
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["CVE-2024-1234", "CVE-2023-44487", "CVE-2021-44228"]
+      ]
     }
-  }
+  ]
 }

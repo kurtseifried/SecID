@@ -19,7 +19,7 @@ Single skill for anyone who wants to **work on the SecID project** — creating 
 
 End-to-end workflow for creating a new registry entry:
 
-1. **Research a source** — Where to look, how to find official URLs, ID formats, versioning, API endpoints. How to validate that URLs resolve. How to test id_patterns against real identifiers.
+1. **Research a source** — Where to look, how to find official URLs, ID formats, versioning, API endpoints. How to validate that URLs resolve. How to test pattern nodes against real identifiers.
 2. **Determine type and namespace** — Decision criteria for the 7 types. Compute filesystem path using reverse-DNS algorithm. Check if namespace already exists (add source vs. create new file).
 3. **Create the entry** — Both .md (current format) and .json (target format). Fill in all fields with correct semantics (description vs. notes, null vs. absent, known_values vs. lookup_table).
 4. **Handle versioning** — When to set version_required, unversioned_behavior, version_disambiguation, versions_available. The three resolution behaviors and when each applies.
@@ -38,7 +38,7 @@ End-to-end workflow for creating a new registry entry:
 ### Registry Validation
 
 - Schema validation for both YAML frontmatter and JSON
-- Pattern testing (do id_patterns match the declared examples?)
+- Pattern testing (do match_nodes patterns match the declared examples?)
 - URL validation (well-formed, resolvable)
 - Cross-format consistency (.md ↔ .json)
 - Status-appropriate field completeness

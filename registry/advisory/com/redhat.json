@@ -16,102 +16,103 @@
     {"type": "website", "url": "https://www.redhat.com"}
   ],
 
-  "sources": {
-    "errata": {
-      "official_name": "Red Hat Errata",
-      "common_name": null,
-      "alternate_names": null,
-      "description": "Red Hat's advisory system publishing security fixes (RHSA), bug fixes (RHBA), and enhancements (RHEA) for Red Hat products.",
-      "notes": "Errata IDs contain colons (e.g., RHSA-2024:1234) — preserve the colon in subpaths. RHSA advisories often bundle fixes for multiple CVEs in a single errata. Errata are tied to specific product versions and architectures. Each errata includes affected packages and their updated versions. Security advisories (RHSA) include severity ratings. The number after the colon is sequential within a year.",
-
-      "urls": [
-        {"type": "website", "url": "https://access.redhat.com/errata/"},
-        {"type": "api", "url": "https://access.redhat.com/hydra/rest/securitydata"},
-        {"type": "lookup", "url": "https://access.redhat.com/errata/{id}"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^errata$"],
+      "description": "Red Hat Errata",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat Errata",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Red Hat's advisory system publishing security fixes (RHSA), bug fixes (RHBA), and enhancements (RHEA) for Red Hat products.",
+        "notes": "Errata IDs contain colons (e.g., RHSA-2024:1234) — preserve the colon in subpaths. RHSA advisories often bundle fixes for multiple CVEs in a single errata. Errata are tied to specific product versions and architectures. Each errata includes affected packages and their updated versions. Security advisories (RHSA) include severity ratings. The number after the colon is sequential within a year.",
+        "urls": [
+          {"type": "website", "url": "https://access.redhat.com/errata/"},
+          {"type": "api", "url": "https://access.redhat.com/hydra/rest/securitydata"},
+          {"type": "lookup", "url": "https://access.redhat.com/errata/{id}"}
+        ],
+        "examples": ["RHSA-2024:1234", "RHBA-2024:5678", "RHEA-2024:9012"]
+      },
+      "children": [
         {
-          "pattern": "^RHSA-\\d{4}:\\d+$",
-          "type": "security",
+          "patterns": ["^RHSA-\\d{4}:\\d+$"],
           "description": "Red Hat Security Advisory — security vulnerability fixes",
-          "url": "https://access.redhat.com/errata/{id}"
+          "weight": 100,
+          "data": {"type": "security", "url": "https://access.redhat.com/errata/{id}"}
         },
         {
-          "pattern": "^RHBA-\\d{4}:\\d+$",
-          "type": "bugfix",
+          "patterns": ["^RHBA-\\d{4}:\\d+$"],
           "description": "Red Hat Bug Advisory — non-security bug fixes",
-          "url": "https://access.redhat.com/errata/{id}"
+          "weight": 100,
+          "data": {"type": "bugfix", "url": "https://access.redhat.com/errata/{id}"}
         },
         {
-          "pattern": "^RHEA-\\d{4}:\\d+$",
-          "type": "enhancement",
+          "patterns": ["^RHEA-\\d{4}:\\d+$"],
           "description": "Red Hat Enhancement Advisory — new features",
-          "url": "https://access.redhat.com/errata/{id}"
+          "weight": 100,
+          "data": {"type": "enhancement", "url": "https://access.redhat.com/errata/{id}"}
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["RHSA-2024:1234", "RHBA-2024:5678", "RHEA-2024:9012"]
+      ]
     },
 
-    "cve": {
-      "official_name": "Red Hat CVE Database",
-      "common_name": null,
-      "alternate_names": null,
-      "description": "Red Hat's own CVE analysis pages with Red Hat-specific CVSS scores, affected products, and mitigation guidance.",
-      "notes": "Red Hat CVE pages have their own CVSS scores which may differ from NVD. Includes RHEL-specific mitigation and remediation guidance. Shows which Red Hat products are affected. Links to related errata (RHSA) that fix the CVE. CVE pages describe the vulnerability; errata (RHSA/RHBA/RHEA) are the actual fixes.",
-
-      "urls": [
-        {"type": "website", "url": "https://access.redhat.com/security/"},
-        {"type": "api", "url": "https://access.redhat.com/hydra/rest/securitydata"},
-        {"type": "lookup", "url": "https://access.redhat.com/security/cve/{id}"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^cve$"],
+      "description": "Red Hat CVE Database",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat CVE Database",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Red Hat's own CVE analysis pages with Red Hat-specific CVSS scores, affected products, and mitigation guidance.",
+        "notes": "Red Hat CVE pages have their own CVSS scores which may differ from NVD. Includes RHEL-specific mitigation and remediation guidance. Shows which Red Hat products are affected. Links to related errata (RHSA) that fix the CVE. CVE pages describe the vulnerability; errata (RHSA/RHBA/RHEA) are the actual fixes.",
+        "urls": [
+          {"type": "website", "url": "https://access.redhat.com/security/"},
+          {"type": "api", "url": "https://access.redhat.com/hydra/rest/securitydata"},
+          {"type": "lookup", "url": "https://access.redhat.com/security/cve/{id}"}
+        ],
+        "examples": ["CVE-2024-1234", "CVE-2023-44487"]
+      },
+      "children": [
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "Standard CVE ID format",
-          "url": "https://access.redhat.com/security/cve/{id}"
+          "weight": 100,
+          "data": {"url": "https://access.redhat.com/security/cve/{id}"}
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["CVE-2024-1234", "CVE-2023-44487"]
+      ]
     },
 
-    "bugzilla": {
-      "official_name": "Red Hat Bugzilla",
-      "common_name": null,
-      "alternate_names": null,
-      "description": "Red Hat's bug tracking system where security bugs are tracked with CVE aliases.",
-      "notes": "Bugzilla supports CVE aliases — you can look up a bug by its CVE identifier and Bugzilla redirects to the actual bug. Both numeric bug IDs and CVE aliases are valid SecID subpaths. Prefer the numeric bug ID for stability (aliases can theoretically change, though this is rare). Security bugs often have restricted access until fixes are released. One bug may track multiple CVEs (or vice versa in rare cases).",
-
-      "urls": [
-        {"type": "website", "url": "https://bugzilla.redhat.com"},
-        {"type": "lookup", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
-      ],
-
-      "id_patterns": [
+    {
+      "patterns": ["(?i)^bugzilla$"],
+      "description": "Red Hat Bugzilla",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Hat Bugzilla",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Red Hat's bug tracking system where security bugs are tracked with CVE aliases.",
+        "notes": "Bugzilla supports CVE aliases — you can look up a bug by its CVE identifier and Bugzilla redirects to the actual bug. Both numeric bug IDs and CVE aliases are valid SecID subpaths. Prefer the numeric bug ID for stability (aliases can theoretically change, though this is rare). Security bugs often have restricted access until fixes are released. One bug may track multiple CVEs (or vice versa in rare cases).",
+        "urls": [
+          {"type": "website", "url": "https://bugzilla.redhat.com"},
+          {"type": "lookup", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
+        ],
+        "examples": ["2045678", "CVE-2024-1234"]
+      },
+      "children": [
         {
-          "pattern": "^\\d+$",
-          "type": "primary",
+          "patterns": ["^\\d+$"],
           "description": "Bugzilla bug ID (numeric)",
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"
+          "weight": 100,
+          "data": {"type": "primary", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
         },
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
-          "type": "alias",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE alias — Bugzilla redirects to the associated bug",
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"
+          "weight": 50,
+          "data": {"type": "alias", "url": "https://bugzilla.redhat.com/show_bug.cgi?id={id}"}
         }
-      ],
-
-      "version_patterns": null,
-
-      "examples": ["2045678", "CVE-2024-1234"]
+      ]
     }
-  }
+  ]
 }

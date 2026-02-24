@@ -385,7 +385,7 @@ Why this format:
 | **Namespace** | **Domain name**, or **domain name with path**, of the organization that publishes/maintains. A plain domain (`redhat.com`, `cloudsecurityalliance.org`) or a domain with `/`-separated path segments (`github.com/advisories`, `github.com/ModelContextProtocol-Security/vulnerability-db`). Allowed per segment: `a-z`, `0-9`, `-`, `.`, and Unicode letters/numbers. |
 | **Name** | The database/framework/document they publish (e.g., `cve`, `nvd`, `ccm`, `attack`). Can contain any characters - resolved by registry lookup. |
 | **Version** | Optional `@version` suffix on the name for edition/revision of the source (e.g., `@4.0`, `@2021`, `@2016-04-27`) |
-| **Item Version** | Optional `@item_version` suffix on the subpath for a specific revision of an individual item (e.g., `@a1b2c3d` for a git commit, `@rev2` for a revision). Parsed using registry `id_patterns`. |
+| **Item Version** | Optional `@item_version` suffix on the subpath for a specific revision of an individual item (e.g., `@a1b2c3d` for a git commit, `@rev2` for a revision). Parsed using the registry's pattern tree (`match_nodes`). |
 | **Version Required** | Some sources declare `version_required: true` in the registry — meaning unversioned references are ambiguous (e.g., OWASP Top 10 `#A01` means different things in 2017 vs 2021). When version is required but absent, the resolver returns all matching versions with disambiguation guidance instead of a single result. |
 | **Qualifier** | Optional `?key=value` for context that doesn't change identity |
 | **Subpath** | The specific item within the document (e.g., `#CVE-2024-1234`, `#IAM-12`, `#T1059`); can use `/` for hierarchy |
@@ -422,7 +422,7 @@ secid:advisory/github.com/advisories/ghsa#GHSA-jfh8-c2jp-5v3q@a1b2c3d
   → https://github.com/github/advisory-database/blob/a1b2c3d/advisories/github-reviewed/GHSA-jfh8-c2jp-5v3q.json
 ```
 
-Resolution URLs are defined in each namespace's registry file. Item versions (like `@a1b2c3d` above) pin a specific revision — the registry's `id_patterns` determine where the item ID ends and the version begins.
+Resolution URLs are defined in each namespace's registry file. Item versions (like `@a1b2c3d` above) pin a specific revision — the registry's pattern tree determines where the item ID ends and the version begins.
 
 ## Documentation
 

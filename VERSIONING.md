@@ -121,7 +121,7 @@ Response: Matched: secid:advisory/redhat.com/errata#RHSA-2026:1234
 Status:   corrected_match
 ```
 
-How the API determines this: the input doesn't match any source name, so try the input against all `id_patterns` for all sources in the namespace. `RHSA-2026:1234` matches `^RHSA-\d{4}:\d+$` in `errata`. High confidence — return the data with the correction.
+How the API determines this: the input doesn't match any source name, so traverse the pattern tree (`match_nodes`) across all sources in the namespace. `RHSA-2026:1234` matches `^RHSA-\d{4}:\d+$` in the errata node's children. High confidence — return the data with the correction.
 
 #### 3. We Don't Have That, but Here's Related Data
 
@@ -131,7 +131,7 @@ The query partially matches — we recognize some components but can't resolve t
 Query:    secid:advisory/redhat.com/total_junk
 Response: No source "total_junk" found under advisory/redhat.com.
           Red Hat advisory sources: errata (RHSA/RHBA/RHEA), cve, bugzilla.
-          [source descriptions and id_patterns for each]
+          [source descriptions and pattern tree for each]
 Status:   no_match_but_related
 ```
 

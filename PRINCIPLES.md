@@ -42,7 +42,7 @@ This applies differently to the two interfaces:
 
 The API must do the thinking. Software can't reason about fuzzy matches, and humans shouldn't have to re-query. When the input is imprecise:
 
-- **Try to resolve it anyway.** Match against alternate names, run id_patterns across all sources in the namespace, check for common mistakes.
+- **Try to resolve it anyway.** Match against alternate names, traverse the pattern tree across all sources in the namespace, check for common mistakes.
 - **Return the data AND the correction.** Don't force a second round trip. Give them what they asked for (if we can figure it out) plus guidance on the correct form.
 - **Never return a bare error.** Always include context: what we looked for, what we found, what's available.
 

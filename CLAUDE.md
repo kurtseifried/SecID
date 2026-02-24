@@ -124,7 +124,7 @@ secid:control/cloudsecurityalliance.org/ccm@4.0#IAM       → Domain (group of c
 secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12    → Specific control
 ```
 
-Document each level with its own `id_pattern` and description.
+Document each level with its own pattern node and description.
 
 ## Namespace-to-Filesystem Algorithm
 
@@ -145,7 +145,7 @@ Simple cases: `mitre.org` → `registry/<type>/org/mitre.md`, `nist.gov` → `re
 2. Compute the filesystem path using the algorithm above
 3. Check if the file already exists — if so, add a source section to it
 4. If new, copy from `registry/advisory/_template.md` and fill in fields
-5. Include: urls, id_patterns (with descriptions), examples
+5. Include: urls, pattern tree nodes (match_nodes with descriptions), examples
 6. Use `registry/_deferred/` for incomplete research
 
 See [REGISTRY-GUIDE.md](REGISTRY-GUIDE.md) for detailed patterns.
@@ -193,7 +193,7 @@ This is a **specification-only repository** — no build system, no tests, no co
 | `type` | Fixed list of 7 values |
 | `namespace` | Domain name, optionally with `/`-separated sub-namespace path segments. Per-segment: `a-z`, `0-9`, `-`, `.`, Unicode `\p{L}\p{N}`. |
 | `name` | **Anything** - resolved by registry lookup, longest match wins |
-| `subpath` | Anything (everything after `#`). May include `@item_version` suffix — parsed via `id_patterns`. |
+| `subpath` | Anything (everything after `#`). May include `@item_version` suffix — parsed via pattern tree matching. |
 
 **Per-segment validation regex:** `^[\p{L}\p{N}]([\p{L}\p{N}._-]*[\p{L}\p{N}])?$` (applies to each segment between `/`)
 

@@ -42,11 +42,11 @@ secid:advisory/github.com/advisories/ghsa#GHSA-1234-5678-abcd
 | 1 | scheme | Literal `secid:` |
 | 2 | type | Match against 7 known values |
 | 3 | namespace | **Shortest-to-longest matching** against registry. Namespaces can contain `/` (e.g., `github.com/advisories`). See SPEC.md Section 4.3. |
-| 4 | name | Longest match against sources in `registry[type][namespace]` |
-| 5 | version | After name, parse `@...` until `?` or `#` |
+| 4 | name | Match remaining path against name-level pattern nodes in `match_nodes` |
+| 5 | version | If `@` present after name, match against version-level children |
 | 6 | source qualifiers | Parse `?...` until `#` |
-| 7 | subpath | Everything after the `#` following version/qualifiers |
-| 8 | item_version | Match subpath against `id_patterns`. If `@` follows the matched pattern, extract item version. See below. |
+| 7 | subpath | If `#` present, match against subpath-level children |
+| 8 | item_version | If `@` follows matched subpath pattern, match against deeper children for item version |
 | 9 | item qualifiers | If `?` follows the item version (or matched identifier), parse as item-level qualifiers. |
 
 **Why registry-aware?** Names can contain any characters (including `#`, `@`, `?`, `:`). The registry defines what names exist, and longest-match resolves ambiguity.
@@ -91,21 +91,26 @@ registry[type][namespace][name] → registry["advisory"]["mitre.org"]["cve"]
 | `registry["advisory"]["github.com/advisories"]` | `registry/advisory/com/github/advisories.json` |
 | `registry["control"]["cloudsecurityalliance.org"]` | `registry/control/org/cloudsecurityalliance.json` |
 
-### Step 3: Match Patterns Against Subpath
+### Step 3: Match Patterns via Tree Traversal
 
-The subpath is tested against each `id_patterns[].pattern`. Patterns should be anchored (`^...$`) to match the complete subpath:
+The resolver walks the **pattern tree** (`match_nodes`), matching each portion of the SecID against the corresponding tree level. At each level, all sibling patterns are tested — all matches are traversed to completion, not just the first.
 
-```json
-"id_patterns": [
-  {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
-]
+```
+secid:advisory/redhat.com/errata#RHSA-2026:1234
+
+1. Name "errata" → match against name-level nodes → "(?i)^errata$" matches
+2. No @version → skip version-level children
+3. Subpath "RHSA-2026:1234" → match against subpath-level children → "^RHSA-\\d{4}:\\d+$" matches
+4. Return data from both levels (source info + specific advisory URL)
 ```
 
-**Important:** Patterns match the **complete subpath**, not a substring. This means:
-- `secid:advisory/mitre.org/cve#CVE-2024-1234` → subpath `CVE-2024-1234` → matches
-- `secid:advisory/mitre.org/cve#CVE-2024-1234/extra` → subpath `CVE-2024-1234/extra` → **no match**
+**Chop and pass:** Each regex only sees its portion of the string. The resolver splits at grammar boundaries (`@`, `#`) and hands each piece to the appropriate tree level. No backtracking, no lookahead across levels.
 
-Invalid subpaths simply don't match any pattern. This is intentional - CVE IDs don't have path suffixes, so such a SecID would be malformed.
+**All matches traversed:** The resolver doesn't stop at the first match — it traverses all matching nodes to completion. Multiple matches are all returned (with weights). When sibling patterns overlap, `weight` helps consumers choose.
+
+**Every level returns data.** Query `secid:advisory/redhat.com/errata` → returns errata info from the name-level node. Query `secid:advisory/redhat.com/errata#RHSA-2026:1234` → returns both the source info AND the specific advisory URL. Incomplete queries get the data available at their depth.
+
+**Patterns match the complete input at each level**, not a substring. Patterns should be anchored with `^...$`.
 
 ### Step 4: Extract Variables (if needed)
 
@@ -227,7 +232,7 @@ Use the right pattern for the data:
 | Situation | Pattern | Example |
 |-----------|---------|---------|
 | Fixed, small set of categories | Named fields | `official_name`, `common_name`, `alternate_names` |
-| Open-ended, numerous categories | Arrays with type/context | `urls`, `id_patterns` |
+| Open-ended, numerous categories | Arrays with type/context | `urls`, `match_nodes` |
 | Identity/classification | Singular values | `namespace`, `type`, `status` |
 
 **Why?** Named fields are self-documenting. An AI reads `official_name` and immediately knows what it is. Arrays with type require understanding a schema to interpret.
@@ -269,9 +274,9 @@ For arrays:
     {"type": "website", "url": "https://www.mitre.org"}
   ],
 
-  "sources": {
-    "cve": { ... }
-  }
+  "match_nodes": [
+    { "patterns": ["(?i)^cve$"], "data": { ... }, "children": [ ... ] }
+  ]
 }
 ```
 
@@ -423,38 +428,92 @@ Top-level `urls[]` array for the namespace/organization. Same structure as sourc
 
 See source-level URLs section for full field definitions.
 
-### Sources Block
+### Match Nodes (Pattern Tree)
 
-The `sources` block contains one or more data sources published by this namespace:
+The `match_nodes` array replaces the old `sources` block. Each node in the tree matches a portion of the SecID string, returns data if matched, and optionally has children for deeper matching.
 
 ```json
-"sources": {
-  "cve": {
-    "official_name": "Common Vulnerabilities and Exposures",
-    "common_name": "CVE",
-    "alternate_names": null,
-    "description": "...",
-    "notes": "...",
-
-    "urls": [ ... ],
-    "id_patterns": [ ... ],
-    "version_patterns": [ ... ],
-    "version_required": false,
-    "unversioned_behavior": "current",
-    "version_disambiguation": null,
-    "versions_available": null,
-    "examples": [ ... ]
+"match_nodes": [
+  {
+    "patterns": ["(?i)^cve$"],
+    "description": "Common Vulnerabilities and Exposures",
+    "weight": 100,
+    "data": {
+      "official_name": "Common Vulnerabilities and Exposures",
+      "common_name": "CVE",
+      "alternate_names": null,
+      "description": "...",
+      "notes": "...",
+      "urls": [ ... ],
+      "version_required": false,
+      "unversioned_behavior": "current",
+      "version_disambiguation": null,
+      "versions_available": null,
+      "examples": [ ... ]
+    },
+    "children": [
+      {
+        "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+        "description": "Standard CVE ID format",
+        "weight": 100,
+        "data": {
+          "url": "https://www.cve.org/CVERecord?id={id}"
+        }
+      }
+    ]
   }
-}
+]
 ```
 
-The source key (e.g., `cve`) becomes the `name` component in SecIDs: `secid:advisory/mitre.org/cve#CVE-2024-1234`
+The name-level pattern (e.g., `(?i)^cve$`) replaces the literal source key. This is matched against the `name` component of the SecID: `secid:advisory/mitre.org/cve#CVE-2024-1234` → name `cve` matches `(?i)^cve$`.
 
-#### Source Name Fields
+#### Node Schema
 
-Same pattern as top-level: `official_name`, `common_name`, `alternate_names`.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `patterns` | string[] | yes | One or more regex patterns (OR alternatives). All share the same children and data. |
+| `description` | string | no | Human/AI-readable description of what this node matches |
+| `weight` | integer | no | 0-200, default 0. Higher = more preferred. Returned with results, consumer decides. |
+| `data` | object | no | Result data returned when this node matches (see below) |
+| `children` | array | no | Child nodes for matching the next portion of the string (recursive) |
 
-#### Source Description and Notes
+**Multiple patterns per node:** A node can have multiple regex alternatives. All share the same children and data. Used when a source is known by multiple names (e.g., `["(?i)^top10$", "(?i)^top-10$", "(?i)^owasp-top-10$"]`).
+
+**Case sensitivity:** Use `(?i)` prefix in the regex for case-insensitive matching. Convention: name-level patterns use `(?i)` (users may type `CVE` or `cve`), subpath patterns match canonical case per the source's format. No lossy normalization of the input — the original is always preserved.
+
+#### Node Data Object
+
+The `data` object at each level contains whatever result information is appropriate for that depth. Common fields:
+
+**Name-level data** (source metadata):
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `official_name` | string | Official name of the source |
+| `common_name` | string \| null | Common short name |
+| `alternate_names` | string[] \| null | Other names for search/matching |
+| `description` | string | Brief summary of what this source is |
+| `notes` | string \| null | Operational context for AI/human readers |
+| `urls` | array | Source-level URLs (website, API, bulk_data) |
+| `version_required` | boolean | See Version Resolution Fields |
+| `unversioned_behavior` | string | See Version Resolution Fields |
+| `version_disambiguation` | string \| null | See Version Resolution Fields |
+| `versions_available` | array \| null | See Version Resolution Fields |
+| `examples` | string[] | Representative identifier examples |
+
+**Subpath-level data** (pattern-specific resolution):
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `url` | string | Lookup URL with `{id}` placeholder |
+| `format` | string | Response format (json, html, xml) |
+| `note` | string | Context for when/why to use this URL |
+| `type` | string | Category when source has multiple ID types |
+| `known_values` | object | Enumeration of finite, stable values (see Known Values) |
+| `lookup_table` | object | Map of IDs to URLs for non-computable URLs (see Lookup Table) |
+| `variables` | object | Variable extraction for complex URL building (see Variable Extraction) |
+
+#### Description and Notes (in Node Data)
 
 The `description` field provides a brief summary of what this source is. The `notes` field provides deeper operational context:
 
@@ -536,48 +595,71 @@ URLs may contain placeholders for dynamic resolution:
 | `{version}` | Version from `@version` component | `4.0` |
 | `{item_version}` | Item version from `@item_version` after subpath | `a1b2c3d` |
 
-#### ID Patterns (array with context)
+#### Tree Matching Algorithm
+
+The resolver walks the tree level by level, matching each portion of the SecID string:
+
+1. **Name level:** Match the `name` component against `patterns` in each top-level `match_nodes` entry. All matching nodes are traversed.
+2. **Version level:** If `@version` is present, match against children of the name-level node. If no version children exist, the version is passed through as `{version}` for URL templates.
+3. **Subpath level:** If `#subpath` is present, match against children at the next level. These are the equivalent of the old `id_patterns`.
+4. **Item version level:** If `@item_version` follows a matched subpath pattern, match against deeper children.
+
+At each level, the node's `data` is collected into the result set. The resolver returns data from **every matched level**, not just the deepest.
+
+**Key properties:**
+
+- **Chop and pass.** Each regex only sees its portion of the string. The resolver splits at grammar boundaries (`@`, `#`) and passes each piece to the appropriate tree level. No backtracking, no lookahead across levels.
+- **All matches traversed.** The resolver doesn't stop at the first match — all matching sibling nodes are traversed to completion. Multiple matches are returned with weights.
+- **Case sensitivity per-pattern.** Use `(?i)` prefix for case-insensitive matching. No lossy normalization of input.
+- **Mutual exclusivity is checkable.** At each level, you can validate that sibling patterns don't overlap. When they do overlap, `weight` disambiguates.
+
+For sources with multiple subpath types (old `id_patterns` with `type` field), each type becomes a sibling child node:
 
 ```json
-"id_patterns": [
-  {"pattern": "^CVE-\\d{4}-\\d{4,}$", "description": "Standard CVE ID format"}
+"children": [
+  {
+    "patterns": ["^T\\d{4}(\\.\\d{3})?$"],
+    "description": "ATT&CK technique",
+    "data": {"type": "technique", "url": "https://attack.mitre.org/techniques/{id}/"}
+  },
+  {
+    "patterns": ["^TA\\d{4}$"],
+    "description": "ATT&CK tactic",
+    "data": {"type": "tactic", "url": "https://attack.mitre.org/tactics/{id}/"}
+  },
+  {
+    "patterns": ["^G\\d{4}$"],
+    "description": "Threat group",
+    "data": {"type": "group", "url": "https://attack.mitre.org/groups/{id}/"}
+  }
 ]
 ```
 
-For sources with multiple ID types:
+For sources where different subpath patterns need different lookup URLs:
 
 ```json
-"id_patterns": [
-  {"pattern": "^T\\d{4}(\\.\\d{3})?$", "type": "technique", "description": "ATT&CK technique"},
-  {"pattern": "^TA\\d{4}$", "type": "tactic", "description": "ATT&CK tactic"},
-  {"pattern": "^M\\d{4}$", "type": "mitigation", "description": "ATT&CK mitigation"},
-  {"pattern": "^G\\d{4}$", "type": "group", "description": "Threat group"}
+"children": [
+  {
+    "patterns": ["^ALAS-\\d{4}-\\d+$"],
+    "description": "Amazon Linux 1",
+    "data": {"url": "https://alas.aws.amazon.com/{id}.html"}
+  },
+  {
+    "patterns": ["^ALAS2-\\d{4}-\\d+$"],
+    "description": "Amazon Linux 2",
+    "data": {"url": "https://alas.aws.amazon.com/AL2/{id}.html"}
+  },
+  {
+    "patterns": ["^ALAS2023-\\d{4}-\\d+$"],
+    "description": "Amazon Linux 2023",
+    "data": {"url": "https://alas.aws.amazon.com/AL2023/{id}.html"}
+  }
 ]
 ```
 
-For sources where different ID patterns need different lookup URLs:
+#### Variables (in Node Data)
 
-```json
-"id_patterns": [
-  {"pattern": "^ALAS-\\d{4}-\\d+$", "type": "al1", "description": "Amazon Linux 1", "url": "https://alas.aws.amazon.com/{id}.html"},
-  {"pattern": "^ALAS2-\\d{4}-\\d+$", "type": "al2", "description": "Amazon Linux 2", "url": "https://alas.aws.amazon.com/AL2/{id}.html"},
-  {"pattern": "^ALAS2023-\\d{4}-\\d+$", "type": "al2023", "description": "Amazon Linux 2023", "url": "https://alas.aws.amazon.com/AL2023/{id}.html"}
-]
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `pattern` | string | yes | PCRE2-compatible regular expression (should be anchored with `^...$`) |
-| `type` | string | no | Category when source has multiple ID types |
-| `description` | string | no | Human/AI-readable description of what this pattern represents |
-| `ecosystem` | string | no | For ecosystem-specific patterns (e.g., PyPI, Go) |
-| `url` | string | no | Pattern-specific lookup URL (overrides default lookup URL) |
-| `variables` | object | no | Map of placeholder names to extraction objects (see below) |
-| `known_values` | object | no | Enumeration of finite, stable values (see below) |
-| `lookup_table` | object | no | Map of IDs to URLs when URLs can't be computed from patterns (see below) |
-| `item_version_patterns` | array | no | Patterns for item-level versions (see Item Version Patterns below) |
-
-**Variables structure:**
+For complex URL structures where parts of the ID need transformation, a node's `data` can include a `variables` object:
 
 Each key in `variables` is a placeholder name (e.g., `number`, `year`). The value is an object:
 
@@ -608,28 +690,26 @@ Example with format (appending literal text):
 }
 ```
 
-**Why always an array?** Consistency. Even single-pattern sources use an array with one item. Avoids having both `id_pattern` (string) and `id_patterns` (array).
+#### Pattern Conventions
 
-**Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire subpath must match, rejecting malformed SecIDs like `secid:advisory/mitre.org/cve#CVE-2024-1234/garbage`. Unanchored patterns would match substrings, allowing invalid input.
-
-**Why `url` in patterns?** Some sources have multiple ID formats that resolve to different URLs. Rather than a separate `id_routing` concept, patterns can include their own lookup URL when needed.
+**Why anchored patterns?** Anchored patterns (`^CVE-\d{4}-\d{4,}$`) ensure the entire input at each level must match. Unanchored patterns would match substrings, allowing invalid input.
 
 **Patterns match the human-readable (unencoded) form.** Write patterns matching what you see in the source documentation. `^Auditing Guidelines$` with a literal space, not `^Auditing%20Guidelines$`. Resolvers are responsible for decoding percent-encoded input before matching against patterns (see SPEC.md Section 8.3).
 
-**Patterns are independent, not chained.** All patterns are tested against the subpath independently — there is no ordering, priority, or conditional chaining between patterns. A future version may support chained patterns (e.g., "if pattern A matches, try pattern B on a captured group") if real-world usage demonstrates the need. For now, independent patterns keep the matching model simple and predictable. Each pattern either matches or it doesn't, and all matching patterns contribute resolution URLs.
+**Sibling patterns are independent.** All sibling patterns at each level are tested independently. All matching patterns contribute results. When siblings overlap on the same input, `weight` helps consumers choose.
 
-**Note:** These are **format patterns**, not validity checks. A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" - whether that specific CVE actually exists is only known when you try to resolve it.
+**Format patterns, not validity checks.** A pattern like `CVE-\d{4}-\d{4,}` tells you "this looks like a CVE ID" — whether that specific CVE actually exists is only known when you try to resolve it.
 
-#### Known Values
+#### Known Values (in Node Data)
 
-For patterns with finite, stable value sets, use `known_values` to enumerate them with descriptions:
+For patterns with finite, stable value sets, use `known_values` in the node's `data` to enumerate them with descriptions:
 
 ```json
-"id_patterns": [
-  {
-    "pattern": "^[A-Z]{2,3}$",
+{
+  "patterns": ["^[A-Z]{2,3}$"],
+  "description": "Control domain. Contains multiple controls.",
+  "data": {
     "type": "domain",
-    "description": "Control domain. Contains multiple controls.",
     "known_values": {
       "IAM": "Identity & Access Management",
       "DSP": "Data Security & Privacy Lifecycle Management",
@@ -637,12 +717,14 @@ For patterns with finite, stable value sets, use `known_values` to enumerate the
       "SEF": "Security Incident Management, E-Discovery & Forensics"
     }
   },
-  {
-    "pattern": "^[A-Z]{2,3}-\\d{2}$",
-    "type": "control",
-    "description": "Specific control (e.g., IAM-12). Belongs to a domain."
-  }
-]
+  "children": [
+    {
+      "patterns": ["^[A-Z]{2,3}-\\d{2}$"],
+      "description": "Specific control (e.g., IAM-12). Belongs to a domain.",
+      "data": {"type": "control", "url": "https://ccm.cloudsecurityalliance.org/control/{id}"}
+    }
+  ]
+}
 ```
 
 **When to use `known_values`:**
@@ -684,30 +766,32 @@ ISO standard numbers with titles:
 
 **Rule of thumb:** Ask "is this a class of objects?" If yes, describe it. For individual instances, only include in `known_values` when they're distinct enough to need disambiguation (ISO 27001 vs 42001) or when the set is small and stable.
 
-#### Lookup Table
+#### Lookup Table (in Node Data)
 
-When URLs can't be computed from the ID pattern alone — because the source uses inconsistent slugs, human-readable paths, or other non-derivable URL components — use `lookup_table` to map each ID directly to its URL.
+When URLs can't be computed from the ID pattern alone — because the source uses inconsistent slugs, human-readable paths, or other non-derivable URL components — use `lookup_table` in the node's `data` to map each ID directly to its URL.
 
 ```json
 {
-  "pattern": "^LLM\\d{2}$",
+  "patterns": ["^LLM\\d{2}$"],
   "description": "LLM Top 10 item number",
-  "lookup_table": {
-    "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
-    "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"},
-    "LLM03": {"url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/", "title": "Supply Chain"},
-    "LLM04": {"url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/", "title": "Data and Model Poisoning"},
-    "LLM05": {"url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/", "title": "Improper Output Handling"},
-    "LLM06": {"url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/", "title": "Excessive Agency"},
-    "LLM07": {"url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/", "title": "System Prompt Leakage"},
-    "LLM08": {"url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/", "title": "Vector and Embedding Weaknesses"},
-    "LLM09": {"url": "https://genai.owasp.org/llmrisk/llm092025-misinformation/", "title": "Misinformation"},
-    "LLM10": {"url": "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/", "title": "Unbounded Consumption"}
-  },
-  "provenance": {
-    "method": "Searched genai.owasp.org/llm-top-10/ listing page, then verified each individual URL. LLM01 slug lacks the year prefix that all other entries have — confirmed this is how OWASP published it, not a data entry error.",
-    "date": "2026-02-22",
-    "source_url": "https://genai.owasp.org/llm-top-10/"
+  "data": {
+    "lookup_table": {
+      "LLM01": {"url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", "title": "Prompt Injection"},
+      "LLM02": {"url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/", "title": "Sensitive Information Disclosure"},
+      "LLM03": {"url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/", "title": "Supply Chain"},
+      "LLM04": {"url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/", "title": "Data and Model Poisoning"},
+      "LLM05": {"url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/", "title": "Improper Output Handling"},
+      "LLM06": {"url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/", "title": "Excessive Agency"},
+      "LLM07": {"url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/", "title": "System Prompt Leakage"},
+      "LLM08": {"url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/", "title": "Vector and Embedding Weaknesses"},
+      "LLM09": {"url": "https://genai.owasp.org/llmrisk/llm092025-misinformation/", "title": "Misinformation"},
+      "LLM10": {"url": "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/", "title": "Unbounded Consumption"}
+    },
+    "provenance": {
+      "method": "Searched genai.owasp.org/llm-top-10/ listing page, then verified each individual URL. LLM01 slug lacks the year prefix that all other entries have — confirmed this is how OWASP published it, not a data entry error.",
+      "date": "2026-02-22",
+      "source_url": "https://genai.owasp.org/llm-top-10/"
+    }
   }
 }
 ```
@@ -737,81 +821,78 @@ The `provenance` object documents how the lookup table was built:
 - URLs follow a consistent, computable pattern (use `url` with `{id}` template instead)
 - The set is open-ended or very large (thousands of entries)
 
-**Relationship to `known_values`:** A pattern can have both. `known_values` provides descriptions for disambiguation. `lookup_table` provides URLs for resolution. If you have `lookup_table` with `title` fields, `known_values` is redundant — but including both is fine since they serve different purposes (description vs resolution).
+**Relationship to `known_values`:** A node's `data` can have both. `known_values` provides descriptions for disambiguation. `lookup_table` provides URLs for resolution. If you have `lookup_table` with `title` fields, `known_values` is redundant — but including both is fine since they serve different purposes (description vs resolution).
 
-**Relationship to `url`:** If a pattern has both a `url` template and a `lookup_table`, the `lookup_table` takes priority for IDs it contains. The `url` template serves as a fallback for IDs not in the table (useful when most IDs follow a pattern but some exceptions exist).
+**Relationship to `url`:** If a node's `data` has both a `url` template and a `lookup_table`, the `lookup_table` takes priority for IDs it contains. The `url` template serves as a fallback for IDs not in the table (useful when most IDs follow a pattern but some exceptions exist).
 
 **Why `provenance`?** Registry data is only trustworthy if you can verify it. Provenance records how the data was gathered so reviewers (human or AI) can re-verify it, and future maintainers know where to check for updates. Sources change their URL structures — provenance tells you where to look when that happens.
 
-#### Version Patterns (array, optional)
+#### Version-Level Children (in the Tree)
 
-For sources where different versions have different URL structures, use `version_patterns` to route based on the `@version` component:
+For sources where different versions have different URL structures, add version-level children to the name-level node. These match against the `@version` component:
 
 ```json
-"version_patterns": [
-  {
-    "pattern": "^4\\..*$",
-    "description": "Version 4.x",
-    "url": "https://example.com/v4/resource/{id}"
-  },
-  {
-    "pattern": "^3\\..*$",
-    "description": "Version 3.x and earlier",
-    "url": "https://example.com/legacy/v{version}/{id}"
-  }
-]
+{
+  "patterns": ["(?i)^ccm$"],
+  "description": "Cloud Controls Matrix",
+  "data": { "..." : "..." },
+  "children": [
+    {
+      "patterns": ["^4\\..*$"],
+      "description": "Version 4.x",
+      "data": {"url": "https://ccm.cloudsecurityalliance.org/v4/control/{id}"},
+      "children": [
+        {
+          "patterns": ["^[A-Z]{2,3}-\\d{2}$"],
+          "description": "Specific control",
+          "data": {"type": "control"}
+        }
+      ]
+    },
+    {
+      "patterns": ["^3\\..*$"],
+      "description": "Version 3.x (legacy)",
+      "data": {"url": "https://cloudsecurityalliance.org/artifacts/ccm-v3/{id}"}
+    }
+  ]
+}
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `pattern` | string | yes | PCRE2-compatible regex to match version string (should be anchored) |
-| `description` | string | no | Human/AI-readable description |
-| `url` | string | yes | URL template for this version range |
-
 **Resolution example:** `secid:control/cloudsecurityalliance.org/ccm@4.0.1#IAM-12`
-1. Extract version = `4.0.1`, id = `IAM-12`
-2. Match version against patterns → `^4\..*$` matches
-3. Use that pattern's URL template with `{version}` and `{id}` substitution
+1. Name `ccm` → matches name-level node → returns source metadata
+2. Version `4.0.1` → matches version-level child `^4\..*$` → returns v4 URL template
+3. Subpath `IAM-12` → matches subpath-level child `^[A-Z]{2,3}-\d{2}$` → returns control type
 
-**When not needed:** Most sources don't need `version_patterns`. Use when:
+**When not needed:** Most sources don't need version-level children. Use when:
 - Different major versions have incompatible URL structures
 - Legacy versions are hosted on different infrastructure
 
-If URLs are predictable (just substitute `{version}`), use the placeholder in the main `urls[]` instead.
+If URLs are predictable (just substitute `{version}`), use the `{version}` placeholder in the name-level data's URLs instead.
 
-#### Item Version Patterns (array, optional)
+#### Item Version Children (Deeper in the Tree)
 
-For sources where individual items can be versioned independently (e.g., git-backed databases, advisory revision histories), use `item_version_patterns` on the relevant `id_patterns` entry to define valid item version formats and version-specific resolution URLs:
+For sources where individual items can be versioned independently (e.g., git-backed databases, advisory revision histories), add deeper children within subpath-level nodes:
 
 ```json
-"id_patterns": [
-  {
-    "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
-    "description": "GitHub Security Advisory ID",
-    "url": "https://github.com/advisories/{id}",
-    "item_version_patterns": [
-      {
-        "pattern": "^[0-9a-f]{7,40}$",
-        "description": "Git commit hash (short or full)",
-        "url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"
-      }
-    ]
-  }
-]
+{
+  "patterns": ["^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$"],
+  "description": "GitHub Security Advisory ID",
+  "data": {"url": "https://github.com/advisories/{id}"},
+  "children": [
+    {
+      "patterns": ["^[0-9a-f]{7,40}$"],
+      "description": "Git commit hash (short or full)",
+      "data": {"url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"}
+    }
+  ]
+}
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `pattern` | string | yes | PCRE2-compatible regex to match item version string (should be anchored) |
-| `description` | string | no | Human/AI-readable description |
-| `url` | string | no | URL template for this item version format (uses `{id}`, `{item_version}`, etc.) |
-
 **Resolution example:** `secid:advisory/github.com/advisories/ghsa#GHSA-jfh8-c2jp-5v3q@a1b2c3d`
-1. Subpath before item version: `GHSA-jfh8-c2jp-5v3q` → matches `id_patterns[0]`
-2. Item version: `a1b2c3d` → matches `item_version_patterns[0]` (`^[0-9a-f]{7,40}$`)
-3. Use item version URL template with `{id}` and `{item_version}` substitution
+1. Subpath `GHSA-jfh8-c2jp-5v3q` → matches subpath-level node → returns advisory URL
+2. Item version `a1b2c3d` → matches deeper child `^[0-9a-f]{7,40}$` → returns commit-specific URL
 
-**When not needed:** Most sources don't need `item_version_patterns`. Use when:
+**When not needed:** Most sources don't need item version children. Use when:
 - The source is git-backed and items change over time (GHSA, CVE list repo)
 - Advisory revisions are tracked independently (Red Hat errata revisions)
 - Content is wiki-like with edit history
@@ -821,11 +902,9 @@ For sources where individual items can be versioned independently (e.g., git-bac
 - The whole source is versioned as a unit (OWASP Top 10 `@2021`)
 - Items are immutable once published
 
-If `item_version_patterns` is absent or `null`, the source's items are assumed to be either immutable or versioned only at the source level.
+#### Version Resolution Fields (in Name-Level Node Data)
 
-#### Version Resolution Fields (optional)
-
-These source-level fields control what happens when a SecID omits the `@version` component. Most sources don't need them — the default behavior ("return current") is correct for sources like CVE where IDs are unique across all versions.
+These fields live in the name-level node's `data` object. They control what happens when a SecID omits the `@version` component. Most sources don't need them — the default behavior ("return current") is correct for sources like CVE where IDs are unique across all versions.
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -1001,60 +1080,69 @@ The `names` block helps with disambiguation and finding - "What does MITRE publi
     {"type": "website", "url": "https://www.mitre.org"}
   ],
 
-  "sources": {
-    "cve": {
-      "official_name": "Common Vulnerabilities and Exposures",
-      "common_name": "CVE",
-      "alternate_names": null,
-      "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
-      "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD enrichment has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others provide minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.",
-
-      "urls": [
-        {"type": "website", "url": "https://cve.org"},
-        {"type": "api", "url": "https://cveawg.mitre.org/api"},
-        {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^cve$"],
+      "description": "Common Vulnerabilities and Exposures",
+      "weight": 100,
+      "data": {
+        "official_name": "Common Vulnerabilities and Exposures",
+        "common_name": "CVE",
+        "alternate_names": null,
+        "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
+        "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD enrichment has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others provide minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.",
+        "urls": [
+          {"type": "website", "url": "https://cve.org"},
+          {"type": "api", "url": "https://cveawg.mitre.org/api"},
+          {"type": "bulk_data", "url": "https://github.com/CVEProject/cvelistV5"}
+        ],
+        "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2026-25010"]
+      },
+      "children": [
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "Standard CVE ID format",
-          "url": "https://cve.org/CVERecord?id={id}"
+          "weight": 100,
+          "data": {"url": "https://cve.org/CVERecord?id={id}"}
         },
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE JSON record on GitHub",
-          "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
-          "format": "json",
-          "note": "Raw CVE record from cvelistV5 repository",
-          "variables": {
-            "year": {
-              "extract": "^CVE-(\\d{4})-\\d+$",
-              "description": "4-digit year (e.g., '2026' from 'CVE-2026-25010')"
-            },
-            "bucket": {
-              "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
-              "format": "{1}xxx",
-              "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
-            },
-            "id": {
-              "extract": "^(CVE-\\d{4}-\\d+)$",
-              "description": "Full CVE ID"
+          "weight": 50,
+          "data": {
+            "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
+            "format": "json",
+            "note": "Raw CVE record from cvelistV5 repository",
+            "variables": {
+              "year": {
+                "extract": "^CVE-(\\d{4})-\\d+$",
+                "description": "4-digit year (e.g., '2026' from 'CVE-2026-25010')"
+              },
+              "bucket": {
+                "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+                "format": "{1}xxx",
+                "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
+              },
+              "id": {
+                "extract": "^(CVE-\\d{4}-\\d+)$",
+                "description": "Full CVE ID"
+              }
             }
           }
         },
         {
-          "pattern": "^CVE-\\d{4}-\\d{4,}$",
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE JSON via API",
-          "url": "https://cveawg.mitre.org/api/cve/{id}",
-          "format": "json",
-          "note": "JSON API, richer data"
+          "weight": 50,
+          "data": {
+            "url": "https://cveawg.mitre.org/api/cve/{id}",
+            "format": "json",
+            "note": "API endpoint, richer data than web page"
+          }
         }
-      ],
-
-      "examples": ["CVE-2024-1234", "CVE-2021-44228", "CVE-2026-25010"]
+      ]
     }
-  }
+  ]
 }
 ```
 
@@ -1079,31 +1167,34 @@ This example shows a namespace with a `/`-separated path portion (`github.com/ad
     {"type": "website", "url": "https://github.com/advisories"}
   ],
 
-  "sources": {
-    "ghsa": {
-      "official_name": "GitHub Security Advisories",
-      "common_name": "GHSA",
-      "alternate_names": null,
-      "description": "GitHub-native security advisory identifiers for vulnerabilities in open source packages.",
-      "notes": "GHSA IDs use a base-32 encoding scheme (lowercase letters and digits). Most GHSAs have a corresponding CVE, but some ecosystem-specific advisories may not. The advisory-database GitHub repo contains the raw advisory data in OSV format.",
-
-      "urls": [
-        {"type": "website", "url": "https://github.com/advisories"},
-        {"type": "api", "url": "https://api.github.com/advisories"},
-        {"type": "bulk_data", "url": "https://github.com/github/advisory-database"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ghsa$"],
+      "description": "GitHub Security Advisories",
+      "weight": 100,
+      "data": {
+        "official_name": "GitHub Security Advisories",
+        "common_name": "GHSA",
+        "alternate_names": null,
+        "description": "GitHub-native security advisory identifiers for vulnerabilities in open source packages.",
+        "notes": "GHSA IDs use a base-32 encoding scheme (lowercase letters and digits). Most GHSAs have a corresponding CVE, but some ecosystem-specific advisories may not. The advisory-database GitHub repo contains the raw advisory data in OSV format.",
+        "urls": [
+          {"type": "website", "url": "https://github.com/advisories"},
+          {"type": "api", "url": "https://api.github.com/advisories"},
+          {"type": "bulk_data", "url": "https://github.com/github/advisory-database"}
+        ],
+        "examples": ["GHSA-jfh8-c2jp-5v3q", "GHSA-8v63-cqqc-6r2c"]
+      },
+      "children": [
         {
-          "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
+          "patterns": ["^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$"],
           "description": "GitHub Security Advisory ID",
-          "url": "https://github.com/advisories/{id}"
+          "weight": 100,
+          "data": {"url": "https://github.com/advisories/{id}"}
         }
-      ],
-
-      "examples": ["GHSA-jfh8-c2jp-5v3q", "GHSA-8v63-cqqc-6r2c"]
+      ]
     }
-  }
+  ]
 }
 ```
 
@@ -1120,14 +1211,17 @@ The current YAML frontmatter maps to JSON as follows:
 |------------|------------|-------|
 | `full_name` | `official_name` | Renamed for clarity |
 | `website` | `urls[] where type=website` | Now array with context |
-| `id_pattern` | `id_patterns[].pattern` | Now always array |
-| `id_routing` | `id_patterns[].url` | Merged into id_patterns |
+| `sources` (keyed object) | `match_nodes` (array of pattern nodes) | Literal keys become `patterns` with `(?i)` regex |
+| `id_pattern` / `id_patterns` | `children` on name-level nodes | Subpath patterns become child nodes |
+| `id_routing` | `data.url` on child nodes | Merged into node data |
+| `version_patterns` | Version-level children | Intermediate tree level between name and subpath |
+| `item_version_patterns` | Deeper children within subpath nodes | Same nesting, just deeper in the tree |
 | `urls.lookup` | `urls[] where type=lookup` | Now array with context |
 | `wikidata` | `wikidata[]` | Now array |
 | `wikipedia` | `wikipedia[]` | New field, array |
 | `status` | `status` | New values: proposed, draft, pending, published |
 | `status_notes` | `status_notes` | New field |
-| Markdown body | `notes` (top-level and/or source-level) | Narrative content migrates to `notes` fields |
+| Markdown body | `notes` (top-level and/or in node data) | Narrative content migrates to `notes` fields |
 
 ### Fields Moved to Data Layer
 
@@ -1140,7 +1234,7 @@ The following fields were considered but belong in the enrichment/relationship d
 | `deprecated_by` | Relationship (source X replaced by Y) |
 | `deprecated_date` | Temporal enrichment |
 | `established` | Temporal enrichment |
-| `versions[]` | Replaced by `version_patterns[]` for resolution; version catalog is enrichment |
+| `versions[]` | Replaced by version-level children in the pattern tree for resolution; version catalog is enrichment |
 
 The registry focuses on identity, resolution, and disambiguation. Relationships and lifecycle metadata belong in separate data layers that reference SecIDs.
 
@@ -1148,7 +1242,7 @@ The Markdown body content (narrative documentation) migrates to `notes` fields �
 
 ## Multi-Level Pattern Example
 
-For sources with hierarchical identifiers (domain → control → section), define patterns for each level:
+For sources with hierarchical identifiers, the tree naturally mirrors the hierarchy. Domain → control → section becomes parent → child → grandchild:
 
 ```json
 {
@@ -1166,86 +1260,110 @@ For sources with hierarchical identifiers (domain → control → section), defi
     {"type": "website", "url": "https://cloudsecurityalliance.org"}
   ],
 
-  "sources": {
-    "ccm": {
-      "official_name": "Cloud Controls Matrix",
-      "common_name": "CCM",
-      "description": "Security controls framework organized by domains. Domains contain controls, controls may have implementation sections.",
-      "notes": "CCM v4 has 17 domains and 197 controls. Domain codes are 2-3 uppercase letters (e.g., IAM, DSP). Control IDs append a dash and two-digit number (e.g., IAM-12). Some controls have implementation sections with a dot suffix (e.g., IAM-12.1). CCM is available as a spreadsheet download — no direct per-control URL for all versions.",
-
-      "urls": [
-        {"type": "website", "url": "https://cloudsecurityalliance.org/research/cloud-controls-matrix"},
-        {"type": "docs", "url": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4"}
-      ],
-
-      "id_patterns": [
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ccm$"],
+      "description": "Cloud Controls Matrix",
+      "weight": 100,
+      "data": {
+        "official_name": "Cloud Controls Matrix",
+        "common_name": "CCM",
+        "description": "Security controls framework organized by domains. Domains contain controls, controls may have implementation sections.",
+        "notes": "CCM v4 has 17 domains and 197 controls. Domain codes are 2-3 uppercase letters (e.g., IAM, DSP). Control IDs append a dash and two-digit number (e.g., IAM-12). Some controls have implementation sections with a dot suffix (e.g., IAM-12.1). CCM is available as a spreadsheet download — no direct per-control URL for all versions.",
+        "urls": [
+          {"type": "website", "url": "https://cloudsecurityalliance.org/research/cloud-controls-matrix"},
+          {"type": "docs", "url": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4"}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current_with_history",
+        "versions_available": [
+          {"version": "4.0", "release_date": "2021-06-01", "status": "current"},
+          {"version": "3.0.1", "release_date": "2017-06-01", "status": "superseded", "note": "Still referenced in older compliance documentation."}
+        ],
+        "examples": [
+          "secid:control/cloudsecurityalliance.org/ccm#IAM",
+          "secid:control/cloudsecurityalliance.org/ccm#IAM-12",
+          "secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12",
+          "secid:control/cloudsecurityalliance.org/ccm#IAM-12.1"
+        ]
+      },
+      "children": [
         {
-          "pattern": "^[A-Z]{2,3}$",
-          "type": "domain",
-          "description": "Control domain (e.g., IAM). Contains multiple controls.",
-          "known_values": {
-            "A&A": "Audit & Assurance",
-            "AIS": "Application & Interface Security",
-            "BCR": "Business Continuity Management & Operational Resilience",
-            "CCC": "Change Control & Configuration Management",
-            "CEK": "Cryptography, Encryption & Key Management",
-            "DCS": "Datacenter Security",
-            "DSP": "Data Security & Privacy Lifecycle Management",
-            "GRC": "Governance, Risk & Compliance",
-            "HRS": "Human Resources",
-            "IAM": "Identity & Access Management",
-            "IPY": "Interoperability & Portability",
-            "IVS": "Infrastructure & Virtualization Security",
-            "LOG": "Logging & Monitoring",
-            "SEF": "Security Incident Management, E-Discovery & Forensics",
-            "STA": "Supply Chain Management, Transparency & Accountability",
-            "TVM": "Threat & Vulnerability Management",
-            "UEM": "Universal Endpoint Management"
-          }
-        },
-        {
-          "pattern": "^[A-Z]{2,3}-\\d{2}$",
-          "type": "control",
-          "description": "Specific control (e.g., IAM-12). Belongs to a domain.",
-          "url": "https://ccm.cloudsecurityalliance.org/control/{id}"
-        },
-        {
-          "pattern": "^[A-Z]{2,3}-\\d{2}\\.\\d{1,2}$",
-          "type": "section",
-          "description": "Control section (e.g., IAM-12.1). Implementation detail within a control."
-        }
-      ],
-
-      "version_patterns": [
-        {
-          "pattern": "^4\\..*$",
+          "patterns": ["^4\\..*$"],
           "description": "Version 4.x",
-          "url": "https://ccm.cloudsecurityalliance.org/v4/control/{id}"
+          "data": {"url": "https://ccm.cloudsecurityalliance.org/v4/control/{id}"},
+          "children": [
+            {
+              "patterns": ["^[A-Z]{2,3}$"],
+              "description": "Control domain (e.g., IAM). Contains multiple controls.",
+              "data": {
+                "type": "domain",
+                "known_values": {
+                  "A&A": "Audit & Assurance",
+                  "AIS": "Application & Interface Security",
+                  "BCR": "Business Continuity Management & Operational Resilience",
+                  "CCC": "Change Control & Configuration Management",
+                  "CEK": "Cryptography, Encryption & Key Management",
+                  "DCS": "Datacenter Security",
+                  "DSP": "Data Security & Privacy Lifecycle Management",
+                  "GRC": "Governance, Risk & Compliance",
+                  "HRS": "Human Resources",
+                  "IAM": "Identity & Access Management",
+                  "IPY": "Interoperability & Portability",
+                  "IVS": "Infrastructure & Virtualization Security",
+                  "LOG": "Logging & Monitoring",
+                  "SEF": "Security Incident Management, E-Discovery & Forensics",
+                  "STA": "Supply Chain Management, Transparency & Accountability",
+                  "TVM": "Threat & Vulnerability Management",
+                  "UEM": "Universal Endpoint Management"
+                }
+              }
+            },
+            {
+              "patterns": ["^[A-Z]{2,3}-\\d{2}$"],
+              "description": "Specific control (e.g., IAM-12). Belongs to a domain.",
+              "data": {"type": "control", "url": "https://ccm.cloudsecurityalliance.org/v4/control/{id}"}
+            },
+            {
+              "patterns": ["^[A-Z]{2,3}-\\d{2}\\.\\d{1,2}$"],
+              "description": "Control section (e.g., IAM-12.1). Implementation detail within a control.",
+              "data": {"type": "section"}
+            }
+          ]
         },
         {
-          "pattern": "^3\\..*$",
+          "patterns": ["^3\\..*$"],
           "description": "Version 3.x (legacy)",
-          "url": "https://cloudsecurityalliance.org/artifacts/ccm-v3/{id}"
+          "data": {"url": "https://cloudsecurityalliance.org/artifacts/ccm-v3/{id}"}
+        },
+        {
+          "patterns": ["^[A-Z]{2,3}$"],
+          "description": "Control domain (unversioned fallback)",
+          "data": {"type": "domain"}
+        },
+        {
+          "patterns": ["^[A-Z]{2,3}-\\d{2}$"],
+          "description": "Specific control (unversioned fallback)",
+          "data": {"type": "control"}
+        },
+        {
+          "patterns": ["^[A-Z]{2,3}-\\d{2}\\.\\d{1,2}$"],
+          "description": "Control section (unversioned fallback)",
+          "data": {"type": "section"}
         }
-      ],
-
-      "examples": [
-        "secid:control/cloudsecurityalliance.org/ccm#IAM",
-        "secid:control/cloudsecurityalliance.org/ccm#IAM-12",
-        "secid:control/cloudsecurityalliance.org/ccm@4.0#IAM-12",
-        "secid:control/cloudsecurityalliance.org/ccm#IAM-12.1"
       ]
     }
-  }
+  ]
 }
 ```
 
 **Key points:**
-- Three pattern levels: domain, control, section
-- `known_values` only on domain level (finite, stable set)
-- Pattern-specific URLs for controls (different from domain lookups)
-- Version patterns for major version routing
-- Not every level needs a lookup URL (domain-level has none)
+- The tree mirrors the hierarchy naturally: name → version → subpath
+- `known_values` on the domain-level node (finite, stable set)
+- Version-level children route to different URL structures (v4 vs v3)
+- Subpath children within version children for version-specific resolution
+- Unversioned fallback children handle queries without `@version`
+- Not every node needs a URL (domain-level returns known_values without a lookup URL)
 
 ## Schema Versioning
 

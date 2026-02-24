@@ -134,57 +134,57 @@ Many sources have hierarchical structure. Use the granularity levels the source 
 | Article | Article 17 | `secid:regulation/europa.eu/gdpr#article-17` |
 | Paragraph | Article 17(1) | `secid:regulation/europa.eu/gdpr#article-17-1` |
 
-### Documenting Hierarchy in id_patterns
+### Documenting Hierarchy in the Pattern Tree
 
-Each granularity level should have its own pattern with a description:
+Each granularity level becomes a child node in the `match_nodes` tree. The tree naturally mirrors the hierarchy — domains as parent-level patterns, controls as children:
 
 ```json
-"id_patterns": [
+"children": [
   {
-    "pattern": "^[A-Z]{2,3}$",
-    "type": "domain",
+    "patterns": ["^[A-Z]{2,3}$"],
     "description": "Control domain (e.g., IAM). Contains multiple controls.",
-    "known_values": {
-      "IAM": "Identity & Access Management",
-      "DSP": "Data Security & Privacy Lifecycle Management"
+    "data": {
+      "type": "domain",
+      "known_values": {
+        "IAM": "Identity & Access Management",
+        "DSP": "Data Security & Privacy Lifecycle Management"
+      }
     }
   },
   {
-    "pattern": "^[A-Z]{2,3}-\\d{2}$",
-    "type": "control",
-    "description": "Specific control (e.g., IAM-12). Belongs to a domain."
+    "patterns": ["^[A-Z]{2,3}-\\d{2}$"],
+    "description": "Specific control (e.g., IAM-12). Belongs to a domain.",
+    "data": {"type": "control", "url": "https://example.com/control/{id}"}
   }
 ]
 ```
 
-**Note:** Patterns should be anchored (`^...$`) to match the complete subpath. This ensures malformed identifiers are rejected.
+**Note:** Patterns should be anchored (`^...$`) to match the complete input at each level. This ensures malformed identifiers are rejected.
 
 Use `known_values` for the domain/category level (finite set) but not for individual controls (open-ended set).
 
-Not every granularity level needs to resolve to a URL. An identifier can be valid for reference purposes even without direct resolution.
+Not every node needs to resolve to a URL. An identifier can be valid for reference purposes even without direct resolution.
 
 ### Item-Level Versioning
 
-If your source's items can be versioned independently (e.g., git-backed databases like GHSA, advisory revision histories), define `item_version_patterns` on the relevant `id_pattern`. This tells parsers what item version formats are valid and how to resolve versioned items:
+If your source's items can be versioned independently (e.g., git-backed databases like GHSA, advisory revision histories), add deeper children within subpath-level nodes. This tells parsers what item version formats are valid and how to resolve versioned items:
 
 ```json
-"id_patterns": [
-  {
-    "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
-    "description": "GitHub Security Advisory ID",
-    "url": "https://github.com/advisories/{id}",
-    "item_version_patterns": [
-      {
-        "pattern": "^[0-9a-f]{7,40}$",
-        "description": "Git commit hash",
-        "url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"
-      }
-    ]
-  }
-]
+{
+  "patterns": ["^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$"],
+  "description": "GitHub Security Advisory ID",
+  "data": {"url": "https://github.com/advisories/{id}"},
+  "children": [
+    {
+      "patterns": ["^[0-9a-f]{7,40}$"],
+      "description": "Git commit hash",
+      "data": {"url": "https://github.com/github/advisory-database/blob/{item_version}/advisories/github-reviewed/{id}.json"}
+    }
+  ]
+}
 ```
 
-Most sources don't need item versioning — their items are either immutable (CVE IDs) or versioned at the source level (CCM @4.0). Only add `item_version_patterns` when individual items have independent revision histories.
+Most sources don't need item versioning — their items are either immutable (CVE IDs) or versioned at the source level (CCM @4.0). Only add item version children when individual items have independent revision histories.
 
 ### Version Requirements and Disambiguation
 
@@ -311,7 +311,7 @@ Before adding anything, study how the source is **presented** and how people **u
    - Yes → Add a source to the existing namespace file
    - No → Create a new namespace file
 
-4. **What granularity levels exist?** Document each with an id_pattern.
+4. **What granularity levels exist?** Document each as a child node in the pattern tree.
 
 ### Step 3: Namespace File Location
 
@@ -328,7 +328,7 @@ One file per namespace containing all sources from that organization:
 For each source, you need:
 - **Name**: `official_name`, `common_name` (if different)
 - **Resolution**: `urls[]` with lookup templates
-- **Recognition**: `id_patterns[]` for each granularity level
+- **Recognition**: Pattern tree nodes (`match_nodes` children) for each granularity level
 - **Examples**: Representative SecID strings
 
 ### Status Progression
@@ -364,14 +364,14 @@ Put partially researched entries in `registry/_deferred/` until they're ready. T
 
 This lets us track completeness. An absent field signals work to be done.
 
-### Good id_patterns
+### Good Patterns
 
-- **Anchor patterns** with `^...$` to match the complete subpath (rejects malformed IDs)
+- **Anchor patterns** with `^...$` to match the complete input at each level (rejects malformed IDs)
 - Use PCRE2-compatible regex (safe subset for cross-platform compatibility)
 - Include `description` explaining what the pattern matches
-- Include `type` for multi-level hierarchies
+- Use `(?i)` prefix for case-insensitive matching on name-level patterns
 - Patterns are **format checks**, not validity checks—they recognize structure, not existence
-- Use `variables` with `extract` and `format` for complex URL building (see REGISTRY-JSON-FORMAT.md)
+- Use `variables` with `extract` and `format` in node `data` for complex URL building (see REGISTRY-JSON-FORMAT.md)
 
 ### Good Descriptions
 
@@ -391,17 +391,17 @@ Explain what and why:
 Use `known_values` to enumerate finite, stable value sets:
 
 ```json
-"id_patterns": [
-  {
-    "pattern": "^[A-Z]{2,3}$",
+{
+  "patterns": ["^[A-Z]{2,3}$"],
+  "description": "Control domain. Contains multiple controls.",
+  "data": {
     "type": "domain",
-    "description": "Control domain. Contains multiple controls.",
     "known_values": {
       "IAM": "Identity & Access Management",
       "DSP": "Data Security & Privacy Lifecycle Management"
     }
   }
-]
+}
 ```
 
 **Good candidates for known_values:**
