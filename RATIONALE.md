@@ -247,7 +247,7 @@ An AI reading this gets both structured data AND rich context.
 
 ## The AI-Centric Philosophy
 
-A key course correction during design: **this is for AI, not dumb software**.
+A key course correction during design: **this is for AI, not traditional software alone**.
 
 ### What We Removed
 

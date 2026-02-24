@@ -141,7 +141,7 @@ When a resolver hits an alias stub (a namespace entry with `alias_of` and no sou
 
 **Why alias stubs instead of just try-both?** A resolver that tries both forms will find the canonical entry either way. But the alias stub serves two purposes:
 1. **Confirms the Punycode form is known** — without a stub, a resolver can't distinguish "this Punycode namespace doesn't exist" from "this Punycode namespace exists but you need the Unicode form." The stub makes intent explicit.
-2. **Works for dumb resolvers** — a simple file-lookup resolver that doesn't know about IDN conversion still finds the stub and can follow the `alias_of` pointer.
+2. **Works for simple resolvers** — a basic file-lookup resolver that doesn't know about IDN conversion still finds the stub and can follow the `alias_of` pointer.
 
 ### Unicode Normalization Forms (NFC vs. NFD)
 

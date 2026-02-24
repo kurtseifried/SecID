@@ -72,7 +72,7 @@ See [DESIGN-DECISIONS.md](DESIGN-DECISIONS.md) "Version Resolution Behavior" for
 
 **Be helpful more than correct.** The API should always return something useful along with an honest assessment of confidence. Never a bare 404. Never a silent wrong assumption. Always: here's what I have, here's how confident I am, here's what to check.
 
-For the MCP server (AI clients), we return richer data and let the AI reason. For the REST API (dumb clients), we do the reasoning and return a clear answer. Same data, different levels of interpretation.
+For the MCP server (AI clients), we return richer data and let the AI reason. For the REST API (software clients and humans), we do the reasoning and return a clear, ready-to-use answer. Same data, different levels of interpretation.
 
 ### Four Response Outcomes
 
@@ -203,7 +203,7 @@ When version is omitted:
 
 The same registry data powers both interfaces. The difference is how much interpretation the server does:
 
-| Behavior | REST API (dumb clients) | MCP Server (AI clients) |
+| Behavior | REST API (software clients and humans) | MCP Server (AI clients) |
 |----------|------------------------|------------------------|
 | Exact match | Return URL | Return URL + full registry context |
 | Corrected match | Return data + correction | Return data + correction + full source info |
@@ -211,7 +211,7 @@ The same registry data powers both interfaces. The difference is how much interp
 | Version miss | Find nearest, explain | Return versions_available + disambiguation, let AI reason |
 | Exploration (`/*`) | Return structured summary | Return full registry entries |
 
-The API is the smart helper for dumb clients — it does the reasoning. The MCP server is the data provider for smart clients — it provides the context and lets the AI reason with its own knowledge of the situation.
+The API provides ready-to-use answers for software clients and humans — it does the reasoning so they don't have to. The MCP server provides data and context for AI clients — letting them reason with their own knowledge of the situation.
 
 ## The Mapping Connection
 
