@@ -143,7 +143,21 @@ This builds trust. A system that's always confident is unreliable. A system that
 
 What practitioners know is what SecID uses. If someone has to mentally translate between the source's identifier and SecID's representation, we've failed.
 
-## 7. PURL Grammar Compatibility
+## 7. Never Normalize Lossily
+
+**If you can't reverse the transformation, don't do it.**
+
+Data that passes through SecID must never be silently altered in a way that destroys information:
+
+- **No lowercasing input.** Lowercasing is lossy — you can't recover the original case. Use case-insensitive regex flags (`(?i)`) instead of normalizing the input.
+- **No stripping characters.** If the input has special characters, preserve them. The registry patterns determine what matches, not a sanitization step.
+- **No mangling identifiers.** `RHSA-2026:0932` stays exactly as-is. Don't replace the colon with a dash, don't remove dots from `T1059.003`, don't "clean" anything.
+- **Percent-decoding is acceptable** for matching purposes because it's reversible — the original encoded form can always be reconstructed. Try both encoded and decoded forms during resolution.
+- **The original input is always preserved in the response.** Even when the system corrects or interprets the input, the response includes what was actually submitted.
+
+This principle applies everywhere: API input handling, registry pattern matching, storage, and display. When in doubt, keep the original.
+
+## 8. PURL Grammar Compatibility
 
 **Same grammar as Package URL, different scheme.**
 
@@ -154,7 +168,7 @@ SecID:  secid:type/namespace/name@version?qualifiers#subpath[@item_version][?qua
 
 SecID extends PURL with item-level versioning and item-level qualifiers, but the base grammar is identical. Existing PURL mental models and tooling transfer directly. Don't break this compatibility without extraordinary reason.
 
-## 8. Progressive Resolution
+## 9. Progressive Resolution
 
 **Try the most specific interpretation first, then progressively loosen.**
 
@@ -168,7 +182,7 @@ When resolving a query:
 
 This ensures the most specific answer wins, but we always try to return something before giving up. The cost of an extra regex check is trivial. The cost of a useless error response is a frustrated user.
 
-## 9. The Wildcard Convention
+## 10. The Wildcard Convention
 
 `/*` at any level returns everything available at that level:
 
@@ -189,4 +203,5 @@ When making a design decision, check it against these principles in order:
 3. Is the system being helpful? (If it returns an error where it could return guidance, fix it.)
 4. Are we being honest about what we know? (If we're guessing silently, add uncertainty signals.)
 5. Are we following the source? (If we're mangling identifiers, stop.)
-6. Are we staying PURL-compatible? (If we're breaking grammar, we need a very good reason.)
+6. Are we preserving data? (If a transformation is lossy, don't do it.)
+7. Are we staying PURL-compatible? (If we're breaking grammar, we need a very good reason.)
