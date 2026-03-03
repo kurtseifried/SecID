@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.0",
+  "namespace": "microsoft.com",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Microsoft Corporation",
+  "common_name": "Microsoft",
+  "alternate_names": ["MS"],
+  "notes": "Microsoft is one of the world's largest technology companies, producing Windows, Office, Azure, Active Directory, Exchange, and many other products that are ubiquitous enterprise targets. The Microsoft Security Response Center (MSRC) handles vulnerability disclosure and security updates. Microsoft is a CVE Numbering Authority (CNA). MSRC provides its own CVSS scores which may differ from NVD.\n\nMicrosoft releases security updates on the second Tuesday of each month ('Patch Tuesday'). This predictable schedule helps organizations plan patching. Microsoft vulnerabilities frequently appear in CISA KEV and are targeted by nation-state actors.\n\nBefore 2017, Microsoft used MS##-### format security bulletins (e.g., MS17-010 for EternalBlue). These were replaced by the MSRC Security Update Guide. Legacy bulletins are still widely referenced for historical vulnerabilities.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.microsoft.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^msrc$"],
+      "description": "Microsoft Security Response Center",
+      "weight": 100,
+      "data": {
+        "official_name": "Microsoft Security Response Center",
+        "common_name": "MSRC",
+        "alternate_names": null,
+        "description": "Microsoft's vulnerability database and security update guide, providing Microsoft's view of CVEs affecting their products.",
+        "notes": "MSRC is the primary source for Microsoft security vulnerabilities. Subpath identifiers are standard CVE IDs. MSRC provides Microsoft-specific CVSS scores which may differ from NVD scores. Patch Tuesday releases monthly security updates. For security advisories (ADV-prefixed), see secid:advisory/microsoft.com/advisory. For KB articles documenting specific patches, see secid:advisory/microsoft.com/kb.",
+        "urls": [
+          {"type": "website", "url": "https://msrc.microsoft.com"},
+          {"type": "api", "url": "https://api.msrc.microsoft.com/cvrf/v2.0"},
+          {"type": "lookup", "url": "https://msrc.microsoft.com/update-guide/vulnerability/{id}"}
+        ],
+        "examples": ["CVE-2024-1234", "CVE-2023-44487"]
+      },
+      "children": [
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "Standard CVE ID format",
+          "weight": 100,
+          "data": {"url": "https://msrc.microsoft.com/update-guide/vulnerability/{id}"}
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^advisory$"],
+      "description": "Microsoft Security Advisory",
+      "weight": 100,
+      "data": {
+        "official_name": "Microsoft Security Advisory",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Microsoft security advisories for defense-in-depth updates and security guidance. These use ADV-prefixed identifiers rather than CVE IDs.",
+        "notes": "ADV advisories cover defense-in-depth updates and may not have associated CVE identifiers. The ID format is ADVYYNNNN where YY is a two-digit year and NNNN is a sequential number within that year. For CVE-specific information, see secid:advisory/microsoft.com/msrc. For KB articles, see secid:advisory/microsoft.com/kb.",
+        "urls": [
+          {"type": "website", "url": "https://msrc.microsoft.com"},
+          {"type": "lookup", "url": "https://msrc.microsoft.com/update-guide/advisory/{id}"}
+        ],
+        "examples": ["ADV240001", "ADV230001"]
+      },
+      "children": [
+        {
+          "patterns": ["^ADV\\d{6}$"],
+          "description": "Microsoft Security Advisory ID (ADVYYNNNN format)",
+          "weight": 100,
+          "data": {"url": "https://msrc.microsoft.com/update-guide/advisory/{id}"}
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^kb$"],
+      "description": "Microsoft Knowledge Base",
+      "weight": 100,
+      "data": {
+        "official_name": "Microsoft Knowledge Base",
+        "common_name": "KB",
+        "alternate_names": null,
+        "description": "Microsoft Knowledge Base articles documenting security updates and patches, linking patches to the CVEs they fix.",
+        "notes": "KB articles document specific patches and updates, including installation instructions and known issues. The identifier format is KB followed by digits (e.g., KB5001234). The lookup URL strips the 'KB' prefix — only the numeric portion is used in the URL path. A variables block extracts the numeric part for URL construction. For CVE details, see secid:advisory/microsoft.com/msrc. For security advisories, see secid:advisory/microsoft.com/advisory.",
+        "urls": [
+          {"type": "website", "url": "https://support.microsoft.com"},
+          {"type": "lookup", "url": "https://support.microsoft.com/kb/{number}"}
+        ],
+        "examples": ["KB5001234", "KB5034441"]
+      },
+      "children": [
+        {
+          "patterns": ["^KB\\d+$"],
+          "description": "Knowledge Base article ID (KB prefix + digits)",
+          "weight": 100,
+          "data": {
+            "url": "https://support.microsoft.com/kb/{number}",
+            "variables": {
+              "number": {
+                "extract": "^KB(\\d+)$",
+                "description": "Numeric portion of the KB ID (e.g., '5001234' from 'KB5001234'). The 'KB' prefix is stripped for the URL."
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^bulletin$"],
+      "description": "Microsoft Security Bulletin (Deprecated)",
+      "weight": 100,
+      "data": {
+        "official_name": "Microsoft Security Bulletin",
+        "common_name": null,
+        "alternate_names": ["Microsoft Security Bulletins"],
+        "description": "Legacy Microsoft security bulletin format, discontinued in January 2017. Replaced by the MSRC Security Update Guide (secid:advisory/microsoft.com/msrc).",
+        "notes": "Deprecated since January 2017 — Microsoft moved to the MSRC Security Update Guide. Historical bulletins remain accessible at docs.microsoft.com. Still widely referenced for historical vulnerabilities: MS17-010 (EternalBlue/WannaCry), MS08-067 (Conficker). The ID format is MS followed by a two-digit year and three-digit sequential number (MSYY-NNN). The lookup URL requires extracting the full four-digit year from the two-digit year in the ID — MS17-010 resolves to the 2017 directory. For current advisories, use secid:advisory/microsoft.com/msrc.",
+        "urls": [
+          {"type": "website", "url": "https://docs.microsoft.com/en-us/security-updates/"},
+          {"type": "lookup", "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/{year}/{id}"}
+        ],
+        "examples": ["MS17-010", "MS08-067"]
+      },
+      "children": [
+        {
+          "patterns": ["^MS\\d{2}-\\d{3}$"],
+          "description": "Microsoft Security Bulletin ID (MSYY-NNN format)",
+          "weight": 100,
+          "data": {
+            "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/{year}/{id}",
+            "note": "The URL requires the full four-digit year derived from the two-digit year in the ID. All bulletin years fall in the 2000s (20YY).",
+            "variables": {
+              "year": {
+                "extract": "^MS(\\d{2})-\\d{3}$",
+                "format": "20{1}",
+                "description": "Full four-digit year derived from two-digit year in the bulletin ID (e.g., '2017' from 'MS17-010', '2008' from 'MS08-067'). All Microsoft Security Bulletins were published between 2003 and 2017."
+              },
+              "id": {
+                "extract": "^(MS\\d{2}-\\d{3})$",
+                "description": "Full bulletin ID in lowercase for the URL path (e.g., 'MS17-010')"
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^threat-intel$"],
+      "description": "Microsoft Threat Intelligence",
+      "weight": 100,
+      "data": {
+        "official_name": "Microsoft Threat Intelligence",
+        "common_name": null,
+        "alternate_names": ["Microsoft Threat Intelligence Blog"],
+        "description": "Microsoft Threat Intelligence blog covering vulnerabilities, exploits, threat actor activity, and detection guidance.",
+        "notes": "Goes beyond MSRC patch notes to provide exploitation context (how vulnerabilities are being used in attacks), threat actor attribution (who's exploiting what), detection guidance (hunting queries, indicators), and broader ecosystem coverage (not just Microsoft products). Covers CVE deep dives, campaign reports, tool analysis, and trend reports. Published by the Microsoft Threat Intelligence team. Includes IoCs and detection guidance. RSS feed available. No structured ID pattern — content is organized as blog posts by topic rather than by formal identifiers.",
+        "urls": [
+          {"type": "website", "url": "https://www.microsoft.com/en-us/security/blog/threat-intelligence/"},
+          {"type": "website", "url": "https://www.microsoft.com/en-us/security/blog/threat-intelligence/vulnerabilities-and-exploits/", "note": "Vulnerabilities and exploits category"},
+          {"type": "bulk_data", "url": "https://www.microsoft.com/en-us/security/blog/feed/", "format": "xml", "note": "RSS feed"}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

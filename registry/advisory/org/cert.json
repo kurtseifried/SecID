@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "namespace": "cert.org",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "CERT Coordination Center",
+  "common_name": "CERT/CC",
+  "alternate_names": ["CERT", "CERT Coordination Center", "Carnegie Mellon CERT"],
+  "notes": "CERT/CC is the original computer security incident response team, established at Carnegie Mellon University's Software Engineering Institute (SEI) after the Morris Worm in 1988. CERT/CC coordinates vulnerability disclosure and publishes vulnerability notes. Funded by CISA through the SEI FFRDC.\n\n\"CERT\" is a registered trademark — other \"CERTs\" worldwide are unrelated organizations. CERT/CC focuses on coordination; they don't scan or discover most vulnerabilities themselves. CERT/CC pioneered coordinated vulnerability disclosure and specializes in vulnerabilities affecting multiple vendors.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.kb.cert.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^vu$"],
+      "description": "CERT/CC Vulnerability Notes",
+      "weight": 100,
+      "data": {
+        "official_name": "CERT/CC Vulnerability Note",
+        "common_name": "VU#",
+        "alternate_names": ["CERT Vulnerability Note", "CERT/CC VU"],
+        "description": "Detailed vulnerability analysis published by CERT/CC with coordination history, vendor responses, and multi-vendor impact assessment.",
+        "notes": "VU# Vulnerability Notes provide different value than CVE: coordination details (who was notified, timeline, vendor responses), multi-vendor focus (particularly valuable for protocol/library vulnerabilities), and deeper technical analysis than typical CVE descriptions. Most VU# entries have corresponding CVE IDs, but the VU# note contains additional coordination context.\n\nVU# numbers predate CVE for some historical vulnerabilities. The VU# prefix includes a literal '#' character — the identifier format is VU#NNNNNN (e.g., VU#867593). When used in a SecID, the subpath after the SecID fragment separator '#' is the full identifier including its own '#': secid:advisory/cert.org/vu#VU#867593.",
+        "urls": [
+          {"type": "website", "url": "https://www.kb.cert.org/vuls/"},
+          {"type": "lookup", "url": "https://www.kb.cert.org/vuls/id/{number}", "note": "Lookup URL uses only the numeric portion of the VU# identifier, not the VU# prefix."}
+        ],
+        "examples": ["VU#867593", "VU#498544"]
+      },
+      "children": [
+        {
+          "patterns": ["^VU#\\d+$"],
+          "description": "CERT/CC Vulnerability Note ID (VU# followed by numeric ID)",
+          "weight": 100,
+          "data": {
+            "url": "https://www.kb.cert.org/vuls/id/{number}",
+            "variables": {
+              "number": {
+                "extract": "^VU#(\\d+)$",
+                "description": "Numeric portion of the VU# identifier (e.g., '867593' from 'VU#867593')"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

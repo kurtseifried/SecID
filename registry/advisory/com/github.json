@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "namespace": "github.com",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "GitHub (Microsoft)",
+  "common_name": "GitHub",
+  "alternate_names": null,
+  "notes": "GitHub is the world's largest source code hosting platform, acquired by Microsoft in 2018. Central to software supply chain security: operates the GitHub Advisory Database (aggregated vulnerability database for packages), Dependabot (automated vulnerability scanning and PR creation), secret scanning (detects exposed credentials), and code scanning (static analysis via CodeQL). GitHub is a CVE Numbering Authority (CNA).\n\nnpm was acquired by GitHub in 2020. npm security advisories are now part of the GitHub Advisory Database — use GHSA for npm vulnerabilities.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://github.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ghsa$"],
+      "description": "GitHub Security Advisories",
+      "weight": 100,
+      "data": {
+        "official_name": "GitHub Security Advisories",
+        "common_name": "GHSA",
+        "alternate_names": ["GitHub Advisory Database"],
+        "description": "GitHub's security advisory database, focused on package ecosystems (npm, pip, maven, RubyGems, Go, and others).",
+        "notes": "The Advisory Database aggregates from CVE/NVD, npm, PyPI, RubyGems, Go, and other ecosystem databases. The database is open source at github.com/github/advisory-database. Integrates with Dependabot — Dependabot alerts are based on GHSA data. Repository security advisories let maintainers privately fix issues before public disclosure. GHSA entries usually include CVE aliases. Community contributions are accepted.\n\nGHSA IDs use a distinctive format: four groups of four lowercase alphanumeric characters separated by hyphens (GHSA-xxxx-yyyy-zzzz).",
+        "urls": [
+          {"type": "website", "url": "https://github.com/advisories"},
+          {"type": "api", "url": "https://api.github.com/advisories"},
+          {"type": "bulk_data", "url": "https://github.com/github/advisory-database", "note": "Open source advisory database repository"}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current",
+        "version_disambiguation": null,
+        "versions_available": null,
+        "examples": ["GHSA-jfh8-c2jp-5v3q", "GHSA-p6xc-xr62-6r2g"]
+      },
+      "children": [
+        {
+          "patterns": ["^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$"],
+          "description": "GHSA identifier (four groups of four lowercase alphanumeric characters)",
+          "weight": 100,
+          "data": {
+            "url": "https://github.com/advisories/{id}"
+          }
+        }
+      ]
+    }
+  ]
+}

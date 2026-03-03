@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "namespace": "debian.org",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Debian Project",
+  "common_name": "Debian",
+  "alternate_names": null,
+  "notes": "Debian is one of the oldest and most influential Linux distributions, upstream for Ubuntu, Linux Mint, and 100+ derivatives. Debian's security team maintains security updates for stable releases. Advisory types: DSA (Debian Security Advisory) for current stable release, DLA (Debian LTS Advisory) for extended community-supported releases. Both use format PREFIX-NNNN-R where R is a revision number. The Security Tracker (security-tracker.debian.org) shows CVE status across all Debian releases. Security support duration varies by release tier (Stable vs LTS vs oldstable).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.debian.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^dsa$"],
+      "description": "Debian Security Advisory",
+      "weight": 100,
+      "data": {
+        "official_name": "Debian Security Advisory",
+        "common_name": "DSA",
+        "alternate_names": null,
+        "description": "Security advisories for current stable Debian releases. Each DSA addresses one or more CVEs in a specific package.",
+        "notes": "DSA IDs use format DSA-NNNN-R where R is the revision number (e.g., DSA-5678-1, DSA-5432-2). The advisory URL structure is https://www.debian.org/security/{year}/dsa-{num} where {year} is the publication year and {num} is the advisory number (lowercase). DSA numbers are assigned sequentially and never reset, so the year can be derived from the advisory number using the range table below. The URL at https://www.debian.org/security/dsa-{num} (without year) may redirect, but the canonical form includes the year. For LTS releases, see secid:advisory/debian.org/dla.\n\nDSA number-to-year ranges (first DSA issued each year): 2000: 1, 2001: 11, 2002: 96, 2003: 220, 2004: 406, 2005: 622, 2006: 929, 2007: 1245, 2008: 1443, 2009: 1693, 2010: 1965, 2011: 2140, 2012: 2377, 2013: 2597, 2014: 2832, 2015: 3118, 2016: 3431, 2017: 3743, 2018: 4078, 2019: 4362, 2020: 4597, 2021: 4822, 2022: 5034, 2023: 5311, 2024: 5593, 2025: 5839, 2026: 6092. To find the year for a given DSA number, find the highest start number that is <= the DSA number. For example, DSA-5678 >= 5593 (2024) and < 5839 (2025), so the year is 2024. Source: debian-security-announce mailing list archives. This table should be updated annually as new DSAs are issued.",
+        "urls": [
+          {"type": "website", "url": "https://www.debian.org/security/"},
+          {"type": "lookup", "url": "https://www.debian.org/security/{year}/dsa-{num}", "note": "Canonical URL requires year and lowercase advisory number. Year is not derivable from DSA ID alone — see notes."}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current",
+        "version_disambiguation": null,
+        "versions_available": null,
+        "examples": ["DSA-5678-1", "DSA-5432-2"]
+      },
+      "children": [
+        {
+          "patterns": ["^DSA-\\d+-\\d+$"],
+          "description": "Debian Security Advisory ID (e.g., DSA-5678-1)",
+          "weight": 100,
+          "data": {
+            "url": "https://www.debian.org/security/{year}/dsa-{num}",
+            "note": "The {year} variable is derived from the DSA number using the range table in the parent node's notes. The {num} variable extracts the advisory number portion.",
+            "variables": {
+              "num": {
+                "extract": "^DSA-(\\d+)-\\d+$",
+                "description": "Advisory number portion (e.g., '5678' from 'DSA-5678-1')"
+              },
+              "year": {
+                "extract": "^DSA-(\\d+)-\\d+$",
+                "lookup": "range_table",
+                "description": "Publication year, derived from the advisory number via the DSA number-to-year range table in the parent notes. Extract the advisory number, then find the highest range start that is <= that number. For example, DSA-5678: 5678 >= 5593 → year 2024."
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^dla$"],
+      "description": "Debian LTS Advisory",
+      "weight": 100,
+      "data": {
+        "official_name": "Debian LTS Advisory",
+        "common_name": "DLA",
+        "alternate_names": null,
+        "description": "Security advisories for Debian LTS (Long Term Support) releases, maintained by the community-driven Debian LTS team.",
+        "notes": "DLA IDs use format DLA-NNNN-R where R is the revision number (e.g., DLA-1234-1, DLA-3456-2). The advisory URL structure is https://www.debian.org/lts/security/{year}/dla-{num} where {year} is the publication year and {num} is the advisory number (lowercase). DLA numbers are assigned sequentially and never reset, so the year can be derived from the advisory number using the range table below. For stable releases, see secid:advisory/debian.org/dsa. For CVE tracking, see secid:advisory/debian.org/tracker.\n\nDLA number-to-year ranges (first DLA issued each year): 2014: 1, 2015: 127, 2016: 377, 2017: 772, 2018: 1227, 2019: 1624, 2020: 2056, 2021: 2512, 2022: 2874, 2023: 3260, 2024: 3706, 2025: 4007, 2026: 4430. DLA numbering began in mid-2014 with the Debian LTS program (Squeeze). To find the year for a given DLA number, find the highest start number that is <= the DLA number. For example, DLA-3456 >= 3260 (2023) and < 3706 (2024), so the year is 2023. Source: debian-lts-announce mailing list archives. This table should be updated annually as new DLAs are issued.",
+        "urls": [
+          {"type": "website", "url": "https://www.debian.org/lts/security/"},
+          {"type": "lookup", "url": "https://www.debian.org/lts/security/{year}/dla-{num}", "note": "Canonical URL requires year and lowercase advisory number. Year is not derivable from DLA ID alone — see notes."}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current",
+        "version_disambiguation": null,
+        "versions_available": null,
+        "examples": ["DLA-1234-1", "DLA-3456-2"]
+      },
+      "children": [
+        {
+          "patterns": ["^DLA-\\d+-\\d+$"],
+          "description": "Debian LTS Advisory ID (e.g., DLA-1234-1)",
+          "weight": 100,
+          "data": {
+            "url": "https://www.debian.org/lts/security/{year}/dla-{num}",
+            "note": "The {year} variable is derived from the DLA number using the range table in the parent node's notes. The {num} variable extracts the advisory number portion.",
+            "variables": {
+              "num": {
+                "extract": "^DLA-(\\d+)-\\d+$",
+                "description": "Advisory number portion (e.g., '1234' from 'DLA-1234-1')"
+              },
+              "year": {
+                "extract": "^DLA-(\\d+)-\\d+$",
+                "lookup": "range_table",
+                "description": "Publication year, derived from the advisory number via the DLA number-to-year range table in the parent notes. Extract the advisory number, then find the highest range start that is <= that number. For example, DLA-3456: 3456 >= 3260 → year 2023."
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^tracker$"],
+      "description": "Debian Security Tracker",
+      "weight": 100,
+      "data": {
+        "official_name": "Debian Security Tracker",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Debian's CVE tracking system showing how CVEs affect Debian packages across all releases.",
+        "notes": "Shows CVE fix status across all Debian releases (stable, oldstable, LTS, testing, unstable). Links to related DSA/DLA advisories. Includes affected package versions and fix status. Useful for checking if/when a CVE is fixed in a specific Debian release. For official advisories, see secid:advisory/debian.org/dsa and secid:advisory/debian.org/dla.",
+        "urls": [
+          {"type": "website", "url": "https://security-tracker.debian.org/tracker"},
+          {"type": "lookup", "url": "https://security-tracker.debian.org/tracker/{id}"}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current",
+        "version_disambiguation": null,
+        "versions_available": null,
+        "examples": ["CVE-2024-1234", "CVE-2023-44487"]
+      },
+      "children": [
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "Standard CVE ID format — shows Debian-specific CVE status",
+          "weight": 100,
+          "data": {
+            "url": "https://security-tracker.debian.org/tracker/{id}",
+            "note": "Debian's own CVE analysis page. For the canonical CVE record, see secid:advisory/mitre.org/cve."
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^bts$"],
+      "description": "Debian Bug Tracking System",
+      "weight": 100,
+      "data": {
+        "official_name": "Debian Bug Tracking System",
+        "common_name": "Debian BTS",
+        "alternate_names": null,
+        "description": "Debian's bug tracking system where security bugs are tracked alongside regular bugs.",
+        "notes": "Security bugs are tracked with the 'security' tag. Bug IDs are plain sequential numbers. Referenced in DSA/DLA advisories. For official security advisories, see secid:advisory/debian.org/dsa and secid:advisory/debian.org/dla. For CVE status, see secid:advisory/debian.org/tracker.",
+        "urls": [
+          {"type": "website", "url": "https://bugs.debian.org"},
+          {"type": "lookup", "url": "https://bugs.debian.org/{id}"}
+        ],
+        "version_required": false,
+        "unversioned_behavior": "current",
+        "version_disambiguation": null,
+        "versions_available": null,
+        "examples": ["1012345", "987654"]
+      },
+      "children": [
+        {
+          "patterns": ["^\\d+$"],
+          "description": "Debian bug number (numeric)",
+          "weight": 100,
+          "data": {
+            "url": "https://bugs.debian.org/{id}"
+          }
+        }
+      ]
+    }
+  ]
+}

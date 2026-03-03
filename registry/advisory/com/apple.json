@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "namespace": "apple.com",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Apple Inc.",
+  "common_name": "Apple",
+  "alternate_names": null,
+  "notes": "Apple is a technology company producing Mac computers, iPhone, iPad, and associated software and services. Apple Product Security handles vulnerability response for all Apple platforms including iOS/iPadOS (~1.5 billion active devices), macOS, Safari (WebKit engine, also used by all iOS browsers per Apple policy), watchOS, tvOS, and visionOS. Apple is a CVE Numbering Authority (CNA) and delays CVE details until patches are available. Apple vulnerabilities are high-value targets for nation-states and commercial spyware vendors — iOS zero-days are among the most valuable ($1M+). Pegasus spyware notably exploited Apple zero-days. Safari/WebKit vulnerabilities affect all iOS browsers because Apple requires all iOS browsers to use WebKit.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.apple.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ht$"],
+      "description": "Apple Security Update (HT)",
+      "weight": 100,
+      "data": {
+        "official_name": "Apple Security Update (HT)",
+        "common_name": null,
+        "alternate_names": ["Apple HT articles", "Apple Help Topics"],
+        "description": "Apple publishes security content as HT (Help Topic) support articles. Each HT article corresponds to a software release and lists all CVEs fixed in that release.",
+        "notes": "HT articles document the security content of OS and app updates. Covers iOS, iPadOS, macOS, watchOS, tvOS, Safari, visionOS, and other Apple software. Apple bundles many CVEs per release — a single HT article may reference dozens of CVE fixes. Apple provides minimal vulnerability details until fixes ship (coordinated release model). Security fixes ship bundled with OS/app updates, not as standalone patches. Apple Security Research runs a bug bounty program. The HT article listing page at support.apple.com/en-us/HT201222 provides an index of all security updates.",
+        "urls": [
+          {"type": "website", "url": "https://support.apple.com/en-us/HT201222"},
+          {"type": "lookup", "url": "https://support.apple.com/{id}"}
+        ],
+        "examples": ["HT214036", "HT213931"]
+      },
+      "children": [
+        {
+          "patterns": ["^HT\\d{6}$"],
+          "description": "Apple HT support article ID",
+          "weight": 100,
+          "data": {"url": "https://support.apple.com/{id}"}
+        }
+      ]
+    }
+  ]
+}

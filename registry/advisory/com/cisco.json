@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "namespace": "cisco.com",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Cisco Systems, Inc.",
+  "common_name": "Cisco",
+  "alternate_names": ["Cisco Systems"],
+  "notes": "Cisco is the world's largest networking equipment vendor, producing routers, switches, firewalls, and collaboration tools. Cisco equipment forms the backbone of most enterprise and ISP networks. Key product lines include IOS/IOS-XE (router and switch OS), ASA/Firepower (firewall and security appliances), Webex (collaboration and video conferencing), and Meraki (cloud-managed networking). Cisco vulnerabilities can enable network-wide compromise, and nation-state actors frequently target Cisco devices.\n\nCisco is a CVE Numbering Authority (CNA). Cisco's Product Security Incident Response Team (PSIRT) handles vulnerability disclosure. Many Cisco advisories require a Cisco.com login for full details. Cisco uses severity ratings: Critical, High, Medium, Low, Informational.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.cisco.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^psirt$"],
+      "description": "Cisco Security Advisories (PSIRT)",
+      "weight": 100,
+      "data": {
+        "official_name": "Cisco Security Advisories",
+        "common_name": "Cisco PSIRT",
+        "alternate_names": ["Cisco Product Security Incident Response Team"],
+        "description": "Cisco PSIRT publishes security advisories covering all Cisco products. Advisory IDs use a descriptive format with a random suffix.",
+        "notes": "Cisco PSIRT advisory IDs follow the pattern cisco-sa-{description}-{random-suffix}, using descriptive slugs rather than sequential numbers. Advisories cover all Cisco products and include severity ratings (Critical, High, Medium, Low). Each advisory typically cross-references one or more CVE IDs. Some advisories require Cisco.com login for full technical details.\n\nThe lookup URL resolves directly to the advisory page via CiscoSecurityAdvisory/{id}. The publication listing page provides a browsable index of all advisories.",
+        "urls": [
+          {"type": "website", "url": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x"},
+          {"type": "api", "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory"},
+          {"type": "lookup", "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/{id}"}
+        ],
+        "examples": ["cisco-sa-apache-log4j-qRuKNEbd", "cisco-sa-asaftd-xss-webui-gfnP9LmM"]
+      },
+      "children": [
+        {
+          "patterns": ["^cisco-sa-[a-zA-Z0-9-]+$"],
+          "description": "Cisco PSIRT advisory ID (cisco-sa-{description}-{suffix})",
+          "weight": 100,
+          "data": {"url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/{id}"}
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^bug$"],
+      "description": "Cisco Bug Search",
+      "weight": 100,
+      "data": {
+        "official_name": "Cisco Bug Search",
+        "common_name": null,
+        "alternate_names": ["Cisco Bug Search Tool", "BST"],
+        "description": "Cisco's bug tracking system where security and non-security bugs are tracked with CSC identifiers.",
+        "notes": "CSC IDs are formatted as \"CSC\" followed by two lowercase letters and five digits (e.g., CSCvv12345). CSC numbers are referenced in PSIRT advisories for internal bug tracking. Some bugs require a Cisco.com login to view. For official security advisories, use secid:advisory/cisco.com/psirt instead.",
+        "urls": [
+          {"type": "website", "url": "https://bst.cloudapps.cisco.com/bugsearch"},
+          {"type": "lookup", "url": "https://bst.cloudapps.cisco.com/bugsearch/bug/{id}"}
+        ],
+        "examples": ["CSCvv12345", "CSCwa98765"]
+      },
+      "children": [
+        {
+          "patterns": ["^CSC[a-z]{2}\\d{5}$"],
+          "description": "Cisco bug ID (CSC + two lowercase letters + five digits)",
+          "weight": 100,
+          "data": {"url": "https://bst.cloudapps.cisco.com/bugsearch/bug/{id}"}
+        }
+      ]
+    }
+  ]
+}

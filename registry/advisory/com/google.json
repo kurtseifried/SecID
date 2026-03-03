@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "namespace": "google.com",
+  "type": "advisory",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Google LLC (Alphabet)",
+  "common_name": "Google",
+  "alternate_names": ["Alphabet Inc.", "Google Inc."],
+  "notes": "Google is one of the world's largest technology companies (subsidiary of Alphabet Inc.), operating search, cloud (GCP), Android, Chrome, and many other products. Google has multiple security teams handling different product lines. Google is a CVE Numbering Authority (CNA).\n\nKey security-relevant products: Chrome (~65% browser market share), Android (~70% mobile OS market share), GCP (major cloud platform), OSV (open source vulnerability aggregation database), and Project Zero (elite vulnerability research team with 90-day disclosure policy).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.google.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^osv$"],
+      "description": "Open Source Vulnerabilities",
+      "weight": 100,
+      "data": {
+        "official_name": "Open Source Vulnerabilities",
+        "common_name": "OSV",
+        "alternate_names": ["OSV.dev"],
+        "description": "Google's aggregated open source vulnerability database, covering 30+ ecosystem databases with a standardized schema.",
+        "notes": "OSV.dev aggregates vulnerability data from multiple open-source ecosystem databases into a unified, standardized format (the OSV schema). Ecosystem-specific ID prefixes identify the source: PYSEC (PyPI/Python), RUSTSEC (crates.io/Rust), GO- (Go), GHSA (GitHub). OSV also ingests CVEs and other advisory formats. The osv-scanner tool uses OSV data for dependency scanning.\n\nThe lookup URL works for any OSV-tracked ID regardless of ecosystem prefix. OSV IDs from different ecosystems may reference the same underlying vulnerability (cross-references are maintained in the OSV records). Not all ecosystem IDs follow the same format — GHSA uses a different structure than PYSEC/RUSTSEC/GO-.",
+        "urls": [
+          {"type": "website", "url": "https://osv.dev"},
+          {"type": "api", "url": "https://api.osv.dev/v1"},
+          {"type": "bulk_data", "url": "https://osv-vulnerabilities.storage.googleapis.com"},
+          {"type": "lookup", "url": "https://osv.dev/vulnerability/{id}"}
+        ],
+        "examples": ["PYSEC-2024-1", "RUSTSEC-2024-0001", "GO-2024-0001", "GHSA-xxxx-xxxx-xxxx"]
+      },
+      "children": [
+        {
+          "patterns": ["^PYSEC-\\d{4}-\\d+$"],
+          "description": "Python ecosystem vulnerability (PyPI)",
+          "weight": 100,
+          "data": {"type": "ecosystem-pypi", "url": "https://osv.dev/vulnerability/{id}"}
+        },
+        {
+          "patterns": ["^RUSTSEC-\\d{4}-\\d+$"],
+          "description": "Rust ecosystem vulnerability (crates.io)",
+          "weight": 100,
+          "data": {"type": "ecosystem-crates", "url": "https://osv.dev/vulnerability/{id}"}
+        },
+        {
+          "patterns": ["^GO-\\d{4}-\\d+$"],
+          "description": "Go ecosystem vulnerability",
+          "weight": 100,
+          "data": {"type": "ecosystem-go", "url": "https://osv.dev/vulnerability/{id}"}
+        },
+        {
+          "patterns": ["^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$"],
+          "description": "GitHub Security Advisory (via OSV aggregation)",
+          "weight": 100,
+          "data": {"type": "ecosystem-github", "url": "https://osv.dev/vulnerability/{id}"}
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^chrome$"],
+      "description": "Chrome Security Releases",
+      "weight": 100,
+      "data": {
+        "official_name": "Chrome Security Release",
+        "common_name": "Chrome Security",
+        "alternate_names": null,
+        "description": "Security vulnerability disclosures in Google Chrome, documented in release blog posts on the Chrome Releases blog.",
+        "notes": "Chrome CVEs are listed in \"Stable channel update\" blog posts rather than individual advisory pages per CVE. There is no direct URL template that maps a CVE ID to a single Chrome advisory page — resolution requires searching the Chrome Releases blog for the CVE. The blog URL is a label/search page, not a per-CVE lookup.\n\nChromium bugs (crbug.com/{bug_id}) are often restricted until the fix ships in a stable release. Chrome releases frequently with security fixes, and many CVEs may appear in a single release post. Chrome vulnerabilities are often exploited in the wild. For the canonical CVE record, see secid:advisory/mitre.org/cve.",
+        "urls": [
+          {"type": "website", "url": "https://chromereleases.googleblog.com/search/label/Stable%20updates"},
+          {"type": "website", "url": "https://chromereleases.googleblog.com/", "note": "Chrome Releases blog — security fixes documented in 'Stable updates' labeled posts"}
+        ],
+        "examples": ["CVE-2024-0519", "CVE-2023-7024"]
+      },
+      "children": [
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "CVE ID for a Chrome vulnerability — no direct per-CVE lookup URL; search the Chrome Releases blog",
+          "weight": 100,
+          "data": {
+            "note": "No direct URL template for individual Chrome CVEs. The Chrome Releases blog documents CVEs in batch release posts. To find information about a specific Chrome CVE, search chromereleases.googleblog.com or check crbug.com (if the bug is public)."
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^android$"],
+      "description": "Android Security Bulletins",
+      "weight": 100,
+      "data": {
+        "official_name": "Android Security Bulletin",
+        "common_name": "Android Security Bulletin",
+        "alternate_names": null,
+        "description": "Google's monthly Android security bulletins covering the Android framework, kernel, and vendor components.",
+        "notes": "Bulletins are released monthly (typically the first Monday). Each bulletin defines two security patch levels: YYYY-MM-01 (framework patches) and YYYY-MM-05 (vendor/kernel patches). OEMs ship patches at varying speeds after Google's release. Bulletins list CVEs grouped by component and severity. Both bulletin dates (YYYY-MM-DD) and individual CVE IDs are valid subpath references — a bulletin date resolves to the full monthly bulletin page, while a CVE ID appears within one or more bulletin pages.",
+        "urls": [
+          {"type": "website", "url": "https://source.android.com/docs/security/bulletin"}
+        ],
+        "examples": ["2024-01-01", "CVE-2024-0031"]
+      },
+      "children": [
+        {
+          "patterns": ["^\\d{4}-\\d{2}-\\d{2}$"],
+          "description": "Android security bulletin by date (YYYY-MM-DD, typically YYYY-MM-01)",
+          "weight": 100,
+          "data": {
+            "type": "bulletin-date",
+            "url": "https://source.android.com/docs/security/bulletin/{id}"
+          }
+        },
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "CVE identifier referenced in Android security bulletins",
+          "weight": 50,
+          "data": {
+            "type": "cve",
+            "note": "CVE IDs appear within Android security bulletin pages but do not have individual Android-specific lookup URLs. For the canonical CVE record, see secid:advisory/mitre.org/cve."
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^gcp-bulletins$"],
+      "description": "Google Cloud Security Bulletins",
+      "weight": 100,
+      "data": {
+        "official_name": "Google Cloud Security Bulletins",
+        "common_name": "GCP Security Bulletins",
+        "alternate_names": null,
+        "description": "Official security advisories from Google Cloud Platform covering GCP services and infrastructure, including GKE, Compute Engine, Cloud SQL, and other services.",
+        "notes": "GCP bulletins are published on a single page (cloud.google.com/support/bulletins) with anchor-style navigation — each bulletin ID is a URL fragment (e.g., #GCP-2024-001). Note that the lookup URL uses a literal '#' which is also the SecID subpath separator; the resolver must handle this correctly when building the final URL.\n\nBulletins often reference CVEs but include GCP-specific context such as affected services, patch availability, and timeline. Some issues are GCP-specific without a CVE assignment. Related: GKE Security Bulletins provide Kubernetes-specific advisories for GKE users.",
+        "urls": [
+          {"type": "website", "url": "https://cloud.google.com/support/bulletins"}
+        ],
+        "examples": ["GCP-2024-001", "GCP-2023-034"]
+      },
+      "children": [
+        {
+          "patterns": ["^GCP-\\d{4}-\\d+$"],
+          "description": "GCP security bulletin ID",
+          "weight": 100,
+          "data": {
+            "url": "https://cloud.google.com/support/bulletins#{id}",
+            "note": "URL uses a hash fragment to anchor to the specific bulletin on the page. The '#' in this URL is a page anchor, not a SecID subpath delimiter."
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^project-zero$"],
+      "description": "Google Project Zero",
+      "weight": 100,
+      "data": {
+        "official_name": "Google Project Zero",
+        "common_name": "Project Zero",
+        "alternate_names": ["P0"],
+        "description": "Google's elite vulnerability research team that discovers and reports security vulnerabilities across all vendors.",
+        "notes": "Project Zero follows a 90-day disclosure deadline policy — vulnerabilities are publicly disclosed 90 days after reporting to the vendor, regardless of patch availability (with some grace period provisions). Issues are tracked in the Chromium bug tracker under the project-zero project. Issues are typically restricted until the vendor ships a fix or the deadline expires. Blog posts on googleprojectzero.blogspot.com provide detailed technical analysis of notable findings. Project Zero finds often make headlines and frequently affect widely deployed software.",
+        "urls": [
+          {"type": "website", "url": "https://googleprojectzero.blogspot.com/"},
+          {"type": "website", "url": "https://bugs.chromium.org/p/project-zero/issues/list", "note": "Issue tracker (Chromium Monorail)"},
+          {"type": "lookup", "url": "https://bugs.chromium.org/p/project-zero/issues/detail?id={id}"}
+        ],
+        "examples": ["2374", "1945"]
+      },
+      "children": [
+        {
+          "patterns": ["^\\d+$"],
+          "description": "Project Zero issue number",
+          "weight": 100,
+          "data": {"url": "https://bugs.chromium.org/p/project-zero/issues/detail?id={id}"}
+        }
+      ]
+    }
+  ]
+}
