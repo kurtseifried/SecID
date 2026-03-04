@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "isbn.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "International Standard Book Number",
+  "common_name": "ISBN",
+  "alternate_names": null,
+  "notes": "ISBN uniquely identifies books worldwide. ISBN-13 format starts with 978 or 979. Dashes optional.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.isbn-international.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^97[89]-?\\d{1,5}-?\\d{1,7}-?\\d{1,7}-?\\d$"],
+      "description": "ISBN-13 identifier (with or without dashes)",
+      "weight": 100,
+      "data": {
+        "official_name": "International Standard Book Number",
+        "common_name": "ISBN-13",
+        "alternate_names": null,
+        "description": "ISBN-13 book identifier, optionally formatted with dashes.",
+        "notes": "ISBN-13 replaced ISBN-10 as the standard format in 2007. The prefix 978 or 979 is the EAN bookland code. Group, publisher, and title segments vary in length. WorldCat provides a universal catalog lookup.",
+        "urls": [
+          {"type": "website", "url": "https://www.isbn-international.org"},
+          {"type": "lookup", "url": "https://www.worldcat.org/isbn/{id}"}
+        ],
+        "examples": [
+          {"input": "978-0-13-468599-1", "url": "https://www.worldcat.org/isbn/978-0-13-468599-1", "note": "ISBN with dashes"},
+          {"input": "9780134685991", "url": "https://www.worldcat.org/isbn/9780134685991", "note": "ISBN without dashes"}
+        ]
+      }
+    }
+  ]
+}

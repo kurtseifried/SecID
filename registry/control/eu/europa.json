@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "namespace": "europa.eu",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "European Union",
+  "common_name": "EU",
+  "alternate_names": null,
+  "notes": "EU AI governance frameworks including ALTAI self-assessment tool, Ethics Guidelines for Trustworthy AI, and the EU AI Act's control requirements (risk categories, prohibited practices).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://digital-strategy.ec.europa.eu"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^altai$"],
+      "description": "Assessment List for Trustworthy AI",
+      "weight": 100,
+      "data": {
+        "official_name": "Assessment List for Trustworthy AI",
+        "common_name": "ALTAI",
+        "alternate_names": null,
+        "description": "Practical self-assessment tool for operationalizing the EU's Ethics Guidelines for Trustworthy AI, organized around seven key requirements.",
+        "notes": "Published 2020 by the High-Level Expert Group on AI. Implements the 2019 Ethics Guidelines. Voluntary self-assessment tool. Over 100 assessment questions across seven requirements: human agency and oversight, technical robustness and safety, privacy and data governance, transparency, diversity/non-discrimination/fairness, societal and environmental well-being, accountability. Basis for AI Act compliance preparation. Online interactive tool available at altai.insight-centre.org.",
+        "urls": [
+          {"type": "website", "url": "https://digital-strategy.ec.europa.eu/en/library/assessment-list-trustworthy-artificial-intelligence-altai-self-assessment"},
+          {"type": "tool", "url": "https://altai.insight-centre.org"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2020", "release_date": "2020-07-17", "status": "current", "note": "First edition. 100+ assessment questions across 7 key requirements."}
+        ],
+        "examples": ["human-agency", "transparency"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^ethics-guidelines$"],
+      "description": "Ethics Guidelines for Trustworthy AI",
+      "weight": 100,
+      "data": {
+        "official_name": "Ethics Guidelines for Trustworthy AI",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Defines what makes AI systems trustworthy: lawful (complying with laws), ethical (respecting ethical principles), and robust (technically and socially reliable).",
+        "notes": "Published April 2019 by the High-Level Expert Group on AI (52 experts). Foundation for ALTAI self-assessment tool and the EU AI Act. Widely referenced globally. Three pillars: lawful, ethical, robust. Establishes the seven key requirements that ALTAI operationalizes.",
+        "urls": [
+          {"type": "website", "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2019", "release_date": "2019-04-08", "status": "current", "note": "First and only edition. Foundation document for EU AI governance."}
+        ],
+        "examples": []
+      }
+    },
+
+    {
+      "patterns": ["(?i)^ai-act$"],
+      "description": "EU AI Act",
+      "weight": 100,
+      "data": {
+        "official_name": "EU AI Act",
+        "common_name": "AI Act",
+        "alternate_names": ["Regulation (EU) 2024/1689", "Artificial Intelligence Act"],
+        "description": "The world's first comprehensive AI regulation, establishing a risk-based classification system with requirements for AI systems based on their risk level.",
+        "notes": "Entered into force August 2024, phased implementation through 2027. Risk categories: prohibited (banned practices like social scoring, certain biometrics), high-risk (strict requirements, conformity assessment), limited-risk (transparency obligations), minimal-risk (no specific requirements). High-risk domains include biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, and justice. Key requirements for high-risk: risk management system, data governance, technical documentation, record-keeping, transparency, human oversight, accuracy/robustness/security. Significant penalties (up to 7% global revenue). Creates European AI Office.",
+        "urls": [
+          {"type": "website", "url": "https://artificialintelligenceact.eu"},
+          {"type": "official", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-08-01", "status": "current", "note": "First and only version. Phased implementation through 2027."}
+        ],
+        "examples": ["high-risk", "prohibited"]
+      }
+    }
+  ]
+}

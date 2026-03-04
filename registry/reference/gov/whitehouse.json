@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "namespace": "whitehouse.gov",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "White House / Executive Branch",
+  "common_name": "White House",
+  "alternate_names": null,
+  "notes": "US White House executive documents including Executive Orders, OMB Memoranda, National Security Memoranda, and National Strategies. Multiple ID patterns for different document types.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.whitehouse.gov"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^eo-\\d{5}$"],
+      "description": "Executive Order",
+      "weight": 100,
+      "data": {
+        "official_name": "Executive Order",
+        "common_name": "EO",
+        "alternate_names": null,
+        "description": "US Presidential Executive Orders identified by sequential number.",
+        "notes": "Executive Orders have the force of law but can be revoked by subsequent administrations. URLs vary by administration — no stable URL template exists across administrations.",
+        "urls": [
+          {"type": "website", "url": "https://www.whitehouse.gov/briefing-room/"}
+        ],
+        "examples": [
+          {"input": "eo-14110", "note": "Executive Order on Safe, Secure, and Trustworthy AI (Oct 2023)"},
+          {"input": "eo-14028", "note": "Executive Order on Improving the Nation's Cybersecurity (May 2021)"}
+        ]
+      }
+    },
+    {
+      "patterns": ["^m-\\d{2}-\\d{2}$"],
+      "description": "OMB Memorandum",
+      "weight": 100,
+      "data": {
+        "official_name": "OMB Memorandum",
+        "common_name": "OMB Memo",
+        "alternate_names": null,
+        "description": "Office of Management and Budget memoranda that guide federal agency implementation of policy.",
+        "notes": "OMB memos use M-YY-NN format (fiscal year and sequence number). They provide binding guidance to federal agencies on policy implementation.",
+        "urls": [
+          {"type": "website", "url": "https://www.whitehouse.gov/omb/"}
+        ],
+        "examples": [
+          {"input": "m-24-10", "note": "OMB memo on AI governance"}
+        ]
+      }
+    },
+    {
+      "patterns": ["^nsm-\\d+$"],
+      "description": "National Security Memorandum",
+      "weight": 100,
+      "data": {
+        "official_name": "National Security Memorandum",
+        "common_name": "NSM",
+        "alternate_names": null,
+        "description": "Presidential directives on national security matters.",
+        "notes": "National Security Memoranda address classified and national security matters. Some are partially or fully classified. Numbering restarts with each administration.",
+        "urls": [
+          {"type": "website", "url": "https://www.whitehouse.gov/briefing-room/"}
+        ],
+        "examples": [
+          {"input": "nsm-22", "note": "NSM on AI"}
+        ]
+      }
+    },
+    {
+      "patterns": ["^ncs-\\d{4}$"],
+      "description": "National Strategy",
+      "weight": 100,
+      "data": {
+        "official_name": "National Strategy",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "National strategies identified by topic area and year.",
+        "notes": "National strategies set multi-year policy direction. They are not legally binding but guide agency priorities and budget allocation.",
+        "urls": [
+          {"type": "website", "url": "https://www.whitehouse.gov/briefing-room/"}
+        ],
+        "examples": [
+          {"input": "ncs-2023", "note": "National Cybersecurity Strategy 2023"}
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "namespace": "stanford.edu",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Stanford Center for Research on Foundation Models",
+  "common_name": "Stanford CRFM",
+  "alternate_names": ["CRFM", "Stanford HAI"],
+  "notes": "Stanford CRFM produces AI safety benchmarks including AIR-Bench and HELM Safety, used to evaluate foundation model safety properties.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://crfm.stanford.edu"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^air-bench$"],
+      "description": "AIR-Bench: AI Risk Benchmark",
+      "weight": 100,
+      "data": {
+        "official_name": "AIR-Bench 2024",
+        "common_name": "AIR-Bench",
+        "alternate_names": ["AI Risk Benchmark"],
+        "description": "Safety benchmark for evaluating foundation models across a taxonomy of AI risk categories.",
+        "notes": "AIR-Bench defines a hierarchical taxonomy of AI risks used to evaluate model safety. Risk categories are identified by slug names. Published as academic research with an accompanying GitHub repository.",
+        "urls": [
+          {"type": "website", "url": "https://github.com/stanford-crfm/air-bench-2024"},
+          {"type": "docs", "url": "https://arxiv.org/abs/2407.17436", "note": "AIR-Bench paper"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-07-01", "status": "current", "note": "Initial publication of AIR-Bench."}
+        ],
+        "examples": ["privacy-pii", "manipulation-persuasion"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "AIR-Bench risk category slug (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — risk categories defined in the AIR-Bench paper and GitHub repository. No per-item URLs.",
+            "examples": [
+              {"input": "privacy-pii", "note": "Privacy risks related to personally identifiable information"},
+              {"input": "manipulation-persuasion", "note": "Risks related to AI-driven manipulation and persuasion"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^helm-safety$"],
+      "description": "HELM Safety: Holistic Evaluation of Language Models Safety",
+      "weight": 100,
+      "data": {
+        "official_name": "HELM Safety",
+        "common_name": "HELM Safety",
+        "alternate_names": ["Holistic Evaluation of Language Models Safety"],
+        "description": "Safety evaluation framework within the broader HELM benchmarking suite, assessing model safety properties.",
+        "notes": "HELM Safety evaluates foundation model safety across categories like toxicity and bias. Part of the broader HELM evaluation framework. Categories are identified by slug names.",
+        "urls": [
+          {"type": "website", "url": "https://crfm.stanford.edu/helm/safety/latest"}
+        ],
+        "versions_available": [
+          {"version": "1.0", "release_date": "2024-01-01", "status": "current", "note": "Initial HELM Safety evaluation framework."}
+        ],
+        "examples": ["toxicity", "bias"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "HELM Safety evaluation category slug (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — safety evaluation categories within the HELM framework. No per-item URLs.",
+            "examples": [
+              {"input": "toxicity", "note": "Evaluation of toxic content generation"},
+              {"input": "bias", "note": "Evaluation of biased model outputs"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

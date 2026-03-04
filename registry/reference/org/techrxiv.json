@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "techrxiv.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "TechRxiv",
+  "common_name": "TechRxiv",
+  "alternate_names": null,
+  "notes": "TechRxiv is IEEE's preprint server for engineering and technology research. IDs are numeric with optional version suffix.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.techrxiv.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d+(\\.v\\d+)?$"],
+      "description": "TechRxiv preprint ID (numeric, optional .vN version suffix)",
+      "weight": 100,
+      "data": {
+        "official_name": "TechRxiv Preprint",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "TechRxiv preprint identified by numeric ID with optional version suffix.",
+        "notes": "TechRxiv is operated by IEEE. Preprints are assigned a numeric ID; subsequent versions append .v2, .v3, etc. The DOI uses the 10.36227/techrxiv prefix.",
+        "urls": [
+          {"type": "website", "url": "https://www.techrxiv.org"},
+          {"type": "lookup", "url": "https://www.techrxiv.org/doi/full/10.36227/techrxiv.{id}"}
+        ],
+        "examples": [
+          {"input": "21397269", "url": "https://www.techrxiv.org/doi/full/10.36227/techrxiv.21397269"},
+          {"input": "21397269.v2", "url": "https://www.techrxiv.org/doi/full/10.36227/techrxiv.21397269.v2", "note": "Version 2 of preprint"}
+        ]
+      }
+    }
+  ]
+}

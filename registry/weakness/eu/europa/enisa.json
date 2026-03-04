@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "namespace": "enisa.europa.eu",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "European Union Agency for Cybersecurity",
+  "common_name": "ENISA",
+  "alternate_names": ["EU Agency for Cybersecurity"],
+  "notes": "ENISA produces authoritative EU cybersecurity guidance including ML threat taxonomies and AI security frameworks.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.enisa.europa.eu"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ml-threats$"],
+      "description": "ENISA Machine Learning Threat Taxonomy",
+      "weight": 100,
+      "data": {
+        "official_name": "Securing Machine Learning Algorithms",
+        "common_name": "ENISA ML Threats",
+        "alternate_names": null,
+        "description": "Taxonomy of threats to machine learning algorithms, published by ENISA as part of EU cybersecurity guidance.",
+        "notes": "Covers threats across the ML lifecycle including evasion, poisoning, and model extraction. Published as a formal ENISA publication. Threat categories are described by slug names — no formal per-item identifiers.",
+        "urls": [
+          {"type": "website", "url": "https://www.enisa.europa.eu/publications/securing-machine-learning-algorithms"}
+        ],
+        "versions_available": [
+          {"version": "2021", "release_date": "2021-12-01", "status": "current", "note": "Initial ENISA ML threat taxonomy publication."}
+        ],
+        "examples": ["evasion", "poisoning", "model-extraction"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "ML threat category slug (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — threat categories described in the ENISA publication. No per-item URLs.",
+            "examples": [
+              {"input": "evasion", "note": "Adversarial evasion attacks on ML models"},
+              {"input": "poisoning", "note": "Training data or model poisoning attacks"},
+              {"input": "model-extraction", "note": "Attacks aimed at extracting or stealing ML models"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^ai-framework$"],
+      "description": "ENISA Multilayer AI Cybersecurity Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "Multilayer Framework for Good Cybersecurity Practices for AI",
+        "common_name": "ENISA AI Framework",
+        "alternate_names": null,
+        "description": "Multilayer framework providing cybersecurity practices for AI systems, addressing data integrity, model security, and operational concerns.",
+        "notes": "Published as a formal ENISA guidance document. Covers cybersecurity practices across multiple layers of AI systems. Categories are described by slug names — no formal per-item identifiers.",
+        "urls": [
+          {"type": "website", "url": "https://www.enisa.europa.eu/publications/multilayer-framework-for-good-cybersecurity-practices-for-ai"}
+        ],
+        "versions_available": [
+          {"version": "2023", "release_date": "2023-07-01", "status": "current", "note": "Initial publication of the multilayer AI cybersecurity framework."}
+        ],
+        "examples": ["data-integrity", "model-security"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "AI framework practice category slug (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — cybersecurity practice categories described in the ENISA framework. No per-item URLs.",
+            "examples": [
+              {"input": "data-integrity", "note": "Practices for ensuring AI training and operational data integrity"},
+              {"input": "model-security", "note": "Practices for securing AI models against attacks and tampering"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

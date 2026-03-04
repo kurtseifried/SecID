@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ieee.org",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Institute of Electrical and Electronics Engineers",
+  "common_name": "IEEE",
+  "alternate_names": null,
+  "notes": "IEEE produces ethical AI standards including the 7000 series and Ethically Aligned Design framework.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.ieee.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ethically-aligned$"],
+      "description": "IEEE Ethically Aligned Design framework",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://ethicsinaction.ieee.org"}
+        ],
+        "versions_available": [
+          {"version": "1.0", "release_date": null, "status": "current", "note": "First edition of Ethically Aligned Design."}
+        ],
+        "examples": ["human-rights", "well-being"]
+      }
+    },
+    {
+      "patterns": ["(?i)^7000$"],
+      "description": "IEEE 7000 - Ethical System Design",
+      "weight": 100,
+      "data": {
+        "official_name": "IEEE 7000 - Ethical System Design",
+        "urls": [
+          {"type": "website", "url": "https://standards.ieee.org/ieee/7000/6781/"}
+        ],
+        "versions_available": [
+          {"version": "2021", "release_date": "2021-01-01", "status": "current", "note": "IEEE 7000-2021 standard for ethical system design."}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^7001$"],
+      "description": "IEEE 7001 - Transparency of Autonomous Systems",
+      "weight": 100,
+      "data": {
+        "official_name": "IEEE 7001 - Transparency of Autonomous Systems",
+        "versions_available": [
+          {"version": "2021", "release_date": "2021-01-01", "status": "current", "note": "IEEE 7001-2021 standard for transparency of autonomous systems."}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^7002$"],
+      "description": "IEEE 7002 - Data Privacy Process",
+      "weight": 100,
+      "data": {
+        "official_name": "IEEE 7002 - Data Privacy Process",
+        "versions_available": [
+          {"version": "2022", "release_date": "2022-01-01", "status": "current", "note": "IEEE 7002-2022 standard for data privacy process."}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^7010$"],
+      "description": "IEEE 7010 - Well-being Metrics for AI",
+      "weight": 100,
+      "data": {
+        "official_name": "IEEE 7010 - Well-being Metrics for AI",
+        "versions_available": [
+          {"version": "2020", "release_date": "2020-01-01", "status": "current", "note": "IEEE 7010-2020 standard for well-being metrics for AI."}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "namespace": "owasp.org",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Open Web Application Security Project",
+  "common_name": "OWASP",
+  "alternate_names": null,
+  "notes": "OWASP AI Exchange provides security controls for AI systems. The controls have a lookup URL pattern.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://owasp.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-exchange$"],
+      "description": "OWASP AI Exchange Controls",
+      "weight": 100,
+      "data": {
+        "official_name": "OWASP AI Exchange Controls",
+        "urls": [
+          {"type": "website", "url": "https://owaspai.org"},
+          {"type": "controls", "url": "https://owaspai.org/docs/ai_security_overview/#how-to-address-ai-security"},
+          {"type": "lookup", "url": "https://owaspai.org/goto/{id}/"}
+        ],
+        "examples": ["RATELIMIT", "INPUTDISTORTION", "MODELACCESSCONTROL"]
+      },
+      "children": [
+        {
+          "patterns": ["^[A-Z]+$"],
+          "description": "OWASP AI Exchange control ID — uppercase concatenated words",
+          "weight": 100,
+          "data": {
+            "url": "https://owaspai.org/goto/{id}/",
+            "examples": [
+              {"input": "RATELIMIT", "url": "https://owaspai.org/goto/RATELIMIT/", "note": "Rate limiting control for AI APIs"},
+              {"input": "INPUTDISTORTION", "url": "https://owaspai.org/goto/INPUTDISTORTION/", "note": "Input distortion to prevent adversarial examples"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

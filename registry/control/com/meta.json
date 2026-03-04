@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "namespace": "meta.com",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Meta Platforms",
+  "common_name": "Meta",
+  "alternate_names": null,
+  "notes": "Meta's Purple Llama project provides open-source AI safety tools including Llama Guard, Prompt Guard, Code Shield, and CyberSecEval benchmarks.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://ai.meta.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^purple-llama$"],
+      "description": "Purple Llama Project",
+      "weight": 100,
+      "data": {
+        "official_name": "Purple Llama Project",
+        "common_name": "Purple Llama",
+        "alternate_names": null,
+        "description": "Meta's open-source project providing tools for evaluating and improving LLM safety and security. 'Purple' = Red (attack) + Blue (defense).",
+        "notes": "Components include Llama Guard (content safety classifier, version 3 current, supports custom taxonomies, open weights), Prompt Guard (prompt injection detector for direct and indirect injection), Code Shield (insecure code pattern detection via static analysis), and CyberSecEval (security benchmarks). All tools open-source on GitHub. Designed for Llama but works with other models.",
+        "urls": [
+          {"type": "website", "url": "https://github.com/meta-llama/PurpleLlama"}
+        ],
+        "examples": ["llama-guard", "prompt-guard", "code-shield"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "Purple Llama component (lowercase kebab-case)",
+          "weight": 100,
+          "data": {
+            "note": "No per-component URL. Components are subdirectories and tools within the Purple Llama GitHub repository. Key components: llama-guard (content safety classifier), prompt-guard (prompt injection detector), code-shield (insecure code detection).",
+            "examples": [
+              {"input": "llama-guard", "note": "Content safety classifier — classifies LLM inputs/outputs against safety taxonomy"},
+              {"input": "prompt-guard", "note": "Prompt injection detector — detects direct and indirect injection attempts"},
+              {"input": "code-shield", "note": "Insecure code detection — static analysis for generated code patterns"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^cyberseceval$"],
+      "description": "CyberSecEval Benchmark",
+      "weight": 100,
+      "data": {
+        "official_name": "CyberSecEval Benchmark",
+        "common_name": "CyberSecEval",
+        "alternate_names": null,
+        "description": "Meta's benchmark suite for evaluating LLM cybersecurity risks across insecure code generation, cyberattack helpfulness, prompt injection, and more.",
+        "notes": "Comprehensive LLM security benchmark. Open methodology and datasets. Version 4.0 is current. Evolution: v1.0 (initial), v2.0 (added prompt injection), v3.0 (expanded attack coverage), v4.0 (added interpreter abuse, auto-patching). Used for Llama model safety evaluation. Enables cross-model comparison.",
+        "urls": [
+          {"type": "website", "url": "https://meta-llama.github.io/PurpleLlama/CyberSecEval"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2312.04724"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "4.0", "release_date": null, "status": "current", "note": "Added code interpreter abuse and auto-patching benchmarks."},
+          {"version": "3.0", "release_date": null, "status": "superseded", "note": "Expanded attack coverage."},
+          {"version": "2.0", "release_date": null, "status": "superseded", "note": "Added prompt injection."},
+          {"version": "1.0", "release_date": null, "status": "superseded", "note": "Initial release."}
+        ],
+        "examples": ["insecure-code", "cyberattack-helpfulness", "prompt-injection"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "CyberSecEval benchmark category (lowercase kebab-case)",
+          "weight": 100,
+          "data": {
+            "note": "No per-category URL. Benchmark categories: insecure-code (does model generate vulnerable code?), cyberattack-helpfulness (does model assist with attacks?), prompt-injection (is model susceptible to injection?), code-interpreter (can code interpreter be abused?), auto-patch (can model patch vulnerabilities?).",
+            "examples": [
+              {"input": "insecure-code", "note": "Tests whether LLMs generate code with SQL injection, XSS, buffer overflow, and other vulnerabilities"},
+              {"input": "cyberattack-helpfulness", "note": "Tests model compliance with malware generation, exploit development, social engineering requests"},
+              {"input": "prompt-injection", "note": "Tests susceptibility to direct injection, indirect injection, and jailbreak attempts"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

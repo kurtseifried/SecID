@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "gpai.ai",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "General-Purpose AI Research",
+  "common_name": "GPAI",
+  "alternate_names": null,
+  "notes": "GPAI Risk Sources catalog from arXiv paper 2410.23472. Academic research on risk sources and management measures for general-purpose AI.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://arxiv.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^risk-sources$"],
+      "description": "GPAI Risk Sources catalog",
+      "weight": 100,
+      "data": {
+        "official_name": "Risk Sources and Management Measures for General-Purpose AI",
+        "common_name": "GPAI Risk Sources",
+        "alternate_names": null,
+        "description": "Catalog of risk sources and management measures for general-purpose AI systems, published as academic research.",
+        "notes": "Conceptual taxonomy of risk sources identified in arXiv paper 2410.23472. Items are described by slug names representing risk categories. No formal per-item identifiers or URLs — this is an academic taxonomy, not a database with individual item pages.",
+        "urls": [
+          {"type": "website", "url": "https://arxiv.org/abs/2410.23472"},
+          {"type": "docs", "url": "https://arxiv.org/pdf/2410.23472", "format": "pdf"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-10-01", "status": "current", "note": "Initial publication on arXiv."}
+        ],
+        "examples": ["training-data-risks", "deployment-risks", "societal-risks"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "Risk source slug name (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — risk source categories are described by slug names. No per-item URLs; refer to the parent paper for full descriptions.",
+            "examples": [
+              {"input": "training-data-risks", "note": "Risks related to training data quality, bias, and provenance"},
+              {"input": "deployment-risks", "note": "Risks arising from deployment context and environment"},
+              {"input": "societal-risks", "note": "Broader societal impact risks from general-purpose AI"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

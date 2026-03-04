@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "github.com/thu-coai",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "SafetyBench",
+  "common_name": "SafetyBench",
+  "alternate_names": null,
+  "notes": "SafetyBench is an LLM safety evaluation benchmark from Tsinghua University covering offensiveness, ethics, and other safety dimensions.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://github.com/thu-coai/SafetyBench"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^benchmark$"],
+      "description": "SafetyBench",
+      "weight": 100,
+      "data": {
+        "official_name": "SafetyBench",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Comprehensive benchmark for evaluating LLM safety across seven harm categories, with support for Chinese and English.",
+        "notes": "11,435 multiple-choice test questions across seven safety categories: offensiveness, unfairness and bias, physical health, mental health, illegal activities, ethics and morality, privacy and property. Bilingual (Chinese and English). Covers both LLMs and chat models. Regular benchmark updates. Published 2024.",
+        "urls": [
+          {"type": "website", "url": "https://github.com/thu-coai/SafetyBench"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2309.07045"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-01-01", "status": "current", "note": "First edition. 11,435 questions across 7 safety categories, bilingual (Chinese/English)."}
+        ],
+        "examples": ["offensiveness", "ethics"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "SafetyBench safety category (lowercase kebab-case)",
+          "weight": 100,
+          "data": {
+            "note": "No per-category URL. Categories are subsets within the SafetyBench dataset. Seven categories: offensiveness, unfairness-and-bias, physical-health, mental-health, illegal-activities, ethics-and-morality, privacy-and-property.",
+            "examples": [
+              {"input": "offensiveness", "note": "Tests for insulting, offensive content including hate speech, insults, and profanity"},
+              {"input": "ethics", "note": "Ethics and morality evaluation — moral reasoning assessment"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

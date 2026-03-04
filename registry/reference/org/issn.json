@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "issn.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "International Standard Serial Number",
+  "common_name": "ISSN",
+  "alternate_names": null,
+  "notes": "ISSN uniquely identifies serial publications (journals, magazines, etc.). Format: NNNN-NNNX where X is digit or check character X.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.issn.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d{4}-\\d{3}[\\dX]$"],
+      "description": "ISSN identifier (NNNN-NNNX format)",
+      "weight": 100,
+      "data": {
+        "official_name": "International Standard Serial Number",
+        "common_name": "ISSN",
+        "alternate_names": null,
+        "description": "ISSN for serial publications in NNNN-NNNX format where X is a check digit (0-9 or X).",
+        "notes": "ISSN is assigned by the ISSN International Centre in Paris. The last character is a check digit that may be X (representing 10). Print and electronic editions of the same serial receive different ISSNs. The ISSN-L (linking ISSN) groups related ISSNs.",
+        "urls": [
+          {"type": "website", "url": "https://www.issn.org"},
+          {"type": "lookup", "url": "https://portal.issn.org/resource/ISSN/{id}"}
+        ],
+        "examples": [
+          {"input": "2169-3536", "url": "https://portal.issn.org/resource/ISSN/2169-3536", "note": "IEEE Access ISSN"},
+          {"input": "0018-9162", "url": "https://portal.issn.org/resource/ISSN/0018-9162", "note": "IEEE Computer ISSN"}
+        ]
+      }
+    }
+  ]
+}

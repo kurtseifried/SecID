@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "tc260.org.cn",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Standardization Administration of China (SAC) / TC260",
+  "common_name": "TC260",
+  "alternate_names": null,
+  "notes": "TC260 is China's national technical committee for information security standardization. Publishes AI safety governance frameworks.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.tc260.org.cn"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-safety-governance$"],
+      "description": "AI Safety Governance Framework (China TC260)",
+      "weight": 100,
+      "data": {
+        "official_name": "AI Safety Governance Framework",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "China's national AI safety governance framework, published by TC260. Implements the Global AI Governance Initiative.",
+        "notes": "Framework provides a roadmap for AI safety governance, not binding law. Details implemented through subsequent CAC (Cyberspace Administration of China) notices and the Basic Security Requirements national standard. Two overarching risk categories: endemic generative AI risks (inherent to AI) and application generative AI risks (misuse/abuse). Covers frontier risks including CBRN, missile domain, loss of control, and catastrophic risks. Available in Chinese; unofficial translations exist. v2.0 (September 2025) strengthened loss of control and catastrophic risk attention, added open-source AI governance clauses.",
+        "urls": [
+          {"type": "website", "url": "https://www.tc260.org.cn"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2.0", "release_date": "2025-09-01", "status": "current", "note": "Strengthened loss of control and catastrophic risks, added open-source governance clauses."},
+          {"version": "1.0", "release_date": "2024-09-01", "status": "superseded", "note": "Initial framework. Endemic and application risks, CBRN coverage."}
+        ],
+        "examples": ["endemic-risks", "open-source-governance"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "AI Safety Governance Framework topic area (lowercase kebab-case)",
+          "weight": 100,
+          "data": {
+            "note": "No per-topic URL. Framework topics are sections within the published document. Refer to the TC260 website for the full framework PDF.",
+            "examples": [
+              {"input": "endemic-risks", "note": "Risks inherent to generative AI by its nature"},
+              {"input": "open-source-governance", "note": "Open-source AI governance clauses — added in v2.0"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

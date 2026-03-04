@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "namespace": "trustllmbenchmark.github.io",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "TrustLLM Benchmark",
+  "common_name": "TrustLLM",
+  "alternate_names": null,
+  "notes": "Comprehensive LLM trustworthiness benchmark from Peking University covering truthfulness, safety, fairness, robustness, privacy, and ethics. Includes leaderboard.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://trustllmbenchmark.github.io/TrustLLM-Website/"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^benchmark$"],
+      "description": "TrustLLM trustworthiness benchmark for LLMs",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://trustllmbenchmark.github.io/TrustLLM-Website/"},
+          {"type": "github", "url": "https://github.com/HowieHwong/TrustLLM"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2401.05561"},
+          {"type": "leaderboard", "url": "https://trustllmbenchmark.github.io/TrustLLM-Website/leaderboard.html"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": null, "status": "current", "note": "Initial release of TrustLLM benchmark."}
+        ],
+        "examples": ["truthfulness", "safety", "fairness"]
+      }
+    }
+  ]
+}

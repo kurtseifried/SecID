@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "dblp.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "DBLP Computer Science Bibliography",
+  "common_name": "DBLP",
+  "alternate_names": null,
+  "notes": "DBLP is a comprehensive computer science bibliography. Record IDs use path-like format (venue/AuthorYY).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://dblp.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^[a-z]+/[a-zA-Z0-9/]+$"],
+      "description": "DBLP record ID (venue/path format)",
+      "weight": 100,
+      "data": {
+        "official_name": "DBLP Record",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "DBLP bibliographic record identified by venue type and path.",
+        "notes": "DBLP record IDs encode the venue type (conf, journals, books, etc.), the venue abbreviation, and the author/year. The path format mirrors the DBLP URL structure.",
+        "urls": [
+          {"type": "website", "url": "https://dblp.org"},
+          {"type": "lookup", "url": "https://dblp.org/rec/{id}"}
+        ],
+        "examples": [
+          {"input": "conf/ccs/SmithJ23", "url": "https://dblp.org/rec/conf/ccs/SmithJ23", "note": "CCS conference paper"},
+          {"input": "journals/tissec/AndersonR01", "url": "https://dblp.org/rec/journals/tissec/AndersonR01", "note": "TISSEC journal paper"}
+        ]
+      }
+    }
+  ]
+}

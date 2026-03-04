@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "amazon.com",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Amazon Standard Identification Number",
+  "common_name": "ASIN",
+  "alternate_names": null,
+  "notes": "ASIN (Amazon Standard Identification Number) uniquely identifies products on Amazon. 10-character alphanumeric.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.amazon.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^[A-Z0-9]{10}$"],
+      "description": "ASIN (10-character alphanumeric product identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "Amazon Standard Identification Number",
+        "common_name": "ASIN",
+        "alternate_names": null,
+        "description": "Amazon product identified by 10-character alphanumeric code.",
+        "notes": "ASINs are unique within the Amazon marketplace. For books, the ASIN matches the ISBN-10. Non-book ASINs typically start with B0. The same product may have different ASINs across Amazon regional stores.",
+        "urls": [
+          {"type": "website", "url": "https://www.amazon.com"},
+          {"type": "lookup", "url": "https://www.amazon.com/dp/{id}"}
+        ],
+        "examples": [
+          {"input": "B0C5PBBKNZ", "url": "https://www.amazon.com/dp/B0C5PBBKNZ", "note": "Amazon product page"},
+          {"input": "0596007124", "url": "https://www.amazon.com/dp/0596007124", "note": "Book ASIN (matches ISBN-10)"}
+        ]
+      }
+    }
+  ]
+}

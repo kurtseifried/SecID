@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "namespace": "gov.uk",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "UK Government",
+  "common_name": "UK Gov",
+  "alternate_names": null,
+  "notes": "UK Government publications related to AI safety and cybersecurity policy.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.gov.uk"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-safety-report$"],
+      "description": "International AI Safety Report",
+      "weight": 100,
+      "data": {
+        "official_name": "International AI Safety Report",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Comprehensive international scientific review of AI safety, commissioned by the UK Government.",
+        "notes": "Written by 100+ independent experts, led by Turing Award winner Yoshua Bengio, backed by 30 countries. First published January 2025.",
+        "urls": [
+          {"type": "website", "url": "https://internationalaisafetyreport.org/"},
+          {"type": "pdf", "url": "https://assets.publishing.service.gov.uk/media/679a0c48a77d250007d313ee/International_AI_Safety_Report_2025_accessible_f.pdf"},
+          {"type": "gov_uk", "url": "https://www.gov.uk/government/publications/international-ai-safety-report-2025"}
+        ],
+        "versions_available": [
+          {"version": "2025", "release_date": "2025-01-01", "status": "current", "note": "First edition."}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "namespace": "imda.gov.sg",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Singapore Government",
+  "common_name": "Singapore IMDA",
+  "alternate_names": null,
+  "notes": "Singapore's IMDA produces AI governance frameworks including AI Verify (testing toolkit) and the Model AI Governance Framework.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.imda.gov.sg"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-verify$"],
+      "description": "AI Verify testing toolkit for responsible AI",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://aiverifyfoundation.sg"},
+          {"type": "github", "url": "https://github.com/aiverify-foundation/aiverify"}
+        ],
+        "versions_available": [
+          {"version": "2.0", "release_date": null, "status": "current", "note": "AI Verify 2.0 testing toolkit."}
+        ],
+        "examples": ["transparency", "fairness"]
+      }
+    },
+    {
+      "patterns": ["(?i)^model-governance$"],
+      "description": "Singapore Model AI Governance Framework",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://www.pdpc.gov.sg/help-and-resources/2020/01/model-ai-governance-framework"}
+        ],
+        "versions_available": [
+          {"version": "2.0", "release_date": null, "status": "current", "note": "Second edition of the Model AI Governance Framework."}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

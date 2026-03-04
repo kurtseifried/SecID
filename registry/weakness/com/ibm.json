@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ibm.com",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "IBM",
+  "common_name": "IBM",
+  "alternate_names": ["International Business Machines"],
+  "notes": "IBM AI Risk Atlas provides a structured catalog of AI risks integrated into the watsonx platform.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.ibm.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-risk-atlas$"],
+      "description": "IBM AI Risk Atlas",
+      "weight": 100,
+      "data": {
+        "official_name": "IBM AI Risk Atlas",
+        "common_name": "AI Risk Atlas",
+        "alternate_names": null,
+        "description": "Structured catalog of AI risks integrated into the IBM watsonx platform, covering risks across the AI lifecycle.",
+        "notes": "Conceptual taxonomy of AI risks with slug-based identifiers. Risks are documented in the watsonx documentation. No formal per-item URLs with stable identifiers — risk entries are part of the watsonx docs site.",
+        "urls": [
+          {"type": "website", "url": "https://www.ibm.com/docs/en/watsonx/saas?topic=ai-risk-atlas"}
+        ],
+        "examples": ["hallucination", "prompt-injection", "jailbreaking"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "AI Risk Atlas risk slug (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — risk entries are part of the watsonx documentation. No stable per-item URLs with formal identifiers.",
+            "examples": [
+              {"input": "hallucination", "note": "AI generating false information"},
+              {"input": "prompt-injection", "note": "Adversarial manipulation of AI prompts"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

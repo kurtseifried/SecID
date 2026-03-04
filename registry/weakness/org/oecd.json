@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "namespace": "oecd.org",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Organisation for Economic Co-operation and Development",
+  "common_name": "OECD",
+  "alternate_names": null,
+  "notes": "OECD provides international AI governance frameworks including AI risk classification, incident monitoring, and a common incident reporting framework.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://oecd.ai"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-classification$"],
+      "description": "OECD AI Classification Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "OECD Framework for the Classification of AI Systems",
+        "common_name": "OECD AI Classification",
+        "alternate_names": null,
+        "description": "Framework for classifying AI systems by dimensions such as autonomy level, data input type, and application domain.",
+        "notes": "Provides a structured classification of AI systems along multiple dimensions. Used by OECD member countries for policy development and risk assessment. No per-item identifiers — dimensions and categories are described in the framework document.",
+        "urls": [
+          {"type": "website", "url": "https://oecd.ai/en/classification"}
+        ],
+        "versions_available": [
+          {"version": "2022", "release_date": "2022-02-01", "status": "current", "note": "OECD AI classification framework publication."}
+        ],
+        "examples": ["autonomy-level", "data-input-type"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^ai-incidents$"],
+      "description": "OECD AI Incidents Monitor",
+      "weight": 100,
+      "data": {
+        "official_name": "OECD AI Incidents Monitor",
+        "common_name": "OECD AI Incidents",
+        "alternate_names": ["AIM"],
+        "description": "Database monitoring AI incidents and hazards reported across OECD member countries.",
+        "notes": "Tracks AI incidents and near-misses. Provides categorization of incident types. No formal per-item identifiers for categories — the database uses its own internal structure.",
+        "urls": [
+          {"type": "website", "url": "https://oecd.ai/en/incidents"}
+        ],
+        "examples": ["incident-category"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^incident-framework$"],
+      "description": "OECD Common Incident Reporting Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "OECD Common Framework for AI Incident Reporting",
+        "common_name": "OECD Incident Framework",
+        "alternate_names": null,
+        "description": "Common framework for reporting AI risks and incidents, defining standardized terminology for hazards and harms.",
+        "notes": "Defines common terminology and structure for AI incident reporting across jurisdictions. Part of OECD's broader AI risk and incidents work. No per-item identifiers — concepts are described in the framework document.",
+        "urls": [
+          {"type": "website", "url": "https://www.oecd.org/en/topics/ai-risks-and-incidents.html"}
+        ],
+        "versions_available": [
+          {"version": "2025", "release_date": "2025-01-01", "status": "current", "note": "Common incident reporting framework publication."}
+        ],
+        "examples": ["hazard", "harm"]
+      }
+    }
+  ]
+}

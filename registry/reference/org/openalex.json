@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "openalex.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "OpenAlex",
+  "common_name": "OpenAlex",
+  "alternate_names": null,
+  "notes": "OpenAlex is an open catalog of scholarly works, authors, venues, and institutions. Work IDs use W prefix.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://openalex.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^W\\d+$"],
+      "description": "OpenAlex work ID (W prefix + numeric)",
+      "weight": 100,
+      "data": {
+        "official_name": "OpenAlex Work",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "OpenAlex scholarly work identified by W-prefixed numeric ID.",
+        "notes": "OpenAlex is a free and open alternative to proprietary scholarly databases. Work IDs are globally unique. The API provides rich metadata including citations, authors, concepts, and institutional affiliations.",
+        "urls": [
+          {"type": "website", "url": "https://openalex.org"},
+          {"type": "lookup", "url": "https://openalex.org/works/{id}"}
+        ],
+        "examples": [
+          {"input": "W2741809807", "url": "https://openalex.org/works/W2741809807"},
+          {"input": "W4385375373", "url": "https://openalex.org/works/W4385375373"}
+        ]
+      }
+    }
+  ]
+}

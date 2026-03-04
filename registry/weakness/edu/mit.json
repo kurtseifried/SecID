@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "mit.edu",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Massachusetts Institute of Technology",
+  "common_name": "MIT",
+  "alternate_names": null,
+  "notes": "MIT AI Risk Repository is a comprehensive database of AI risks with causal and domain taxonomies.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.mit.edu"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ai-risk-repository$"],
+      "description": "MIT AI Risk Repository",
+      "weight": 100,
+      "data": {
+        "official_name": "MIT AI Risk Repository",
+        "common_name": "AI Risk Repository",
+        "alternate_names": null,
+        "description": "Comprehensive database of AI risks with causal and domain taxonomies, maintained by MIT researchers.",
+        "notes": "Browsable risk database with causal taxonomy (what causes the risk) and domain taxonomy (what domain is affected). Risks are identified by slug names. The database is searchable and filterable at airisk.mit.edu.",
+        "urls": [
+          {"type": "website", "url": "https://airisk.mit.edu"},
+          {"type": "docs", "url": "https://airisk.mit.edu/risks", "note": "Browsable risk database"}
+        ],
+        "versions_available": [
+          {"version": "2025", "release_date": "2025-01-01", "status": "current", "note": "Continuously updated database."}
+        ],
+        "examples": ["discrimination", "privacy-violation", "misuse-military"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "AI risk slug name (lowercase hyphenated)",
+          "weight": 50,
+          "data": {
+            "note": "Browsable risk database — risks can be explored at airisk.mit.edu/risks. No stable per-item URL scheme with formal identifiers.",
+            "examples": [
+              {"input": "discrimination", "note": "Risks related to discriminatory AI outcomes"},
+              {"input": "privacy-violation", "note": "Risks related to AI privacy breaches"},
+              {"input": "misuse-military", "note": "Risks related to military misuse of AI"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

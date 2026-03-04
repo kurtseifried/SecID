@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "namespace": "metr.org",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "METR (Model Evaluation and Threat Research)",
+  "common_name": "METR",
+  "alternate_names": null,
+  "notes": "METR evaluates frontier AI models for dangerous capabilities including autonomy and self-replication. Produces the Task Standard for capability evaluations.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://metr.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^task-standard$"],
+      "description": "METR Task Standard for AI capability evaluations",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://metr.org/blog/2024-08-06-task-standard/"},
+          {"type": "github", "url": "https://github.com/METR/task-standard"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": null, "status": "current", "note": "Initial release of METR Task Standard."}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^evaluations$"],
+      "description": "METR frontier model capability evaluations",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://metr.org/work/"}
+        ],
+        "examples": ["autonomy", "capability"]
+      }
+    }
+  ]
+}

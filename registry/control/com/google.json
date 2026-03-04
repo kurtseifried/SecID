@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "namespace": "google.com",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Google",
+  "common_name": "Google",
+  "alternate_names": null,
+  "notes": "Google publishes AI safety frameworks through both Google proper (SAIF) and DeepMind (Frontier Safety Framework).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://safety.google"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^saif$"],
+      "description": "Secure AI Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "Secure AI Framework",
+        "common_name": "SAIF",
+        "alternate_names": null,
+        "description": "Conceptual framework for securing AI systems in enterprise environments, extending existing security practices to AI-specific threats.",
+        "notes": "Published June 2023. Six core elements: expand security foundations, extend detection and response, automate defenses, harmonize controls, adapt controls for AI, contextualize AI risks. Conceptual framework, not prescriptive controls. Aligns with NIST CSF and AI RMF. Focused on enterprise AI deployment covering model security, data security, inference security, and supply chain.",
+        "urls": [
+          {"type": "website", "url": "https://safety.google/cybersecurity-advancements/saif"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "1.0", "release_date": "2023-06-01", "status": "current", "note": "First edition. Six core elements for enterprise AI security."}
+        ],
+        "examples": ["foundation", "detection"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^frontier-safety$"],
+      "description": "Frontier Safety Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "Frontier Safety Framework",
+        "common_name": null,
+        "alternate_names": ["Google DeepMind Frontier Safety Framework"],
+        "description": "Google DeepMind's framework defining critical capability levels and safety protocols for advanced AI systems.",
+        "notes": "Version 2.0 published 2024. Defines Critical Capability Levels (CCLs) across autonomy, biosecurity, cybersecurity, and machine learning domains. Framework components: capability evaluations, safety cases, if-then commitments, and governance. Similar approach to Anthropic ASL. Applies to Gemini and future models. Includes public commitments and provisions for external audits.",
+        "urls": [
+          {"type": "website", "url": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2.0", "release_date": "2024-01-01", "status": "current", "note": "Updated framework. Critical Capability Levels, safety cases, if-then commitments."}
+        ],
+        "examples": ["critical-capability-levels", "evaluation-protocols"]
+      }
+    }
+  ]
+}

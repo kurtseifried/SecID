@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "semanticscholar.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Semantic Scholar",
+  "common_name": "S2",
+  "alternate_names": null,
+  "notes": "Semantic Scholar is an AI-powered research tool. Papers identified by 40-character hex SHA hash. API available.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.semanticscholar.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^[a-f0-9]{40}$"],
+      "description": "Semantic Scholar paper ID (40-character hex SHA hash)",
+      "weight": 100,
+      "data": {
+        "official_name": "Semantic Scholar Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Semantic Scholar paper identified by 40-character hexadecimal SHA hash.",
+        "notes": "Semantic Scholar is developed by the Allen Institute for AI (AI2). The API provides citation graphs, abstracts, and AI-generated summaries. Paper IDs are stable SHA hashes derived from paper metadata.",
+        "urls": [
+          {"type": "website", "url": "https://www.semanticscholar.org"},
+          {"type": "lookup", "url": "https://www.semanticscholar.org/paper/{id}"}
+        ],
+        "examples": [
+          {"input": "649def34f8be52c8b66281af98ae884c09aef38b", "url": "https://www.semanticscholar.org/paper/649def34f8be52c8b66281af98ae884c09aef38b"},
+          {"input": "204e3073870fae3d05bcbc2f6a8e263d9b72e776", "url": "https://www.semanticscholar.org/paper/204e3073870fae3d05bcbc2f6a8e263d9b72e776"}
+        ]
+      }
+    }
+  ]
+}

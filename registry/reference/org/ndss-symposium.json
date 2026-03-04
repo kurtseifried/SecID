@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ndss-symposium.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Network and Distributed System Security Symposium",
+  "common_name": "NDSS",
+  "alternate_names": null,
+  "notes": "NDSS is a top-tier security research conference. Paper IDs use URL slug format.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.ndss-symposium.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^[a-z0-9-]+$"],
+      "description": "NDSS paper slug (URL-friendly identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "NDSS Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "NDSS conference paper identified by URL slug.",
+        "notes": "NDSS is organized by the Internet Society. Papers cover network and distributed system security including protocol analysis, intrusion detection, and privacy.",
+        "urls": [
+          {"type": "website", "url": "https://www.ndss-symposium.org"},
+          {"type": "lookup", "url": "https://www.ndss-symposium.org/ndss-paper/{id}/"}
+        ],
+        "examples": [
+          {"input": "auto-draft-123", "url": "https://www.ndss-symposium.org/ndss-paper/auto-draft-123/"}
+        ]
+      }
+    }
+  ]
+}

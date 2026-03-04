@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "namespace": "safe.ai",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Center for AI Safety",
+  "common_name": "CAIS",
+  "alternate_names": null,
+  "notes": "CAIS produces AI safety benchmarks including HarmBench (jailbreak evaluation) and WMDP (weapons of mass destruction proxy benchmark for dangerous capability evaluation).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.safe.ai"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^harmbench$"],
+      "description": "HarmBench",
+      "weight": 100,
+      "data": {
+        "official_name": "HarmBench",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Standardized benchmark for automated red teaming of LLMs, evaluating jailbreak resistance across multiple attack methods and harmful behavior categories.",
+        "notes": "510 harmful behaviors across 7 attack methods. Evaluates both standard (direct harmful request) and contextual (role-play, hypothetical) attack types. Automated evaluation pipeline used by major AI labs. Published 2024.",
+        "urls": [
+          {"type": "website", "url": "https://www.harmbench.org"},
+          {"type": "github", "url": "https://github.com/centerforaisafety/HarmBench"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2402.04249"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-02-01", "status": "current", "note": "First edition. 510 harmful behaviors, 7 attack methods."}
+        ],
+        "examples": ["standard", "contextual"]
+      },
+      "children": [
+        {
+          "patterns": ["^(standard|contextual)$"],
+          "description": "HarmBench attack type category (standard or contextual)",
+          "weight": 100,
+          "data": {
+            "note": "No per-category URL. Standard tests direct harmful requests; contextual tests role-play and hypothetical scenarios.",
+            "examples": [
+              {"input": "standard", "note": "Direct harmful request evaluation — straightforward jailbreak attempts"},
+              {"input": "contextual", "note": "Contextual attack evaluation — role-play, hypothetical, and indirect elicitation"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^wmdp$"],
+      "description": "Weapons of Mass Destruction Proxy Benchmark",
+      "weight": 100,
+      "data": {
+        "official_name": "Weapons of Mass Destruction Proxy Benchmark",
+        "common_name": "WMDP",
+        "alternate_names": null,
+        "description": "Benchmark for evaluating dangerous dual-use knowledge in AI models across biosecurity, cybersecurity, and chemical domains.",
+        "notes": "Proxy benchmark that tests knowledge (multiple-choice questions) rather than generation capability. Used for pre-deployment assessment and model unlearning validation. Sensitive content — access may be restricted. Published 2024.",
+        "urls": [
+          {"type": "website", "url": "https://www.wmdp.ai"},
+          {"type": "github", "url": "https://github.com/centerforaisafety/wmdp"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2403.03218"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-03-01", "status": "current", "note": "First edition. Three domains: biosecurity, cybersecurity, chemical."}
+        ],
+        "examples": ["biosecurity", "cybersecurity"]
+      },
+      "children": [
+        {
+          "patterns": ["^(biosecurity|cybersecurity|chemical)$"],
+          "description": "WMDP domain (biosecurity, cybersecurity, or chemical)",
+          "weight": 100,
+          "data": {
+            "note": "No per-domain URL. Each domain contains multiple-choice questions testing dangerous dual-use knowledge in that area.",
+            "examples": [
+              {"input": "biosecurity", "note": "Pathogen enhancement, synthesis — tests for dangerous biological knowledge"},
+              {"input": "cybersecurity", "note": "Exploit development, malware — tests for offensive cyber knowledge"},
+              {"input": "chemical", "note": "Weapons synthesis, precursors — tests for dangerous chemical knowledge"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

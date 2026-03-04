@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "github.com/llm-attacks",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "AdvBench",
+  "common_name": "AdvBench",
+  "alternate_names": null,
+  "notes": "AdvBench is a benchmark for evaluating adversarial attacks on LLMs, including harmful behaviors and harmful strings datasets. From Universal and Transferable Adversarial Attacks paper.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://github.com/llm-attacks/llm-attacks"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^benchmark$"],
+      "description": "AdvBench Harmful Behaviors",
+      "weight": 100,
+      "data": {
+        "official_name": "AdvBench Harmful Behaviors",
+        "common_name": "AdvBench",
+        "alternate_names": null,
+        "description": "Datasets for evaluating adversarial attacks on LLMs, originally developed for the GCG (Greedy Coordinate Gradient) attack paper.",
+        "notes": "520 harmful behavior prompts across multiple categories (violence, illegal activities, misinformation, privacy violations, malware, fraud). Foundation for jailbreak research including GCG, AutoDAN, and other attack papers. Developed at University of Maryland. Two main datasets: harmful-behaviors (520 harmful instructions) and harmful-strings (target harmful outputs).",
+        "urls": [
+          {"type": "website", "url": "https://github.com/llm-attacks/llm-attacks"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2307.15043"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2023", "release_date": "2023-07-01", "status": "current", "note": "First edition. 520 harmful behavior prompts."}
+        ],
+        "examples": ["harmful-behaviors", "harmful-strings"]
+      },
+      "children": [
+        {
+          "patterns": ["^(harmful-behaviors|harmful-strings)$"],
+          "description": "AdvBench dataset (harmful-behaviors or harmful-strings)",
+          "weight": 100,
+          "data": {
+            "note": "No per-dataset URL. Data files available in the GitHub repository under data/advbench/.",
+            "examples": [
+              {"input": "harmful-behaviors", "note": "520 harmful instruction prompts for evaluating LLM jailbreak susceptibility"},
+              {"input": "harmful-strings", "note": "Target harmful output strings for adversarial attack evaluation"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

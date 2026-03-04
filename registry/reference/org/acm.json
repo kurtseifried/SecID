@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "acm.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "ACM Digital Library",
+  "common_name": "ACM DL",
+  "alternate_names": null,
+  "notes": "ACM Digital Library hosts computer science research. Papers identified by DOI with ACM prefix (10.1145/).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://dl.acm.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^10\\.1145/\\d+\\.\\d+$"],
+      "description": "ACM DOI identifier (10.1145/prefix.suffix format)",
+      "weight": 100,
+      "data": {
+        "official_name": "ACM Digital Library Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "ACM paper identified by DOI with the 10.1145 registrant prefix.",
+        "notes": "ACM uses DOI registrant code 10.1145 for all publications. The DOI suffix typically uses proceeding-ID.paper-ID format. ACM Digital Library provides full text, metadata, and citation data.",
+        "urls": [
+          {"type": "website", "url": "https://dl.acm.org"},
+          {"type": "lookup", "url": "https://dl.acm.org/doi/{id}"}
+        ],
+        "examples": [
+          {"input": "10.1145/3319535.3354229", "url": "https://dl.acm.org/doi/10.1145/3319535.3354229", "note": "ACM CCS paper"},
+          {"input": "10.1145/3548606.3560601", "url": "https://dl.acm.org/doi/10.1145/3548606.3560601"}
+        ]
+      }
+    }
+  ]
+}

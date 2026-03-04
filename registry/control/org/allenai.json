@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "namespace": "allenai.org",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Allen Institute for AI",
+  "common_name": "AI2",
+  "alternate_names": null,
+  "notes": "AI2 produces AI safety evaluation tools including DecodingTrust (LLM trustworthiness benchmark) and RealToxicityPrompts (toxicity generation benchmark).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://allenai.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^decodingtrust$"],
+      "description": "DecodingTrust LLM trustworthiness benchmark",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://decodingtrust.github.io"},
+          {"type": "github", "url": "https://github.com/AI-secure/DecodingTrust"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2306.11698"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": null, "status": "current", "note": "Initial release of DecodingTrust benchmark."}
+        ],
+        "examples": ["toxicity", "privacy"]
+      }
+    },
+    {
+      "patterns": ["(?i)^realtoxicityprompts$"],
+      "description": "RealToxicityPrompts toxicity generation benchmark",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://allenai.org/data/real-toxicity-prompts"},
+          {"type": "github", "url": "https://github.com/allenai/real-toxicity-prompts"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2009.11462"}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ietf.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Internet Engineering Task Force",
+  "common_name": "IETF",
+  "alternate_names": null,
+  "notes": "IETF publishes RFCs (Request for Comments) that define internet protocols and standards. RFC identifiers are numeric.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.ietf.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d+$"],
+      "description": "RFC number (numeric identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "Request for Comments",
+        "common_name": "RFC",
+        "alternate_names": null,
+        "description": "IETF RFC identified by numeric sequence number.",
+        "notes": "RFCs define internet protocols, standards, and best practices. Published by the RFC Editor. Once published, an RFC number is never reused or changed. RFCs may be obsoleted or updated by newer RFCs.",
+        "urls": [
+          {"type": "website", "url": "https://www.rfc-editor.org"},
+          {"type": "lookup", "url": "https://www.rfc-editor.org/info/rfc{id}"}
+        ],
+        "examples": [
+          {"input": "9110", "url": "https://www.rfc-editor.org/info/rfc9110", "note": "HTTP Semantics (RFC 9110)"},
+          {"input": "8446", "url": "https://www.rfc-editor.org/info/rfc8446", "note": "TLS 1.3 (RFC 8446)"},
+          {"input": "6749", "url": "https://www.rfc-editor.org/info/rfc6749", "note": "OAuth 2.0 (RFC 6749)"}
+        ]
+      }
+    }
+  ]
+}

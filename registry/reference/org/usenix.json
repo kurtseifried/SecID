@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "namespace": "usenix.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "USENIX Association",
+  "common_name": "USENIX",
+  "alternate_names": null,
+  "notes": "USENIX publishes systems and security research including USENIX Security, OSDI, and NSDI conferences. Paper IDs use slug format.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.usenix.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^[a-z0-9-]+/presentation/[a-z0-9-]+$"],
+      "description": "USENIX paper ID (conference/presentation/slug format)",
+      "weight": 100,
+      "data": {
+        "official_name": "USENIX Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "USENIX conference paper identified by conference slug and presentation slug.",
+        "notes": "USENIX hosts major systems and security conferences. Paper IDs follow the conference URL structure: {conference-slug}/presentation/{paper-slug}. USENIX Security is one of the four 'Big Four' academic security conferences.",
+        "urls": [
+          {"type": "website", "url": "https://www.usenix.org"},
+          {"type": "lookup", "url": "https://www.usenix.org/conference/{id}"}
+        ],
+        "examples": [
+          {"input": "usenixsecurity23/presentation/smith", "url": "https://www.usenix.org/conference/usenixsecurity23/presentation/smith", "note": "USENIX Security 2023 paper"}
+        ]
+      }
+    }
+  ]
+}

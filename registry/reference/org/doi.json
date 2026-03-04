@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "doi.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Digital Object Identifier",
+  "common_name": "DOI",
+  "alternate_names": null,
+  "notes": "DOI provides persistent identifiers for digital content. The DOI system is managed by the International DOI Foundation. DOIs start with 10. prefix followed by registrant code and suffix.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.doi.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^10\\.\\d{4,}/[^\\s]+$"],
+      "description": "DOI identifier (10.prefix/suffix format)",
+      "weight": 100,
+      "data": {
+        "official_name": "Digital Object Identifier",
+        "common_name": "DOI",
+        "alternate_names": null,
+        "description": "Persistent identifier for digital content, resolved via DOI proxy.",
+        "notes": "DOI resolution redirects to the publisher's landing page. The DOI Foundation operates the resolution infrastructure. Registrant codes are assigned by DOI Registration Agencies (e.g., Crossref for scholarly content, DataCite for research data).",
+        "urls": [
+          {"type": "website", "url": "https://www.doi.org"},
+          {"type": "lookup", "url": "https://doi.org/{id}"}
+        ],
+        "examples": [
+          {"input": "10.6028/NIST.AI.100-1", "url": "https://doi.org/10.6028/NIST.AI.100-1", "note": "NIST AI Risk Management Framework"},
+          {"input": "10.48550/arXiv.2303.08774", "url": "https://doi.org/10.48550/arXiv.2303.08774", "note": "GPT-4 Technical Report DOI"}
+        ]
+      }
+    }
+  ]
+}

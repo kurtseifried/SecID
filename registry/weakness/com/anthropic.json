@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "anthropic.com",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Anthropic",
+  "common_name": "Anthropic",
+  "alternate_names": null,
+  "notes": "Anthropic develops Claude AI. Their AI Safety Levels (ASL) framework defines risk thresholds for AI capabilities as part of the Responsible Scaling Policy.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.anthropic.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^asl$"],
+      "description": "AI Safety Levels",
+      "weight": 100,
+      "data": {
+        "official_name": "AI Safety Levels",
+        "common_name": "ASL",
+        "alternate_names": ["Responsible Scaling Policy Levels"],
+        "description": "Risk threshold framework defining safety levels for AI capabilities, from baseline (ASL-1) to catastrophic risk (ASL-4).",
+        "notes": "ASL levels define escalating risk thresholds and corresponding safety requirements. Part of Anthropic's Responsible Scaling Policy. ASL-1 through ASL-4 represent increasing capability and risk, each requiring progressively stricter containment and evaluation measures. No per-item URLs — levels are described in the Responsible Scaling Policy document.",
+        "urls": [
+          {"type": "website", "url": "https://www.anthropic.com/responsible-scaling-policy"}
+        ],
+        "versions_available": [
+          {"version": "2.2", "release_date": "2025-01-01", "status": "current", "note": "Current version of the Responsible Scaling Policy."}
+        ],
+        "examples": ["ASL-1", "ASL-2", "ASL-3", "ASL-4"]
+      },
+      "children": [
+        {
+          "patterns": ["^ASL-[1-4]$"],
+          "description": "AI Safety Level (ASL-1 through ASL-4)",
+          "weight": 100,
+          "data": {
+            "note": "Conceptual safety levels — no individual item URLs. Refer to the Responsible Scaling Policy for full descriptions of each level's requirements and thresholds.",
+            "examples": [
+              {"input": "ASL-1", "note": "Baseline: no meaningful uplift risk"},
+              {"input": "ASL-2", "note": "Current level for frontier models — some uplift but below catastrophic threshold"},
+              {"input": "ASL-3", "note": "Significantly elevated risk — requires enhanced containment"},
+              {"input": "ASL-4", "note": "Catastrophic risk level — strictest controls required"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

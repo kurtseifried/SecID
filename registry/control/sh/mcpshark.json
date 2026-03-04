@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "namespace": "mcpshark.sh",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "MCPShark",
+  "common_name": "MCPShark",
+  "alternate_names": null,
+  "notes": "MCPShark provides Smart Scan security controls for MCP (Model Context Protocol) server analysis, including agent analysis, privilege escalation detection, and OWASP mapping.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://mcpshark.sh"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^smart$"],
+      "description": "MCPShark Smart Scan Security Controls",
+      "weight": 100,
+      "data": {
+        "official_name": "Smart Scan Security Controls",
+        "urls": [
+          {"type": "website", "url": "https://smart.mcpshark.sh"},
+          {"type": "docs", "url": "https://smart.mcpshark.sh/docs"}
+        ],
+        "examples": ["agent-analysis", "privilege-escalation-detection", "owasp-mapping"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "Smart Scan control identifier — lowercase hyphenated words",
+          "weight": 100,
+          "data": {
+            "examples": [
+              {"input": "agent-analysis", "note": "Agent behavior analysis control"},
+              {"input": "privilege-escalation-detection", "note": "Privilege escalation detection control"},
+              {"input": "owasp-mapping", "note": "OWASP framework mapping control"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ieee.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "IEEE Xplore Digital Library",
+  "common_name": "IEEE Xplore",
+  "alternate_names": null,
+  "notes": "IEEE Xplore hosts electrical engineering and computer science research. Papers identified by numeric document ID.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://ieeexplore.ieee.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d{7,8}$"],
+      "description": "IEEE Xplore document ID (7-8 digit numeric identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "IEEE Xplore Document",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "IEEE Xplore paper identified by numeric document ID.",
+        "notes": "IEEE Xplore document IDs are assigned sequentially. The same paper may also have a DOI (typically 10.1109/prefix). IEEE publishes standards (e.g., 802.11) in addition to conference and journal papers.",
+        "urls": [
+          {"type": "website", "url": "https://ieeexplore.ieee.org"},
+          {"type": "lookup", "url": "https://ieeexplore.ieee.org/document/{id}"}
+        ],
+        "examples": [
+          {"input": "9833747", "url": "https://ieeexplore.ieee.org/document/9833747"},
+          {"input": "10179215", "url": "https://ieeexplore.ieee.org/document/10179215"}
+        ]
+      }
+    }
+  ]
+}

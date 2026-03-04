@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "zenodo.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Zenodo",
+  "common_name": "Zenodo",
+  "alternate_names": null,
+  "notes": "Zenodo is a general-purpose open research repository operated by CERN. Numeric record IDs.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://zenodo.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d+$"],
+      "description": "Zenodo record ID (numeric)",
+      "weight": 100,
+      "data": {
+        "official_name": "Zenodo Record",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Zenodo record identified by numeric ID.",
+        "notes": "Zenodo is built and operated by CERN and OpenAIRE. It accepts any research output: papers, datasets, software, presentations. Each record gets a DOI (10.5281/zenodo.{id}). Supports versioning — each version gets its own record ID, with a concept DOI linking all versions.",
+        "urls": [
+          {"type": "website", "url": "https://zenodo.org"},
+          {"type": "lookup", "url": "https://zenodo.org/record/{id}"}
+        ],
+        "examples": [
+          {"input": "7899048", "url": "https://zenodo.org/record/7899048"},
+          {"input": "5711467", "url": "https://zenodo.org/record/5711467"}
+        ]
+      }
+    }
+  ]
+}

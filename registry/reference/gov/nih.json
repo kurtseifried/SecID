@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "namespace": "nih.gov",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "PubMed",
+  "common_name": "PubMed",
+  "alternate_names": null,
+  "notes": "PubMed provides access to biomedical and life sciences literature. Articles identified by PMID (PubMed ID). API available via NCBI E-utilities.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://pubmed.ncbi.nlm.nih.gov"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d+$"],
+      "description": "PubMed ID (PMID, numeric identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "PubMed Article",
+        "common_name": "PMID",
+        "alternate_names": null,
+        "description": "PubMed article identified by numeric PMID.",
+        "notes": "PubMed is operated by the National Center for Biotechnology Information (NCBI) at the National Library of Medicine (NLM), part of NIH. PMIDs are assigned sequentially. PubMed indexes citations from MEDLINE, life science journals, and online books. The E-utilities API provides programmatic access.",
+        "urls": [
+          {"type": "website", "url": "https://pubmed.ncbi.nlm.nih.gov"},
+          {"type": "api", "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"},
+          {"type": "lookup", "url": "https://pubmed.ncbi.nlm.nih.gov/{id}/"}
+        ],
+        "examples": [
+          {"input": "35298662", "url": "https://pubmed.ncbi.nlm.nih.gov/35298662/"},
+          {"input": "33119447", "url": "https://pubmed.ncbi.nlm.nih.gov/33119447/"}
+        ]
+      }
+    }
+  ]
+}

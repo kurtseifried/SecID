@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "iacr.org",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "IACR Cryptology ePrint Archive",
+  "common_name": "IACR ePrint",
+  "alternate_names": null,
+  "notes": "IACR ePrint Archive hosts cryptography research preprints. IDs use YYYY/NNN format.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://eprint.iacr.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d{4}/\\d+$"],
+      "description": "IACR ePrint paper ID (YYYY/NNN format)",
+      "weight": 100,
+      "data": {
+        "official_name": "IACR ePrint Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "IACR ePrint preprint identified by year and sequence number.",
+        "notes": "IACR (International Association for Cryptologic Research) operates the ePrint archive for rapid dissemination of cryptography research. Papers are assigned sequential numbers within each year. Not peer-reviewed, but widely referenced in the cryptography community.",
+        "urls": [
+          {"type": "website", "url": "https://eprint.iacr.org"},
+          {"type": "lookup", "url": "https://eprint.iacr.org/{id}"}
+        ],
+        "examples": [
+          {"input": "2024/001", "url": "https://eprint.iacr.org/2024/001"},
+          {"input": "2023/1234", "url": "https://eprint.iacr.org/2023/1234"}
+        ]
+      }
+    }
+  ]
+}

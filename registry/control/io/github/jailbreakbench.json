@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "namespace": "jailbreakbench.github.io",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "JailbreakBench",
+  "common_name": "JailbreakBench",
+  "alternate_names": null,
+  "notes": "Standardized benchmark for evaluating LLM jailbreak attacks and defenses. Provides artifacts repository of attack/defense results.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://jailbreakbench.github.io"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^benchmark$"],
+      "description": "JailbreakBench benchmark for LLM jailbreak evaluation",
+      "weight": 100,
+      "data": {
+        "urls": [
+          {"type": "website", "url": "https://jailbreakbench.github.io"},
+          {"type": "github", "url": "https://github.com/JailbreakBench/jailbreakbench"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2404.01318"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": null, "status": "current", "note": "Initial release of JailbreakBench benchmark."}
+        ],
+        "examples": ["behaviors", "defenses"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "namespace": "ssrn.com",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Social Science Research Network",
+  "common_name": "SSRN",
+  "alternate_names": null,
+  "notes": "SSRN hosts social science and interdisciplinary research papers including law and policy papers relevant to AI governance.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.ssrn.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["^\\d{6,7}$"],
+      "description": "SSRN abstract ID (6-7 digit numeric identifier)",
+      "weight": 100,
+      "data": {
+        "official_name": "SSRN Paper",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "SSRN paper identified by numeric abstract ID.",
+        "notes": "SSRN (now owned by Elsevier) hosts preprints and working papers across social sciences, law, economics, and increasingly AI governance and technology policy. Abstract IDs are assigned sequentially. Papers may be updated with new versions while retaining the same ID.",
+        "urls": [
+          {"type": "website", "url": "https://www.ssrn.com"},
+          {"type": "lookup", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id={id}"}
+        ],
+        "examples": [
+          {"input": "4567890", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4567890"},
+          {"input": "3821234", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3821234"}
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "namespace": "aisi.gov.uk",
+  "type": "reference",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "AI Safety Institutes",
+  "common_name": "AISI",
+  "alternate_names": null,
+  "notes": "International network of AI Safety Institutes. UK AISI established 2023, US AISI at NIST, Japan AISI, plus international coordination.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://www.gov.uk/government/organisations/ai-safety-institute"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^uk$"],
+      "description": "UK AI Safety Institute",
+      "weight": 100,
+      "data": {
+        "official_name": "UK AI Safety Institute",
+        "common_name": "UK AISI",
+        "alternate_names": null,
+        "description": "The first national AI safety institute, established after the Bletchley Summit in November 2023.",
+        "notes": "Part of the UK Department for Science, Innovation and Technology. Conducts pre-deployment safety testing of frontier AI models. Released the Inspect open-source AI evaluation framework.",
+        "urls": [
+          {"type": "website", "url": "https://www.gov.uk/government/organisations/ai-safety-institute"},
+          {"type": "research", "url": "https://www.aisi.gov.uk/research"}
+        ],
+        "examples": ["inspect"]
+      }
+    },
+    {
+      "patterns": ["(?i)^us$"],
+      "description": "US AI Safety Institute",
+      "weight": 100,
+      "data": {
+        "official_name": "US AI Safety Institute",
+        "common_name": "USAISI",
+        "alternate_names": null,
+        "description": "US AI Safety Institute operating within NIST, established 2024.",
+        "notes": "Part of NIST's AI program. Complements the AI Risk Management Framework. Develops evaluation methodologies and consensus standards for AI safety.",
+        "urls": [
+          {"type": "website", "url": "https://www.nist.gov/aisi"}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^japan$"],
+      "description": "Japan AI Safety Institute",
+      "weight": 100,
+      "data": {
+        "official_name": "Japan AI Safety Institute",
+        "common_name": "Japan AISI",
+        "alternate_names": null,
+        "description": "Japan's AI Safety Institute, focused on evaluating AI systems deployed in Japan.",
+        "notes": "Established 2024. Works with METI (Ministry of Economy, Trade and Industry). Partners with international AISIs on evaluation and standards.",
+        "urls": [
+          {"type": "website", "url": "https://aisi.go.jp/en"}
+        ],
+        "examples": []
+      }
+    },
+    {
+      "patterns": ["(?i)^international$"],
+      "description": "International Network of AI Safety Institutes",
+      "weight": 100,
+      "data": {
+        "official_name": "International Network of AI Safety Institutes",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Coordinating body for global AI safety efforts, formalized after the Bletchley Summit.",
+        "notes": "Members include UK, US, Japan, Canada, France, Singapore, and EU. Coordinates shared evaluation methodologies, information sharing on risks, common terminology, and joint research.",
+        "urls": [
+          {"type": "website", "url": "https://www.gov.uk/government/publications/international-network-of-ai-safety-institutes"}
+        ],
+        "examples": []
+      }
+    }
+  ]
+}

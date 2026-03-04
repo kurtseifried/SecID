@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "namespace": "openai.com",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "OpenAI",
+  "common_name": "OpenAI",
+  "alternate_names": null,
+  "notes": "OpenAI publishes AI safety frameworks including the Model Spec (behavior guidelines), Preparedness Framework (risk categories and capability thresholds), Red Teaming Network, and Model System Cards.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://openai.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^model-spec$"],
+      "description": "OpenAI Model Spec",
+      "weight": 100,
+      "data": {
+        "official_name": "OpenAI Model Spec",
+        "common_name": "Model Spec",
+        "alternate_names": null,
+        "description": "Defines how OpenAI models should behave across different situations, including objectives, rules, guidelines, and defaults.",
+        "notes": "Published May 2024. Establishes a principal hierarchy: OpenAI (highest authority for safety/policy), Operators (API users deploying the model), Users (end users). Core components: objectives (what to optimize for), rules (hard constraints — always/never behaviors), guidelines (soft preferences — should/shouldn't), defaults (behavior when uncertain). Applies to ChatGPT and API. Guides RLHF training. Updated periodically.",
+        "urls": [
+          {"type": "website", "url": "https://openai.com/index/the-model-spec"},
+          {"type": "docs", "url": "https://cdn.openai.com/spec/model-spec-2024-05-08.html"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-05-08", "status": "current", "note": "First published edition. Principal hierarchy, behavioral rules, guidelines."}
+        ],
+        "examples": ["objectives", "behaviors"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^preparedness$"],
+      "description": "Preparedness Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "Preparedness Framework",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Defines how OpenAI evaluates and responds to dangerous AI capabilities, with risk categories and capability thresholds.",
+        "notes": "Published December 2023, beta version. Four risk categories: cybersecurity, CBRN, persuasion, model autonomy. Four risk levels: Low (monitoring), Medium (mitigations required), High (deploy only with strong mitigations), Critical (do not deploy). Uses scorecard system evaluating pre-mitigation capabilities, post-mitigation capabilities, and residual risk. Governance: Safety Advisory Group review, Board notification for high-risk, external audit provisions. Similar to Anthropic RSP and Google Frontier Safety Framework.",
+        "urls": [
+          {"type": "website", "url": "https://openai.com/safety/preparedness"},
+          {"type": "docs", "url": "https://cdn.openai.com/openai-preparedness-framework-beta.pdf", "format": "pdf"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "beta", "release_date": "2023-12-01", "status": "current", "note": "Beta version. Four risk categories, scorecard system, governance structure."}
+        ],
+        "examples": ["risk-categories", "capability-thresholds"]
+      }
+    },
+
+    {
+      "patterns": ["(?i)^red-teaming$"],
+      "description": "Red Teaming Network",
+      "weight": 100,
+      "data": {
+        "official_name": "Red Teaming Network",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "OpenAI's external evaluation network of domain experts and security researchers for pre-deployment model safety testing.",
+        "notes": "Launched 2022. Recruits external domain experts, security researchers, and diverse perspectives across regions. Activities: pre-deployment capability evaluation, jailbreak and bypass testing, harmful use case exploration, bias and fairness assessment. Covers cybersecurity, biosecurity, chemistry, persuasion, and discrimination domains. Findings inform model decisions and are shared in system cards.",
+        "urls": [
+          {"type": "website", "url": "https://openai.com/index/red-teaming-network"}
+        ],
+        "examples": []
+      }
+    },
+
+    {
+      "patterns": ["(?i)^system-cards$"],
+      "description": "Model System Cards",
+      "weight": 100,
+      "data": {
+        "official_name": "Model System Cards",
+        "common_name": "System Cards",
+        "alternate_names": null,
+        "description": "Documentation of model capabilities, limitations, safety evaluations, mitigations, and residual risk assessments published with major model releases.",
+        "notes": "Published with each major model release. Contents: model description (architecture and training), capabilities, limitations (known weaknesses), safety evaluations (red team results), mitigations (deployed safeguards), risk assessment (residual risks). GPT-4o card covers voice mode safety, vision safety, multimodal jailbreak resistance. o1 card covers reasoning chain safety, deceptive alignment testing, extended thinking. Evolving format and depth. Basis for external research.",
+        "urls": [
+          {"type": "website", "url": "https://openai.com/research"}
+        ],
+        "examples": ["gpt-4o", "o1"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "namespace": "berryvilleiml.com",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Berryville Institute of Machine Learning",
+  "common_name": "BIML",
+  "alternate_names": null,
+  "notes": "BIML produces ML risk frameworks including the original ML risk taxonomy (78 risks) and the LLM-specific risk framework (81 risks). Founded by Gary McGraw.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://berryvilleiml.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ml-risks$"],
+      "description": "BIML Machine Learning Risk Taxonomy",
+      "weight": 100,
+      "data": {
+        "official_name": "BIML ML Risk Taxonomy",
+        "common_name": "BIML ML Risks",
+        "alternate_names": ["Architectural Risk Analysis of Machine Learning Systems"],
+        "description": "Taxonomy of 78 risks specific to machine learning systems, organized by ML pipeline stage.",
+        "notes": "The original BIML risk taxonomy covering 78 risks across the ML pipeline. Risks are identified by BIML-NN format. No per-item URLs — risks are documented in the interactive tool and results page.",
+        "urls": [
+          {"type": "website", "url": "https://berryvilleiml.com/results/"},
+          {"type": "docs", "url": "https://berryvilleiml.com/interactive/", "note": "Interactive risk explorer"}
+        ],
+        "versions_available": [
+          {"version": "1.0", "release_date": "2020-01-01", "status": "current", "note": "Original ML risk taxonomy with 78 risks."}
+        ],
+        "examples": ["BIML-01", "BIML-42"]
+      },
+      "children": [
+        {
+          "patterns": ["^BIML-\\d+$"],
+          "description": "BIML ML risk identifier (e.g., BIML-01, BIML-42)",
+          "weight": 100,
+          "data": {
+            "note": "Conceptual taxonomy — no per-item URLs. Refer to the interactive explorer or results page for risk descriptions.",
+            "examples": [
+              {"input": "BIML-01", "note": "First risk in BIML ML risk taxonomy"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "patterns": ["(?i)^llm-risks$"],
+      "description": "BIML LLM Risk Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "BIML LLM Risk Framework",
+        "common_name": "BIML LLM Risks",
+        "alternate_names": ["An Architectural Risk Analysis of Large Language Models"],
+        "description": "Taxonomy of 81 risks specific to Large Language Model systems.",
+        "notes": "LLM-specific extension of the BIML risk taxonomy. 81 risks identified by BIML-LLM-NN format. Published as a research paper.",
+        "urls": [
+          {"type": "website", "url": "https://berryvilleiml.com/results/"},
+          {"type": "docs", "url": "https://berryvilleiml.com/docs/BIML-LLM81.pdf", "format": "pdf", "note": "LLM risk framework paper"}
+        ],
+        "versions_available": [
+          {"version": "2024", "release_date": "2024-01-01", "status": "current", "note": "LLM-specific risk framework with 81 risks."}
+        ],
+        "examples": ["BIML-LLM-01", "BIML-LLM-50"]
+      },
+      "children": [
+        {
+          "patterns": ["^BIML-LLM-\\d+$"],
+          "description": "BIML LLM risk identifier (e.g., BIML-LLM-01, BIML-LLM-50)",
+          "weight": 100,
+          "data": {
+            "note": "Conceptual taxonomy — no per-item URLs. Refer to the LLM risk framework paper for risk descriptions.",
+            "examples": [
+              {"input": "BIML-LLM-01", "note": "First risk in BIML LLM risk framework"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

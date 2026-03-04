@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "namespace": "mlcommons.org",
+  "type": "weakness",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "MLCommons",
+  "common_name": "MLCommons",
+  "alternate_names": null,
+  "notes": "MLCommons AILuminate is a safety benchmark for evaluating LLM safety across hazard categories.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://mlcommons.org"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^ailuminate$"],
+      "description": "MLCommons AILuminate Safety Benchmark",
+      "weight": 100,
+      "data": {
+        "official_name": "MLCommons AILuminate",
+        "common_name": "AILuminate",
+        "alternate_names": ["AI Safety Benchmark"],
+        "description": "Safety benchmark for evaluating LLM safety across hazard categories, developed by the MLCommons AI Safety Working Group.",
+        "notes": "AILuminate defines hazard categories for LLM safety evaluation. Hazard categories are identified by slug names. Published with an accompanying arXiv paper.",
+        "urls": [
+          {"type": "website", "url": "https://mlcommons.org/ailuminate/"},
+          {"type": "docs", "url": "https://arxiv.org/abs/2502.00862", "note": "AILuminate paper"}
+        ],
+        "versions_available": [
+          {"version": "1.0", "release_date": "2025-02-01", "status": "current", "note": "First edition of AILuminate safety benchmark."}
+        ],
+        "examples": ["violent-crimes", "hate-speech", "weapons"]
+      },
+      "children": [
+        {
+          "patterns": ["^[A-Za-z]+(-[a-z]+)*$"],
+          "description": "AILuminate hazard category slug",
+          "weight": 50,
+          "data": {
+            "note": "Conceptual taxonomy — hazard categories defined in the AILuminate benchmark. No per-item URLs.",
+            "examples": [
+              {"input": "violent-crimes", "note": "Hazard category for violent crime content"},
+              {"input": "hate-speech", "note": "Hazard category for hate speech content"},
+              {"input": "weapons", "note": "Hazard category for weapons-related content"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

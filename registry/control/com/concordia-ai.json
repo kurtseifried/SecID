@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "namespace": "concordia-ai.com",
+  "type": "control",
+  "status": "draft",
+  "status_notes": null,
+
+  "official_name": "Concordia AI",
+  "common_name": "Concordia AI",
+  "alternate_names": null,
+  "notes": "Concordia AI produces the Frontier AI Risk Management Framework, a comprehensive approach to managing risks from frontier AI systems.",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "urls": [
+    {"type": "website", "url": "https://concordia-ai.com"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^frontier-ai-rmf$"],
+      "description": "Frontier AI Risk Management Framework",
+      "weight": 100,
+      "data": {
+        "official_name": "Frontier AI Risk Management Framework",
+        "common_name": null,
+        "alternate_names": null,
+        "description": "Comprehensive framework for managing severe risks from general-purpose AI models, developed by Shanghai AI Laboratory and Concordia AI.",
+        "notes": "China's first comprehensive frontier AI risk management framework. Uses E-T-C (Environment, Threat source, Capability) analysis methodology. Defines Red/Yellow/Green risk zones with clear thresholds: Green (routine deployment, continuous monitoring), Yellow (strengthened mitigations, controlled deployment), Red (suspend development/deployment). Covers seven risk areas. Released at World AI Conference 2025 in Shanghai. Accompanying technical report evaluated 20+ models across 7 risk domains.",
+        "urls": [
+          {"type": "website", "url": "https://concordia-ai.com/research/frontier-ai-risk-management-framework/"},
+          {"type": "paper", "url": "https://arxiv.org/abs/2502.06656"}
+        ],
+        "version_required": false,
+        "versions_available": [
+          {"version": "1.0", "release_date": "2025-07-01", "status": "current", "note": "First edition. Seven risk areas, E-T-C analysis, Red/Yellow/Green zone system."}
+        ],
+        "examples": ["cyber-offense", "biological-risks", "self-replication"]
+      },
+      "children": [
+        {
+          "patterns": ["^[a-z]+(-[a-z]+)*$"],
+          "description": "Frontier AI RMF risk area (lowercase kebab-case)",
+          "weight": 100,
+          "data": {
+            "note": "No per-risk-area URL. Risk areas are sections within the framework document. Seven risk areas: cyber offense, biological & chemical risks, persuasion & manipulation, uncontrolled autonomous AI R&D, strategic deception & scheming, self-replication, and collusion.",
+            "examples": [
+              {"input": "cyber-offense", "note": "AI-enabled cyberattacks risk area"},
+              {"input": "biological-risks", "note": "CBRN-related AI risks"},
+              {"input": "self-replication", "note": "AI systems that copy themselves"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
