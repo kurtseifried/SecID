@@ -112,7 +112,7 @@ secid/
 │   ├── <type>.md            # Type description (e.g., advisory.md)
 │   ├── <type>/_template.md  # Template for new namespace files
 │   ├── <type>/<tld>/<domain>.md    # Namespace file (reverse-DNS, e.g., org/mitre.md)
-│   ├── <type>/<tld>/<domain>.json  # JSON format (15 namespaces converted so far)
+│   ├── <type>/<tld>/<domain>.json  # JSON format (108 namespaces converted — all non-entity types)
 │   └── _deferred/           # Partially researched entries not ready for main registry
 ├── seed/                    # Research scratchpad CSVs — promote to registry/ with provenance
 └── skills/                  # Claude Code skills (registry-research, registry-formalization, compliance-testing, secid-user)
@@ -120,7 +120,7 @@ secid/
 
 ## Registry File Format
 
-**Dual format: YAML+Markdown (`.md`) is authoritative for contributions. JSON (`.json`) files exist alongside `.md` for 15 namespaces** and are the target format for v1.0+. See [REGISTRY-JSON-FORMAT.md](docs/reference/REGISTRY-JSON-FORMAT.md) for the JSON schema.
+**Dual format: YAML+Markdown (`.md`) is authoritative for contributions. JSON (`.json`) files exist alongside `.md` for 108 namespaces (all non-entity types)** and are the target format for v1.0+. See [REGISTRY-JSON-FORMAT.md](docs/reference/REGISTRY-JSON-FORMAT.md) for the JSON schema.
 
 One file per namespace containing all sources from that organization. Use `registry/advisory/_template.md` or `registry/reference/_template.md` as a starting point for new files.
 
@@ -241,29 +241,27 @@ See `registry/advisory/com/redhat.json` for a complex example with nested childr
 
 ## JSON Registry Files
 
-15 registry namespaces have been converted to JSON format. These `.json` files sit alongside their `.md` counterparts:
+108 registry namespaces have been converted to JSON format (all non-entity types). These `.json` files sit alongside their `.md` counterparts:
 
-**Advisory (10):**
+| Type | Count | Coverage |
+|------|-------|----------|
+| Advisory | 42 | 100% |
+| Weakness | 13 | 100% |
+| TTP | 4 | 100% |
+| Control | 24 | 100% |
+| Regulation | 4 | 100% |
+| Reference | 21 | 100% |
+| Entity | 0 | 0% (uses `names` block, different schema) |
+
+**Key reference files for complex patterns:**
 - `registry/advisory/org/mitre.json` — CVE (with cvelistV5 variable extraction)
-- `registry/advisory/org/cert.json` — CERT/CC VU#
 - `registry/advisory/org/debian.json` — DSA/DLA (range-table year lookup)
-- `registry/advisory/com/apple.json` — Apple HT articles
-- `registry/advisory/com/cisco.json` — PSIRT, Bug Search
-- `registry/advisory/com/github.json` — GHSA
-- `registry/advisory/com/google.json` — OSV, Chrome, Android, GCP, Project Zero
-- `registry/advisory/com/microsoft.json` — MSRC, Advisory, KB, Bulletin
 - `registry/advisory/com/redhat.json` — Errata (RHSA/RHBA/RHEA), CVE, Bugzilla
-- `registry/advisory/gov/cisa.json` — KEV, Vulnrichment
-
-**Weakness (2):**
-- `registry/weakness/org/mitre.json` — CWE
-- `registry/weakness/org/owasp.json` — Top 10, LLM Top 10, ML Top 10, Agentic Top 10, AI Exchange, AIVSS (reference for `version_required` and `version_disambiguation`)
-
-**Control (2):**
-- `registry/control/org/cloudsecurityalliance.json` — CCM, AICM
-- `registry/control/gov/nist.json` — SP 800-53, CSF
-
-**TTP (1):**
+- `registry/advisory/com/google.json` — OSV, Chrome, Android, GCP, Project Zero
+- `registry/advisory/com/suse.json` — SUSE-SU (colon-in-ID variable extraction)
+- `registry/weakness/org/owasp.json` — `version_required`, `version_disambiguation`, structured ExampleObject fixtures
+- `registry/control/org/cloudsecurityalliance.json` — CCM, AICM (versioned controls)
+- `registry/control/org/iso.json` — 6 ISO standards
 - `registry/ttp/org/mitre.json` — ATT&CK, ATLAS, CAPEC
 
 Use `registry/CONVERSION-REVIEW-PROMPT.md` for AI-assisted review of YAML→JSON conversions.

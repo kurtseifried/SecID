@@ -12,15 +12,17 @@ Not every registry file needs a JSON counterpart yet. Create one when:
 - You need to validate the JSON schema against real data
 - The namespace is a pilot for the v1.0 format
 
-Current JSON files (15):
+108 namespaces have been converted to JSON — all non-entity types are at 100% coverage:
 
-**Advisory (10):** `registry/advisory/org/mitre.json`, `registry/advisory/org/cert.json`, `registry/advisory/org/debian.json`, `registry/advisory/com/apple.json`, `registry/advisory/com/cisco.json`, `registry/advisory/com/github.json`, `registry/advisory/com/google.json`, `registry/advisory/com/microsoft.json`, `registry/advisory/com/redhat.json`, `registry/advisory/gov/cisa.json`
-
-**Weakness (2):** `registry/weakness/org/mitre.json`, `registry/weakness/org/owasp.json`
-
-**Control (2):** `registry/control/org/cloudsecurityalliance.json`, `registry/control/gov/nist.json`
-
-**TTP (1):** `registry/ttp/org/mitre.json`
+| Type | Count | Coverage |
+|------|-------|----------|
+| Advisory | 42 | 100% |
+| Weakness | 13 | 100% |
+| TTP | 4 | 100% |
+| Control | 24 | 100% |
+| Regulation | 4 | 100% |
+| Reference | 21 | 100% |
+| Entity | 0 | 0% (uses `names` block — different schema, not yet converted) |
 
 ## Lifecycle Stages
 

@@ -7,14 +7,12 @@ Last updated: 2026-03-03
 
 ## Summary
 
-**121 entries** across 7 types, **15 JSON conversions**, **67 resolvable** (have patterns + URLs)
+**121 entries** across 7 types, **108 JSON conversions** (all non-entity types), **67 resolvable** (have patterns + URLs)
 
 | Maturity | Count | Meaning |
 |----------|-------|---------|
-| pilot | 15 | Has reviewed .json conversion alongside .md |
-| draft | 52 | Has patterns, URLs, and substantive documentation |
-| partial | 44 | Has URLs and documentation but missing patterns or lookup |
-| stub | 10 | Minimal entry, needs significant research |
+| json | 108 | Has .json conversion alongside .md (all non-entity types) |
+| md-only | 13 | Entity type — uses `names` block, different JSON schema needed |
 
 ## Cross-Cutting Concerns
 
