@@ -507,12 +507,62 @@ The `data` object at each level contains whatever result information is appropri
 |-------|------|-------------|
 | `url` | string | Lookup URL with `{id}` placeholder |
 | `format` | string | Response format (json, html, xml) |
+| `content_type` | string | Full MIME type from HTTP Content-Type header (e.g., `text/html`, `application/json`). Used by the `?content_type=` qualifier to filter results by format. |
+| `lang` | LangConfig | Language availability and URL substitution config. See Language Resolution below. |
 | `note` | string | Context for when/why to use this URL |
 | `type` | string | Category when source has multiple ID types |
 | `known_values` | object | Enumeration of finite, stable values (see Known Values) |
 | `lookup_table` | object | Map of IDs to URLs for non-computable URLs (see Lookup Table) |
 | `variables` | object | Variable extraction for complex URL building (see Variable Extraction) |
 | `examples` | (string \| ExampleObject)[] | Test fixtures with expected outputs (see Examples) |
+
+#### Content-Type Verification
+
+The `content_type` field records the MIME type that the URL's HTTP server actually returns in its `Content-Type` header. Values should be verifiable — CI can `HEAD` each URL and compare the header to the registry value.
+
+Common values:
+- `text/html` — web pages (cve.org record pages, GitHub blob views)
+- `application/json` — JSON APIs and raw JSON files
+- `application/pdf` — PDF documents (ISO standards, compliance reports)
+- `text/xml` or `application/xml` — XML feeds and OVAL definitions
+
+**`content_type` vs `format`:** The existing `format` field describes the *data format* of the content (e.g., a GitHub blob page has `"format": "json"` because it displays JSON data, but `"content_type": "text/html"` because the HTTP response is HTML). `content_type` reflects what the HTTP server returns; `format` reflects what the underlying data is. Both can coexist on the same node.
+
+#### Language Resolution
+
+The `lang` field declares that a child node's URL is available in multiple languages. It uses the `LangConfig` schema:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `available` | string[] | Yes | ISO 639-1 language codes (e.g., `["en", "de", "fr"]`) |
+| `default` | string | Yes | Default language code (e.g., `"en"`) |
+| `url_transform` | string | No | Transform applied to lang code in URL. `"uppercase"` → `"EN"`. Absent/null → as-is. |
+
+The URL template uses `{lang}` as a placeholder:
+
+```json
+{
+  "patterns": ["^art-\\d+(\\.[a-z])?$"],
+  "description": "GDPR article reference",
+  "weight": 100,
+  "data": {
+    "url": "https://eur-lex.europa.eu/legal-content/{lang}/TXT/HTML/?uri=CELEX:32016R0679",
+    "content_type": "text/html",
+    "lang": {
+      "available": ["en", "de", "fr", "es", "it", "nl", "pt", "pl", "ro", "cs", "da", "el", "et", "fi", "ga", "hr", "hu", "lt", "lv", "mt", "sk", "sl", "sv", "bg"],
+      "default": "en",
+      "url_transform": "uppercase"
+    }
+  }
+}
+```
+
+**Resolution behavior:**
+- `?lang=de` → substitute `{lang}` with `DE` (uppercase transform), return URL with `lang: "de"` on result
+- No `?lang=` → use default (`en`), substitute `{lang}` with `EN`, return with `lang: "en"` and +1 weight nudge
+- `?lang=xx` (not in `available`) → `not_found` with available languages listed
+
+**Why `url_transform`?** Some services use uppercase language codes in URLs (EUR-Lex uses `/legal-content/EN/...`). The transform lets the registry declare this so the API consumer always receives standard lowercase ISO 639-1 codes regardless of the upstream URL format.
 
 #### Description and Notes (in Node Data)
 
@@ -1185,16 +1235,46 @@ Cross-references between entities and their publications (e.g., "MITRE operates 
           "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "Standard CVE ID format",
           "weight": 100,
-          "data": {"url": "https://cve.org/CVERecord?id={id}"}
+          "data": {
+            "url": "https://cve.org/CVERecord?id={id}",
+            "content_type": "text/html"
+          }
         },
         {
           "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
-          "description": "CVE JSON record on GitHub",
+          "description": "CVE JSON record on GitHub (web view)",
           "weight": 50,
           "data": {
             "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
             "format": "json",
-            "note": "Raw CVE record from cvelistV5 repository",
+            "content_type": "text/html",
+            "note": "GitHub web page showing CVE JSON record from cvelistV5 repository",
+            "variables": {
+              "year": {
+                "extract": "^CVE-(\\d{4})-\\d+$",
+                "description": "4-digit year (e.g., '2026' from 'CVE-2026-25010')"
+              },
+              "bucket": {
+                "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+                "format": "{1}xxx",
+                "description": "All but last 3 digits + 'xxx' (e.g., '25xxx' from 'CVE-2026-25010')"
+              },
+              "id": {
+                "extract": "^(CVE-\\d{4}-\\d+)$",
+                "description": "Full CVE ID"
+              }
+            }
+          }
+        },
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "CVE raw JSON from GitHub",
+          "weight": 45,
+          "data": {
+            "url": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/{year}/{bucket}/{id}.json",
+            "format": "json",
+            "content_type": "application/json",
+            "note": "Raw CVE JSON file — direct download, no HTML wrapper",
             "variables": {
               "year": {
                 "extract": "^CVE-(\\d{4})-\\d+$",
@@ -1219,6 +1299,7 @@ Cross-references between entities and their publications (e.g., "MITRE operates 
           "data": {
             "url": "https://cveawg.mitre.org/api/cve/{id}",
             "format": "json",
+            "content_type": "application/json",
             "note": "API endpoint, richer data than web page"
           }
         }

@@ -866,18 +866,30 @@ secid:advisory/nist.gov/nvd?lang=ja#CVE-2024-1234      # Japanese NVD, then the 
 
 **Item-level qualifiers** (on the subpath, after the item):
 ```
-secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja      # This specific CVE in Japanese
-secid:control/iso.org/27001@2022#A.8.1?format=pdf      # This specific control as PDF
+secid:advisory/nist.gov/nvd#CVE-2024-1234?lang=ja                          # This specific CVE in Japanese
+secid:control/iso.org/27001@2022#A.8.1?content_type=application/pdf         # This specific control as PDF
+secid:advisory/mitre.org/cve#CVE-2021-44228?content_type=application/json   # Machine-readable CVE record
 ```
 
 **Both positions:**
 ```
-secid:advisory/nist.gov/nvd?format=json#CVE-2024-1234?lang=ja   # JSON API, Japanese translation of this CVE
+secid:advisory/nist.gov/nvd?content_type=application/json#CVE-2024-1234?lang=ja   # JSON API, Japanese translation of this CVE
 ```
 
 When both positions are present: source-level qualifiers apply to the resolution context, item-level qualifiers apply to the specific item. If the same key appears in both positions, the item-level qualifier takes precedence.
 
 Qualifiers never define identity — two SecIDs differing only in qualifiers refer to the same thing with different context.
+
+#### Defined Qualifiers
+
+| Key | Value | Behavior |
+|-----|-------|----------|
+| `content_type` | Full MIME type (e.g., `application/json`, `text/html`, `application/pdf`) | Filters resolution results to only those matching the specified Content-Type. If no results match, returns `not_found` with available types listed. |
+| `lang` | ISO 639-1 language code (e.g., `en`, `de`, `ja`) | Filters to the specified language. If not specified, returns the default language (usually English) with a +1 weight nudge. If the requested language isn't available, returns `not_found` with available languages listed. |
+
+**`content_type` qualifier:** When a resource has multiple representations (HTML page, JSON API, raw file), `?content_type=` lets the consumer request a specific format. Values are standard MIME types matching the HTTP `Content-Type` header. This is strict — if no results match the requested type, the resolver returns `not_found` with guidance listing available types, rather than silently falling back to a different format.
+
+**`lang` qualifier:** When a resource is published in multiple languages (e.g., EU regulations in 24 official languages), `?lang=` selects a specific language. Values are ISO 639-1 codes (`en`, `de`, `fr`, etc.). The registry declares available languages per child node; the resolver substitutes `{lang}` in URL templates (with optional transforms like uppercase). Without `?lang=`, the resolver uses the source's declared default language. Like `content_type`, this is strict — requesting an unavailable language returns `not_found` with the available languages listed.
 
 ### 5.3 Subpath (`#subpath`)
 

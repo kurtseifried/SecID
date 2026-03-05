@@ -2436,3 +2436,81 @@ The subdomain `secid.cloudsecurityalliance.org` hosts a Cloudflare Worker and Pa
 
 `v=spf1 -all` tells mail servers: "this domain sends no email; reject anything claiming to come from it." This is a low-effort, high-value hardening step that should be applied at domain creation time, not retrofitted later.
 
+## Content Type Qualifier for Resolution Results
+
+### Decision
+
+Resolution results include an optional `content_type` field containing the MIME type of the resource at the URL. The `?content_type=` qualifier filters results by format.
+
+### The Problem
+
+A single security resource often has multiple representations at the same provider:
+
+| Resource | Representations |
+|----------|----------------|
+| CVE at MITRE | Web page (text/html at cve.org), GitHub blob view (text/html), raw JSON data (application/json) |
+| GDPR | 24 EU language versions |
+| RFCs | HTML, plain text, PDF, XML |
+| NIST CSF controls | HTML page, PDF, OSCAL/JSON export |
+
+Without content type information, an AI agent that wants machine-readable data has to guess from the URL. And without a query mechanism, it gets everything and has to filter client-side.
+
+### Solution
+
+1. **`content_type` field on resolution results** — each result carries the MIME type of the URL:
+
+```json
+{"secid": "...", "weight": 100, "url": "https://www.cve.org/CVERecord?id=CVE-2021-44228", "content_type": "text/html"}
+{"secid": "...", "weight": 50, "url": "https://raw.githubusercontent.com/.../CVE-2021-44228.json", "content_type": "application/json"}
+```
+
+2. **`?content_type=` qualifier** — filters results to a specific format:
+
+```
+secid:advisory/mitre.org/cve#CVE-2021-44228?content_type=application/json
+```
+
+Returns only `application/json` results. If none exist, returns `not_found` with a message listing available content types. This is strict — silent fallback to a different format would break AI agents that expect to parse the response as JSON.
+
+### Why `content_type` and MIME Types
+
+- **`content_type`** not `media_type` — we're web-based, `Content-Type` is what HTTP servers return, what developers think about. Underscore matches SecID field naming convention (`secid_query`, `not_found`).
+- **Full MIME types** (`application/json`) not shorthand (`json`) — MIME types are an existing standard with no ambiguity. No mapping table to maintain, no case sensitivity questions.
+- **Values come from the server response** — the registry stores what the HTTP `Content-Type` header actually returns. CI can verify this by fetching each URL and checking.
+
+### Why Strict (No Fallback)
+
+If `?content_type=application/json` silently returns `text/html` when JSON isn't available, the qualifier is meaningless and clients can't trust it. Returning `not_found` with guidance ("Available: text/html. Remove ?content_type to see all.") is more useful — the client knows to adjust its query or update the registry.
+
+### This Is Why Qualifiers Exist
+
+The `?qualifiers` component of the SecID grammar (`secid:type/namespace/name[@version]?qualifiers#subpath`) was always in the spec but had no defined vocabulary. `content_type` is the first concrete qualifier, and it demonstrates the pattern: qualifiers modify resolution behavior without changing what's being identified. The same resource, different representation.
+
+Future qualifiers follow the same pattern — and `lang` is the second one implemented.
+
+## Language Qualifier (`?lang=`)
+
+### The Problem
+
+EU regulations like GDPR are published in 24 official languages. Without language selection, resolving `secid:regulation/europa.eu/gdpr#art-32` would either return 24 URLs (one per language) or force a single default. Neither is helpful — an AI agent working with German compliance needs the German text, not 24 results to filter through.
+
+### The Design
+
+The `lang` qualifier uses ISO 639-1 codes (`en`, `de`, `fr`, etc.) and follows the same strict pattern as `content_type`:
+
+- `?lang=de` → return only the German URL, with `lang: "de"` on the result
+- No `?lang=` → use the source's declared default (usually English), apply a +1 weight nudge
+- `?lang=xx` (unavailable) → `not_found` with available languages listed
+
+### Why Per-Child, Not Per-Source
+
+Language availability is declared on child nodes (the URL-bearing pattern nodes), not on source-level match_nodes. This is because language availability is a property of the URL template — some sources might have language-specific URLs for articles but not for annexes. In practice, most children under the same source share the same lang config, but the model correctly represents that it's the URL that has language variants.
+
+### Why `url_transform`
+
+EUR-Lex uses uppercase language codes in URLs: `/legal-content/EN/TXT/HTML/...`. Rather than storing uppercase codes and transforming them back for the API response, the registry stores standard lowercase ISO 639-1 codes and declares a `url_transform: "uppercase"` to handle the URL substitution. The API consumer always gets standard lowercase codes.
+
+### Why Strict (No Fallback)
+
+Same reasoning as `content_type`: if `?lang=de` silently returned English, the qualifier would be untrustworthy. Returning `not_found` with available languages lets the client adjust its query. The default language behavior (no `?lang=` → English with +1 nudge) ensures the common case works without any qualifier.
+

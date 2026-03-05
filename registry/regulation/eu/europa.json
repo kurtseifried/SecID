@@ -38,12 +38,19 @@
           "description": "GDPR article reference (e.g., art-32, art-5). Articles are the operative legal provisions.",
           "weight": 100,
           "data": {
-            "note": "No per-article lookup URL. EUR-Lex publishes the full regulation as a single document. Third-party sites (gdpr-info.eu) provide per-article pages but are not official EU resources.",
+            "url": "https://eur-lex.europa.eu/legal-content/{lang}/TXT/HTML/?uri=CELEX:32016R0679",
+            "content_type": "text/html",
+            "lang": {
+              "available": ["en", "de", "fr", "es", "it", "nl", "pt", "pl", "ro", "cs", "da", "el", "et", "fi", "ga", "hr", "hu", "lt", "lv", "mt", "sk", "sl", "sv", "bg"],
+              "default": "en",
+              "url_transform": "uppercase"
+            },
+            "note": "EUR-Lex full-text HTML. Per-article anchors not available via stable URL pattern. Third-party sites (gdpr-info.eu) provide per-article pages but are not official EU resources.",
             "examples": [
-              {"input": "art-32", "note": "Security of processing \u2014 requires appropriate technical and organizational measures"},
-              {"input": "art-5", "note": "Principles relating to processing of personal data"},
-              {"input": "art-17", "note": "Right to erasure ('right to be forgotten')"},
-              {"input": "art-25", "note": "Data protection by design and by default"}
+              {"input": "art-32", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Security of processing — requires appropriate technical and organizational measures"},
+              {"input": "art-5", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Principles relating to processing of personal data"},
+              {"input": "art-17", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Right to erasure ('right to be forgotten')"},
+              {"input": "art-25", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Data protection by design and by default"}
             ]
           }
         },
@@ -52,10 +59,17 @@
           "description": "GDPR chapter or recital reference. Recitals provide interpretive context for articles.",
           "weight": 100,
           "data": {
+            "url": "https://eur-lex.europa.eu/legal-content/{lang}/TXT/HTML/?uri=CELEX:32016R0679",
+            "content_type": "text/html",
+            "lang": {
+              "available": ["en", "de", "fr", "es", "it", "nl", "pt", "pl", "ro", "cs", "da", "el", "et", "fi", "ga", "hr", "hu", "lt", "lv", "mt", "sk", "sl", "sv", "bg"],
+              "default": "en",
+              "url_transform": "uppercase"
+            },
             "note": "Chapters group related articles. Recitals are non-binding interpretive guidance that precede the articles in the regulation text. Courts and DPAs frequently cite recitals to interpret article requirements.",
             "examples": [
-              {"input": "recital-78", "note": "Recital on appropriate technical and organizational measures (supports art-25 and art-32)"},
-              {"input": "chapter-3", "note": "Rights of the data subject"}
+              {"input": "recital-78", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Recital on appropriate technical and organizational measures (supports art-25 and art-32)"},
+              {"input": "chapter-3", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "note": "Rights of the data subject"}
             ]
           }
         }

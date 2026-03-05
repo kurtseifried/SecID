@@ -26,7 +26,7 @@
         "common_name": "CVE",
         "alternate_names": null,
         "description": "The canonical vulnerability identifier system, operated by MITRE under contract with CISA.",
-        "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.\n\nMultiple representations: The same CVE record is available through three access methods — the cve.org website (human-readable HTML page), the cvelistV5 GitHub repository (raw JSON organized by year/bucket), and the CVE Services API (JSON, richer data than the web page). All three return the same underlying CVE record in different formats. The children below have identical patterns but different weights: the website (weight 100) is the primary human-facing resolution, while GitHub and API (weight 50) are alternative machine-readable access methods.",
+        "notes": "CVE is the canonical identifier — other advisories cross-reference CVEs. NVD (NIST) enriches CVE records with CVSS scores, CPE entries, and CWE mappings, but NVD has processing backlogs. Quality of CVE descriptions varies by CNA — some provide detailed technical analysis, others minimal information. The cvelistV5 GitHub repo contains raw JSON records organized by year and bucket directories.\n\nMultiple representations: The same CVE record is available through four access methods — the cve.org website (text/html), the cvelistV5 GitHub web view (text/html showing JSON), raw GitHub download (application/json), and the CVE Services API (application/json). Use `?content_type=application/json` to filter to machine-readable results only. The children below have identical patterns but different weights and content_type values: the website (weight 100) is the primary human-facing resolution, while raw GitHub (weight 45) and API (weight 50) are machine-readable access methods.",
         "urls": [
           {"type": "website", "url": "https://www.cve.org"},
           {"type": "api", "url": "https://cveawg.mitre.org/api"},
@@ -41,6 +41,7 @@
           "weight": 100,
           "data": {
             "url": "https://www.cve.org/CVERecord?id={id}",
+            "content_type": "text/html",
             "examples": [
               {"input": "CVE-2024-1234", "url": "https://www.cve.org/CVERecord?id=CVE-2024-1234"},
               {"input": "CVE-2021-44228", "url": "https://www.cve.org/CVERecord?id=CVE-2021-44228", "note": "Log4Shell — highest-profile CVE in recent history"}
@@ -49,12 +50,13 @@
         },
         {
           "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
-          "description": "CVE JSON record on GitHub",
+          "description": "CVE JSON record on GitHub (web view)",
           "weight": 50,
           "data": {
             "url": "https://github.com/CVEProject/cvelistV5/blob/main/cves/{year}/{bucket}/{id}.json",
             "format": "json",
-            "note": "Raw CVE record from cvelistV5 repository",
+            "content_type": "text/html",
+            "note": "GitHub web page showing CVE JSON record from cvelistV5 repository",
             "variables": {
               "year": {
                 "extract": "^CVE-(\\d{4})-\\d+$",
@@ -81,11 +83,45 @@
         },
         {
           "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
+          "description": "CVE raw JSON from GitHub",
+          "weight": 45,
+          "data": {
+            "url": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/{year}/{bucket}/{id}.json",
+            "format": "json",
+            "content_type": "application/json",
+            "note": "Raw CVE JSON file — direct download, no HTML wrapper",
+            "variables": {
+              "year": {
+                "extract": "^CVE-(\\d{4})-\\d+$",
+                "description": "4-digit year (e.g., '2024' from 'CVE-2024-1234')"
+              },
+              "bucket": {
+                "extract": "^CVE-\\d{4}-(\\d+)\\d{3}$",
+                "format": "{1}xxx",
+                "description": "All but last 3 digits + 'xxx' (e.g., '1xxx' from 'CVE-2024-1234')"
+              },
+              "id": {
+                "extract": "^(CVE-\\d{4}-\\d+)$",
+                "description": "Full CVE ID"
+              }
+            },
+            "examples": [
+              {
+                "input": "CVE-2024-1234",
+                "variables": {"year": "2024", "bucket": "1xxx", "id": "CVE-2024-1234"},
+                "url": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2024/1xxx/CVE-2024-1234.json"
+              }
+            ]
+          }
+        },
+        {
+          "patterns": ["^CVE-\\d{4}-\\d{4,}$"],
           "description": "CVE JSON via API",
           "weight": 50,
           "data": {
             "url": "https://cveawg.mitre.org/api/cve/{id}",
             "format": "json",
+            "content_type": "application/json",
             "note": "API endpoint, richer data than web page"
           }
         }
