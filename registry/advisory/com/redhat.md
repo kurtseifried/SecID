@@ -11,6 +11,8 @@ sources:
     full_name: "Red Hat Errata"
     urls:
       website: "https://access.redhat.com/errata/"
+      about: "https://access.redhat.com/security/updates/advisory"
+      search: "https://access.redhat.com/errata-search/#/"
       api: "https://access.redhat.com/hydra/rest/securitydata"
       lookup: "https://access.redhat.com/errata/{id}"
     id_patterns:
