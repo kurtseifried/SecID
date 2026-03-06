@@ -38,6 +38,7 @@ See [README.md](README.md#file-format) and [SPEC.md](SPEC.md#72-markdown-body-ri
 
 - Follow existing patterns in the registry
 - Use percent encoding for special characters in identifiers (see [SPEC.md](SPEC.md#82-percent-encoding))
+- For regex pattern changes, follow [docs/guides/REGEX-WORKFLOW.md](docs/guides/REGEX-WORKFLOW.md) and include regex safety checks in PR notes
 - Keep commit messages clear and concise
 - One logical change per pull request
 

@@ -1,0 +1,19 @@
+name: Notify registry update
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "registry/**/*.json"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger SecID-Service registry upload
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.SERVICE_REPO_TOKEN }}
+          repository: CloudSecurityAlliance/SecID-Service
+          event-type: registry-updated
+          client-payload: '{"ref": "${{ github.sha }}"}'

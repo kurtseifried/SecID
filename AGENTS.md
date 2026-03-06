@@ -2,37 +2,43 @@
 
 ## Project Structure & Module Organization
 - `registry/` is the source of truth for SecID namespaces and type definitions.
-- `registry/<type>.md` describes each type (`advisory`, `weakness`, `ttp`, `control`, `regulation`, `entity`, `reference`).
-- `registry/<type>/<tld>/<domain>.md` stores namespace entries (reverse-DNS layout, for example `registry/advisory/org/mitre.md`).
-- `docs/` contains guidance and design docs (`guides/`, `reference/`, `operations/`, `explanation/`, `project/`, `future/`).
-- `seed/` contains CSV seed datasets used for registry research and expansion.
-- `skills/` contains workflow-specific helper guidance.
+- `registry/<type>/...` stores namespace entries by reverse-domain path (for example, `registry/advisory/org/mitre.json`).
+- `docs/` contains reference specs, contributor guides, design rationale, and operations documentation.
+- `seed/` contains research CSV inputs only; do not treat these files as authoritative.
+- `.github/workflows/update-registry.yml` dispatches updates to `SecID-Service` when `registry/**/*.json` changes on `main`.
 
 ## Build, Test, and Development Commands
-This repo is documentation/data-first and has no local build pipeline.
-- `rg --files` lists all tracked files quickly.
-- `rg -n 'namespace:' registry/` audits namespace declarations.
-- `rg -n 'secid:' registry/ docs/` finds identifier examples and cross-references.
-- `ls registry/<type>/<tld>/` verifies namespace placement (example: `ls registry/advisory/org/`).
-- Optional (if installed): `markdownlint '**/*.md'` for Markdown style checks.
+This repository is primarily specification and registry data; there is no local app build.
+- `rg --files registry docs seed` lists tracked content quickly.
+- `python -m json.tool registry/<type>/<...>.json >/dev/null` validates JSON syntax for changed registry files.
+- `rg -n "namespace:|\"namespace\"" registry/` checks namespace consistency and duplicates.
+- `git diff -- registry/ docs/` reviews only relevant changes before opening a PR.
 
 ## Coding Style & Naming Conventions
-- Use Markdown for docs and YAML frontmatter + Markdown body for registry files.
-- Keep identifiers source-faithful (do not normalize upstream IDs like `RHSA-2026:0932`).
-- Use lowercase, domain-based namespaces and reverse-DNS file paths.
-- Prefer concise, scannable sections; keep prose instructional.
-- Follow existing file naming patterns (`UPPERCASE-WITH-HYPHEN.md` for many docs, lowercase for registry entries by domain).
+- Use Markdown for docs and JSON for active registry namespace files.
+- Keep Markdown concise, heading-driven, and instructional.
+- Preserve existing key naming in JSON (for example, `schema_version`, `match_nodes`, `examples`).
+- Follow reverse-domain path mapping for namespaces (for example, `mitre.org` -> `org/mitre`).
+- Prefer small, focused edits; avoid broad reformatting unrelated to the change.
 
 ## Testing Guidelines
-- Treat validation as data quality checks:
-  - Confirm examples match expected SecID format.
-  - Confirm URLs and templates resolve to authoritative sources.
-  - Ensure regex/pattern changes reject malformed IDs.
-- When editing registry content, check related guidance in `docs/guides/REGISTRY-GUIDE.md` and `docs/guides/REGEX-WORKFLOW.md`.
+- There is no formal test suite in this repo today; validation is file-level and review-driven.
+- For registry changes, verify:
+  - JSON parses cleanly.
+  - Example SecIDs and URL templates are internally consistent.
+  - Regex/pattern updates do not broaden matching unintentionally.
+- Include at least one concrete example in updated documentation when behavior changes.
 
 ## Commit & Pull Request Guidelines
-- Match existing commit style: short imperative subjects (`Add ...`, `Fix ...`, `Update ...`, `Clarify ...`).
-- Keep commits focused to one logical change.
-- Open an issue first for non-trivial proposals, then submit a PR.
-- PRs should include: purpose, scope, affected paths (for example `registry/control/...`), and any validation notes.
-- Link related issues/docs and call out follow-up work explicitly.
+- Match established commit style from history: imperative, concise subject lines (for example, `Add ...`, `Update ...`, `Convert ...`, `Rename ...`).
+- Keep one logical change per commit and per PR.
+- PRs should include:
+  - What changed and why.
+  - Affected paths/types (for example, `registry/advisory`, `docs/reference`).
+  - Validation notes (commands run and results).
+  - Linked issue/discussion when applicable.
+
+## Security & Configuration Tips
+- Do not commit secrets; this repo should remain content-only.
+- Treat `seed/` as non-authoritative research input and migrate vetted data into `registry/`.
+- If registry semantics change, update both docs and registry examples in the same PR.
