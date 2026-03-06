@@ -56,6 +56,7 @@ With 20+ markdown files, know which document answers which question:
 | How does versioning work? | [VERSIONING.md](docs/reference/VERSIONING.md) - analysis, API behavior, response outcomes |
 | Edge cases with domains? | [EDGE-CASES.md](docs/reference/EDGE-CASES.md) |
 | What's deferred? | [TODO.md](docs/project/TODO.md), [registry/_deferred/](registry/_deferred/) |
+| What's proposed? | [docs/proposals/](docs/proposals/) - proposals for registry schema changes |
 | Multi-repo architecture? | [INFRASTRUCTURE.md](docs/reference/INFRASTRUCTURE.md) |
 | What does the API return? | [API-RESPONSE-FORMAT.md](docs/reference/API-RESPONSE-FORMAT.md) - envelope, progressive resolution, cross-source search |
 | AI agent instructions? | [AGENTS.md](AGENTS.md) |
