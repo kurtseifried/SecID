@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "namespace": "oracle.com",
+  "type": "entity",
+  "status": "draft",
+  "status_notes": null,
+  "checked": "2026-03-06",
+  "updated": "2026-03-06",
+
+  "official_name": "Oracle Corporation",
+  "common_name": "Oracle",
+  "alternate_names": null,
+  "notes": "Major enterprise software company. Products include Oracle Database, Java SE, WebLogic, MySQL, Oracle Cloud, Oracle Linux. Releases security patches quarterly through Critical Patch Updates (CPUs).",
+  "wikidata": null,
+  "wikipedia": null,
+
+  "security_txt": null,
+  "security_txt_checked": "2026-03-06",
+  "security_txt_updated": "2026-03-06",
+  "security_txt_note": "https://www.oracle.com/.well-known/security.txt redirects to www.oracle.com homepage",
+
+  "urls": [
+    {"type": "website", "url": "https://www.oracle.com", "checked": "2026-03-06", "updated": "2026-03-06"},
+    {"type": "security", "url": "https://www.oracle.com/security-alerts/", "checked": "2026-03-06", "updated": "2026-03-06"}
+  ],
+
+  "match_nodes": [
+    {
+      "patterns": ["(?i)^database$"],
+      "description": "Oracle Database — relational database management system",
+      "weight": 100,
+      "data": {
+        "official_name": "Oracle Database",
+        "common_name": null,
+        "description": "Enterprise relational database management system",
+        "urls": [
+          {"type": "website", "url": "https://www.oracle.com/database/"}
+        ],
+        "examples": ["database"]
+      }
+    },
+    {
+      "patterns": ["(?i)^java$"],
+      "description": "Oracle Java SE — Java Standard Edition platform",
+      "weight": 100,
+      "data": {
+        "official_name": "Java SE",
+        "common_name": "Java",
+        "description": "Java Standard Edition platform. Java vulnerabilities affect many applications beyond Oracle products.",
+        "urls": [
+          {"type": "website", "url": "https://www.oracle.com/java/"}
+        ],
+        "examples": ["java"]
+      }
+    },
+    {
+      "patterns": ["(?i)^weblogic$"],
+      "description": "Oracle WebLogic Server — Java EE application server",
+      "weight": 100,
+      "data": {
+        "official_name": "Oracle WebLogic Server",
+        "common_name": "WebLogic",
+        "description": "Java EE application server. Frequent target in CVEs due to deserialization vulnerabilities.",
+        "urls": [
+          {"type": "website", "url": "https://www.oracle.com/middleware/technologies/weblogic.html"}
+        ],
+        "examples": ["weblogic"]
+      }
+    },
+    {
+      "patterns": ["(?i)^mysql$"],
+      "description": "MySQL — open source relational database",
+      "weight": 100,
+      "data": {
+        "official_name": "MySQL",
+        "common_name": null,
+        "description": "Open source relational database management system",
+        "urls": [
+          {"type": "website", "url": "https://www.mysql.com"},
+          {"type": "docs", "url": "https://dev.mysql.com/doc/"}
+        ],
+        "examples": ["mysql"]
+      }
+    },
+    {
+      "patterns": ["(?i)^linux$"],
+      "description": "Oracle Linux — enterprise Linux distribution",
+      "weight": 100,
+      "data": {
+        "official_name": "Oracle Linux",
+        "common_name": null,
+        "description": "Enterprise Linux distribution, binary-compatible with Red Hat Enterprise Linux. Includes Ksplice for rebootless kernel patching.",
+        "urls": [
+          {"type": "website", "url": "https://www.oracle.com/linux/"},
+          {"type": "security", "url": "https://linux.oracle.com/security/"}
+        ],
+        "examples": ["linux"]
+      }
+    },
+    {
+      "patterns": ["(?i)^cloud$"],
+      "description": "Oracle Cloud Infrastructure (OCI)",
+      "weight": 100,
+      "data": {
+        "official_name": "Oracle Cloud Infrastructure",
+        "common_name": "OCI",
+        "description": "Oracle's cloud computing platform",
+        "urls": [
+          {"type": "website", "url": "https://www.oracle.com/cloud/"}
+        ],
+        "examples": ["cloud"]
+      }
+    }
+  ]
+}

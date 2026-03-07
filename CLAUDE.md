@@ -56,6 +56,7 @@ With 20+ markdown files, know which document answers which question:
 | How does versioning work? | [VERSIONING.md](docs/reference/VERSIONING.md) - analysis, API behavior, response outcomes |
 | Edge cases with domains? | [EDGE-CASES.md](docs/reference/EDGE-CASES.md) |
 | What's deferred? | [TODO.md](docs/project/TODO.md), [registry/_deferred/](registry/_deferred/) |
+| What's proposed? | [docs/proposals/](docs/proposals/) - proposals for registry schema changes |
 | Multi-repo architecture? | [INFRASTRUCTURE.md](docs/reference/INFRASTRUCTURE.md) |
 | What does the API return? | [API-RESPONSE-FORMAT.md](docs/reference/API-RESPONSE-FORMAT.md) - envelope, progressive resolution, cross-source search |
 | AI agent instructions? | [AGENTS.md](AGENTS.md) |
@@ -138,6 +139,8 @@ One file per namespace containing all sources from that organization. Use `regis
 In registry data, `null` and absent mean different things:
 - **`null`** = "we looked and found nothing" (researched, confirmed empty)
 - **absent field** = "not yet researched" (unknown state)
+
+Optional per-field metadata (`_checked`, `_updated`, `_note` suffixes) record *when* data was verified. A `null` with `_checked` tells you when the absence was confirmed. See [REGISTRY-JSON-FORMAT.md](docs/reference/REGISTRY-JSON-FORMAT.md) "Per-Field Metadata" for naming conventions and examples.
 
 ## Key Design Principles
 

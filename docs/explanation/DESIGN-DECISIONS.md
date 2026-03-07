@@ -2514,3 +2514,37 @@ EUR-Lex uses uppercase language codes in URLs: `/legal-content/EN/TXT/HTML/...`.
 
 Same reasoning as `content_type`: if `?lang=de` silently returned English, the qualifier would be untrustworthy. Returning `not_found` with available languages lets the client adjust its query. The default language behavior (no `?lang=` → English with +1 nudge) ensures the common case works without any qualifier.
 
+---
+
+## Per-Field Metadata (`_checked` / `_updated` / `_note`)
+
+### The Principle
+
+Registry data includes facts that can go stale: URLs, email addresses, policy descriptions, and negative findings (null values meaning "we checked and they don't have this"). Git history tracks when files were committed, but not when someone last verified the real-world facts are still accurate.
+
+Three per-field metadata fields capture this:
+
+- **`_updated`** — when the value last materially changed
+- **`_checked`** — when someone last verified it's still correct
+- **`_note`** — what was observed during verification
+
+Together they tell you freshness, stability, and context.
+
+### Why Three Fields
+
+`_checked` alone would lose the distinction between "first recorded today" and "stable for years, just re-verified." A URL with `_updated: 2025-06-01` and `_checked: 2026-03-06` tells you it's been stable for 9 months *and* was just confirmed — that's highly trustworthy.
+
+`_updated` alone would require touching the field every time you verify, even when nothing changed, creating misleading git diffs and losing the "how long has this been stable?" signal.
+
+`_note` records *what was observed*, not just *when*. A null `security_txt` with `_note: "redirects to homepage"` tells you why it's null. A positive `security_txt` with `_note: "RFC 9116 compliant, missing Canonical field"` records validation detail. Without `_note`, the next person re-checking has no context for what the previous verifier found.
+
+### Why Not File-Level
+
+A single file can contain data of varying freshness. A Cisco entity file might have a PSIRT URL verified last week and a product URL from a year ago. File-level timestamps hide this granularity.
+
+### Why Not a Scheduling System
+
+Check frequency depends on the consumer's needs and the data type — null values might warrant weekly re-checks while established URLs need monthly. This is an operational concern, not a data modeling concern. The registry records facts ("this was true on this date"); automation decides when to re-verify.
+
+See [docs/proposals/TIMESTAMP-FIELDS.md](../proposals/TIMESTAMP-FIELDS.md) for the full proposal.
+

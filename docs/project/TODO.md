@@ -116,6 +116,17 @@ Publish reference SecID client libraries to PyPI (`pip install secid`) and npm (
 
 **When to revisit:** After MCP server improvements are deployed.
 
+## Proposed
+
+### Metadata Fields for Registry Data (`_checked` / `_updated` / `_note`)
+**Status:** Proposed — see [docs/proposals/TIMESTAMP-FIELDS.md](../proposals/TIMESTAMP-FIELDS.md)
+
+Per-field `_checked`, `_updated`, and `_note` metadata for verifiable data (URLs, emails, policy text, null findings). Enables freshness assessment and records verification observations without relying solely on git history.
+
+**Depends on:** Approval of proposal
+**Blocks:** `disclosure` type (which relies heavily on data freshness)
+**When to implement:** After proposal review, before disclosure type work begins
+
 ## Completed
 
 - [x] Registry architecture refactoring (one file per namespace)
