@@ -17,7 +17,7 @@
   "security_txt": "https://security.access.redhat.com/data/meta/v1/security.txt",
   "security_txt_checked": "2026-03-06",
   "security_txt_updated": "2026-03-06",
-  "security_txt_note": "https://www.redhat.com/.well-known/security.txt redirects to this URL",
+  "security_txt_note": "https://www.redhat.com/.well-known/security.txt redirects to this URL. PGP signed, RFC 9116 compliant. Expires 2026-06-04. Has Contact, Encryption, Acknowledgments, CSAF, CNA fields. Missing recommended Canonical field (notable given the cross-domain redirect).",
 
   "urls": [
     {"type": "website", "url": "https://www.redhat.com", "checked": "2026-03-06", "updated": "2026-03-06"},
