@@ -44,36 +44,73 @@ Two timestamp fields per verifiable datum:
 
 `_checked` without `_updated` (or same date) means first recorded, not yet re-verified.
 
+## Naming Convention (Resolved)
+
+Two contexts, consistent naming:
+
+| Context | Fields | Example |
+|---------|--------|---------|
+| **Source-level** (top of file) | `checked`, `updated` | `"checked": "2026-03-06"` |
+| **Attached to a specific field** (scalar suffix) | `field_checked`, `field_updated` | `"security_txt_checked": "2026-03-06"` |
+| **Inside objects** (URL entries, etc.) | `checked`, `updated` | `{"url": "...", "checked": "2026-03-06"}` |
+
+The `_checked`/`_updated` suffix "attaches" the timestamp to the field it describes. Inside objects, the fields are already scoped by the object, so no suffix needed.
+
+Source-level `checked`/`updated` means "someone verified this entire registry entry is still accurate on this date."
+
 ## Application Patterns
+
+### Source-Level Timestamps
+
+Top-level `checked` and `updated` on the registry file itself:
+
+```json
+{
+  "schema_version": "1.0",
+  "namespace": "redhat.com",
+  "type": "entity",
+  "status": "draft",
+  "checked": "2026-03-06",
+  "updated": "2026-03-06",
+  ...
+}
+```
 
 ### URL Objects in Arrays
 
-URLs are already structured as objects, so timestamps are sibling fields:
+URLs are already structured as objects, so `checked`/`updated` are sibling fields:
 
 ```json
 "urls": [
   {
     "type": "security",
-    "url": "https://sec.cloudapps.cisco.com/security/center/resources/security_vulnerability_policy.html",
-    "last_checked": "2026-03-06",
-    "last_updated": "2025-06-01"
+    "url": "https://access.redhat.com/security/",
+    "checked": "2026-03-06",
+    "updated": "2026-03-06"
   }
 ]
 ```
 
 ### Scalar Fields
 
-For flat fields (email, policy text, etc.), use `_checked` / `_updated` suffixes:
+For flat fields (email, security.txt, policy text, etc.), use `_checked` / `_updated` suffixes:
 
 ```json
 {
-  "security_email": "psirt@cisco.com",
-  "security_email_checked": "2026-03-06",
-  "security_email_updated": "2025-01-15",
-
-  "security_txt": null,
+  "security_txt": "https://security.access.redhat.com/data/meta/v1/security.txt",
   "security_txt_checked": "2026-03-06",
   "security_txt_updated": "2026-03-06"
+}
+```
+
+Confirmed negative (checked and found nothing):
+
+```json
+{
+  "security_txt": null,
+  "security_txt_checked": "2026-03-06",
+  "security_txt_updated": "2026-03-06",
+  "security_txt_note": "https://www.oracle.com/.well-known/security.txt redirects to homepage"
 }
 ```
 
@@ -140,13 +177,22 @@ Applies to all 7 registry types. Impact varies by type:
 | **Medium** | `advisory` | Source URLs, API endpoints — mostly stable but can move |
 | **Low** | `control`, `weakness`, `ttp`, `regulation`, `reference` | URLs and descriptions rarely change, but should still be verifiable |
 
+## Resolved Questions
+
+1. **Naming convention:** `checked`/`updated` inside objects and at source level; `field_checked`/`field_updated` suffix for scalars. No `last_` prefix — it's redundant and verbose.
+
+2. **Source-level timestamps:** Yes. Top-level `checked`/`updated` fields indicate when someone last verified the entire registry entry.
+
 ## Open Questions
 
-1. **Naming convention:** Should object-embedded timestamps use `last_checked`/`last_updated` (as shown for URL objects) or `checked`/`updated`? The `last_` prefix is more explicit but verbose.
+1. **Tooling:** Should there be a registry maintenance script that flags fields where `_checked` is older than a threshold? This is an operational concern but would drive adoption.
 
-2. **Source-level timestamps:** Should there be a source-level `_checked` to indicate "I verified this entire source entry is still accurate" without touching individual fields?
+## Pilot Files
 
-3. **Tooling:** Should there be a registry maintenance script that flags fields where `_checked` is older than a threshold? This is an operational concern but would drive adoption.
+The following registry files serve as the initial implementation to validate these patterns:
+
+- `registry/entity/com/redhat.json` — positive `security_txt` finding, source-level timestamps
+- `registry/entity/com/oracle.json` — null `security_txt` (confirmed negative), source-level timestamps
 
 ## References
 

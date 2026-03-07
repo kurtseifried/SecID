@@ -4,6 +4,8 @@
   "type": "entity",
   "status": "draft",
   "status_notes": null,
+  "checked": "2026-03-06",
+  "updated": "2026-03-06",
 
   "official_name": "Red Hat, Inc.",
   "common_name": "Red Hat",
@@ -12,9 +14,14 @@
   "wikidata": "Q485809",
   "wikipedia": null,
 
+  "security_txt": "https://security.access.redhat.com/data/meta/v1/security.txt",
+  "security_txt_checked": "2026-03-06",
+  "security_txt_updated": "2026-03-06",
+  "security_txt_note": "https://www.redhat.com/.well-known/security.txt redirects to this URL",
+
   "urls": [
-    {"type": "website", "url": "https://www.redhat.com"},
-    {"type": "security", "url": "https://access.redhat.com/security/"}
+    {"type": "website", "url": "https://www.redhat.com", "checked": "2026-03-06", "updated": "2026-03-06"},
+    {"type": "security", "url": "https://access.redhat.com/security/", "checked": "2026-03-06", "updated": "2026-03-06"}
   ],
 
   "match_nodes": [
