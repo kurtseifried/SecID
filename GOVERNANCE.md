@@ -2,19 +2,19 @@
 
 ## Current Model
 
-SecID is maintained by **Kurt Seifried** (CINO, Cloud Security Alliance). All decisions — namespace additions, spec changes, registry policy, scope — are made by Kurt.
+SecID is a **Cloud Security Alliance** project, maintained day-to-day by **Kurt Seifried** (CINO, CSA). Namespace additions, spec changes, registry policy, and scope decisions are currently made by Kurt on behalf of CSA.
 
 ## Contributions
 
-Contributions are welcome via GitHub pull requests and issues. All submissions are reviewed and the final decision on acceptance rests with Kurt.
+Contributions are welcome via GitHub pull requests and issues. All submissions are reviewed and accepted based on alignment with the project's goals and quality standards.
 
-## Disputes
+## Feedback and Discussion
 
-If you disagree with a decision, open a GitHub issue explaining your reasoning. Decisions can be revisited, but Kurt has final say.
+If you have questions or concerns about a decision, please open a GitHub issue. We want to get things right, and good-faith feedback is valued — decisions can always be revisited with new information or perspective. Ultimately, CSA has final authority over the project's direction.
 
 ## Continuity
 
-SecID is a Cloud Security Alliance project. If Kurt is unavailable, CSA retains ownership of the project and its repositories.
+SecID is a Cloud Security Alliance project. CSA retains ownership of the project and its repositories regardless of individual contributor availability.
 
 ## Future Direction
 

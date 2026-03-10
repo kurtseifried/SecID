@@ -451,7 +451,7 @@ Being explicit about scope helps set expectations. SecID is deliberately limited
 
 ## Governance
 
-SecID uses a BDFL model during early development, with an explicit path toward multi-stakeholder governance. See [GOVERNANCE.md](GOVERNANCE.md) for the current operating model and [STRATEGY.md](docs/future/STRATEGY.md) for long-term governance philosophy.
+SecID is a Cloud Security Alliance project with a lightweight governance model during early development and an explicit path toward broader community governance. See [GOVERNANCE.md](GOVERNANCE.md) for the current operating model and [STRATEGY.md](docs/future/STRATEGY.md) for long-term governance philosophy.
 
 ## Getting Started
 

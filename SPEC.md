@@ -3,7 +3,7 @@
 Version: 0.9
 Status: Public Draft - Open for Comment
 
-> **This is a draft specification.** We welcome feedback, questions, and suggestions. Please open an issue at [github.com/kurtseifried/SecID/issues](https://github.com/kurtseifried/SecID/issues) or submit a pull request.
+> **This is a draft specification.** We welcome feedback, questions, and suggestions. Please open an issue at [github.com/CloudSecurityAlliance/SecID/issues](https://github.com/CloudSecurityAlliance/SecID/issues) or submit a pull request.
 
 ## 1. Overview
 

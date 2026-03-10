@@ -58,16 +58,16 @@ We're applying these lessons to SecID's design:
 
 ## Governance
 
-### Current Model: BDFL
+### Current Model
 
-SecID uses a Benevolent Dictator For Life (BDFL) governance model. **Kurt Seifried** is the current BDFL.
+SecID is a **Cloud Security Alliance** project, maintained day-to-day by Kurt Seifried (CINO, CSA). See [GOVERNANCE.md](../../GOVERNANCE.md) for the current operating model.
 
-This is a pragmatic choice for early-stage projects:
+This lightweight approach is a pragmatic choice for early-stage projects:
 - Decisions can be made quickly
 - Vision stays coherent
 - No governance overhead while the project finds its footing
 
-Long-term, we'll evaluate other structures as the community grows. But premature governance complexity kills more projects than it saves.
+Long-term, we'll evaluate broader governance structures as the community grows. But premature governance complexity kills more projects than it saves.
 
 ### PURL Compatibility as Governance Constraint
 
@@ -88,7 +88,7 @@ A formal SecID Working Group will be established when:
 - The spec is stable enough that governance matters
 - Multiple organizations want formal input
 
-Until then, the BDFL model keeps us moving.
+Until then, the current lightweight model keeps us moving.
 
 ## Organizational Strategy
 

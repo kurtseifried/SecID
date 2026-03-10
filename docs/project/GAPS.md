@@ -10,7 +10,7 @@ This document tracks gaps identified in SecID project documentation and their re
 
 | Gap | Resolution | Where Documented |
 |-----|------------|------------------|
-| Undefined BDFL | Kurt Seifried named as BDFL | `STRATEGY.md` |
+| Governance model undefined | Documented in `GOVERNANCE.md` and `STRATEGY.md` | `GOVERNANCE.md`, `STRATEGY.md` |
 | PURL governance constraint | Documented as intentional constraint that inherits PURL decisions | `STRATEGY.md` |
 | Deprecation/archival process | Case-by-case approach; old identifiers forever; retired standards are enrichment data | `DESIGN-DECISIONS.md` |
 | Data validation strategy | AI-assisted validation workflow | `ROADMAP.md` |
@@ -21,7 +21,7 @@ This document tracks gaps identified in SecID project documentation and their re
 | Gap | Rationale | Trigger to Address |
 |-----|-----------|-------------------|
 | Working group charter | Premature governance complexity kills projects | When community interest warrants formal input |
-| Formal dispute resolution | BDFL decides for now | When disputes actually arise that need process |
+| Formal dispute resolution | CSA has final authority for now | When disputes actually arise that need process |
 | SLOs for PR review | Early stage, small team | When contributor volume requires predictability |
 | Path to community curation | Need core team experience first | When registry is stable and patterns are clear |
 | Future layers design (relationships, overlays) | Intentionally deferred to learn from usage | When v1.0 has real adoption and concrete use cases |
@@ -50,19 +50,19 @@ This document tracks gaps identified in SecID project documentation and their re
 ### 1. Governance
 
 #### Current State
-- **BDFL**: Kurt Seifried (documented in `STRATEGY.md`)
-- **Stewardship**: Cloud Security Alliance
+- **Maintainer**: Kurt Seifried (CINO, CSA) — documented in `GOVERNANCE.md` and `STRATEGY.md`
+- **Owner**: Cloud Security Alliance
 - **Philosophy**: "Guidelines, not rules" for agility
 - **PURL Constraint**: We inherit PURL's decisions on identifier syntax, focusing governance energy on security-specific questions
 
 #### Resolved
-- [x]BDFL named explicitly
+- [x]Governance model documented (`GOVERNANCE.md`)
 - [x]PURL compatibility framed as governance mechanism
 
 #### Deferred (Acceptable)
 - [ ]Working group charter - establish when needed
-- [ ]Formal dispute resolution - BDFL decides for now
-- [ ]Change control process for SPEC.md - BDFL approves, formal RFC when community grows
+- [ ]Formal dispute resolution - CSA has final authority for now
+- [ ]Change control process for SPEC.md - maintainer approves, formal RFC when community grows
 
 ---
 
