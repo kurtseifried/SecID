@@ -14,7 +14,7 @@ sources:
       api: "https://services.nvd.nist.gov/rest/json/cves/2.0"
       bulk_data: "https://nvd.nist.gov/vuln/data-feeds"
       lookup: "https://nvd.nist.gov/vuln/detail/{id}"
-    id_pattern: "CVE-\\d{4}-\\d{4,}"
+    id_pattern: "^CVE-\\d{4}-\\d{4,}$"
     examples:
       - "secid:advisory/nist.gov/nvd#CVE-2024-1234"
       - "secid:advisory/nist.gov/nvd#CVE-2023-44487"

@@ -2,6 +2,8 @@
 
 Use this prompt to have an AI review JSON conversions of registry files.
 
+> **Note:** For standalone validation of registry files (structural checks, pattern safety, consistency, quality), see [skills/registry-validation/](../skills/registry-validation/). That skill subsumes and extends the structural and pattern checks here. Use *both* when reviewing YAML→JSON conversions; use registry-validation alone for validating standalone files.
+
 ---
 
 ## Prompt

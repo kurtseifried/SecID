@@ -92,6 +92,7 @@ These will be built incrementally alongside SecID-Service — the API needs the 
 ## What This Skill Does NOT Cover
 
 - **Researching new sources** — See [skills/registry-research/](../registry-research/)
+- **Validating registry files** — See [skills/registry-validation/](../registry-validation/) (structural, pattern, consistency, and quality checks)
 - **Testing resolver implementations** — See [skills/compliance-testing/](../compliance-testing/)
 - **Consuming/using SecID as an end user** — See [skills/secid-user/](../secid-user/)
 

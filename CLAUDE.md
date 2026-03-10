@@ -63,6 +63,7 @@ With 20+ markdown files, know which document answers which question:
 | How is SecID deployed? | [docs/operations/](docs/operations/) - DNS, deployment, CI/CD, bootstrap |
 | How do I research a new namespace? | [skills/registry-research/](skills/registry-research/) - research workflow skill |
 | How do I convert .md to .json? | [skills/registry-formalization/](skills/registry-formalization/) - formalization skill |
+| How do I validate a registry entry? | [skills/registry-validation/](skills/registry-validation/) - validation skill |
 | How do I test a resolver? | [skills/compliance-testing/](skills/compliance-testing/) - compliance testing skill |
 | How do I use SecID as an end user? | [skills/secid-user/](skills/secid-user/) - end-user usage skill |
 
