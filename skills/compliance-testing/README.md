@@ -94,6 +94,7 @@ These emerge naturally during API development — you can't build an API without
 
 - **Researching new sources** — See [skills/registry-research/](../registry-research/)
 - **Converting .md to .json** — See [skills/registry-formalization/](../registry-formalization/)
+- **Validating registry files** — See [skills/registry-validation/](../registry-validation/) (structural, pattern, consistency, and quality checks on the files themselves)
 - **Consuming/using SecID as an end user** — See [skills/secid-user/](../secid-user/)
 
 ## Design Rationale
